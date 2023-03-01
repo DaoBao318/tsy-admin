@@ -1,0 +1,31 @@
+export const BUFF_PROP_TYPES = [
+  { value: 301, label: '磁铁' },
+  { value: 302, label: '可乐' },
+  { value: 303, label: '巧克力' },
+  { value: 304, label: '无敌星' },
+  { value: 305, label: '双倍卡' },
+  { value: 306, label: '金豆钱袋' },
+  { value: 307, label: '汉堡' },
+  { value: 308, label: '出生加长' },
+  { value: 310, label: '蘑菇' },
+  { value: 311, label: '护盾' },
+  { value: 312, label: '快乐水' },
+  { value: 313, label: '复活蛇偶' },
+];
+
+export const GAME_MODE = [
+  { value: 0, label: '所有模式' },
+  { value: 1, label: '无尽模式' },
+  { value: 2, label: '限时模式' },
+  { value: 5, label: '团战' },
+  { value: 6, label: '战队赛' },
+  { value: 7, label: '赏金模式' },
+  { value: 8, label: '挑战模式' },
+  { value: 9, label: '新团战' },
+  { value: 11, label: '大逃杀' },
+  { value: 12, label: '闯关赛' },
+  { value: 15, label: '竞技赛' },
+  { value: 16, label: '团战大乱斗' },
+  { value: 18, label: '竞技赛' },
+  { value: 23, label: '团战竞技' },
+];
