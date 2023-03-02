@@ -8,8 +8,8 @@ const cityWater: AppRouteModule = {
   redirect: '/cityWater/railway',
   meta: {
     orderNo: 1,
-    icon: 'fa6-brands:adversal',
-    title: '沿铁路段城市用水',
+    icon: 'carbon:calculator-check',
+    title: '专业计算子模块',
     permCode: 'cityWater',
   },
   children: [
@@ -17,8 +17,8 @@ const cityWater: AppRouteModule = {
       path: 'railway',
       name: 'railway useWater',
       meta: {
-        title: '沿铁路段城市用水',
-        icon: 'file-icons:apple',
+        title: '昼夜最大用水量计算',
+        icon: 'ion:water-outline',
         permCode: 'cityWater:railway',
       },
       component: () => import('/@/views/cityWater/railway/index.vue'),

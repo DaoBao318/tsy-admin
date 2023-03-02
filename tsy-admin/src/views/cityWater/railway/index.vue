@@ -65,7 +65,7 @@ div
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
             console.log(record);
             const { station_type, id } = record;
-            console.log(station_type, id)
+            console.log(station_type, id);
             // TODO: 发送接口数据；里面会自动刷新列表
             // await exec(addPage, record);
           } else if (layerName === LAYERS.PASSING_STATION) {

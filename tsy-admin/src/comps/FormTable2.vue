@@ -114,7 +114,7 @@
             }
           }
         },
-        { immediate: true }
+        { immediate: true },
       );
 
       // 删除一项

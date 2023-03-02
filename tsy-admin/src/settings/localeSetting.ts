@@ -49,9 +49,9 @@ export const localeList: DropMenu[] = [
     text: 'English',
     event: LOCALE.EN_US,
   },
-  {
-    text: 'Pycck',
-    event: LOCALE.RU_RU,
-    disabled: true,
-  },
+  // {
+  //   text: 'Pycck',
+  //   event: LOCALE.RU_RU,
+  //   disabled: true,
+  // },
 ];

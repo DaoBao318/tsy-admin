@@ -15,7 +15,7 @@ const dashboard: AppRouteModule = {
     {
       path: 'waterConsumption',
       name: 'WaterConsumption',
-      component: () => import('/@/views/sys/calculation/waterConsumption/index.vue'),
+      component: () => import('/@/views/sys/calculation/waterConsumption/table/index.vue'),
       meta: {
         // affix: true,
         title: '昼夜最大用水量',

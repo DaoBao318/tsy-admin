@@ -5,13 +5,13 @@ export function createFakeUserList() {
   return [
     {
       userId: '1',
-      username: 'vben',
-      realName: 'Vben Admin',
+      username: 'tsy',
+      realName: 'tsy用户',
       avatar: 'https://q1.qlogo.cn/g?b=qq&nk=190848757&s=640',
       desc: 'manager',
       password: '123456',
       token: 'fakeToken1',
-      homePath: '/dashboard/analysis',
+      homePath: '/cityWater/railway',
       roles: [
         {
           roleName: 'Super Admin',
@@ -21,9 +21,9 @@ export function createFakeUserList() {
     },
     {
       userId: '2',
-      username: 'test',
+      username: 'wbb',
       password: '123456',
-      realName: 'test user',
+      realName: '王葆葆',
       avatar: 'https://q1.qlogo.cn/g?b=qq&nk=339449197&s=640',
       desc: 'tester',
       token: 'fakeToken2',
@@ -50,6 +50,7 @@ export default [
     timeout: 200,
     method: 'post',
     response: ({ body }) => {
+      debugger;
       const { username, password } = body;
       const checkUser = createFakeUserList().find(
         (item) => item.username === username && password === item.password,
