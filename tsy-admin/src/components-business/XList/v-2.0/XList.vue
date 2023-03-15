@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   //- 【1. basicTable】
-  BasicTable(@register="rejecterTable" v-on="tableEvents" :rowKey="rowKey" v-if="!hideBasicTable")
+  BasicTable(@register="rejecterTable" v-on="tableEvents" :rowKey="rowKey" :rowSelection="checkedIsDis" @selection-change="handelSelectChange" v-if="!hideBasicTable")
     template(#action="{ record }")
       TableAction(:actions="getTableActions(record)")
     template(#toolbar)
@@ -70,8 +70,11 @@ div
         type: Boolean,
         default: false,
       },
+      checkedIsDis: {
+        type: Object,
+      },
     },
-    emits: ['getContext', 'confirm'],
+    emits: ['getContext', 'confirm', 'selectRow'],
     setup(props, { emit, attrs }) {
       const { useXListOptions } = unref(props);
       const { useTableOptions } = useXListOptions;
@@ -108,6 +111,9 @@ div
         }
         actions[idx]?.onClick?.(DrawerFormMode.VIEW);
       }
+      function handelSelectChange({ rows }) {
+        emit('selectRow', rows);
+      }
 
       return {
         getTableActions,
@@ -119,6 +125,7 @@ div
         context,
         tableEvents: getTableEvents(attrs),
         handleDetail,
+        handelSelectChange,
       };
     },
   });

@@ -49,9 +49,9 @@ export function handleUseTableOptions(useTableOptions) {
     canResize: false,
     tableSetting: {
       redo: true,
-      size: false,
+      size: true,
       fullScreen: false,
-      setting: false,
+      setting: true,
     },
     ...other,
     formConfig,

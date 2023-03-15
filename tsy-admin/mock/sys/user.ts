@@ -11,7 +11,7 @@ export function createFakeUserList() {
       desc: 'manager',
       password: '123456',
       token: 'fakeToken1',
-      homePath: '/cityWater/railway',
+      homePath: '/dashboard/workbench',
       roles: [
         {
           roleName: 'Super Admin',
@@ -46,7 +46,7 @@ const fakeCodeList: any = {
 export default [
   // mock user login
   {
-    url: '/basic-api/login',
+    url: '/water-api/login',
     timeout: 200,
     method: 'post',
     response: ({ body }) => {
@@ -70,7 +70,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/getUserInfo',
+    url: '/water-api/getUserInfo',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request);
@@ -83,7 +83,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/getPermCode',
+    url: '/water-api/getPermCode',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
@@ -99,7 +99,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/logout',
+    url: '/water-api/logout',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {

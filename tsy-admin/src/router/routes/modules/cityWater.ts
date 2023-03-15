@@ -10,7 +10,7 @@ const cityWater: AppRouteModule = {
     orderNo: 1,
     icon: 'carbon:calculator-check',
     title: '专业计算子模块',
-    permCode: 'cityWater',
+    // permCode: 'cityWater',
   },
   children: [
     {
@@ -19,9 +19,19 @@ const cityWater: AppRouteModule = {
       meta: {
         title: '昼夜最大用水量计算',
         icon: 'ion:water-outline',
-        permCode: 'cityWater:railway',
+        // permCode: 'cityWater:railway',
       },
       component: () => import('/@/views/cityWater/railway/index.vue'),
+    },
+    {
+      path: 'waterConsumption',
+      name: 'WaterConsumption',
+      component: () => import('/@/views/cityWater/waterConsumption/index.vue'),
+      meta: {
+        // affix: true,
+        icon: 'fluent:pipeline-20-filled',
+        title: '管道水力计算',
+      },
     },
   ],
 };

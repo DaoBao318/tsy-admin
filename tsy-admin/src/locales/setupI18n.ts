@@ -19,7 +19,6 @@ async function createI18nOptions(): Promise<I18nOptions> {
 
   setHtmlPageLang(locale);
   setLoadLocalePool((loadLocalePool) => {
-    debugger;
     loadLocalePool.push(locale);
   });
 

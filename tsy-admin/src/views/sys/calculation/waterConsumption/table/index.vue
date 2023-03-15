@@ -1,23 +1,21 @@
 // basicTableTest01\index.vue
-<template>
-  <BasicTable
-    title="基础示例"
-    titleHelpMessage="温馨提醒"
-    :columns="columns"
-    :dataSource="data"
-    :canResize="canResize"
-    :loading="loading"
-    :striped="striped"
-    :bordered="border"
-    :pagination="{ pageSize: 20 }"
-    showTableSetting
-    @selection-change="handelSelectChange"
-    :rowSelection="{ type: 'checkbox' }"
-  >
-    <template #toolbar>
-      <a-button type="primary"> 操作按钮</a-button>
-    </template>
-  </BasicTable>
+<template lang="pug">
+div
+  BasicTable(
+      title="基础示例"
+      titleHelpMessage="温馨提醒"
+      :columns="columns"
+      :dataSource="data"
+      :canResize="canResize"
+      :loading="loading"
+      :striped="striped"
+      :bordered="border"
+      :pagination="{ pageSize: 20 }"
+      showTableSetting
+      @selection-change="handelSelectChange"
+      :rowSelection="{ type: 'checkbox' }")
+    template(#toolbar)
+      a-button(type="primary") 操作按钮
 </template>
 <script lang="ts">
   import { defineComponent, ref } from 'vue';

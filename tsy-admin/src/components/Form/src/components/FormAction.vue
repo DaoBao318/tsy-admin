@@ -16,7 +16,7 @@
 
         <Button
           type="primary"
-          class="mr-2"
+          class="mr-0"
           v-bind="getSubmitBtnOptions"
           @click="submitAction"
           v-if="showSubmitButton"

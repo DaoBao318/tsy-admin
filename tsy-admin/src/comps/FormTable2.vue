@@ -1,7 +1,7 @@
 <template lang="pug">
 .reward-table
   .toolbar.mb-1
-    m-button(type="primary" preIcon="ic:sharp-add-shopping-cart" @click='addOneItem') 新增
+    //- a-button(type="primary" preIcon="ic:sharp-add-shopping-cart" @click='addOneItem') 新增
     slot(name="toolbar", :data="{ addOneItem, getFieldsValues }")
   .ant-table-thead
     a-row.tr(type='flex')

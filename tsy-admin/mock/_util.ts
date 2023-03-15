@@ -19,8 +19,8 @@ export function resultPageSuccess<T = any>(
 
   return {
     ...resultSuccess({
-      items: pageData,
-      total: list.length,
+      list: pageData,
+      split: { size: 10, page: 1, total: pageData.length },
     }),
     message,
   };
