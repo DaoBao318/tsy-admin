@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a-button @click="testApi">API测试</a-button>
     <a-tabs v-model:activeKey="activeKey" :style="{ marginBottom: '1px' }">
       <a-tab-pane key="1" tab="管道重力计算">
         <BasicTable @register="registerTable">
@@ -29,7 +30,7 @@
   import { defineComponent, ref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getRoleListByPage } from '/@/api/demo/system';
+  import { getRoleListByPage, getTestAPI } from '/@/api/demo/system';
 
   import { useDrawer } from '/@/components/Drawer';
   import RoleDrawer from './RoleDrawer.vue';
@@ -83,7 +84,9 @@
         reload();
       }
       let activeKey = ref('1');
-
+      function testApi() {
+        getTestAPI({ useid: 1 });
+      }
       return {
         registerTable,
         registerDrawer,
@@ -92,6 +95,7 @@
         handleDelete,
         handleSuccess,
         activeKey,
+        testApi,
       };
     },
   });

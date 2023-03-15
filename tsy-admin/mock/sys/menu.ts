@@ -237,7 +237,7 @@ const linkRoute = {
 
 export default [
   {
-    url: '/water-api/getMenuList',
+    url: '/professional-subsystem/getMenuList',
     timeout: 1000,
     method: 'get',
     response: (request: requestParams) => {

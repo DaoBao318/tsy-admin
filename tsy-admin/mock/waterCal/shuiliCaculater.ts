@@ -29,7 +29,7 @@ const roleList = (() => {
 })();
 export default [
   {
-    url: '/water-api/system/getRoleListByPage',
+    url: '/professional-subsystem/system/getRoleListByPage',
     timeout: 100,
     method: 'get',
     response: ({ query }) => {

@@ -339,7 +339,7 @@ export const beijingRecord1 = {
 
 export default [
   {
-    url: '/water-api/get/product/item',
+    url: '/professional-subsystem/get/product/item',
     timeout: 1000,
     method: 'get',
     response: () => {
@@ -347,7 +347,7 @@ export default [
     },
   },
   {
-    url: '/water-api/api/test/get_city_list',
+    url: '/professional-subsystem/api/test/get_city_list',
     timeout: 1000,
     method: 'post',
     response: () => {
@@ -355,7 +355,7 @@ export default [
     },
   },
   {
-    url: '/water-api/api/edit/station',
+    url: '/professional-subsystem/api/edit/station',
     timeout: 1000,
     method: 'post',
     response: () => {
@@ -363,7 +363,7 @@ export default [
     },
   },
   {
-    url: '/water-api/api/page/edit_page',
+    url: '/professional-subsystem/api/page/edit_page',
     timeout: 1000,
     method: 'post',
     response: () => {
@@ -371,7 +371,7 @@ export default [
     },
   },
   {
-    url: '/water-api/api/detail/get_station_list',
+    url: '/professional-subsystem/api/detail/get_station_list',
     timeout: 10,
     method: 'post',
     response: () => {
@@ -379,7 +379,7 @@ export default [
     },
   },
   {
-    url: '/water-api/api/detail/get_station_list1',
+    url: '/professional-subsystem/api/detail/get_station_list1',
     timeout: 10,
     method: 'post',
     response: () => {

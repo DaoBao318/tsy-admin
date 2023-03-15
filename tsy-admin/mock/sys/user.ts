@@ -46,7 +46,7 @@ const fakeCodeList: any = {
 export default [
   // mock user login
   {
-    url: '/water-api/login',
+    url: '/professional-subsystem/login',
     timeout: 200,
     method: 'post',
     response: ({ body }) => {
@@ -70,7 +70,7 @@ export default [
     },
   },
   {
-    url: '/water-api/getUserInfo',
+    url: '/professional-subsystem/getUserInfo',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request);
@@ -83,7 +83,7 @@ export default [
     },
   },
   {
-    url: '/water-api/getPermCode',
+    url: '/professional-subsystem/getPermCode',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
@@ -99,7 +99,7 @@ export default [
     },
   },
   {
-    url: '/water-api/logout',
+    url: '/professional-subsystem/logout',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {

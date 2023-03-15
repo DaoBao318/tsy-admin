@@ -45,7 +45,7 @@ const userInfo = {
 
 export default [
   {
-    url: '/water-api/account/getAccountInfo',
+    url: '/professional-subsystem/account/getAccountInfo',
     timeout: 1000,
     method: 'get',
     response: () => {
@@ -53,7 +53,7 @@ export default [
     },
   },
   {
-    url: '/water-api/user/sessionTimeout',
+    url: '/professional-subsystem/user/sessionTimeout',
     method: 'post',
     statusCode: 401,
     response: () => {
@@ -61,7 +61,7 @@ export default [
     },
   },
   {
-    url: '/water-api/user/tokenExpired',
+    url: '/professional-subsystem/user/tokenExpired',
     method: 'post',
     statusCode: 200,
     response: () => {
