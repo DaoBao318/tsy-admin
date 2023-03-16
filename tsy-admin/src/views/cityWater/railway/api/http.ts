@@ -13,6 +13,7 @@ enum Api {
   editPage = '/api/page/edit_page',
   batchPage = 'api/yuque/batch_page',
   editStation = '/api/edit/station',
+  getProjectInformation = '/api/Project/GetProjectList',
 }
 
 // other api url
@@ -57,3 +58,7 @@ export function editPage(params) {
 export function editStation(params) {
   return defHttp.post({ url: Api.editStation, params });
 }
+// 获取项目信息
+export const getProjectInformation = (params) => {
+  return defHttp.post({ url: Api.getProjectInformation, params });
+};

@@ -17,11 +17,11 @@
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from './role.data';
+  import { formSchemaPressure } from './role.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
 
   export default defineComponent({
-    name: 'RoleDrawer',
+    name: 'RoleDrawerPressure',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
@@ -29,7 +29,7 @@
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 90,
         baseColProps: { span: 24 },
-        schemas: formSchema,
+        schemas: formSchemaPressure,
         showActionButtonGroup: false,
       });
 
@@ -46,7 +46,7 @@
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增管道重力' : '编辑管道重力'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增管道压力' : '编辑管道压力'));
 
       async function handleSubmit() {
         try {

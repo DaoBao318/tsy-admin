@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 // import { defHttp } from '/@/utils/http/axios';
-import { getAllItemApi } from '/@/api/water/waterApi';
+// import { getAllItemApi } from '/@/api/water/waterApi';
+import { getProjectInformation } from '/@/views/cityWater/railway/api/http';
+
 export enum Api {
   getAllRewardApi = '/get/product/item', // 获取项目
 }
@@ -25,7 +27,7 @@ export const waterSourceStore = defineStore({
       //     url: Api.getAllRewardApi,
       //     params: { page: 0, page_size: 9999, search_purpose: -1, search_id: -1 },
       //   });
-      const result = await getAllItemApi();
+      const result = await getProjectInformation({ useid: 1 });
       this.allItemlist = result;
     },
   },

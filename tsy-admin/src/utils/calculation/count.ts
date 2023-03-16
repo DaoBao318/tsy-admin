@@ -85,10 +85,17 @@ export const pipeMaterialOption = [
 /**
  * 计算公式
  */
-export const calculationFormulaOption = [
+export const calculationFormulaOptionPressure = [
   { label: '海曾-威廉公式', value: 'gs1' },
   { label: '柯尔-勃洛克公式', value: 'gs2' },
   { label: '曼宁公式', value: 'gs3' },
+];
+/**
+ * 计算公式
+ */
+export const calculationFormulaOption = [
+  { label: '海曾-威廉公式', value: 'gs1' },
+  { label: '柯尔-勃洛克公式', value: 'gs2' },
 ];
 /**
  * 计算内容
@@ -99,6 +106,20 @@ export const calculationContentOption = [
   { label: '计算流量、水力坡降', value: 'nr3' },
   { label: '计算管径、流速', value: 'nr4' },
   { label: '计算流量、流速', value: 'nr5' },
+];
+/**
+ * 水流条件
+ */
+export const flowConditionsOption = [
+  { label: '满流', value: 'sl1' },
+  { label: '非满流', value: 'sl2' },
+];
+/**
+ * 管道形状
+ */
+export const pipeShapeOption = [
+  { label: '圆形', value: 'xz1' },
+  { label: '矩形管', value: 'xz2' },
 ];
 /**
  * 单位

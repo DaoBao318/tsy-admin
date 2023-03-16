@@ -151,6 +151,8 @@ const transform: AxiosTransform = {
    * @description: 响应拦截器处理
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
+    debugger;
+    dealData(res);
     return res;
   },
 
@@ -190,6 +192,17 @@ const transform: AxiosTransform = {
     checkStatus(error?.response?.status, msg, errorMessageMode);
     return Promise.reject(error);
   },
+};
+export const dealData = function (res) {
+  if (res.data.data) {
+    const raw = res.data;
+    res.data = {
+      code: 0,
+      message: raw.msg ? raw.msg : 'ok',
+      result: res.data.data,
+      type: raw.success ? 'success' : '',
+    };
+  }
 };
 
 export function createAxios(opt?: Partial<CreateAxiosOptions>) {
