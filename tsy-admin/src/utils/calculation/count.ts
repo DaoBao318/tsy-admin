@@ -94,8 +94,8 @@ export const calculationFormulaOptionPressure = [
  * 计算公式
  */
 export const calculationFormulaOption = [
-  { label: '海曾-威廉公式', value: 'gs1' },
-  { label: '柯尔-勃洛克公式', value: 'gs2' },
+  { label: '柯尔-勃洛克公式', value: 'gs2', disabled: true },
+  { label: '曼宁公式', value: 'gs3' },
 ];
 /**
  * 计算内容

@@ -1,32 +1,32 @@
 import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 
-const cityWater: AppRouteModule = {
-  path: '/cityWater',
-  name: 'cityWater',
+const professionalCalculation: AppRouteModule = {
+  path: '/professionalCalculation',
+  name: 'professionalCalculation',
   component: LAYOUT,
-  redirect: '/cityWater/railway',
+  redirect: '/professionalCalculation/waterSupplyAndDrainage',
   meta: {
     orderNo: 1,
     icon: 'carbon:calculator-check',
     title: '专业计算子模块',
-    // permCode: 'cityWater',
+    // permCode: 'professionalCalculation',
   },
   children: [
     {
-      path: 'railway',
-      name: 'railway useWater',
+      path: 'waterSupplyAndDrainage',
+      name: 'waterSupplyAndDrainage useWater',
       meta: {
         title: '昼夜最大用水量计算',
         icon: 'ion:water-outline',
-        // permCode: 'cityWater:railway',
+        // permCode: 'professionalCalculation:waterSupplyAndDrainage',
       },
-      component: () => import('/@/views/cityWater/railway/index.vue'),
+      component: () => import('/@/views/professionalCalculation/waterSupplyAndDrainage/index.vue'),
     },
     {
-      path: 'waterConsumption',
+      path: 'pipelineCalculation',
       name: 'WaterConsumption',
-      component: () => import('/@/views/cityWater/waterConsumption/index.vue'),
+      component: () => import('/@/views/professionalCalculation/pipelineCalculation/index.vue'),
       meta: {
         // affix: true,
         icon: 'fluent:pipeline-20-filled',
@@ -36,4 +36,4 @@ const cityWater: AppRouteModule = {
   ],
 };
 
-export default cityWater;
+export default professionalCalculation;

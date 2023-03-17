@@ -17,11 +17,11 @@
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from './role.data';
+  import { drawerFormGravity } from '../pipelineCalculation.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
 
   export default defineComponent({
-    name: 'RoleDrawer',
+    name: 'GravityDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
@@ -29,7 +29,7 @@
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 90,
         baseColProps: { span: 24 },
-        schemas: formSchema,
+        schemas: drawerFormGravity,
         showActionButtonGroup: false,
       });
 

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 // import { defHttp } from '/@/utils/http/axios';
 // import { getAllItemApi } from '/@/api/water/waterApi';
-import { getProjectInformation } from '/@/views/cityWater/railway/api/http';
+import { getProjectInformation } from '/@/views/professionalCalculation/waterSupplyAndDrainage/api/http';
 
 export enum Api {
   getAllRewardApi = '/get/product/item', // 获取项目

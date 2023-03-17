@@ -18,6 +18,11 @@
               ]"
             />
           </template>
+          <template #pipeMaterial="{ record }">
+            <div>
+              {{ record.pipeMaterial + '材料' }}
+            </div>
+          </template>
         </BasicTable>
       </a-tab-pane>
       <a-tab-pane key="2" tab="管道压力计算" force-render>
@@ -40,39 +45,42 @@
       </a-tab-pane>
     </a-tabs>
 
-    <RoleDrawer @register="registerDrawer" @success="handleSuccess" />
-    <RoleDrawerPressure @register="registerDrawerPressure" @success="handleSuccessPressure" />
+    <GravityDrawer @register="registerDrawer" @success="handleSuccess" />
+    <PressureDrawer @register="registerDrawerPressure" @success="handleSuccessPressure" />
   </div>
 </template>
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getRoleListByPage, getRoleListByPagePressure, getTestAPI } from '/@/api/demo/system';
+  import { getGravityPage, getPressurePage, getTestAPI } from '/@/api/demo/system';
 
   import { useDrawer } from '/@/components/Drawer';
-  import RoleDrawer from './RoleDrawer.vue';
-  import RoleDrawerPressure from './RoleDrawerPressure.vue';
+  import GravityDrawer from './component/GravityDrawer.vue';
+  import PressureDrawer from './component/PressureDrawer.vue';
 
   import {
-    columns,
-    searchFormSchema,
+    columnGravity,
+    searchFormGravity,
     columnsPressure,
-    searchFormSchemaPressure,
-  } from './role.data';
+    searchFormPressure,
+  } from './pipelineCalculation.data';
 
   export default defineComponent({
     name: 'RoleManagement',
-    components: { BasicTable, RoleDrawer, TableAction, RoleDrawerPressure },
+    components: { BasicTable, GravityDrawer, TableAction, PressureDrawer },
     setup() {
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerTable, { reload }] = useTable({
         title: '管道重力列表',
-        api: getRoleListByPage,
-        columns,
+        api: getGravityPage,
+        columns: columnGravity,
         formConfig: {
           labelWidth: 120,
-          schemas: searchFormSchema,
+          schemas: searchFormGravity,
+          alwaysShowLines: 10,
+          showActionButtonGroup: true,
+          layout: 'horizontal',
         },
         useSearchForm: true,
         showTableSetting: true,
@@ -110,12 +118,12 @@
       //管道压力计算 Pressure
       const [registerDrawerPressure, { openDrawer: openDrawerPressure }] = useDrawer();
       const [registerTablePressure, { reload: reloadPressure }] = useTable({
-        title: '管道重力列表',
-        api: getRoleListByPagePressure,
+        title: '管道压力列表',
+        api: getPressurePage,
         columns: columnsPressure,
         formConfig: {
           labelWidth: 120,
-          schemas: searchFormSchemaPressure,
+          schemas: searchFormPressure,
         },
         useSearchForm: true,
         showTableSetting: true,

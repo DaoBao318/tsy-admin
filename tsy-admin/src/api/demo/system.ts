@@ -19,7 +19,7 @@ enum Api {
   setRoleStatus = '/system/setRoleStatus',
   MenuList = '/system/getMenuList',
   RolePageList = '/system/getRoleListByPageGravity',
-  RolePageListPressure = '/system/getRoleListByPagePressure',
+  RolePageListPressure = '/system/getPressurePage',
   GetAllRoleList = '/system/getAllRoleList',
 
   getTestAPI = '/api/Project/GetProjectList',
@@ -34,10 +34,10 @@ export const getDeptList = (params?: DeptListItem) =>
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
 //获取重力数据
-export const getRoleListByPage = (params?: RolePageParams) =>
+export const getGravityPage = (params?: RolePageParams) =>
   defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageList, params });
 //获取压力数据
-export const getRoleListByPagePressure = (params?: RolePageParams) =>
+export const getPressurePage = (params?: RolePageParams) =>
   defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageListPressure, params });
 
 export const getAllRoleList = (params?: RoleParams) =>

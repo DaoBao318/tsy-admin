@@ -61,7 +61,7 @@ export default [
     },
   },
   {
-    url: '/professional-subsystem/system/getRoleListByPagePressure',
+    url: '/professional-subsystem/system/getPressurePage',
     timeout: 100,
     method: 'get',
     response: ({ query }) => {

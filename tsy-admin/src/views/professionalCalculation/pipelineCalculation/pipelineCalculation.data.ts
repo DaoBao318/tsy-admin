@@ -1,9 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
-import { Switch } from 'ant-design-vue';
-import { setRoleStatus } from '/@/api/demo/system';
-import { useMessage } from '/@/hooks/web/useMessage';
 //BasicForm
 import {
   pipeMaterialOption,
@@ -16,7 +13,7 @@ import {
   pipeShapeOption,
 } from '/@/utils/calculation/count';
 
-export const columns: BasicColumn[] = [
+export const columnGravity: BasicColumn[] = [
   {
     title: '计算公式',
     dataIndex: 'calculationFormula',
@@ -26,6 +23,7 @@ export const columns: BasicColumn[] = [
     title: '管道材料',
     dataIndex: 'pipeMaterial',
     width: 180,
+    slots: { customRender: 'pipeMaterial' },
   },
   {
     title: '计算内容',
@@ -63,7 +61,7 @@ export const columns: BasicColumn[] = [
   },
 ];
 
-export const searchFormSchema: FormSchema[] = [
+export const searchFormGravity: FormSchema[] = [
   {
     field: 'pipeMaterial',
     label: '管道材料',
@@ -87,13 +85,14 @@ export const searchFormSchema: FormSchema[] = [
   },
 ];
 
-export const formSchema: FormSchema[] = [
+export const drawerFormGravity: FormSchema[] = [
   {
     field: 'calculationFormula',
     label: '计算公式',
     required: true,
     component: 'RadioGroup',
     colProps: { span: 24 },
+    defaultValue: 'gs3',
     componentProps: {
       options: calculationFormulaOption,
     },
@@ -121,8 +120,64 @@ export const formSchema: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
-    componentProps: {
-      options: calculationContentOption,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        placeholder: '请选择内容',
+        options: calculationContentOption,
+        disabled: false,
+        onChange: async (e: any) => {
+          const target = e;
+          debugger;
+          const { updateSchema } = formActionType;
+          if (target === 'nr1') {
+            updateSchema([
+              {
+                field: 'velocityOfFlow',
+                label: '流速（m/s）',
+                required: false,
+                component: 'Input',
+                colProps: { span: 12 },
+                componentProps: {
+                  disabled: true,
+                },
+              },
+              {
+                field: 'coughnessCoefficient',
+                label: '阻力系数',
+                required: false,
+                component: 'Input',
+                colProps: { span: 12 },
+                componentProps: {
+                  disabled: true,
+                },
+              },
+            ]);
+          } else {
+            updateSchema([
+              {
+                field: 'velocityOfFlow',
+                label: '流速（m/s）',
+                required: true,
+                component: 'Input',
+                colProps: { span: 12 },
+                componentProps: {
+                  disabled: false,
+                },
+              },
+              {
+                field: 'coughnessCoefficient',
+                label: '阻力系数',
+                required: true,
+                component: 'Input',
+                colProps: { span: 12 },
+                componentProps: {
+                  disabled: false,
+                },
+              },
+            ]);
+          }
+        },
+      };
     },
   },
   {
@@ -220,7 +275,7 @@ export const formSchema: FormSchema[] = [
   },
 
   {
-    field: 'rateOfFlow',
+    field: 'rateOfFlowResult',
     label: '流量(L/s)',
     component: 'Input',
     colProps: { span: 6 },
@@ -229,7 +284,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'caliber',
+    field: 'caliberResult',
     label: '管径',
     component: 'Input',
     colProps: { span: 6 },
@@ -238,7 +293,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'velocityOfFlow',
+    field: 'velocityOfFlowResult',
     label: '流速（m/s）',
     component: 'Input',
     colProps: { span: 6 },
@@ -247,7 +302,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'hydraulicGradient',
+    field: 'hydraulicGradientResult',
     label: '水力坡度',
     component: 'Input',
     colProps: { span: 6 },
@@ -256,7 +311,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'fullness',
+    field: 'fullnessResult',
     label: '充满度',
     component: 'Input',
     colProps: { span: 6 },
@@ -265,7 +320,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'ditchWidth',
+    field: 'ditchWidthResult',
     label: '沟宽（mm）',
     component: 'Input',
     colProps: { span: 6 },
@@ -314,7 +369,7 @@ export const columnsPressure: BasicColumn[] = [
   },
 ];
 
-export const searchFormSchemaPressure: FormSchema[] = [
+export const searchFormPressure: FormSchema[] = [
   {
     field: 'pipeMaterial',
     label: '管道材料',
@@ -338,7 +393,7 @@ export const searchFormSchemaPressure: FormSchema[] = [
   },
 ];
 
-export const formSchemaPressure: FormSchema[] = [
+export const drawerFormPressure: FormSchema[] = [
   {
     field: 'calculationFormula',
     label: '计算公式',
@@ -466,7 +521,7 @@ export const formSchemaPressure: FormSchema[] = [
     },
   },
   {
-    field: 'velocityOfFlow',
+    field: 'velocityOfFlow1',
     label: '流速',
     component: 'Input',
     colProps: { span: 6 },
