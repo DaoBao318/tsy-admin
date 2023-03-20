@@ -7,7 +7,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'rateOfFlow',
         label: '流量(L/s)',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 6 },
         componentProps: {
           disabled: false,
@@ -17,8 +17,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'calculateInnerDiameter',
         label: '计算内径(mm)',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -27,7 +27,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'velocityOfFlow',
         label: '流速（m/s）',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: false,
@@ -37,7 +37,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'hydraulicGradient',
         label: '水力坡度',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: true,
@@ -47,8 +47,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'trenchHeight',
         label: '地沟高（mm）',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -56,9 +56,9 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'wideHeightRatio',
         label: '宽高比',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: true,
-        colProps: { span: 6 },
+        colProps: { span: 12 },
         componentProps: {
           disabled: false,
         },
@@ -66,7 +66,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumDitchHeight',
         label: '最大沟高（mm）',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         required: true,
         componentProps: {
@@ -76,7 +76,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumPipeDiameter',
         label: '最大管径',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: true,
         colProps: { span: 12 },
         componentProps: {
@@ -90,7 +90,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'rateOfFlow',
         label: '流量(L/s)',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 6 },
         componentProps: {
           disabled: false,
@@ -100,8 +100,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'calculateInnerDiameter',
         label: '计算内径(mm)',
         required: true,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: false,
         },
@@ -110,7 +110,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'velocityOfFlow',
         label: '流速（m/s）',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: true,
@@ -120,7 +120,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'hydraulicGradient',
         label: '水力坡度',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: true,
@@ -130,8 +130,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'trenchHeight',
         label: '地沟高（mm）',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -139,9 +139,9 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'wideHeightRatio',
         label: '沟宽',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: false,
-        colProps: { span: 6 },
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -149,7 +149,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumDitchHeight',
         label: '最大沟高（mm）',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         required: false,
         componentProps: {
@@ -159,7 +159,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumPipeDiameter',
         label: '最大管径',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: false,
         colProps: { span: 12 },
         componentProps: {
@@ -173,7 +173,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'rateOfFlow',
         label: '流量(L/s)',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 6 },
         componentProps: {
           disabled: true,
@@ -183,8 +183,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'calculateInnerDiameter',
         label: '计算内径(mm)',
         required: true,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: false,
         },
@@ -193,7 +193,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'velocityOfFlow',
         label: '流速（m/s）',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: false,
@@ -203,7 +203,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'hydraulicGradient',
         label: '水力坡度',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: true,
@@ -213,8 +213,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'trenchHeight',
         label: '地沟高（mm）',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -222,10 +222,10 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'wideHeightRatio',
         label: '沟宽',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         defaultValue: 1500,
         required: false,
-        colProps: { span: 6 },
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -233,7 +233,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumDitchHeight',
         label: '最大沟高（mm）',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         required: false,
         componentProps: {
@@ -243,7 +243,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumPipeDiameter',
         label: '最大管径',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: false,
         colProps: { span: 12 },
         componentProps: {
@@ -257,7 +257,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'rateOfFlow',
         label: '流量(L/s)',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 6 },
         componentProps: {
           disabled: false,
@@ -267,8 +267,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'calculateInnerDiameter',
         label: '计算内径(mm)',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -277,7 +277,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'velocityOfFlow',
         label: '流速（m/s）',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: true,
@@ -287,7 +287,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'hydraulicGradient',
         label: '水力坡度',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: false,
@@ -297,8 +297,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'trenchHeight',
         label: '地沟高（mm）',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -306,9 +306,9 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'wideHeightRatio',
         label: '宽高比',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: true,
-        colProps: { span: 6 },
+        colProps: { span: 12 },
         componentProps: {
           disabled: false,
         },
@@ -316,7 +316,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumDitchHeight',
         label: '最大沟高（mm）',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         required: true,
         componentProps: {
@@ -326,7 +326,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumPipeDiameter',
         label: '最大管径',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: true,
         colProps: { span: 12 },
         componentProps: {
@@ -340,7 +340,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'rateOfFlow',
         label: '流量(L/s)',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 6 },
         componentProps: {
           disabled: true,
@@ -350,8 +350,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'calculateInnerDiameter',
         label: '计算内径(mm)',
         required: true,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: false,
         },
@@ -360,7 +360,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'velocityOfFlow',
         label: '流速（m/s）',
         required: false,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: true,
@@ -370,7 +370,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'hydraulicGradient',
         label: '水力坡度',
         required: true,
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         componentProps: {
           disabled: false,
@@ -380,8 +380,8 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
         field: 'trenchHeight',
         label: '地沟高（mm）',
         required: false,
-        component: 'InputNumber',
-        colProps: { span: 6 },
+        component: 'InputNumberExpand',
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -389,9 +389,9 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'wideHeightRatio',
         label: '沟宽',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: false,
-        colProps: { span: 6 },
+        colProps: { span: 12 },
         componentProps: {
           disabled: true,
         },
@@ -399,7 +399,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumDitchHeight',
         label: '最大沟高（mm）',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         colProps: { span: 12 },
         required: false,
         componentProps: {
@@ -409,7 +409,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       {
         field: 'maximumPipeDiameter',
         label: '最大管径',
-        component: 'InputNumber',
+        component: 'InputNumberExpand',
         required: false,
         colProps: { span: 12 },
         componentProps: {

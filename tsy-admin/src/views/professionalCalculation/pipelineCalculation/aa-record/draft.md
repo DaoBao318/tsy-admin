@@ -110,4 +110,26 @@ pipeMaterialSwitching
   );
   validate validateFields 是一样的
 
+  参考 ColorInput 组件
+
+  InputNumberExpand
+  在这个里面进行注册，D:\tsy-admin-git\tsy-admin\src\components\Form\src\componentMap.ts；然后类型约束添加到 D:\tsy-admin-git\tsy-admin\src\components\Form\src\types\index.ts 在component中引入组件
+
+    rules: [
+      {
+        required: true,
+        validator: async (rule, value) => {
+          debugger;
+          if (!value) {
+            return Promise.reject('值不能为空');
+          }
+          if (value === 1) {
+            return Promise.reject('值不能为1');
+          }
+          return Promise.resolve();
+        },
+        trigger: 'change',
+      },
+    ],
+
   

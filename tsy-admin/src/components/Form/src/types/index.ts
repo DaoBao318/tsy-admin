@@ -114,4 +114,5 @@ export type ComponentType =
   | 'Rate'
   | 'Divider'
   | 'ColorInput'
+  | 'InputNumberExpand'
   | 'ColorConvert';

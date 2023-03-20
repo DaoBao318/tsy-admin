@@ -6,7 +6,7 @@
     cancelText="退出"
     okText="计算"
     :title="getTitle"
-    width="90%"
+    width="70%"
     @ok="handleSubmit"
     :submitButtonOptions="{ text: '计算' }"
     :resetButtonOptions="{ text: '退出' }"

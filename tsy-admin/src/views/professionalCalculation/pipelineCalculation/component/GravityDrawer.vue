@@ -6,7 +6,7 @@
     cancelText="退出"
     okText="计算"
     :title="getTitle"
-    width="90%"
+    width="70%"
     @ok="handleSubmit"
     :submitButtonOptions="{ text: '计算' }"
     :resetButtonOptions="{ text: '退出' }"
@@ -27,7 +27,7 @@
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-        labelWidth: 120,
+        labelWidth: 100,
         baseColProps: { span: 24 },
         schemas: drawerFormGravity,
         showActionButtonGroup: false,

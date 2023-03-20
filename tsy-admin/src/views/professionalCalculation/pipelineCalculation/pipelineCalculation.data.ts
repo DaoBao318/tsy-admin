@@ -133,7 +133,6 @@ export const drawerFormGravity: FormSchema[] = [
       };
     },
   },
-
   {
     field: 'pipeShape',
     label: '管道形状',
@@ -145,23 +144,22 @@ export const drawerFormGravity: FormSchema[] = [
     },
   },
   {
-    field: 'coughnessCoefficient',
-    label: '阻力系数',
+    field: 'flowConditions',
+    label: '水流条件',
     required: true,
-    component: 'InputNumber',
-    colProps: { span: 6 },
-    rules: [
-      {
-        min: 0,
-        message: '请输入大于零的数字',
-      },
-    ],
+    component: 'RadioGroup',
+    colProps: { span: 12 },
+    componentProps: {
+      options: flowConditionsOption,
+    },
   },
+
   {
     field: 'rateOfFlow',
     label: '流量(L/s)',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
+    defaultValue: 20,
     colProps: { span: 6 },
   },
   {
@@ -175,18 +173,25 @@ export const drawerFormGravity: FormSchema[] = [
     },
   },
   {
+    field: 'coughnessCoefficient',
+    label: '阻力系数',
+    required: true,
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
+  },
+  {
     field: 'calculateInnerDiameter',
     label: '计算内径(mm)',
     required: true,
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
   {
     field: 'nominalDiameter',
     label: '公称直径',
     required: true,
     component: 'Select',
-    colProps: { span: 6 },
+    colProps: { span: 12 },
     componentProps: ({ formModel, formActionType }) => {
       return {
         placeholder: '请选择内容',
@@ -203,60 +208,51 @@ export const drawerFormGravity: FormSchema[] = [
       };
     },
   },
-  {
-    field: 'flowConditions',
-    label: '水流条件',
-    required: true,
-    component: 'RadioGroup',
-    colProps: { span: 6 },
-    componentProps: {
-      options: flowConditionsOption,
-    },
-  },
+
   {
     field: 'velocityOfFlow',
     label: '流速（m/s）',
     required: true,
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
     required: true,
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
   {
     field: 'trenchHeight',
     label: '地沟高（mm）',
     required: true,
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
   {
     field: 'wideHeightRatio',
     label: '宽高比',
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
   {
     field: 'maximumDitchHeight',
     label: '最大沟高（mm）',
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
   {
     field: 'maximumPipeDiameter',
     label: '最大管径',
-    component: 'InputNumber',
-    colProps: { span: 6 },
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
   },
 
   {
     field: 'rateOfFlowResult',
     label: '流量(L/s)',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -265,7 +261,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'caliberResult',
     label: '管径',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -274,7 +270,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'velocityOfFlowResult',
     label: '流速（m/s）',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -283,7 +279,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'hydraulicGradientResult',
     label: '水力坡度',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -292,7 +288,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'fullnessResult',
     label: '充满度',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -301,7 +297,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'ditchWidthResult',
     label: '沟宽（mm）',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -387,7 +383,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'waterTemperature',
     label: '水温',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
   {
@@ -404,7 +400,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'coughnessCoefficient',
     label: '粗糙系数',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
   {
@@ -421,7 +417,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'rateOfFlow',
     label: '流量',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
   },
   {
@@ -438,7 +434,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'calculateInnerDiameter',
     label: '计算内径(mm)',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
   {
@@ -455,27 +451,27 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'velocityOfFlow',
     label: '流速',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
   {
     field: 'pipeLength',
     label: '管道长度',
     required: true,
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
   {
     field: 'pipeLength',
     label: '管道长度',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -484,7 +480,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -493,7 +489,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'caliber',
     label: '管径',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -502,7 +498,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'velocityOfFlow1',
     label: '流速',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -511,7 +507,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'lossAlongTheWay',
     label: '沿程损失',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -520,7 +516,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'LocalResistanceLoss',
     label: '局部阻力损失',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -529,7 +525,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'hydraulicLoss',
     label: '水力损失',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
