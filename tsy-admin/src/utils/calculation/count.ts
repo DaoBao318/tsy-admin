@@ -1,3 +1,5 @@
+import { PipelineCalculationEnum } from '/@/enums/pipelineCalculation';
+
 function keepTwoDecimalFull(num, digit = 5) {
   let result = parseFloat(num);
   if (isNaN(result)) {
@@ -101,11 +103,11 @@ export const calculationFormulaOption = [
  * 计算内容
  */
 export const calculationContentOption = [
-  { label: '计算管径、水力坡降', value: 'nr1' },
-  { label: '计算流速、水力坡降', value: 'nr2' },
-  { label: '计算流量、水力坡降', value: 'nr3' },
-  { label: '计算管径、流速', value: 'nr4' },
-  { label: '计算流量、流速', value: 'nr5' },
+  { label: '计算管径、水力坡降', value: PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT },
+  { label: '计算流速、水力坡降', value: PipelineCalculationEnum.FLOW_SPEED_GRADIENT },
+  { label: '计算流量、水力坡降', value: PipelineCalculationEnum.FLOW_GRADIENT },
+  { label: '计算管径、流速', value: PipelineCalculationEnum.PIPE_DIAMETER_FLOW_RATE },
+  { label: '计算流量、流速', value: PipelineCalculationEnum.FLOW_RATE },
 ];
 /**
  * 水流条件

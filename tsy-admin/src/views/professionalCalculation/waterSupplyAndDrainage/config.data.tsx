@@ -20,7 +20,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'project_type',
     label: '切换项目:',
     component: 'Select',
-    colProps: { span: 3, style: { minWidth: '300px' } },
+    colProps: { span: 8 },
     componentProps: () => {
       return {
         // options: PROJECT_OPTIONS,
@@ -126,7 +126,15 @@ export const useXListOptions = {
     createActions: (record, context) => createActionsColumns(record, context),
     pagination: { pageSize: 10 },
     showIndexColumn: true,
-    schemas: searchFormSchema,
+    // schemas: searchFormSchema,
+    formConfig: {
+      labelWidth: 120,
+      innerWidth: 100,
+      schemas: searchFormSchema,
+      alwaysShowLines: 10,
+      showActionButtonGroup: true,
+      layout: 'horizontal',
+    },
   },
   layers: [
     {

@@ -12,6 +12,7 @@ import {
   flowConditionsOption,
   pipeShapeOption,
 } from '/@/utils/calculation/count';
+import { pipeMaterialSwitchingGravity } from './utils';
 
 export const columnGravity: BasicColumn[] = [
   {
@@ -65,6 +66,10 @@ export const searchFormGravity: FormSchema[] = [
   {
     field: 'pipeMaterial',
     label: '管道材料',
+    helpMessage: (renderCallbackParams) => {
+      console.log('renderCallbackParams', renderCallbackParams);
+      return '2';
+    },
     component: 'Select',
     componentProps: {
       options: pipeMaterialOption,
@@ -107,13 +112,7 @@ export const drawerFormGravity: FormSchema[] = [
       options: pipeMaterialOption,
     },
   },
-  {
-    field: 'coughnessCoefficient',
-    label: '阻力系数',
-    required: true,
-    component: 'Input',
-    colProps: { span: 12 },
-  },
+
   {
     field: 'calculationContent',
     label: '计算内容',
@@ -128,58 +127,13 @@ export const drawerFormGravity: FormSchema[] = [
         onChange: async (e: any) => {
           const target = e;
           debugger;
-          const { updateSchema } = formActionType;
-          if (target === 'nr1') {
-            updateSchema([
-              {
-                field: 'velocityOfFlow',
-                label: '流速（m/s）',
-                required: false,
-                component: 'Input',
-                colProps: { span: 12 },
-                componentProps: {
-                  disabled: true,
-                },
-              },
-              {
-                field: 'coughnessCoefficient',
-                label: '阻力系数',
-                required: false,
-                component: 'Input',
-                colProps: { span: 12 },
-                componentProps: {
-                  disabled: true,
-                },
-              },
-            ]);
-          } else {
-            updateSchema([
-              {
-                field: 'velocityOfFlow',
-                label: '流速（m/s）',
-                required: true,
-                component: 'Input',
-                colProps: { span: 12 },
-                componentProps: {
-                  disabled: false,
-                },
-              },
-              {
-                field: 'coughnessCoefficient',
-                label: '阻力系数',
-                required: true,
-                component: 'Input',
-                colProps: { span: 12 },
-                componentProps: {
-                  disabled: false,
-                },
-              },
-            ]);
-          }
+          const { updateSchema, setProps } = formActionType;
+          pipeMaterialSwitchingGravity(updateSchema, target);
         },
       };
     },
   },
+
   {
     field: 'pipeShape',
     label: '管道形状',
@@ -191,10 +145,23 @@ export const drawerFormGravity: FormSchema[] = [
     },
   },
   {
+    field: 'coughnessCoefficient',
+    label: '阻力系数',
+    required: true,
+    component: 'InputNumber',
+    colProps: { span: 6 },
+    rules: [
+      {
+        min: 0,
+        message: '请输入大于零的数字',
+      },
+    ],
+  },
+  {
     field: 'rateOfFlow',
     label: '流量(L/s)',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
   },
   {
@@ -211,17 +178,29 @@ export const drawerFormGravity: FormSchema[] = [
     field: 'calculateInnerDiameter',
     label: '计算内径(mm)',
     required: true,
-    component: 'Input',
-    colProps: { span: 12 },
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
   {
     field: 'nominalDiameter',
     label: '公称直径',
     required: true,
     component: 'Select',
-    colProps: { span: 12 },
-    componentProps: {
-      options: nominalDiameterOption,
+    colProps: { span: 6 },
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        placeholder: '请选择内容',
+        options: nominalDiameterOption,
+        disabled: false,
+        onChange: async (e: any) => {
+          const target = e;
+          debugger;
+          const { setProps } = formActionType;
+          //需要有计算公式
+          formModel.calculateInnerDiameter = target - 1;
+          // setProps({ model: { calculateInnerDiameter } });
+        },
+      };
     },
   },
   {
@@ -229,7 +208,7 @@ export const drawerFormGravity: FormSchema[] = [
     label: '水流条件',
     required: true,
     component: 'RadioGroup',
-    colProps: { span: 12 },
+    colProps: { span: 6 },
     componentProps: {
       options: flowConditionsOption,
     },
@@ -238,46 +217,46 @@ export const drawerFormGravity: FormSchema[] = [
     field: 'velocityOfFlow',
     label: '流速（m/s）',
     required: true,
-    component: 'Input',
-    colProps: { span: 12 },
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
     required: true,
-    component: 'Input',
-    colProps: { span: 12 },
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
   {
     field: 'trenchHeight',
     label: '地沟高（mm）',
     required: true,
-    component: 'Input',
-    colProps: { span: 12 },
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
   {
-    field: 'ditchWidth',
-    label: '沟宽（mm）',
-    component: 'Input',
-    colProps: { span: 12 },
+    field: 'wideHeightRatio',
+    label: '宽高比',
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
   {
     field: 'maximumDitchHeight',
     label: '最大沟高（mm）',
-    component: 'Input',
-    colProps: { span: 12 },
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
   {
     field: 'maximumPipeDiameter',
     label: '最大管径',
-    component: 'Input',
-    colProps: { span: 12 },
+    component: 'InputNumber',
+    colProps: { span: 6 },
   },
 
   {
     field: 'rateOfFlowResult',
     label: '流量(L/s)',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -286,7 +265,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'caliberResult',
     label: '管径',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -295,7 +274,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'velocityOfFlowResult',
     label: '流速（m/s）',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -304,7 +283,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'hydraulicGradientResult',
     label: '水力坡度',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -313,7 +292,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'fullnessResult',
     label: '充满度',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -322,7 +301,7 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'ditchWidthResult',
     label: '沟宽（mm）',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -408,7 +387,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'waterTemperature',
     label: '水温',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 12 },
   },
   {
@@ -425,7 +404,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'coughnessCoefficient',
     label: '粗糙系数',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 12 },
   },
   {
@@ -442,7 +421,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'rateOfFlow',
     label: '流量',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
   },
   {
@@ -459,7 +438,7 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'calculateInnerDiameter',
     label: '计算内径(mm)',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 12 },
   },
   {
@@ -476,27 +455,27 @@ export const drawerFormPressure: FormSchema[] = [
     field: 'velocityOfFlow',
     label: '流速',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 12 },
   },
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 12 },
   },
   {
     field: 'pipeLength',
     label: '管道长度',
     required: true,
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 12 },
   },
   {
     field: 'pipeLength',
     label: '管道长度',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -505,7 +484,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -514,7 +493,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'caliber',
     label: '管径',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -523,7 +502,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'velocityOfFlow1',
     label: '流速',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -532,7 +511,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'lossAlongTheWay',
     label: '沿程损失',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -541,7 +520,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'LocalResistanceLoss',
     label: '局部阻力损失',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,
@@ -550,7 +529,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'hydraulicLoss',
     label: '水力损失',
-    component: 'Input',
+    component: 'InputNumber',
     colProps: { span: 6 },
     componentProps: {
       disabled: true,

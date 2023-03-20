@@ -23,6 +23,11 @@ Pressure
 get gravity page  getGravityPage
 get pressure page getPressurePage
 
+方法
+//管道材料切换
+pipeMaterialSwitching
+1、
+
 
     componentProps: ({ schema, formModel }) => {
       return {
@@ -74,3 +79,35 @@ get pressure page getPressurePage
     },
 
     slots: { customRender: '' },
+  //接口泛型的使用
+  export interface FormSchema {
+  // Field name
+  field: string;
+  }
+  xx: FormSchema[] 数组对象
+  xx: FormSchema 对象形式
+    beforeFetch: (param) => {
+    debugger;
+  },
+  afterFetch: (param) => {
+    debugger;
+  },
+
+  //添加一个，删除一个，更新一个
+    appendSchemaByField(
+    {
+      field: 'velocityOfFlow1',
+      label: '流速（m/s）11111111',
+      required: false,
+      component: 'Input',
+      colProps: { span: 12 },
+      componentProps: {
+        disabled: true,
+      },
+    },
+    'calculationContent',
+    false,
+  );
+  validate validateFields 是一样的
+
+  

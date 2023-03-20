@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-// import { defHttp } from '/@/utils/http/axios';
+import { defHttp } from '/@/utils/http/axios';
 // import { getAllItemApi } from '/@/api/water/waterApi';
 import { getProjectInformation } from '/@/views/professionalCalculation/waterSupplyAndDrainage/api/http';
 
@@ -15,7 +15,7 @@ export const waterSourceStore = defineStore({
   getters: {
     allRewardSelectOptions: (state) => {
       return state.allItemlist.map((item: any) => {
-        item['label'] = `【${item.label}】${'标题'}`;
+        item['label'] = `【${item.label}】`;
         item['value'] = item.value;
         return item;
       });
@@ -23,11 +23,11 @@ export const waterSourceStore = defineStore({
   },
   actions: {
     async getAllItemList() {
-      //   const result = await defHttp.get({
-      //     url: Api.getAllRewardApi,
-      //     params: { page: 0, page_size: 9999, search_purpose: -1, search_id: -1 },
-      //   });
-      const result = await getProjectInformation({ useid: 1 });
+      const result = await defHttp.get({
+        url: Api.getAllRewardApi,
+        params: { page: 0, page_size: 9999, search_purpose: -1, search_id: -1 },
+      });
+      // const result = await getProjectInformation({ useid: 1 });
       this.allItemlist = result;
     },
   },
