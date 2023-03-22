@@ -1,296 +1,88 @@
 <template>
-  <PageWrapper title="表单校验示例">
-    <div class="mb-4">
-      <a-button @click="validateForm" class="mr-2"> 手动校验表单 </a-button>
-      <a-button @click="resetValidate" class="mr-2"> 清空校验信息 </a-button>
-      <a-button @click="getFormValues" class="mr-2"> 获取表单值 </a-button>
-      <a-button @click="setFormValues" class="mr-2"> 设置表单值 </a-button>
-      <a-button @click="resetFields" class="mr-2"> 重置 </a-button>
-    </div>
-    <CollapseContainer title="表单校验">
-      <BasicForm
-        @register="register"
-        @submit="handleSubmit"
-        :submitButtonOptions="{ text: '计算' }"
-        :resetButtonOptions="{ text: '重置' }"
-      >
-        <template #resetBefore>
-          <a-button color="warning" class="mr-2">按钮</a-button>
-        </template>
-      </BasicForm>
-    </CollapseContainer>
-  </PageWrapper>
+  <BasicForm @register="register1" @submit="handleSubmit" />
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, nextTick, ref } from 'vue';
   import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
-  import { CollapseContainer } from '/@/components/Container';
+  import { CollapseContainer } from '/@/components/Container/index';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { PageWrapper } from '/@/components/Page';
-  // import { isAccountExist } from '/@/api/demo/system';
-
+  let dynamicDisabled = ref<any>(false);
   const schemas: FormSchema[] = [
     {
       field: 'field1',
       component: 'Input',
       label: '字段1',
+      subLabel: '二级标签',
+      suffix: '组件后面',
+      dynamicDisabled: dynamicDisabled,
       colProps: {
         span: 8,
+        style: { minWidth: '100%' },
       },
-      required: true,
+      componentProps: ({ formModel, formActionType }) => {
+        return {
+          placeholder: '请选择内容',
+
+          onChange: async (e: any) => {
+            console.log(e);
+          },
+        };
+      },
+      // componentProps: () => {
+      //   return {
+      //     placeholder: '自定义placeholder',
+      //     onChange: async (e: any) => {
+      //       console.log(e.target.value);
+      //     },
+      //   };
+      // },
     },
+    { label: '', field: 'field3', component: 'Divider' },
     {
       field: 'field2',
       component: 'Input',
-      label: '字段2',
+      label: '字段1',
+      subLabel: '二级标签',
+      suffix: '组件后面',
+      helpMessage: 'zujiantishineri',
+      helpComponentProps: {
+        text: '内容提示',
+        color: 'red',
+      },
       colProps: {
         span: 8,
       },
-      required: true,
-    },
-    {
-      field: 'id',
-      label: 'id',
-      required: true,
-      defaultValue: 0,
-      component: 'InputNumber',
-      show: false,
-    },
-    {
-      field: 'field3',
-      component: 'DatePicker',
-      label: '字段3',
-      colProps: {
-        span: 8,
-      },
-      required: true,
-    },
-    {
-      field: 'field33',
-      component: 'DatePicker',
-      label: '字段33',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        valueFormat: 'YYYY-MM-DD',
-      },
-      rules: [{ required: true, type: 'string' }],
-    },
-    {
-      field: 'field44',
-      component: 'InputCountDown',
-      label: '验证码',
-      colProps: {
-        span: 8,
-      },
-      required: true,
-    },
-    {
-      field: 'field4',
-      component: 'Select',
-      label: '字段4',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        mode: 'multiple',
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-            key: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-            key: '2',
-          },
-        ],
-        onChange: (value) => {
-          console.log(value, '123');
-        },
-      },
-      rules: [
-        {
-          required: true,
-          message: '请输入aa',
-          type: 'array',
-        },
-      ],
-    },
-    {
-      field: 'field441',
-      component: 'Input',
-      label: '自定义校验1',
-      colProps: {
-        span: 8,
-      },
-      rules: [
-        {
-          required: true,
-          // @ts-ignore
-          validator: async (rule, value) => {
-            debugger;
-            if (!value) {
-              /* eslint-disable-next-line */
-              return Promise.reject('值不能为空');
-            }
-            if (value === '1') {
-              /* eslint-disable-next-line */
-              return Promise.reject('值不能为1');
-            }
-            return Promise.resolve();
-          },
-          trigger: 'change',
-        },
-      ],
-    },
-    {
-      field: 'field5',
-      component: 'CheckboxGroup',
-      label: '字段5',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-      },
-      rules: [{ required: true }],
-    },
-    {
-      field: 'field51',
-      component: 'CheckboxGroup',
-      label: '字段51',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-      },
-      rules: [{ required: true }],
-    },
-    {
-      field: 'field52',
-      component: 'CheckboxGroup',
-      label: '字段52',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-      },
-      rules: [{ required: true }],
-    },
-    {
-      field: 'field7',
-      component: 'RadioGroup',
-      label: '字段7',
-      colProps: {
-        span: 8,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-      },
-      rules: [{ required: true, message: '覆盖默认生成的校验信息' }],
-    },
-    {
-      field: 'field8',
-      component: 'Input',
-      label: '后端异步验证',
-      colProps: {
-        span: 8,
-      },
-      helpMessage: ['本字段演示异步验证', '本地规则：必须填写', '后端规则：不能包含admin'],
     },
   ];
 
   export default defineComponent({
-    components: { BasicForm, CollapseContainer, PageWrapper },
+    components: { BasicForm, CollapseContainer },
     setup() {
       const { createMessage } = useMessage();
-      const [
-        register,
-        { validateFields, clearValidate, getFieldsValue, resetFields, setFieldsValue },
-      ] = useForm({
+      const [register1, { setProps, setFieldsValue }] = useForm({
         labelWidth: 120,
         schemas,
+
+        // layout: 'vertical',
+        // showActionButtonGroup: false,
         actionColOptions: {
-          span: 20,
+          span: 24,
         },
       });
-      async function validateForm() {
-        try {
-          const res = await validateFields();
-          console.log('passing', res);
-        } catch (error) {
-          console.log('not passing', error);
-        }
-      }
-      async function resetValidate() {
-        clearValidate();
-      }
-      function getFormValues() {
-        const values = getFieldsValue();
-        createMessage.success('values:' + JSON.stringify(values));
-      }
-      function setFormValues() {
-        setFieldsValue({
-          field1: 1111,
-          field4: ['1'],
-          field5: ['1'],
-          field7: '1',
-          field33: '2020-12-12',
-          field3: '2020-12-12',
-        });
-      }
+      setProps({ model: { field1: 'wbb3' } });
+      nextTick(() => {
+        setProps({ model: { field1: 'wbb3' } });
+        // setFieldsValue({ field1: 'wbb1' });
+      });
+
       return {
-        register,
-        schemas,
+        register1,
         handleSubmit: (values: any) => {
+          setFieldsValue({ field1: 'wbb' });
+          dynamicDisabled.value = !dynamicDisabled.value;
           createMessage.success('click search,values:' + JSON.stringify(values));
         },
-        getFormValues,
-        setFormValues,
-        validateForm,
-        resetValidate,
-        resetFields,
+        setProps,
       };
     },
   });

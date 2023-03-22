@@ -6,7 +6,7 @@
         <BasicTable @register="registerTable">
           <template #toolbar>
             <a-button type="primary" @click="handleCreate"> 新增 </a-button>
-            <a-button type="primary" @click="handleCreate"> 批量导出 </a-button>
+            <a-button type="primary" @click="batchExportGravity"> 批量导出 </a-button>
           </template>
           <template #action="{ record }">
             <TableAction
@@ -29,7 +29,7 @@
         <BasicTable @register="registerTablePressure">
           <template #toolbar>
             <a-button type="primary" @click="handleCreatePressure"> 新增 </a-button>
-            <a-button type="primary" @click="handleCreatePressure"> 批量导出 </a-button>
+            <a-button type="primary" @click="batchExportPressure"> 批量导出 </a-button>
           </template>
           <template #action="{ record }">
             <TableAction
@@ -110,10 +110,7 @@
           isUpdate: true,
         });
       }
-
-      function handleDelete(record: Recordable) {
-        console.log(record);
-      }
+      function batchExportGravity() {}
 
       function handleSuccess() {
         reload();
@@ -154,13 +151,10 @@
         });
       }
 
-      function handleDeletePressure(record: Recordable) {
-        console.log(record);
-      }
-
       function handleSuccessPressure() {
         reloadPressure();
       }
+      function batchExportPressure() {}
 
       let activeKey = ref('1');
       function testApi() {
@@ -171,15 +165,15 @@
         registerDrawer,
         handleCreate,
         handleEdit,
-        handleDelete,
         handleSuccess,
+        batchExportGravity,
 
         registerTablePressure,
         registerDrawerPressure,
         handleCreatePressure,
         handleEditPressure,
-        handleDeletePressure,
         handleSuccessPressure,
+        batchExportPressure,
         activeKey,
         testApi,
       };

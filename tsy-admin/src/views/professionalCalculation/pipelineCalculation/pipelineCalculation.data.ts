@@ -1,6 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { h } from 'vue';
+import { h, reactive } from 'vue';
 //BasicForm
 import {
   pipeMaterialOption,
@@ -12,8 +12,7 @@ import {
   flowConditionsOption,
   pipeShapeOption,
 } from '/@/utils/calculation/count';
-import { pipeMaterialSwitchingGravity } from './utils';
-
+import { pipeMaterialSwitchingGravity, pipeMaterialSwitchingPressure } from './utils';
 export const columnGravity: BasicColumn[] = [
   {
     title: '计算公式',
@@ -248,7 +247,7 @@ export const drawerFormGravity: FormSchema[] = [
     component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
-
+  { label: '计算结果', field: 'field3', component: 'Divider', helpMessage: '计算结果' },
   {
     field: 'rateOfFlowResult',
     label: '流量(L/s)',
@@ -409,8 +408,18 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
-    componentProps: {
-      options: calculationContentOption,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        placeholder: '请选择内容',
+        options: calculationContentOption,
+        disabled: false,
+        onChange: async (e: any) => {
+          const target = e;
+          debugger;
+          const { updateSchema, setProps } = formActionType;
+          pipeMaterialSwitchingPressure(updateSchema, target);
+        },
+      };
     },
   },
   {
@@ -468,8 +477,9 @@ export const drawerFormPressure: FormSchema[] = [
     component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
+  { label: '计算结果', field: 'field3', component: 'Divider', helpMessage: '计算结果' },
   {
-    field: 'pipeLength',
+    field: 'pipeLengthResult',
     label: '管道长度',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -478,7 +488,7 @@ export const drawerFormPressure: FormSchema[] = [
     },
   },
   {
-    field: 'hydraulicGradient',
+    field: 'hydraulicGradientResult',
     label: '水力坡度',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -487,7 +497,7 @@ export const drawerFormPressure: FormSchema[] = [
     },
   },
   {
-    field: 'caliber',
+    field: 'caliberResult',
     label: '管径',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -496,7 +506,7 @@ export const drawerFormPressure: FormSchema[] = [
     },
   },
   {
-    field: 'velocityOfFlow1',
+    field: 'velocityOfFlowResult',
     label: '流速',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -505,7 +515,7 @@ export const drawerFormPressure: FormSchema[] = [
     },
   },
   {
-    field: 'lossAlongTheWay',
+    field: 'lossAlongTheWayResult',
     label: '沿程损失',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -514,7 +524,7 @@ export const drawerFormPressure: FormSchema[] = [
     },
   },
   {
-    field: 'LocalResistanceLoss',
+    field: 'LocalResistanceLossResult',
     label: '局部阻力损失',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -523,7 +533,7 @@ export const drawerFormPressure: FormSchema[] = [
     },
   },
   {
-    field: 'hydraulicLoss',
+    field: 'hydraulicLossResult',
     label: '水力损失',
     component: 'InputNumberExpand',
     colProps: { span: 6 },

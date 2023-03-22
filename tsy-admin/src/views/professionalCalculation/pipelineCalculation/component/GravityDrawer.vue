@@ -3,13 +3,11 @@
     v-bind="$attrs"
     @register="registerDrawer"
     showFooter
-    cancelText="退出"
+    cancelText="保存"
     okText="计算"
     :title="getTitle"
     width="70%"
     @ok="handleSubmit"
-    :submitButtonOptions="{ text: '计算' }"
-    :resetButtonOptions="{ text: '退出' }"
   >
     <BasicForm @register="registerForm" />
   </BasicDrawer>
@@ -36,7 +34,6 @@
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
         resetFields();
         setDrawerProps({ confirmLoading: false });
-        // 需要在setFieldsValue之前先填充treeData，否则Tree组件可能会报key not exist警告
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {

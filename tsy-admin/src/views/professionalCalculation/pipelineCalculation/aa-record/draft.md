@@ -23,10 +23,14 @@ Pressure
 get gravity page  getGravityPage
 get pressure page getPressurePage
 
+水力计算
+五个计算公式，每个参数代表什么，每个参数的单位，每个参数取几位小数。
+
 方法
 //管道材料切换
-pipeMaterialSwitching
-1、
+1、pipeMaterialSwitching
+2、 batchExportGravity
+2、 batchExportPressure
 
 
     componentProps: ({ schema, formModel }) => {
@@ -111,10 +115,11 @@ pipeMaterialSwitching
   validate validateFields 是一样的
 
   参考 ColorInput 组件
-
+  
   InputNumberExpand
   在这个里面进行注册，D:\tsy-admin-git\tsy-admin\src\components\Form\src\componentMap.ts；然后类型约束添加到 D:\tsy-admin-git\tsy-admin\src\components\Form\src\types\index.ts 在component中引入组件
-
+  setFieldsValue 设置值
+  校验内容：
     rules: [
       {
         required: true,
@@ -131,5 +136,11 @@ pipeMaterialSwitching
         trigger: 'change',
       },
     ],
+
+            <a-space>
+          <a-button>提交</a-button>
+          <a-button>提交</a-button>
+          <a-button>提交</a-button>
+        </a-space>
 
   

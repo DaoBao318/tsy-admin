@@ -3,13 +3,11 @@
     v-bind="$attrs"
     @register="registerDrawer"
     showFooter
-    cancelText="退出"
+    cancelText="保存"
     okText="计算"
     :title="getTitle"
     width="70%"
     @ok="handleSubmit"
-    :submitButtonOptions="{ text: '计算' }"
-    :resetButtonOptions="{ text: '退出' }"
   >
     <BasicForm @register="registerForm" />
   </BasicDrawer>
