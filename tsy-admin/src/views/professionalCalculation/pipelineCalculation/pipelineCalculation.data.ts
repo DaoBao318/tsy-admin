@@ -11,6 +11,7 @@ import {
   nominalDiameterOption,
   flowConditionsOption,
   pipeShapeOption,
+  nominalDiameterObj,
 } from '/@/utils/calculation/count';
 import { pipeMaterialSwitchingGravity, pipeMaterialSwitchingPressure } from './utils';
 export const columnGravity: BasicColumn[] = [
@@ -107,8 +108,33 @@ export const drawerFormGravity: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
-    componentProps: {
-      options: pipeMaterialOption,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        options: pipeMaterialOption,
+        placeholder: '请选择材料',
+        onChange: (e: any) => {
+          // console.log(e)
+          debugger;
+          let nominalDiameterOptions = nominalDiameterObj[e] || [];
+          if (e === undefined) {
+            nominalDiameterOptions = [];
+          }
+          const { updateSchema } = formActionType;
+          formModel.calculateInnerDiameter = undefined;
+          formModel.nominalDiameter = undefined;
+          updateSchema({
+            field: 'nominalDiameter',
+            componentProps: {
+              options: nominalDiameterOptions,
+              onChange(e) {
+                formModel.calculateInnerDiameter = e - 1;
+                console.log('--------e--', e, formModel);
+                debugger;
+              },
+            },
+          });
+        },
+      };
     },
   },
 
@@ -191,19 +217,11 @@ export const drawerFormGravity: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
-    componentProps: ({ formModel, formActionType }) => {
+    componentProps: () => {
       return {
         placeholder: '请选择内容',
-        options: nominalDiameterOption,
+        options: [],
         disabled: false,
-        onChange: async (e: any) => {
-          const target = e;
-          debugger;
-          const { setProps } = formActionType;
-          //需要有计算公式
-          formModel.calculateInnerDiameter = target - 1;
-          // setProps({ model: { calculateInnerDiameter } });
-        },
       };
     },
   },

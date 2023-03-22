@@ -74,15 +74,15 @@ export const Ch = {
  * 管道材料
  */
 export const pipeMaterialOption = [
-  { label: '镀锌钢管', value: 'm1' },
-  { label: '焊接钢管', value: 'm2' },
-  { label: '无缝钢管', value: 'm3' },
-  { label: '球墨铸铁管', value: 'm4' },
-  { label: 'I级钢筋混凝土管', value: 'm5' },
-  { label: 'II级钢筋混凝土管', value: 'm6' },
-  { label: '高密度聚乙烯双壁波纹管（HDPE）', value: 'm7' },
+  { label: '镀锌钢管', value: 'm1', id: 1 },
+  { label: '焊接钢管', value: 'm2', id: 2 },
+  { label: '无缝钢管', value: 'm3', id: 3 },
+  { label: '球墨铸铁管', value: 'm4', id: 4 },
+  { label: 'I级钢筋混凝土管', value: 'm5', id: 5 },
+  { label: 'II级钢筋混凝土管', value: 'm6', id: 6 },
+  { label: '高密度聚乙烯双壁波纹管（HDPE）', value: 'm7', id: 7 },
   { label: '不锈钢无缝钢管', value: 'm8' },
-  { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9' },
+  { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9', id: 8 },
 ];
 /**
  * 计算公式
@@ -153,16 +153,14 @@ export const nominalDiameterOption = [
  * 焊接钢管
  */
 export const weldedSteelPipe = [
-  { label: '10', value: 10 },
-  { label: '15', value: 15 },
-  { label: '20', value: 20 },
-  { label: '25', value: 25 },
-  { label: '32', value: 32 },
-  { label: '40', value: 40 },
-  { label: '50', value: 50 },
   { label: '70', value: 70 },
   { label: '80', value: 80 },
   { label: '100', value: 100 },
   { label: '125', value: 125 },
   { label: '150', value: 150 },
 ];
+
+export const nominalDiameterObj = {
+  m1: nominalDiameterOption,
+  m2: weldedSteelPipe,
+};

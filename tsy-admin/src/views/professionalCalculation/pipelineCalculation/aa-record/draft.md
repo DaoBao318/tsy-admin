@@ -26,6 +26,10 @@ get pressure page getPressurePage
 水力计算
 五个计算公式，每个参数代表什么，每个参数的单位，每个参数取几位小数。
 
+每种材料对应的管道直径。
+清空form表单的内容。
+formModel.nominalDiameter = undefined;
+
 方法
 //管道材料切换
 1、pipeMaterialSwitching
