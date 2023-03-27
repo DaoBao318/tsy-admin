@@ -1,10 +1,11 @@
-import { getList, getRecordInfo } from './api/http';
+import { getList, getProjectInformation, getRecordInfo } from './api/http';
 import { DrawerFormMode } from '/@/components-business/XList/v-2.0';
 import { typeHRchemas, typeZJchemas } from './dataConfig/stationType1.data';
 import { PROJECT_OPTIONS, STATION_TYPE_OPTIONS } from './dataConfig/constant';
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
 import { waterSourceStore } from '/@/store/modules/waterInfo';
+import { optionsListApi } from '/@/api/demo/select';
 
 export const LAYERS = {
   CHANGE_STATION_TYPE: '0', // 变更车站的modal弹窗
@@ -19,16 +20,38 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'project_type',
     label: '切换项目:',
-    component: 'Select',
+    component: 'ApiSelect',
     colProps: { span: 8 },
-    componentProps: () => {
-      return {
-        // options: PROJECT_OPTIONS,
-        options: store.allRewardSelectOptions,
-        immediate: true,
-        // showSearch: true,
-        placeholder: '请选择项目',
-      };
+    // componentProps: () => {
+    //   return {
+    //     // options: PROJECT_OPTIONS,
+    //     options: store.allRewardSelectOptions,
+    //     immediate: true,
+    //     // showSearch: true,
+    //     placeholder: '请选择项目',
+    //   };
+    // },
+    componentProps: {
+      // more details see /src/components/Form/src/components/ApiSelect.vue
+      api: getProjectInformation,
+      params: {
+        id: 1,
+      },
+
+      // resultField: 'list2',
+      // // use name as label
+      // labelField: 'name',
+      // // use id as value
+      // valueField: 'id',
+      // not request untill to select
+      immediate: true,
+      onChange: (e, v) => {
+        console.log('ApiSelect====>:', e, v);
+      },
+      // atfer request callback
+      onOptionsChange: (options) => {
+        console.log('get options', options.length, options);
+      },
     },
   },
 ];

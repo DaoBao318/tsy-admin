@@ -386,4 +386,12 @@ export default [
       return resultSuccess(beijingRecord1);
     },
   },
+  {
+    url: '/professional-subsystem/api/Project/GetProjectList',
+    timeout: 10,
+    method: 'post',
+    response: () => {
+      return resultSuccess(itemInfo);
+    },
+  },
 ] as MockMethod[];

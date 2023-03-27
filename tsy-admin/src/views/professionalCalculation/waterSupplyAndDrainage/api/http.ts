@@ -60,5 +60,11 @@ export function editStation(params) {
 }
 // 获取项目信息
 export const getProjectInformation = (params) => {
-  return defHttp.post({ url: Api.getProjectInformation, params });
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.getProjectInformation, params }).then((res) => {
+      debugger;
+      res.push({ label: '常泰铁路', value: 'ct' });
+      resolve(res);
+    });
+  });
 };

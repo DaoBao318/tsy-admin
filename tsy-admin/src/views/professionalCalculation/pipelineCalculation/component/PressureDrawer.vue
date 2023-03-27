@@ -17,6 +17,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { drawerFormPressure } from '../pipelineCalculation.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { pressureCalculation } from '../utils';
 
   export default defineComponent({
     name: 'PressureDrawer',
@@ -29,6 +30,7 @@
         baseColProps: { span: 24 },
         schemas: drawerFormPressure,
         showActionButtonGroup: false,
+        compact: true,
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
@@ -48,11 +50,13 @@
 
       async function handleSubmit() {
         try {
+          debugger;
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
-          closeDrawer();
+          pressureCalculation(values, setFieldsValue);
+          // closeDrawer();
           emit('success');
         } finally {
           setDrawerProps({ confirmLoading: false });

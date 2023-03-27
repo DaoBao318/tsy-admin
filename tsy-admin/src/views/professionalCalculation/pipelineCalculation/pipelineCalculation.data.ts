@@ -13,7 +13,12 @@ import {
   pipeShapeOption,
   nominalDiameterObj,
 } from '/@/utils/calculation/count';
-import { pipeMaterialSwitchingGravity, pipeMaterialSwitchingPressure } from './utils';
+import {
+  calculateWilliamCoefficient,
+  countNominalDiameter,
+  pipeMaterialSwitchingGravity,
+  pipeMaterialSwitchingPressure,
+} from './utils';
 export const columnGravity: BasicColumn[] = [
   {
     title: '计算公式',
@@ -115,24 +120,8 @@ export const drawerFormGravity: FormSchema[] = [
         onChange: (e: any) => {
           // console.log(e)
           debugger;
-          let nominalDiameterOptions = nominalDiameterObj[e] || [];
-          if (e === undefined) {
-            nominalDiameterOptions = [];
-          }
           const { updateSchema } = formActionType;
-          formModel.calculateInnerDiameter = undefined;
-          formModel.nominalDiameter = undefined;
-          updateSchema({
-            field: 'nominalDiameter',
-            componentProps: {
-              options: nominalDiameterOptions,
-              onChange(e) {
-                formModel.calculateInnerDiameter = e - 1;
-                console.log('--------e--', e, formModel);
-                debugger;
-              },
-            },
-          });
+          countNominalDiameter(e, updateSchema, formModel);
         },
       };
     },
@@ -392,16 +381,50 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 24 },
-    componentProps: {
-      options: calculationFormulaOptionPressure,
+    defaultValue: 'gs1',
+    // componentProps: {
+    //   options: calculationFormulaOptionPressure,
+    // },
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        options: calculationFormulaOptionPressure,
+        placeholder: '请选择计算公式',
+        onChange: (e: any) => {
+          // console.log(e)
+          debugger;
+          const { updateSchema } = formActionType;
+          let label = '海曾-威廉系数';
+          let labelRecommend = '海曾-威廉推荐值';
+          if (e === 'gs1') {
+            label = '海曾-威廉系数';
+            labelRecommend = '海曾-威廉推荐值';
+          } else {
+            label = '粗糙系数';
+            labelRecommend = '粗糙系数推荐值';
+          }
+          formModel.coughnessCoefficient = undefined;
+          formModel.coughnessCoefficientRecommend = undefined;
+          formModel.pipeMaterial = undefined;
+          updateSchema([
+            {
+              field: 'coughnessCoefficient',
+              label: label,
+            },
+            {
+              field: 'coughnessCoefficientRecommend',
+              label: labelRecommend,
+            },
+          ]);
+        },
+      };
     },
   },
   {
     field: 'waterTemperature',
-    label: '水温',
-    required: true,
+    label: '水温（℃）',
     component: 'InputNumberExpand',
     colProps: { span: 12 },
+    defaultValue: 10,
   },
   {
     field: 'pipeMaterial',
@@ -409,16 +432,34 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
-    componentProps: {
-      options: pipeMaterialOption,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        options: pipeMaterialOption,
+        placeholder: '请选择材料',
+        onChange: (e: any) => {
+          // console.log(e) calculateWilliamCoefficient
+          debugger;
+          const { updateSchema } = formActionType;
+          countNominalDiameter(e, updateSchema, formModel);
+          calculateWilliamCoefficient(e, formModel);
+        },
+      };
     },
   },
   {
     field: 'coughnessCoefficient',
-    label: '粗糙系数',
+    label: '海曾-威廉系数',
     required: true,
     component: 'InputNumberExpand',
     colProps: { span: 12 },
+  },
+  {
+    field: 'coughnessCoefficientRecommend',
+    label: '海曾-威廉推荐值',
+    required: false,
+    component: 'Input',
+    colProps: { span: 12 },
+    dynamicDisabled: true,
   },
   {
     field: 'calculationContent',
@@ -434,15 +475,36 @@ export const drawerFormPressure: FormSchema[] = [
         onChange: async (e: any) => {
           const target = e;
           debugger;
-          const { updateSchema, setProps } = formActionType;
-          pipeMaterialSwitchingPressure(updateSchema, target);
+          const { updateSchema } = formActionType;
+          pipeMaterialSwitchingPressure(updateSchema, target, formModel);
         },
       };
     },
   },
   {
+    field: 'calculateInnerDiameter',
+    label: '计算内径(mm)',
+    required: true,
+    component: 'InputNumberExpand',
+    colProps: { span: 6 },
+  },
+  {
+    field: 'nominalDiameter',
+    label: '公称直径',
+    required: true,
+    component: 'Select',
+    colProps: { span: 6 },
+    componentProps: () => {
+      return {
+        placeholder: '请选择内容',
+        options: [],
+        disabled: false,
+      };
+    },
+  },
+  {
     field: 'rateOfFlow',
-    label: '流量',
+    label: '流量(m³/h)',
     required: true,
     component: 'InputNumberExpand',
     colProps: { span: 6 },
@@ -453,30 +515,34 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 6 },
-    componentProps: {
-      options: unitOption,
-    },
-  },
-  {
-    field: 'calculateInnerDiameter',
-    label: '计算内径(mm)',
-    required: true,
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'nominalDiameter',
-    label: '公称直径',
-    required: true,
-    component: 'Select',
-    colProps: { span: 12 },
-    componentProps: {
-      options: nominalDiameterOption,
+    defaultValue: 'cubicMeter',
+    componentProps: ({ formActionType }) => {
+      return {
+        options: unitOption,
+        onChange(e) {
+          debugger;
+          let label = '流量(m³/h)';
+          if (e === 'rise') {
+            label = '流量(l/s)';
+          }
+          const { updateSchema } = formActionType;
+          updateSchema([
+            {
+              field: 'rateOfFlow',
+              label: label,
+            },
+            {
+              field: 'rateOfFlowResult',
+              label: label,
+            },
+          ]);
+        },
+      };
     },
   },
   {
     field: 'velocityOfFlow',
-    label: '流速',
+    label: '流速(m/s)',
     required: true,
     component: 'InputNumberExpand',
     colProps: { span: 12 },
@@ -490,15 +556,35 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'pipeLength',
-    label: '管道长度',
+    label: '管道长度(m)',
     required: true,
     component: 'InputNumberExpand',
     colProps: { span: 12 },
   },
+  {
+    field: 'percentageLocalResistanceLoss',
+    label: '水头损失率',
+    component: 'InputNumberExpand',
+    colProps: { span: 12 },
+    helpMessage: '局部水头损失范围在0.2-0.3之间',
+    dynamicRules: ({ values }) => {
+      return [
+        {
+          required: true,
+          validator: (_, value) => {
+            if (value > 0.3 || value < 0.2) {
+              return Promise.reject('局部水头损失范围在0.2-0.3之间');
+            }
+            return Promise.resolve();
+          },
+        },
+      ];
+    },
+  },
   { label: '计算结果', field: 'field3', component: 'Divider', helpMessage: '计算结果' },
   {
     field: 'pipeLengthResult',
-    label: '管道长度',
+    label: '管道长度(m)',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {
@@ -525,7 +611,16 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'velocityOfFlowResult',
-    label: '流速',
+    label: '流速(m/s)',
+    component: 'InputNumberExpand',
+    colProps: { span: 6 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    field: 'rateOfFlowResult',
+    label: '流量(m³/h)',
     component: 'InputNumberExpand',
     colProps: { span: 6 },
     componentProps: {

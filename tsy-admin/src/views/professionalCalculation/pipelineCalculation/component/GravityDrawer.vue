@@ -29,6 +29,7 @@
         baseColProps: { span: 24 },
         schemas: drawerFormGravity,
         showActionButtonGroup: false,
+        compact: true,
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
