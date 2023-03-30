@@ -1,43 +1,48 @@
-import { getList, getProjectInformation, getRecordInfo } from './api/http';
+import {
+  getStationInfoList,
+  getProjectInformation,
+  getRecordInfo,
+  getStationTypeList,
+} from './api/http';
 import { DrawerFormMode } from '/@/components-business/XList/v-2.0';
-import { typeHRchemas, typeZJchemas } from './dataConfig/stationType1.data';
-import { PROJECT_OPTIONS, STATION_TYPE_OPTIONS } from './dataConfig/constant';
+import {
+  HIGH_SPEED_LARGE_STATIONS,
+  HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION,
+  HIGH_SPEED_TRAIN_DEPOT,
+  ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF,
+  ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG,
+  ORDINARY_RAILWAY_SECTION_STATION,
+  ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION,
+} from './dataConfig/stationType1.data';
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
 import { waterSourceStore } from '/@/store/modules/waterInfo';
-import { optionsListApi } from '/@/api/demo/select';
 
 export const LAYERS = {
   CHANGE_STATION_TYPE: '0', // 变更车站的modal弹窗
-  PASSING_STATION: '1', // 会让站
-  MIDDLE_STATION: '2', // 中间站
-  OVERTAKING_STATION: '3', // 越行站
-  HIGNSPEED_STATION: '4', //高铁站
+  ORDINARY_RAILWAY_SECTION_STATION: '01', // 普铁区段站
+  ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF: '02', // 普铁-中间站
+  ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION: '03', // 普铁-会让站、越行站
+  ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG: '04', // 普铁-牵引变电所、线路所、警务区
+  HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION: '05', // 高铁-中间站
+  HIGH_SPEED_TRAIN_DEPOT: '06', // 高铁-动车段
+  HIGH_SPEED_LARGE_STATIONS: '07', // 高铁-大型车站
 };
 const store = waterSourceStore();
+let projectType = 'OrdinaryRailway';
 // 表单搜索框配置
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'project_type',
+    field: 'projectId',
     label: '切换项目:',
     component: 'ApiSelect',
     colProps: { span: 8 },
-    // componentProps: () => {
-    //   return {
-    //     // options: PROJECT_OPTIONS,
-    //     options: store.allRewardSelectOptions,
-    //     immediate: true,
-    //     // showSearch: true,
-    //     placeholder: '请选择项目',
-    //   };
-    // },
+    required: true,
     componentProps: {
-      // more details see /src/components/Form/src/components/ApiSelect.vue
       api: getProjectInformation,
       params: {
         id: 1,
       },
-
       // resultField: 'list2',
       // // use name as label
       // labelField: 'name',
@@ -46,9 +51,13 @@ export const searchFormSchema: FormSchema[] = [
       // not request untill to select
       immediate: true,
       onChange: (e, v) => {
+        if (!!v) {
+          projectType = v.projectType;
+        } else {
+          projectType = '';
+        }
         console.log('ApiSelect====>:', e, v);
       },
-      // atfer request callback
       onOptionsChange: (options) => {
         console.log('get options', options.length, options);
       },
@@ -65,42 +74,42 @@ const columns: BasicColumn[] = [
   // },
   {
     title: '车站名称',
-    dataIndex: 'station',
+    dataIndex: 'stationName',
     width: 120,
   },
   {
     title: '车站类型',
-    dataIndex: 'station_type',
+    dataIndex: 'stationType',
     slots: { customRender: 'stationType' },
   },
   {
     title: '昼夜最大用水量（m3）',
-    dataIndex: 'max_consumption_water',
+    dataIndex: 'dnMwoMax',
   },
   {
     title: '昼夜最大排水量（m3）',
-    dataIndex: 'max_displacement_water',
+    dataIndex: 'dnDisplacementMax',
   },
 ];
 
 // 设置column操作栏
 function createActionsColumns(record, context) {
   function getStationType() {
-    let typeStation = '1';
-    if (record.station_type === '1') {
-      typeStation = LAYERS.PASSING_STATION;
-    } else if (record.station_type === '2') {
-      typeStation = record.station_type;
-    } else {
-      typeStation = '2';
-    }
-    return typeStation;
+    return record.stationType;
   }
   async function handlerEdit() {
     // 单独根据接口请求具体数据，或者是直接在record中读取
     // const data = await getRecordInfo(record.id);
     const layerName = getStationType();
-    const data = await getRecordInfo({ id: layerName });
+    store.waterSupplyAndDrainageDetailsLoadingAction(true);
+    const data = await getRecordInfo({
+      computeId: record.computeID,
+      projectId: record.projectID,
+      stationID: record.stationID,
+      stationType: record.stationType,
+    });
+    store.waterSupplyAndDrainageDetailsLoadingAction(false);
+    debugger;
     context.layers[layerName].open(true, data, {
       mode: DrawerFormMode.EDIT,
       // title: 'wbb123',
@@ -119,34 +128,57 @@ function createActionsColumns(record, context) {
   function handlerExport() {
     console.log('导出当前');
   }
-  return [
-    {
-      icon: 'clarity:note-edit-line',
-      label: '编辑',
-      onClick: handlerEdit,
-    },
-    {
-      icon: 'bx:comment-detail',
-      label: '详情',
-      onClick: viewDetail,
-      color: 'success',
-    },
-    {
-      icon: 'mdi:export',
-      label: '导出',
-      onClick: handlerExport,
-      color: 'error',
-    },
-  ];
+  if (!record.computeID) {
+    return [
+      {
+        icon: 'material-symbols:add-box-outline',
+        label: '新增',
+        onClick: handlerEdit,
+      },
+    ];
+  } else {
+    return [
+      {
+        icon: 'clarity:note-edit-line',
+        label: '编辑',
+        onClick: handlerEdit,
+      },
+      {
+        icon: 'bx:comment-detail',
+        label: '详情',
+        onClick: viewDetail,
+        color: 'success',
+      },
+      {
+        icon: 'mdi:export',
+        label: '导出',
+        onClick: handlerExport,
+        color: 'error',
+      },
+    ];
+  }
 }
 
 //===================== -useXListOptions- ========================
+function beforeFetch(params) {
+  params.pageIndex = params['split.page'];
+  params.pageSize = params['split.size'];
+  params.totalCount = 0;
+  params.projectId = Number(params.projectId);
+  delete params['split.page'];
+  delete params['split.size'];
+  delete params['time'];
+  return params;
+}
+
 export const useXListOptions = {
   useTableOptions: {
     title: '昼夜最大用水量排水量列表',
-    api: getList,
+    api: getStationInfoList,
     columns,
+    immediate: false,
     createActions: (record, context) => createActionsColumns(record, context),
+    beforeFetch,
     pagination: { pageSize: 10 },
     showIndexColumn: true,
     // schemas: searchFormSchema,
@@ -172,22 +204,48 @@ export const useXListOptions = {
         centered: true,
         schemas: [
           {
-            field: 'station_type',
+            field: 'stationType',
             label: '车站类型：',
-            component: 'Select',
+            component: 'ApiSelect',
             required: true,
             colProps: { span: 22 },
+            // componentProps: {
+            //   min: 0,
+            //   style: { width: '100%' },
+            //   options: STATION_TYPE_OPTIONS,
+            // },
             componentProps: {
-              min: 0,
-              style: { width: '100%' },
-              options: STATION_TYPE_OPTIONS,
+              api: getStationTypeList,
+              params: {
+                projectType,
+              },
+              // resultField: 'list2',
+              // // use name as label
+              // labelField: 'name',
+              // // use id as value
+              // valueField: 'id',
+              // not request untill to select
+              immediate: true,
+              onChange: (e, v) => {
+                console.log('ApiSelect====>:', e, v);
+              },
+              // atfer request callback
+              onOptionsChange: (options) => {
+                console.log('get options', options.length, options);
+              },
             },
           },
           {
-            field: 'id',
+            field: 'stationID',
             label: '车站id：',
             component: 'InputNumber',
-            show: true,
+            show: false,
+          },
+          {
+            field: 'projectID',
+            label: '项目id：',
+            component: 'InputNumber',
+            show: false,
           },
           {
             field: 'edit_tip',
@@ -200,27 +258,87 @@ export const useXListOptions = {
       },
     },
     {
-      name: LAYERS.PASSING_STATION,
+      name: LAYERS.ORDINARY_RAILWAY_SECTION_STATION,
       component: 'DrawerForm',
       componentProps: {
         width: '90%',
-        title: '会让站',
+        title: '普铁-区段站',
       },
       useFormOptions: {
         labelWidth: 140,
-        schemas: typeHRchemas,
+        schemas: ORDINARY_RAILWAY_SECTION_STATION,
       },
     },
     {
-      name: LAYERS.MIDDLE_STATION,
+      name: LAYERS.ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF,
       component: 'DrawerForm',
       componentProps: {
         width: '90%',
-        title: '中间站',
+        title: '普铁-中间站',
       },
       useFormOptions: {
         labelWidth: 140,
-        schemas: typeZJchemas,
+        schemas: ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF,
+      },
+    },
+    {
+      name: LAYERS.ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION,
+      component: 'DrawerForm',
+      componentProps: {
+        width: '90%',
+        title: '普铁-会让站、越行站',
+      },
+      useFormOptions: {
+        labelWidth: 140,
+        schemas: ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION,
+      },
+    },
+    {
+      name: LAYERS.ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG,
+      component: 'DrawerForm',
+      componentProps: {
+        width: '90%',
+        title: '普铁-牵引变电所、线路所、警务区',
+      },
+      useFormOptions: {
+        labelWidth: 140,
+        schemas: ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG,
+      },
+    },
+    {
+      name: LAYERS.HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION,
+      component: 'DrawerForm',
+      componentProps: {
+        width: '90%',
+        title: '高铁-中间站',
+      },
+      useFormOptions: {
+        labelWidth: 140,
+        schemas: HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION,
+      },
+    },
+    {
+      name: LAYERS.HIGH_SPEED_TRAIN_DEPOT,
+      component: 'DrawerForm',
+      componentProps: {
+        width: '90%',
+        title: '高铁-动车段',
+      },
+      useFormOptions: {
+        labelWidth: 140,
+        schemas: HIGH_SPEED_TRAIN_DEPOT,
+      },
+    },
+    {
+      name: LAYERS.HIGH_SPEED_LARGE_STATIONS,
+      component: 'DrawerForm',
+      componentProps: {
+        width: '90%',
+        title: '高铁-大型车站',
+      },
+      useFormOptions: {
+        labelWidth: 140,
+        schemas: HIGH_SPEED_LARGE_STATIONS,
       },
     },
   ],

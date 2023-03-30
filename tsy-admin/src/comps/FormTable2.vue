@@ -15,7 +15,7 @@
         ) {{ item.label }}
   .ant-table-body
     .ant-table-body-empty(v-if='!dataSource || !dataSource.length', @click='addOneItem')
-      SvgIcon(name='dynamic-avatar-3', :size='42')
+      //- SvgIcon(name='dynamic-avatar-3', :size='42')
       .empty-desc 暂无数据
     a-form(ref='formRef', :model='dataSource')
       a-row.tr(type='flex', v-for='(model, index) in dataSource', :key='index')
@@ -96,10 +96,10 @@
 
       // 添加一项
       function addOneItem() {
-        dataSource.value.push({
-          [indexProp]: index.value,
-        });
-        index.value++;
+        // dataSource.value.push({
+        //   [indexProp]: index.value,
+        // });
+        // index.value++;
       }
 
       watch(

@@ -11,6 +11,7 @@ export const waterSourceStore = defineStore({
   id: 'souce',
   state: () => ({
     allItemlist: [{}],
+    waterSupplyAndDrainageDetailsLoading: false,
   }),
   getters: {
     allRewardSelectOptions: (state) => {
@@ -19,6 +20,9 @@ export const waterSourceStore = defineStore({
         item['value'] = item.value;
         return item;
       });
+    },
+    waterSupplyAndDrainageDetailsLoadingGetter: (state) => {
+      return state.waterSupplyAndDrainageDetailsLoading;
     },
   },
   actions: {
@@ -29,6 +33,9 @@ export const waterSourceStore = defineStore({
       });
       // const result = await getProjectInformation({ useid: 1 });
       this.allItemlist = result;
+    },
+    waterSupplyAndDrainageDetailsLoadingAction(value) {
+      this.waterSupplyAndDrainageDetailsLoading = value;
     },
   },
 });

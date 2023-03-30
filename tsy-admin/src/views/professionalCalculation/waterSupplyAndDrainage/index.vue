@@ -1,5 +1,7 @@
 <template lang="pug">
 div
+  //- a-button(v-if="true" @click="testApi") API测试
+  Loading(:loading="loading" absolute="true" tip="正在加载车站信息")
   XList(
     :useXListOptions="useXListOptions"
     @getContext="cont => context = cont"
@@ -11,7 +13,7 @@ div
     template(#toolbar)
       a-button(type="default"  preIcon="mdi:export" @click="batchExport") 批量导出
     template(#stationType="{ record, text }")
-      span {{ findLabelByValue(STATION_TYPE_OPTIONS, text) }}
+      span {{ record.stationTypeValue }}
       a-button.ml-1(type="default" size="small"  @click="onOpenDrawer(LAYERS.CHANGE_STATION_TYPE, record)") 变更
     template(#travelerUseList="{model, field}")
       FormTable(
@@ -41,21 +43,21 @@ div
           :initList='model[field]'
           showIndex
           )
-    template(#serviceUseWaterSchemas="{model, field}")
+    template(#serviceDtoList="{model, field}")
       FormTable(
           :schemas="travelerUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
-    template(#pipelineUseWaterSchemas="{model, field}")
+    template(#pipeNetworkDtoList="{model, field}")
       FormTable(
           :schemas="travelerUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
-    template(#constructionUseWaterSchemas="{model, field}")
+    template(#capitalConstructionDtoList="{model, field}")
       FormTable(
           :schemas="travelerUseTableSchemas" 
           ref="formTable"
@@ -67,27 +69,32 @@ div
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, unref } from 'vue';
+  import { defineComponent, ref, unref, computed } from 'vue';
   import { XList, DrawerFormMode } from '/@/components-business/XList/v-2.0';
   import { useXListOptions, LAYERS } from './config.data';
   // import { addPage, batchPage } from './api/http';
   import { message } from 'ant-design-vue';
-  import { editPage, editStation } from './api/http';
+  import { editPage, getStationInfoList, updateStationType } from './api/http';
   import { BasicColumn } from '/@/components/Table/src/types/table';
   import FormTable from '/@/comps/FormTable2.vue';
   import { findLabelByValue } from '/@/utils/util';
-  import { relativeColumns, travelerUseTableSchemas } from './dataConfig/stationType1.data';
+  import { travelerUseTableSchemas } from './dataConfig/stationType1.data';
   import { STATION_TYPE_OPTIONS } from './dataConfig/constant';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
-
+  import { getTestAPI } from '/@/api/demo/system';
+  import { Loading } from '/@/components/Loading';
   export default defineComponent({
     components: {
       XList,
       FormTable,
+      Loading,
     },
     setup() {
       let store = waterSourceStore();
-      store.getAllItemList();
+      // store.getAllItemList();
+      const loading = computed(() => {
+        return store.waterSupplyAndDrainageDetailsLoadingGetter;
+      });
       //这个是在异步请求之前执行的
       // TODO:store.$patch({ allItemlist: [{}] });`
       let context = ref({ layers: {}, table: {} });
@@ -105,13 +112,13 @@ div
         try {
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
             debugger;
-            await exec(editStation, record);
+            await exec(updateStationType, record);
             // TODO: 发送接口数据；里面会自动刷新列表
-            // await exec(addPage, record);
-            //if (layerName === LAYERS.PASSING_STATION)
+            let params = { projectId: record.projectID, pageIndex: 1, pageSize: 50, totalCount: 0 };
+            await exec(getStationInfoList, params);
           } else {
             console.log(record);
-            record.station = 'WUHAN';
+            record.stationName = 'WUHAN';
             record.traveler_recent_total = '800';
             context.value.layers[3].setDrawerProps(record);
             console.log(context, '---------------------');
@@ -133,6 +140,9 @@ div
         }
       }
 
+      function testApi() {
+        getTestAPI({ useid: 1 });
+      }
       return {
         STATION_TYPE_OPTIONS,
         findLabelByValue,
@@ -142,10 +152,11 @@ div
         onOpenDrawer,
         LAYERS,
         onConfirm,
-        relativeColumns,
         dataSource,
         selectedRows,
         batchExport,
+        testApi,
+        loading,
       };
     },
   });

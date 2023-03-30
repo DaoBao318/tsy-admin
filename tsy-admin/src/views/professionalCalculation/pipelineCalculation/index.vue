@@ -1,6 +1,5 @@
 <template>
   <div>
-    <a-button v-if="false" @click="testApi">API测试</a-button>
     <a-tabs v-model:activeKey="activeKey" :style="{ marginBottom: '1px' }">
       <a-tab-pane key="1" tab="管道重力计算">
         <BasicTable @register="registerTable">
@@ -53,7 +52,7 @@
   import { defineComponent, ref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getGravityPage, getPressurePage, getTestAPI } from '/@/api/demo/system';
+  import { getGravityPage, getPressurePage } from '/@/api/demo/system';
 
   import { useDrawer } from '/@/components/Drawer';
   import GravityDrawer from './component/GravityDrawer.vue';
@@ -157,9 +156,6 @@
       function batchExportPressure() {}
 
       let activeKey = ref('1');
-      function testApi() {
-        getTestAPI({ useid: 1 });
-      }
       return {
         registerTable,
         registerDrawer,
@@ -175,7 +171,6 @@
         handleSuccessPressure,
         batchExportPressure,
         activeKey,
-        testApi,
       };
     },
   });

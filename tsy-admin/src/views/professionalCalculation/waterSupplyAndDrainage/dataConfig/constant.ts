@@ -1,10 +1,11 @@
 export const STATION_TYPE_OPTIONS = [
-  { value: '1', label: '普通-会让站' },
-  { value: '2', label: '普通-中间站' },
-  { value: '3', label: '普通-越行站' },
-  { value: '4', label: 'xxx' },
-  { value: '5', label: '高铁-中间站' },
-  { value: '6', label: '高铁-越行站' },
+  { value: '01', label: '普铁-区段站' },
+  { value: '02', label: '普铁-中间站' },
+  { value: '03', label: '普铁-会让站、越行站' },
+  { value: '04', label: '普铁-牵引变电所、线路所、警务区' },
+  { value: '05', label: '高铁-中间站' },
+  { value: '06', label: '高铁-动车段' },
+  { value: '07', label: '高铁-大型车站' },
 ];
 
 export const PROJECT_OPTIONS = [

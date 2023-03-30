@@ -16,6 +16,8 @@ import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
 import { useUserStoreWithOut } from '/@/store/modules/user';
+import { message } from 'ant-design-vue';
+import { waterSourceStore } from '/@/store/modules/waterInfo';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -159,6 +161,9 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
+    debugger;
+    const store = waterSourceStore();
+    store.waterSupplyAndDrainageDetailsLoadingAction(false);
     const { t } = useI18n();
     const errorLogStore = useErrorLogStoreWithOut();
     errorLogStore.addAjaxErrorInfo(error);
@@ -193,7 +198,8 @@ const transform: AxiosTransform = {
   },
 };
 export const dealData = function (res) {
-  if (res.data.data) {
+  debugger;
+  if (res.data.hasOwnProperty('data') && res.data.hasOwnProperty('msg')) {
     const raw = res.data;
     res.data = {
       code: 0,
@@ -201,6 +207,9 @@ export const dealData = function (res) {
       result: res.data.data,
       type: raw.success ? 'success' : '',
     };
+    if (raw.msg && !raw.success) {
+      message.warn(raw.msg, 3);
+    }
   }
 };
 
