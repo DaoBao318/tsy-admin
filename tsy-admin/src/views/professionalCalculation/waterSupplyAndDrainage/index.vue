@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+div.geipaishui
   //- a-button(v-if="true" @click="testApi") API测试
   Loading(:loading="loading" absolute="true" tip="正在加载车站信息")
   XList(
@@ -162,7 +162,9 @@ div
   });
 </script>
 
-<style lang="stylus" scoped>
-  .warn-font
-    color red
+<style lang="less" scoped>
+  .warn-font {
+    margin-bottom: 60px;
+    color: red;
+  }
 </style>

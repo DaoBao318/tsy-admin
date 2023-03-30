@@ -1,5 +1,5 @@
 // eg: 会让站配置数据
-import { STATION_TYPE_OPTIONS } from './constant';
+import { STATION_TYPE_OPTIONS, STATION_WIDTH } from './constant';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { message } from 'ant-design-vue';
 import { subtotalOfWaterConsumption } from '../utilsWaterSupplyAndDrainage';
@@ -42,7 +42,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     label: '用水项目',
     field: 'waterProject',
     component: 'Input',
-    colProps: { span: 3 },
+    colProps: { span: 10 },
     componentProps: {
       disabled: true,
     },
@@ -59,8 +59,8 @@ export const travelerUseTableSchemas: FormSchema[] = [
   {
     label: '数量(近期)',
     field: 'recentQuantity',
-    component: 'InputNumber',
-    colProps: { span: 3 },
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
     componentProps: {
       disabled: true,
     },
@@ -68,8 +68,8 @@ export const travelerUseTableSchemas: FormSchema[] = [
   {
     label: '数量(远期)',
     field: 'forwardQuantity',
-    component: 'InputNumber',
-    colProps: { span: 3 },
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
     componentProps: {
       disabled: true,
     },
@@ -77,9 +77,9 @@ export const travelerUseTableSchemas: FormSchema[] = [
   {
     label: '单位用水量(m3)',
     field: 'unitWater',
-    component: 'InputNumber',
+    component: 'InputNumberExpand',
     required: true,
-    colProps: { span: 3 },
+    colProps: { span: 2 },
 
     componentProps: ({ schema, formModel, formActionType }) => {
       return {
@@ -102,8 +102,8 @@ export const travelerUseTableSchemas: FormSchema[] = [
   {
     label: '日用水量(近期m3)',
     field: 'recentConsumption',
-    component: 'InputNumber',
-    colProps: { span: 3 },
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
     componentProps: {
       disabled: true,
     },
@@ -111,8 +111,8 @@ export const travelerUseTableSchemas: FormSchema[] = [
   {
     label: '日用水量(远期m3)',
     field: 'forwardConsumption',
-    component: 'InputNumber',
-    colProps: { span: 4 },
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
     componentProps: {
       disabled: true,
     },
@@ -120,8 +120,8 @@ export const travelerUseTableSchemas: FormSchema[] = [
   {
     label: '单位用水量推荐值',
     field: 'recommendedUnitWater',
-    component: 'Input',
-    colProps: { span: 3 },
+    component: 'InputColor',
+    colProps: { span: 2 },
     componentProps: {
       disabled: true,
     },
@@ -146,10 +146,11 @@ const travelerUseWaterSchemas: FormSchema[] = [
   },
   {
     label: '旅客近期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTransportationDtoList_recent',
     component: 'InputNumber',
     helpMessage: '旅客近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       debugger;
       allFormList[formModel.stationID] = formModel;
@@ -164,10 +165,11 @@ const travelerUseWaterSchemas: FormSchema[] = [
   },
   {
     label: '旅客远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTransportationDtoList_forward',
     component: 'InputNumber',
     helpMessage: '旅客远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
         placeholder: '自定义placeholder',
@@ -189,10 +191,11 @@ const productUseWaterSchemas: FormSchema[] = [
   },
   {
     label: '生产近期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'produceDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生产近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
         placeholder: '自定义placeholder',
@@ -203,10 +206,11 @@ const productUseWaterSchemas: FormSchema[] = [
   },
   {
     label: '生产远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'produceDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生产远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -229,10 +233,11 @@ const lifeUseWaterSchemas: FormSchema[] = [
   },
   {
     label: '生活近期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'lifeDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生活近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
         placeholder: '自定义placeholder',
@@ -243,10 +248,11 @@ const lifeUseWaterSchemas: FormSchema[] = [
   },
   {
     label: '生活远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'lifeDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生活远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -268,10 +274,11 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
   },
   {
     label: '绿化近期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeGreenSprinklingDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生活近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
         placeholder: '自定义placeholder',
@@ -282,10 +289,11 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
   },
   {
     label: '绿化远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeGreenSprinklingDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生活远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -308,10 +316,11 @@ const serviceDtoList: FormSchema[] = [
   },
   {
     label: '服务用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'serviceDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生产近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       console.log(schema);
       return {
@@ -323,10 +332,11 @@ const serviceDtoList: FormSchema[] = [
   },
   {
     label: '服务远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'serviceDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生产远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -348,10 +358,11 @@ const pipeNetworkDtoList: FormSchema[] = [
   },
   {
     label: '管网漏失用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'pipeNetworkDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生产近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       console.log(schema);
       return {
@@ -363,10 +374,11 @@ const pipeNetworkDtoList: FormSchema[] = [
   },
   {
     label: '管网漏失远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'pipeNetworkDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生产远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -388,10 +400,11 @@ const capitalConstructionDtoList: FormSchema[] = [
   },
   {
     label: '基建未预见用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'capitalConstructionDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生产近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       console.log(schema);
       return {
@@ -403,10 +416,11 @@ const capitalConstructionDtoList: FormSchema[] = [
   },
   {
     label: '基建未预见远期用水小计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'capitalConstructionDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生产远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -419,10 +433,11 @@ const capitalConstructionDtoList: FormSchema[] = [
 const makeMaxWaterDtoList: FormSchema[] = [
   {
     label: ' 近期昼夜最大用水量总计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxWaterDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生产近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       console.log(schema);
       return {
@@ -433,10 +448,11 @@ const makeMaxWaterDtoList: FormSchema[] = [
   },
   {
     label: '远期昼夜最大用水量总计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxWaterDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生产远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',
@@ -448,11 +464,12 @@ const makeMaxWaterDtoList: FormSchema[] = [
 // 昼夜最大排水水量
 const drainMaxWaterDtoList: FormSchema[] = [
   {
-    label: ' 近期昼夜最大用水量总计',
+    label: ' 近期昼夜最大排水量总计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'drainMaxWaterDtoList_recent',
     component: 'InputNumber',
     helpMessage: '生产近期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       console.log(schema);
       return {
@@ -462,11 +479,12 @@ const drainMaxWaterDtoList: FormSchema[] = [
     },
   },
   {
-    label: '远期昼夜最大用水量总计',
+    label: '远期昼夜最大排水量总计',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'drainMaxWaterDtoList_forward',
     component: 'InputNumber',
     helpMessage: '生产远期用水小计',
-    colProps: { span: 8 },
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
         placeholder: '自定义placeholder',

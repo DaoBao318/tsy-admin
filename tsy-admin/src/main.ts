@@ -23,6 +23,7 @@ import 'ant-design-vue/dist/antd.css';
 if (import.meta.env.DEV) {
   import('ant-design-vue/dist/antd.less');
 }
+import './common.css';
 
 async function bootstrap() {
   const app = createApp(App);

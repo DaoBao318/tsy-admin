@@ -12,3 +12,8 @@ export const PROJECT_OPTIONS = [
   { value: '1', label: '北京-武汉段项目【普通类型】' },
   { value: '2', label: '北京-西安段项目【高铁类型】' },
 ];
+
+export const STATION_WIDTH = {
+  COUNT_LABEL: 200,
+  COUNT_WIDTH: 8,
+};

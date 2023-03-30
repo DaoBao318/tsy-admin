@@ -30,6 +30,7 @@ import { BasicUpload } from '/@/components/Upload';
 import { StrengthMeter } from '/@/components/StrengthMeter';
 import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
+import InputColor from './components/InputColor.vue';
 import InputNumberExpand from './components/InputNumberExpand.vue';
 
 const componentMap = new Map<ComponentType, Component>();
@@ -57,6 +58,7 @@ componentMap.set('Cascader', Cascader);
 componentMap.set('Slider', Slider);
 componentMap.set('Rate', Rate);
 componentMap.set('InputNumberExpand', InputNumberExpand);
+componentMap.set('InputColor', InputColor);
 
 componentMap.set('DatePicker', DatePicker);
 componentMap.set('MonthPicker', DatePicker.MonthPicker);

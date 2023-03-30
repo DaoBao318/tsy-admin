@@ -1,10 +1,7 @@
 import { MockMethod } from 'vite-plugin-mock';
 import { resultSuccess } from '../_util';
 
-const itemInfo = [
-  { value: '1', label: '北京-武汉段项目【普通类型】' },
-  { value: '2', label: '北京-西安段项目【高铁类型】' },
-];
+const itemInfo = [{ value: '1', label: '常泰项目-普铁' }];
 export const pageInfo = {
   list: [
     {
@@ -987,31 +984,31 @@ export default [
       return resultSuccess(beijingRecord);
     },
   },
-  //查询项目详情
-  {
-    url: '/professional-subsystem/api/Project/GetProjectList',
-    timeout: 1000,
-    method: 'post',
-    response: () => {
-      return resultSuccess(itemInfo);
-    },
-  },
-  // 查询项目信息
-  {
-    url: '/professional-subsystem/api/Project/GetStationInfoList',
-    timeout: 1000,
-    method: 'post',
-    response: () => {
-      return resultSuccess(pageInfo);
-    },
-  },
-  //查询项目详情
-  {
-    url: '/professional-subsystem/api/ZYJSWaterCompute/GetWaterProjectInfo',
-    timeout: 0,
-    method: 'post',
-    response: () => {
-      return resultSuccess(beijingRecord);
-    },
-  },
+  // //查询项目详情
+  // {
+  //   url: '/professional-subsystem/api/Project/GetProjectList',
+  //   timeout: 1000,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(itemInfo);
+  //   },
+  // },
+  // // 查询项目信息
+  // {
+  //   url: '/professional-subsystem/api/Project/GetStationInfoList',
+  //   timeout: 1000,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(pageInfo);
+  //   },
+  // },
+  // //查询项目详情
+  // {
+  //   url: '/professional-subsystem/api/ZYJSWaterCompute/GetWaterProjectInfo',
+  //   timeout: 0,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(beijingRecord);
+  //   },
+  // },
 ] as MockMethod[];
