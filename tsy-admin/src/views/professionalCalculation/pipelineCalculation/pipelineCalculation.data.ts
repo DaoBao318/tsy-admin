@@ -119,7 +119,6 @@ export const drawerFormGravity: FormSchema[] = [
         placeholder: '请选择材料',
         onChange: (e: any) => {
           // console.log(e)
-          debugger;
           const { updateSchema } = formActionType;
           countNominalDiameter(e, updateSchema, formModel);
         },
@@ -140,7 +139,6 @@ export const drawerFormGravity: FormSchema[] = [
         disabled: false,
         onChange: async (e: any) => {
           const target = e;
-          debugger;
           const { updateSchema, setProps } = formActionType;
           pipeMaterialSwitchingGravity(updateSchema, target);
         },
@@ -391,7 +389,6 @@ export const drawerFormPressure: FormSchema[] = [
         placeholder: '请选择计算公式',
         onChange: (e: any) => {
           // console.log(e)
-          debugger;
           const { updateSchema } = formActionType;
           let label = '海曾-威廉系数';
           let labelRecommend = '海曾-威廉推荐值';
@@ -438,7 +435,6 @@ export const drawerFormPressure: FormSchema[] = [
         placeholder: '请选择材料',
         onChange: (e: any) => {
           // console.log(e) calculateWilliamCoefficient
-          debugger;
           const { updateSchema } = formActionType;
           countNominalDiameter(e, updateSchema, formModel);
           calculateWilliamCoefficient(e, formModel);
@@ -474,7 +470,6 @@ export const drawerFormPressure: FormSchema[] = [
         disabled: false,
         onChange: async (e: any) => {
           const target = e;
-          debugger;
           const { updateSchema } = formActionType;
           pipeMaterialSwitchingPressure(updateSchema, target, formModel);
         },
@@ -520,7 +515,6 @@ export const drawerFormPressure: FormSchema[] = [
       return {
         options: unitOption,
         onChange(e) {
-          debugger;
           let label = '流量(m³/h)';
           if (e === 'rise') {
             label = '流量(l/s)';

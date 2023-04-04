@@ -161,7 +161,6 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
-    debugger;
     const store = waterSourceStore();
     store.waterSupplyAndDrainageDetailsLoadingAction(false);
     const { t } = useI18n();
@@ -198,13 +197,13 @@ const transform: AxiosTransform = {
   },
 };
 export const dealData = function (res) {
-  debugger;
-  if (res.data.hasOwnProperty('data') && res.data.hasOwnProperty('msg')) {
+  //请求前非标数据转化，如果不是vben框架的非标数据，需要转化为code，message，result,type数据类型。
+  if (!(res.data.hasOwnProperty('result') && res.data.hasOwnProperty('message'))) {
     const raw = res.data;
     res.data = {
       code: 0,
       message: raw.msg ? raw.msg : 'ok',
-      result: res.data.data,
+      result: res.data.data || res.data,
       type: raw.success ? 'success' : '',
     };
     if (raw.msg && !raw.success) {

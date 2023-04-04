@@ -50,7 +50,6 @@
 
       async function handleSubmit() {
         try {
-          debugger;
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
           // TODO custom api

@@ -14,6 +14,7 @@ export const PROJECT_OPTIONS = [
 ];
 
 export const STATION_WIDTH = {
-  COUNT_LABEL: 200,
+  COUNT_LABEL: 250,
   COUNT_WIDTH: 8,
+  COUNT_UNIFY_WIDTH: 140,
 };

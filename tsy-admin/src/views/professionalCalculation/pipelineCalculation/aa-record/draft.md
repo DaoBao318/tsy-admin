@@ -44,7 +44,6 @@ formModel.nominalDiameter = undefined;
         onChange: (value) => {
             //设置里面的值
             formModel.pipeMaterial = ''; 
-          debugger;
           console.log('计算公式----schema',schema);
           console.log('计算公式----formModel',formModel);
 
@@ -95,10 +94,8 @@ formModel.nominalDiameter = undefined;
   xx: FormSchema[] 数组对象
   xx: FormSchema 对象形式
     beforeFetch: (param) => {
-    debugger;
   },
   afterFetch: (param) => {
-    debugger;
   },
 
   //添加一个，删除一个，更新一个
@@ -128,7 +125,6 @@ formModel.nominalDiameter = undefined;
       {
         required: true,
         validator: async (rule, value) => {
-          debugger;
           if (!value) {
             return Promise.reject('值不能为空');
           }

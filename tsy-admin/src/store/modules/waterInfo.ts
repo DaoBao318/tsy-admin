@@ -12,6 +12,8 @@ export const waterSourceStore = defineStore({
   state: () => ({
     allItemlist: [{}],
     waterSupplyAndDrainageDetailsLoading: false,
+    waterSupplyAndDrainageProjectType: '',
+    originalStationTemplate: {},
   }),
   getters: {
     allRewardSelectOptions: (state) => {
@@ -23,6 +25,12 @@ export const waterSourceStore = defineStore({
     },
     waterSupplyAndDrainageDetailsLoadingGetter: (state) => {
       return state.waterSupplyAndDrainageDetailsLoading;
+    },
+    waterSupplyAndDrainageProjectTypeGetter: (state) => {
+      return state.waterSupplyAndDrainageProjectType;
+    },
+    originalStationTemplateGetter: (state) => {
+      return state.originalStationTemplate;
     },
   },
   actions: {
@@ -36,6 +44,12 @@ export const waterSourceStore = defineStore({
     },
     waterSupplyAndDrainageDetailsLoadingAction(value) {
       this.waterSupplyAndDrainageDetailsLoading = value;
+    },
+    waterSupplyAndDrainageProjectTypeAction(value) {
+      this.waterSupplyAndDrainageProjectType = value;
+    },
+    originalStationTemplateAction(value) {
+      this.originalStationTemplate = value;
     },
   },
 });

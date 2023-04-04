@@ -1,10 +1,10 @@
 // import { createAxios } from '/@/utils/http/axios';
-import { array } from 'vue-types';
 import { processingStationDetails } from '../utilsWaterSupplyAndDrainage';
-import { keepTwoDecimalFull } from '/@/utils/calculation/count';
 import { defHttp } from '/@/utils/http/axios';
+import { waterSourceStore } from '/@/store/modules/waterInfo';
+import { transBlob } from '../../pipelineCalculation/utils';
 // import { ContentTypeEnum } from '/@/enums/httpEnum';
-
+const store = waterSourceStore();
 enum Api {
   getListApi = '/api/test/get_city_list', // 列表
 
@@ -12,13 +12,14 @@ enum Api {
   getDetailApi1 = '/api/detail/get_station_list1',
   addPage = '/api/yuque/add_page',
   updatePage = '/api/yuque/update_page',
-  editPage = '/api/page/edit_page',
   batchPage = 'api/yuque/batch_page',
   updateStationType = '/api/Project/UpdateStationType', //变更车站
   getProjectInformation = '/api/Project/GetProjectList',
   getStationInfoList = '/api/Project/GetStationInfoList', // 列表
   getStationTypeList = '/api/Project/GetStationTypeList',
   getWaterProjectInfo = '/api/ZYJSWaterCompute/GetWaterProjectInfo', //详情信息
+  saveComputeData = '/api/ZYJSWaterCompute/SaveComputeData', //保存车站详情信息
+  exportExcel = '/api/ZYJSWaterCompute/ExportExcel', //导出车站信息
 }
 
 // other api url
@@ -49,13 +50,9 @@ export function addPage(params) {
 export function updatePage(id: number) {
   return defHttp.get({ url: Api.updatePage, params: { id } });
 }
-// 车站信息保存
-export function editPage(params) {
-  return defHttp.post({ url: Api.editPage, params });
-}
+
 // 车站修改
 export function updateStationType(params) {
-  params.projectId = params.projectID;
   return defHttp.post({ url: Api.updateStationType, params });
 }
 // 获取项目信息
@@ -73,6 +70,7 @@ export const getStationInfoList = (params) => {
 };
 // 获取车站类型
 export const getStationTypeList = (params) => {
+  params.projectType = store.waterSupplyAndDrainageProjectTypeGetter;
   return new Promise((resolve) => {
     defHttp.post({ url: Api.getStationTypeList, params }).then((res) => {
       resolve(res);
@@ -84,7 +82,27 @@ export const getStationTypeList = (params) => {
 export const getRecordInfo = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.getWaterProjectInfo, params }).then((res) => {
+      res.computeID = params.computeID || 0;
       resolve(processingStationDetails(res));
     });
   });
 };
+// 车站信息保存
+export function saveComputeData(data) {
+  // const dealParams = JSON.stringify(params);
+  // debugger;
+  // console.log(dealParams);
+  return defHttp.post({ url: Api.saveComputeData, data });
+}
+// 车站信息导出
+export function exportExcel(params) {
+  // batchExport(params);
+  const exportNameObj = params.exportNameObj;
+  delete params.exportNameObj;
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.exportExcel, params, responseType: 'blob' }).then((res) => {
+      transBlob(res, exportNameObj);
+      resolve(res);
+    });
+  });
+}

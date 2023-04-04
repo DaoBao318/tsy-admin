@@ -111,8 +111,9 @@ div
         }
         actions[idx]?.onClick?.(DrawerFormMode.VIEW);
       }
-      function handelSelectChange({ rows }) {
-        emit('selectRow', rows);
+      function handelSelectChange({ keys }) {
+        debugger;
+        emit('selectRow', keys);
       }
 
       return {

@@ -73,6 +73,8 @@ value可以为任何
 遮罩层信息 changeOkLoading }] = useModalInner(async (outData) => {
 
 
-  projectId 等后台更新了，要改成projectID
+  projectID 等后台更新了，要改成projectID
 
   vben文档地址 D:\devCode\gitup\vue-vben-admin-doc
+
+  设置文件路径： D:\tsy-admin-git\tsy-admin\src\components-business\XList\v-2.0\utils.ts

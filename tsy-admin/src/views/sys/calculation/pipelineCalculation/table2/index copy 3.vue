@@ -678,7 +678,6 @@
       componentProps: ({ formModel }) => {
         return {
           onChange: () => {
-            debugger;
             console.log(formModel, 'ppppppppppppp');
           },
         };

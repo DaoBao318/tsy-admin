@@ -3,6 +3,7 @@ import {
   getProjectInformation,
   getRecordInfo,
   getStationTypeList,
+  exportExcel,
 } from './api/http';
 import { DrawerFormMode } from '/@/components-business/XList/v-2.0';
 import {
@@ -17,6 +18,7 @@ import {
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
 import { waterSourceStore } from '/@/store/modules/waterInfo';
+import { STATION_WIDTH } from './dataConfig/constant';
 
 export const LAYERS = {
   CHANGE_STATION_TYPE: '0', // 变更车站的modal弹窗
@@ -29,11 +31,10 @@ export const LAYERS = {
   HIGH_SPEED_LARGE_STATIONS: '07', // 高铁-大型车站
 };
 const store = waterSourceStore();
-let projectType = 'OrdinaryRailway';
 // 表单搜索框配置
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'projectId',
+    field: 'projectID',
     label: '切换项目:',
     component: 'ApiSelect',
     colProps: { span: 8 },
@@ -52,9 +53,9 @@ export const searchFormSchema: FormSchema[] = [
       immediate: true,
       onChange: (e, v) => {
         if (!!v) {
-          projectType = v.projectType;
+          store.waterSupplyAndDrainageProjectTypeAction(v.projectType);
         } else {
-          projectType = '';
+          store.waterSupplyAndDrainageProjectTypeAction('');
         }
         console.log('ApiSelect====>:', e, v);
       },
@@ -102,17 +103,16 @@ function createActionsColumns(record, context) {
     // const data = await getRecordInfo(record.id);
     const layerName = getStationType();
     store.waterSupplyAndDrainageDetailsLoadingAction(true);
+
     const data = await getRecordInfo({
-      computeId: record.computeID,
-      projectId: record.projectID,
+      computeID: record.computeID,
+      projectID: record.projectID,
       stationID: record.stationID,
       stationType: record.stationType,
     });
     store.waterSupplyAndDrainageDetailsLoadingAction(false);
-    debugger;
     context.layers[layerName].open(true, data, {
       mode: DrawerFormMode.EDIT,
-      // title: 'wbb123',
     });
   }
 
@@ -120,12 +120,33 @@ function createActionsColumns(record, context) {
     // 判断车站类型，打开不同的layer；假使是会让站
     const layerName = getStationType();
     // 单独根据接口请求具体数据，或者是直接在record中读取
-    const data = await getRecordInfo(record.id);
+    store.waterSupplyAndDrainageDetailsLoadingAction(true);
+    const data = await getRecordInfo({
+      computeID: record.computeID, //计算id有值
+      projectID: record.projectID,
+      stationID: record.stationID,
+      stationType: record.stationType,
+    });
+    store.waterSupplyAndDrainageDetailsLoadingAction(false);
     context.layers[layerName].open(true, data, {
       mode: DrawerFormMode.VIEW,
     });
+    //可以使用pinia 全局状态数据 TODO
   }
   function handlerExport() {
+    const arr = [];
+    const {
+      computeID,
+      projectID,
+      stationID,
+      stationType,
+      projectName,
+      stationName,
+      stationTypeValue,
+    } = record;
+    arr.push({ computeID, projectID, stationID, stationType });
+    const exportNameObj = { projectName, stationName, stationTypeValue };
+    exportExcel({ waterProjectWDtolist: arr, exportNameObj });
     console.log('导出当前');
   }
   if (!record.computeID) {
@@ -144,7 +165,7 @@ function createActionsColumns(record, context) {
         onClick: handlerEdit,
       },
       {
-        icon: 'bx:comment-detail',
+        icon: 'mdi:export',
         label: '详情',
         onClick: viewDetail,
         color: 'success',
@@ -164,7 +185,7 @@ function beforeFetch(params) {
   params.pageIndex = params['split.page'];
   params.pageSize = params['split.size'];
   params.totalCount = 0;
-  params.projectId = Number(params.projectId);
+  params.projectID = Number(params.projectID);
   delete params['split.page'];
   delete params['split.size'];
   delete params['time'];
@@ -217,7 +238,7 @@ export const useXListOptions = {
             componentProps: {
               api: getStationTypeList,
               params: {
-                projectType,
+                projectType: '22',
               },
               // resultField: 'list2',
               // // use name as label
@@ -265,7 +286,7 @@ export const useXListOptions = {
         title: '普铁-区段站',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: ORDINARY_RAILWAY_SECTION_STATION,
       },
     },
@@ -277,7 +298,7 @@ export const useXListOptions = {
         title: '普铁-中间站',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF,
       },
     },
@@ -289,7 +310,7 @@ export const useXListOptions = {
         title: '普铁-会让站、越行站',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION,
       },
     },
@@ -301,7 +322,7 @@ export const useXListOptions = {
         title: '普铁-牵引变电所、线路所、警务区',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG,
       },
     },
@@ -313,7 +334,7 @@ export const useXListOptions = {
         title: '高铁-中间站',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION,
       },
     },
@@ -325,7 +346,7 @@ export const useXListOptions = {
         title: '高铁-动车段',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: HIGH_SPEED_TRAIN_DEPOT,
       },
     },
@@ -337,7 +358,7 @@ export const useXListOptions = {
         title: '高铁-大型车站',
       },
       useFormOptions: {
-        labelWidth: 140,
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
         schemas: HIGH_SPEED_LARGE_STATIONS,
       },
     },

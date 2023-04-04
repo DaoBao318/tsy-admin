@@ -18,6 +18,7 @@ import {
   keepTwoDecimalFull,
 } from '/@/utils/calculation/count';
 import { defHttp } from '/@/utils/http/axios';
+import moment from 'moment';
 export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
   if (target === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
     updateSchema([
@@ -483,17 +484,13 @@ export const batchExportUrl = (url) => {
   // window.open()
 };
 
-const downloadMedicationOrderGroupStatisticsList = async (data): Promise<string> => {
-  const url = `/XMedicationOrder/statistic/outHospital/complex/downloadMedicationOrderGroupStatisticsList`;
-  // eslint-disable-next-line no-return-await
+const downloadMedicationOrderGroupStatisticsList = async (url, data): Promise<string> => {
   return await defHttp.post({ url, data, responseType: 'blob' });
 };
 
 // 当后端直接返回文件流而不是返回的阿里云在线链接地址时下载excel文件
-export const batchExport = async (params) => {
-  const excelDownloadInfo = (await downloadMedicationOrderGroupStatisticsList({
-    ...params,
-  })) as any;
+export const batchExport = async (url, data) => {
+  const excelDownloadInfo = (await downloadMedicationOrderGroupStatisticsList(url, data)) as any;
   console.log(decodeURI(excelDownloadInfo.contentDisposition.split('Filename=')[1]));
   // 如果后端返回的result是进过Blob处理的，直接 window.URL.createObjectURL()
   // 如果没有,就需要先实例化一个Blob对象,再window.URL.createObjectURL()
@@ -516,6 +513,33 @@ export const batchExport = async (params) => {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(URL.createObjectURL(excelDownloadInfo));
+};
+export const transBlob = (excelDownloadInfo, exportNameObj) => {
+  // 如果后端返回的result是进过Blob处理的，直接 window.URL.createObjectURL()
+  // 如果没有,就需要先实例化一个Blob对象,再window.URL.createObjectURL()
+  // excelDownloadInfo = new Blob([JSON.stringify(excelDownloadInfo.data) as any], {
+  //   type: 'application/vnd.ms-excel', // 指定类型
+  // });
+  const blob = new Blob([excelDownloadInfo], { type: excelDownloadInfo.type });
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(
+      excelDownloadInfo,
+      `${exportNameObj.projectName}-昼夜最大用水量排水计算-${moment().format(
+        'YYYYMMDDHHmmss',
+      )}.xlsx`,
+    );
+  } else {
+    const downloadElement = document.createElement('a');
+    const href = window.URL.createObjectURL(blob); //创建下载的链接
+    downloadElement.href = href;
+    downloadElement.download = `${
+      exportNameObj.projectName
+    }-昼夜最大用水量排水计算-${moment().format('YYYYMMDDHHmmss')}.xlsx`; //下载后文件名
+    document.body.appendChild(downloadElement);
+    downloadElement.click(); //点击下载
+    document.body.removeChild(downloadElement); //下载完成移除元素
+    window.URL.revokeObjectURL(href); //释放blob对象
+  }
 };
 
 //将全局变量导出，对应的方法也导出，提取出来进行计算，再将结果导入。

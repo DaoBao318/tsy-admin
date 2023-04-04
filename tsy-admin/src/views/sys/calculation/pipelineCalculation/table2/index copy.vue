@@ -131,7 +131,6 @@
           required: true,
           // @ts-ignore
           validator: async (rule, value) => {
-            debugger;
             if (!value) {
               /* eslint-disable-next-line */
               return Promise.reject('值不能为空');

@@ -8,7 +8,6 @@ div.geipaishui
     @confirm="onConfirm"
     rowKey="id"
     :checkedIsDis = "{type: 'checkbox'}"
-    @selectRow = "selectedRows"
     )
     template(#toolbar)
       a-button(type="default"  preIcon="mdi:export" @click="batchExport") 批量导出
@@ -64,8 +63,29 @@ div.geipaishui
           :initList='model[field]'
           showIndex
           )
+    template(#producedrainMaxWaterDtoList="{model, field}")
+      FormTable(
+          :schemas="travelerUseTableSchemas" 
+          ref="formTable"
+          :initList='model[field]'
+          showIndex
+          )
+    template(#lifedrainMaxWaterDtoList="{model, field}")
+      FormTable(
+          :schemas="travelerUseTableSchemas" 
+          ref="formTable"
+          :initList='model[field]'
+          showIndex
+          )
+    template(#passengerTrainsFecalSewageDtoList="{model, field}")
+      FormTable(
+          :schemas="travelerUseTableSchemas" 
+          ref="formTable"
+          :initList='model[field]'
+          showIndex
+          )      
     template(#EditTip)
-      .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
+      .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！ 
 </template>
 
 <script lang="ts">
@@ -74,7 +94,7 @@ div.geipaishui
   import { useXListOptions, LAYERS } from './config.data';
   // import { addPage, batchPage } from './api/http';
   import { message } from 'ant-design-vue';
-  import { editPage, getStationInfoList, updateStationType } from './api/http';
+  import { saveComputeData, getStationInfoList, updateStationType } from './api/http';
   import { BasicColumn } from '/@/components/Table/src/types/table';
   import FormTable from '/@/comps/FormTable2.vue';
   import { findLabelByValue } from '/@/utils/util';
@@ -83,6 +103,8 @@ div.geipaishui
   import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { getTestAPI } from '/@/api/demo/system';
   import { Loading } from '/@/components/Loading';
+  import { dealSaveData } from './utilsWaterSupplyAndDrainage';
+  import { exportExcel } from './api/http';
   export default defineComponent({
     components: {
       XList,
@@ -108,35 +130,57 @@ div.geipaishui
       }
 
       async function onConfirm({ exec, record, layerName }) {
-        debugger;
         try {
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
-            debugger;
             await exec(updateStationType, record);
             // TODO: 发送接口数据；里面会自动刷新列表
-            let params = { projectId: record.projectID, pageIndex: 1, pageSize: 50, totalCount: 0 };
-            await exec(getStationInfoList, params);
+            setTimeout(() => {
+              context.value.table.reload();
+            }, 1000);
           } else {
             console.log(record);
-            record.stationName = 'WUHAN';
-            record.traveler_recent_total = '800';
-            context.value.layers[3].setDrawerProps(record);
-            console.log(context, '---------------------');
-            await exec(editPage, record);
+            let params = dealSaveData(record);
+            await exec(saveComputeData, params);
+            setTimeout(() => {
+              context.value.table.reload();
+            }, 1000);
           }
         } catch (err) {
           message.error(JSON.stringify(err));
         }
       }
-      let selectedRow = [];
-      function selectedRows(rows) {
-        selectedRow = rows;
-      }
       function batchExport() {
-        if (selectedRow.length === 0) {
+        let rows = context.value.table.getDataSource();
+        let keys = context.value.table.getSelectRowKeys();
+        let checkedRows = rows.filter((item, index) => {
+          return keys.includes(index);
+        });
+        let selectedRows = rows.filter((item, index) => {
+          return keys.includes(index) && item.computeID;
+        });
+        let rawOperation = checkedRows
+          .filter((item) => !item.computeID)
+          .map((item) => item.stationName);
+        let waterProjectWDtolist = selectedRows.map((item) => {
+          return {
+            computeID: item.computeID,
+            projectID: item.projectID,
+            stationID: item.stationID,
+            stationType: item.stationType,
+          };
+        });
+        if (keys.length === 0) {
           message.warn('请选择一条数据', 3);
         } else {
           debugger;
+          if (rawOperation.length > 0) {
+            message.warn(rawOperation.join('、') + '；请新增之后再导出', 3);
+          }
+          if (selectedRows.length > 0) {
+            const { projectName, stationName, stationTypeValue } = selectedRows[0];
+            const exportNameObj = { projectName, stationName, stationTypeValue };
+            exportExcel({ waterProjectWDtolist, exportNameObj });
+          }
         }
       }
 
@@ -153,7 +197,6 @@ div.geipaishui
         LAYERS,
         onConfirm,
         dataSource,
-        selectedRows,
         batchExport,
         testApi,
         loading,
