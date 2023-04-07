@@ -44,6 +44,8 @@ export const searchFormSchema: FormSchema[] = [
       params: {
         id: 1,
       },
+      showSearch: true,
+      optionFilterProp: 'label',
       // resultField: 'list2',
       // // use name as label
       // labelField: 'name',
@@ -52,6 +54,7 @@ export const searchFormSchema: FormSchema[] = [
       // not request untill to select
       immediate: true,
       onChange: (e, v) => {
+        debugger;
         if (!!v) {
           store.waterSupplyAndDrainageProjectTypeAction(v.projectType);
         } else {
@@ -165,16 +168,14 @@ function createActionsColumns(record, context) {
         onClick: handlerEdit,
       },
       {
-        icon: 'mdi:export',
+        icon: 'bx:message-detail',
         label: '详情',
         onClick: viewDetail,
-        color: 'success',
       },
       {
         icon: 'mdi:export',
         label: '导出',
         onClick: handlerExport,
-        color: 'error',
       },
     ];
   }
@@ -200,7 +201,11 @@ export const useXListOptions = {
     immediate: false,
     createActions: (record, context) => createActionsColumns(record, context),
     beforeFetch,
-    pagination: { pageSize: 10 },
+    canResize: true,
+    inset: false,
+    // resizeHeightOffset: -10,
+    // scroll: { x: 6000, y: 200 },
+    pagination: { pageSize: 10, showQuickJumper: true },
     showIndexColumn: true,
     // schemas: searchFormSchema,
     formConfig: {
@@ -210,6 +215,7 @@ export const useXListOptions = {
       alwaysShowLines: 10,
       showActionButtonGroup: true,
       layout: 'horizontal',
+      autoSubmitOnEnter: true,
     },
   },
   layers: [

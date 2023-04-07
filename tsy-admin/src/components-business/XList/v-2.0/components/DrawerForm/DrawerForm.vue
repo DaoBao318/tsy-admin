@@ -2,7 +2,8 @@
 BasicDrawer(
   v-bind="drawerProps"
   @register='registerDrawer'
-  @ok="toSubmit"
+  @ok="toSubmit('confirm')"
+  @export = "toSubmit('export')"
 )
   BasicForm(@register='registerForm')
     template(#[item]='data', v-for='item in Object.keys($slots)')
@@ -45,7 +46,7 @@ BasicDrawer(
       layerName: String,
       context: Object,
     },
-    emits: ['confirm', 'register'],
+    emits: ['confirm', 'register', 'export'],
     setup(props, { emit }) {
       const { useFormOptions } = unref(props);
       const confirmLoading = ref<boolean>(false);
@@ -79,7 +80,8 @@ BasicDrawer(
           }
 
           Object.assign(drawerProps.value, other, {
-            showFooter: !isDetailMode,
+            // showFooter: !isDetailMode,
+            showOkBtn: !isDetailMode,
             maskClosable: isDetailMode,
             mode,
             title: other.title ? other.title : `${DRAWER_TITLE[mode] || ''}${props.title}`,
@@ -90,7 +92,8 @@ BasicDrawer(
         }
       });
 
-      async function toSubmit() {
+      async function toSubmit(type) {
+        debugger;
         let record = null;
         try {
           record = await validate(); // 校验必填项目
@@ -124,6 +127,7 @@ BasicDrawer(
               }
             }
           },
+          type,
         });
       }
 

@@ -1,12 +1,12 @@
 <template lang="pug">
 div.geipaishui
   //- a-button(v-if="true" @click="testApi") API测试
-  Loading(:loading="loading" absolute="true" tip="正在加载车站信息")
+  Loading(:loading="loading" :absolute="true" tip="正在加载车站信息")
   XList(
     :useXListOptions="useXListOptions"
     @getContext="cont => context = cont"
     @confirm="onConfirm"
-    rowKey="id"
+    rowKey="stationID"
     :checkedIsDis = "{type: 'checkbox'}"
     )
     template(#toolbar)
@@ -44,48 +44,48 @@ div.geipaishui
           )
     template(#serviceDtoList="{model, field}")
       FormTable(
-          :schemas="travelerUseTableSchemas" 
+          :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
     template(#pipeNetworkDtoList="{model, field}")
       FormTable(
-          :schemas="travelerUseTableSchemas" 
+          :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
     template(#capitalConstructionDtoList="{model, field}")
       FormTable(
-          :schemas="travelerUseTableSchemas" 
+          :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
     template(#producedrainMaxWaterDtoList="{model, field}")
       FormTable(
-          :schemas="travelerUseTableSchemas" 
+          :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
     template(#lifedrainMaxWaterDtoList="{model, field}")
       FormTable(
-          :schemas="travelerUseTableSchemas" 
+          :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
     template(#passengerTrainsFecalSewageDtoList="{model, field}")
       FormTable(
-          :schemas="travelerUseTableSchemas" 
+          :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )      
     template(#EditTip)
-      .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！ 
+      .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
 </template>
 
 <script lang="ts">
@@ -94,17 +94,18 @@ div.geipaishui
   import { useXListOptions, LAYERS } from './config.data';
   // import { addPage, batchPage } from './api/http';
   import { message } from 'ant-design-vue';
-  import { saveComputeData, getStationInfoList, updateStationType } from './api/http';
+  import { saveComputeData, updateStationType } from './api/http';
   import { BasicColumn } from '/@/components/Table/src/types/table';
   import FormTable from '/@/comps/FormTable2.vue';
   import { findLabelByValue } from '/@/utils/util';
-  import { travelerUseTableSchemas } from './dataConfig/stationType1.data';
+  import { travelerUseTableSchemas, servicesUseTableSchemas } from './dataConfig/stationType1.data';
   import { STATION_TYPE_OPTIONS } from './dataConfig/constant';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { getTestAPI } from '/@/api/demo/system';
   import { Loading } from '/@/components/Loading';
   import { dealSaveData } from './utilsWaterSupplyAndDrainage';
   import { exportExcel } from './api/http';
+
   export default defineComponent({
     components: {
       XList,
@@ -129,7 +130,8 @@ div.geipaishui
         }
       }
 
-      async function onConfirm({ exec, record, layerName }) {
+      async function onConfirm({ exec, record, layerName, type }) {
+        debugger;
         try {
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
             await exec(updateStationType, record);
@@ -138,28 +140,35 @@ div.geipaishui
               context.value.table.reload();
             }, 1000);
           } else {
-            console.log(record);
-            let params = dealSaveData(record);
-            await exec(saveComputeData, params);
-            setTimeout(() => {
-              context.value.table.reload();
-            }, 1000);
+            if (type === 'export') {
+              const { projectName, computeID, projectID, stationID, stationType } = record;
+
+              const waterProjectWDtolist = [{ computeID, projectID, stationID, stationType }];
+              const exportNameObj = { projectName };
+              exportExcel({ waterProjectWDtolist, exportNameObj });
+            } else {
+              console.log(record);
+              let params = dealSaveData(record);
+              await exec(saveComputeData, params);
+              setTimeout(() => {
+                context.value.table.reload();
+              }, 1000);
+            }
           }
         } catch (err) {
           message.error(JSON.stringify(err));
         }
       }
       function batchExport() {
-        let rows = context.value.table.getDataSource();
-        let keys = context.value.table.getSelectRowKeys();
-        let checkedRows = rows.filter((item, index) => {
-          return keys.includes(index);
+        let selectRows = context.value.table.getSelectRows();
+
+        let selectedRows = selectRows.filter((item) => {
+          return item.computeID;
         });
-        let selectedRows = rows.filter((item, index) => {
-          return keys.includes(index) && item.computeID;
-        });
-        let rawOperation = checkedRows
-          .filter((item) => !item.computeID)
+        let selectedRowsTips = selectRows
+          .filter((item) => {
+            return !item.computeID;
+          })
           .map((item) => item.stationName);
         let waterProjectWDtolist = selectedRows.map((item) => {
           return {
@@ -169,12 +178,12 @@ div.geipaishui
             stationType: item.stationType,
           };
         });
-        if (keys.length === 0) {
+        if (selectedRows.length === 0) {
           message.warn('请选择一条数据', 3);
         } else {
           debugger;
-          if (rawOperation.length > 0) {
-            message.warn(rawOperation.join('、') + '；请新增之后再导出', 3);
+          if (selectedRowsTips.length > 0) {
+            message.warn(selectedRowsTips.join('、') + '；请新增之后再导出', 3);
           }
           if (selectedRows.length > 0) {
             const { projectName, stationName, stationTypeValue } = selectedRows[0];
@@ -192,6 +201,7 @@ div.geipaishui
         findLabelByValue,
         useXListOptions,
         travelerUseTableSchemas,
+        servicesUseTableSchemas,
         context,
         onOpenDrawer,
         LAYERS,

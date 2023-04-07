@@ -16,7 +16,17 @@
       >
         {{ okText }}
       </a-button>
-      <slot name="appendFooter"></slot>
+      <slot name="appendFooter" v-if="!showOkBtn">
+        <a-button
+          v-bind="cancelButtonProps"
+          :type="okType"
+          @click="handleImport"
+          class="mr-2"
+          v-if="showCancelBtn"
+        >
+          导出
+        </a-button>
+      </slot>
     </template>
 
     <template v-else>
@@ -39,7 +49,7 @@
         default: '60px',
       },
     },
-    emits: ['ok', 'close'],
+    emits: ['ok', 'close', 'export'],
     setup(props, { emit }) {
       const { prefixCls } = useDesign('basic-drawer-footer');
 
@@ -58,7 +68,10 @@
       function handleClose() {
         emit('close');
       }
-      return { handleOk, prefixCls, handleClose, getStyle };
+      function handleImport() {
+        emit('export');
+      }
+      return { handleOk, handleImport, prefixCls, handleClose, getStyle };
     },
   });
 </script>

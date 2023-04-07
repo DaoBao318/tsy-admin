@@ -35,27 +35,21 @@ const basicSchema: FormSchema[] = [
     show: false,
   },
   {
-    field: 'stationName',
-    label: 'stationName:',
-    component: 'InputNumber',
-    colProps: { span: 23 },
-    show: false,
-  },
-  {
-    field: 'stationTypeValue',
-    label: 'stationTypeValue:',
-    component: 'InputNumber',
-    colProps: { span: 23 },
-    show: false,
-  },
-  {
     label: '车站名称:',
     field: 'stationName',
     component: 'Input',
     colProps: { span: 23 },
-    required: true,
     componentProps: {
-      placeholder: '请输入车站名称 eg:北京',
+      disabled: true,
+    },
+  },
+  {
+    label: '车站名称:',
+    field: 'stationTypeName',
+    component: 'Input',
+    colProps: { span: 23 },
+    componentProps: {
+      disabled: true,
     },
   },
   {
@@ -63,7 +57,7 @@ const basicSchema: FormSchema[] = [
     field: 'stationType',
     component: 'Select',
     colProps: { span: 23 },
-    required: true,
+    show: false,
     componentProps: {
       disabled: true,
       placeholder: '请选择车站类型',
@@ -77,7 +71,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     label: '用水项目',
     field: 'waterProject',
     component: 'Input',
-    colProps: { span: 10 },
+    colProps: { span: 8 },
     componentProps: {
       disabled: true,
     },
@@ -114,7 +108,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     field: 'unitWater',
     component: 'InputNumberExpand',
     required: true,
-    colProps: { span: 2 },
+    colProps: { span: 3 },
 
     componentProps: ({ schema, formModel, formActionType }) => {
       return {
@@ -156,7 +150,99 @@ export const travelerUseTableSchemas: FormSchema[] = [
     label: '单位用水量推荐值',
     field: 'recommendedUnitWater',
     component: 'InputColor',
+    colProps: { span: 3 },
+    // show: false,
+    componentProps: {
+      disabled: true,
+    },
+  },
+];
+export const servicesUseTableSchemas: FormSchema[] = [
+  {
+    label: '用水项目',
+    field: 'waterProject',
+    component: 'Input',
+    colProps: { span: 8 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: '单位',
+    field: 'unit',
+    component: 'Input',
     colProps: { span: 2 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: '数量(近期)',
+    field: 'recentQuantity',
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: '数量(远期)',
+    field: 'forwardQuantity',
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: '单位用水百分比',
+    field: 'unitWater',
+    component: 'InputNumberExpand',
+    required: true,
+    colProps: { span: 3 },
+
+    componentProps: ({ schema, formModel, formActionType }) => {
+      return {
+        placeholder: '请选择单位用水量',
+        disabled: false,
+        onChange: (value) => {
+          if (formModel.unitWaterMan === 0 && value !== formModel.unitWaterMin) {
+            message.warn('单位用水量建议与推荐值保持一致', 1);
+          } else {
+            if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
+              message.warn('单位用水量不建议超出用水量的范围', 1);
+            }
+          }
+          const proxyData = { [formModel.stationID]: window.allFormList };
+          subtotalOfWaterConsumption(formModel, proxyData);
+        },
+      };
+    },
+  },
+  {
+    label: '日用水量(近期m3)',
+    field: 'recentConsumption',
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: '日用水量(远期m3)',
+    field: 'forwardConsumption',
+    component: 'InputNumberExpand',
+    colProps: { span: 2 },
+    componentProps: {
+      disabled: true,
+    },
+  },
+  {
+    label: '单位用水量推荐值',
+    field: 'recommendedUnitWater',
+    component: 'InputColor',
+    colProps: { span: 3 },
+    // show: false,
     componentProps: {
       disabled: true,
     },
@@ -184,7 +270,7 @@ const travelerUseWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTransportationDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '旅客近期用水小计',
+    helpMessage: '旅客单位用水量*近期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
@@ -199,7 +285,7 @@ const travelerUseWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTransportationDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '旅客远期用水小计',
+    helpMessage: '旅客单位用水量*远期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
@@ -225,7 +311,7 @@ const productUseWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'produceDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生产近期用水小计',
+    helpMessage: '生产单位用水量*近期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
@@ -240,7 +326,7 @@ const productUseWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'produceDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生产远期用水小计',
+    helpMessage: '生产单位用水量*远期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -267,7 +353,7 @@ const lifeUseWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'lifeDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生活近期用水小计',
+    helpMessage: '生活单位用水量*近期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ formModel }) => {
       setTimeout(() => {
@@ -287,7 +373,7 @@ const lifeUseWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'lifeDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生活远期用水小计',
+    helpMessage: '生活单位用水量*远期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -313,7 +399,7 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeGreenSprinklingDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生活近期用水小计',
+    helpMessage: '绿化单位用水量*近期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema, formModel }) => {
       return {
@@ -328,7 +414,7 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeGreenSprinklingDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生活远期用水小计',
+    helpMessage: '绿化单位用水量*远期数量之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -355,7 +441,7 @@ const serviceDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'serviceDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生产近期用水小计',
+    helpMessage: '近期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -370,7 +456,7 @@ const serviceDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'serviceDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生产远期用水小计',
+    helpMessage: '远期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -396,7 +482,7 @@ const pipeNetworkDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'pipeNetworkDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生产近期用水小计',
+    helpMessage: '近期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -411,7 +497,7 @@ const pipeNetworkDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'pipeNetworkDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生产远期用水小计',
+    helpMessage: '远期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -437,7 +523,7 @@ const capitalConstructionDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'capitalConstructionDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生产近期用水小计',
+    helpMessage: '近期的（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -452,7 +538,7 @@ const capitalConstructionDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'capitalConstructionDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生产远期用水小计',
+    helpMessage: '远期的（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -469,7 +555,8 @@ const makeMaxWaterDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxWaterDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '生产近期用水小计',
+    helpMessage:
+      '远期的（运输用水+生产用水+生活用水+绿化用水+服务行业+管网漏失+基建未预见）小计之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -483,7 +570,8 @@ const makeMaxWaterDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxWaterDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '生产远期用水小计',
+    helpMessage:
+      '远期的（运输用水+生产用水+生活用水+绿化用水+服务行业+管网漏失+基建未预见）小计之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -508,7 +596,7 @@ const producedrainMaxWaterDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'producedrainMaxWaterDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '近期昼夜最大排水量（生产污水）',
+    helpMessage: '近期生产污水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -522,7 +610,7 @@ const producedrainMaxWaterDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'producedrainMaxWaterDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '远期昼夜最大排水量（生产污水）',
+    helpMessage: '近期生产污水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -547,7 +635,7 @@ const lifedrainMaxWaterDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'lifedrainMaxWaterDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '近期昼夜最大排水量（生产污水）',
+    helpMessage: '近期生活污水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -561,7 +649,7 @@ const lifedrainMaxWaterDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'lifedrainMaxWaterDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '远期昼夜最大排水量（生产污水）',
+    helpMessage: '远期生活污水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -586,7 +674,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTrainsFecalSewageDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '近期昼夜最大排水量（运输污水）',
+    helpMessage: '近期运输污水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -600,7 +688,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTrainsFecalSewageDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '远期昼夜最大排水量（运输污水）',
+    helpMessage: '远期运输污水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -617,7 +705,7 @@ const designSewageVolumeDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'designSewageVolumeDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '近期设计污水量',
+    helpMessage: '近期（运输污水小计+生产污水小计+生活污水小计）之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -631,7 +719,7 @@ const designSewageVolumeDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'designSewageVolumeDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '近期设计污水量',
+    helpMessage: '远期（运输污水小计+生产污水小计+生活污水小计）之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {

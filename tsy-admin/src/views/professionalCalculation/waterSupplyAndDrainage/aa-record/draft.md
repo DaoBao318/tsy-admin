@@ -78,3 +78,12 @@ value可以为任何
   vben文档地址 D:\devCode\gitup\vue-vben-admin-doc
 
   设置文件路径： D:\tsy-admin-git\tsy-admin\src\components-business\XList\v-2.0\utils.ts
+  canResize: true, 这个可以控制
+
+
+      //- template(#localSearch="{ model, field }")
+    //-   a-select(            
+    //-     :api="getProjectInformation"
+    //-     showSearch
+    //-     v-model:value="model[field]"
+    //-   )

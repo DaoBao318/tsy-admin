@@ -56,7 +56,9 @@ export function updateStationType(params) {
   return defHttp.post({ url: Api.updateStationType, params });
 }
 // 获取项目信息
-export const getProjectInformation = (params) => {
+export const getProjectInformation = () => {
+  const params = {};
+  params['id'] = 1; //获取用户信息
   return new Promise((resolve) => {
     defHttp.post({ url: Api.getProjectInformation, params }).then((res) => {
       resolve(res);

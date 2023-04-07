@@ -75,6 +75,8 @@ export const servicePipeNetwork = (res, key) => {
     ];
     res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
     res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key][0]['recentConsumption'] = res[key + '_recent'];
+    res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
 };
 //基建未预见
@@ -96,6 +98,8 @@ export const unforeseenInfrastructure = (res, key) => {
     ];
     res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
     res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key][0]['recentConsumption'] = res[key + '_recent'];
+    res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
 };
 //昼夜最大用水量
@@ -131,6 +135,8 @@ export const passengerTrainsFecalSewageDtoList = (res, key) => {
     const forward = processingNumberUndefined(res['passengerTransportationDtoList' + '_forward']);
     res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * recent, 3);
     res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * forward, 3);
+    res[key][0]['recentConsumption'] = res[key + '_recent'];
+    res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
 };
 //生产污水
@@ -140,6 +146,8 @@ export const producedrainMaxWaterDtoList = (res, key) => {
     const forward = processingNumberUndefined(res['produceDtoList' + '_forward']);
     res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * recent, 3);
     res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * forward, 3);
+    res[key][0]['recentConsumption'] = res[key + '_recent'];
+    res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
 };
 //生活污水
@@ -149,6 +157,8 @@ export const lifedrainMaxWaterDtoList = (res, key) => {
     const forward = processingNumberUndefined(res['lifeDtoList' + '_forward']);
     res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * recent, 3);
     res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * forward, 3);
+    res[key][0]['recentConsumption'] = res[key + '_recent'];
+    res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
 };
 //总设计污水
@@ -156,10 +166,12 @@ export const designSewageVolumeDtoList = (res, key) => {
   const recent = [
     processingNumberUndefined(res['producedrainMaxWaterDtoList' + '_recent']),
     processingNumberUndefined(res['lifedrainMaxWaterDtoList' + '_recent']),
+    processingNumberUndefined(res['passengerTrainsFecalSewageDtoList' + '_recent']),
   ];
   const forward = [
     processingNumberUndefined(res['producedrainMaxWaterDtoList' + '_forward']),
     processingNumberUndefined(res['lifedrainMaxWaterDtoList' + '_forward']),
+    processingNumberUndefined(res['passengerTrainsFecalSewageDtoList' + '_forward']),
   ];
   res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 3);
   res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 3);
