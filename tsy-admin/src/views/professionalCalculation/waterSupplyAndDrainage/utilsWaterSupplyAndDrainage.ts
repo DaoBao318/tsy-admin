@@ -56,11 +56,29 @@ function sumArr(arr) {
   }, 0);
 }
 // 服务和管道
-export const servicePipeNetwork = (res, key) => {
-  if (
-    (res['serviceDtoList'] && res['serviceDtoList'].length > 0) ||
-    (res['pipeNetworkDtoList'] && res['pipeNetworkDtoList'].length > 0)
-  ) {
+// 'serviceDtoList', 'pipeNetworkDtoList';
+export const serviceDtoList = (res, key) => {
+  if (res['serviceDtoList'] && res['serviceDtoList'].length > 0) {
+    const recent = [
+      processingNumberUndefined(res['passengerTransportationDtoList' + '_recent']),
+      processingNumberUndefined(res['produceDtoList' + '_recent']),
+      processingNumberUndefined(res['lifeDtoList' + '_recent']),
+      processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_recent']),
+    ];
+    const forward = [
+      processingNumberUndefined(res['passengerTransportationDtoList' + '_forward']),
+      processingNumberUndefined(res['produceDtoList' + '_forward']),
+      processingNumberUndefined(res['lifeDtoList' + '_forward']),
+      processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
+    ];
+    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
+    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key][0]['recentConsumption'] = res[key + '_recent'];
+    res[key][0]['forwardConsumption'] = res[key + '_forward'];
+  }
+};
+export const pipeNetworkDtoList = (res, key) => {
+  if (res['pipeNetworkDtoList'] && res['pipeNetworkDtoList'].length > 0) {
     const recent = [
       processingNumberUndefined(res['passengerTransportationDtoList' + '_recent']),
       processingNumberUndefined(res['produceDtoList' + '_recent']),
@@ -194,8 +212,11 @@ export const processingStationDetails = (res) => {
         ) {
           basicWaterUse(res, key);
         }
-        if (['serviceDtoList', 'pipeNetworkDtoList'].includes(key)) {
-          servicePipeNetwork(res, key);
+        if (['serviceDtoList'].includes(key)) {
+          serviceDtoList(res, key);
+        }
+        if (['pipeNetworkDtoList'].includes(key)) {
+          pipeNetworkDtoList(res, key);
         }
         if (['capitalConstructionDtoList'].includes(key)) {
           unforeseenInfrastructure(res, key);
@@ -263,8 +284,8 @@ export const subtotalOfWaterConsumption = (formModel, allFormList) => {
     ) {
       basicWaterUseLinkage(formModel, allFormList);
     }
-    servicePipeNetwork(res, 'serviceDtoList');
-    servicePipeNetwork(res, 'pipeNetworkDtoList');
+    serviceDtoList(res, 'serviceDtoList');
+    pipeNetworkDtoList(res, 'pipeNetworkDtoList');
     producedrainMaxWaterDtoList(res, 'producedrainMaxWaterDtoList');
     lifedrainMaxWaterDtoList(res, 'lifedrainMaxWaterDtoList');
     passengerTrainsFecalSewageDtoList(res, 'passengerTrainsFecalSewageDtoList');

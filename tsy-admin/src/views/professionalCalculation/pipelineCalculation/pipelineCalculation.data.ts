@@ -201,7 +201,6 @@ export const drawerFormGravity: FormSchema[] = [
   {
     field: 'nominalDiameter',
     label: '公称直径',
-    required: true,
     component: 'Select',
     colProps: { span: 12 },
     componentProps: () => {
@@ -486,7 +485,6 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'nominalDiameter',
     label: '公称直径',
-    required: true,
     component: 'Select',
     colProps: { span: 6 },
     componentProps: () => {

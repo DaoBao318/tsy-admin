@@ -34,7 +34,7 @@ export function calculatePipeDiameter1(q, v, unit = 'cubicMeter') {
     q = q / 3600;
   }
   const num = Math.pow((4 * q) / Math.PI / v, 0.5);
-  return keepTwoDecimalFull(num, 4) * 1000;
+  return keepTwoDecimalFull(num * 1000, 4);
 }
 /**
  * @param d 管径 计算得到
@@ -91,9 +91,9 @@ export function calculateFlow3(d, v, unit = 'cubicMeter') {
   d = d / 1000;
   const rateOfFlowValue = ((Math.PI * Math.pow(d, 2)) / 4) * v;
   if (unit === 'rise') {
-    return keepTwoDecimalFull(rateOfFlowValue, 4) * 1000;
+    return keepTwoDecimalFull(rateOfFlowValue * 1000, 4);
   }
-  return keepTwoDecimalFull(rateOfFlowValue, 4) * 3600;
+  return keepTwoDecimalFull(rateOfFlowValue * 3600, 4);
 }
 /**
  *
@@ -129,7 +129,7 @@ export function calculatePipeDiameter4(q, i, c, unit = 'cubicMeter') {
   }
   const raw = (10.67 * Math.pow(q, 1.852)) / i / Math.pow(c, 1.852);
   const calculatePipeDiameter = Math.pow(raw, 1 / 4.87);
-  return keepTwoDecimalFull(calculatePipeDiameter, 4) * 1000;
+  return keepTwoDecimalFull(calculatePipeDiameter * 1000, 4);
 }
 /**
  *
@@ -159,9 +159,9 @@ export function calculateFlow5(i, c, d, unit = 'cubicMeter') {
   const raw = (i * Math.pow(c, 1.852) * Math.pow(d, 4.87)) / 10.67;
   const calculateFlow = Math.pow(raw, 1 / 1.852);
   if (unit === 'rise') {
-    return keepTwoDecimalFull(calculateFlow, 5) * 1000;
+    return keepTwoDecimalFull(calculateFlow * 1000, 5);
   }
-  return keepTwoDecimalFull(calculateFlow, 5) * 3600;
+  return keepTwoDecimalFull(calculateFlow * 3600, 5);
 }
 /**
  * @param q 流量，m3/s 6
@@ -492,17 +492,21 @@ const steelMeshSkeletonPlasticCompositePipe = [
 
 /**
  * 管道材料
+ * 1,2,3,4,8 与速度有关
+ * 5,6 与速度无关
  */
 export const pipeMaterialOption = [
   { label: '镀锌钢管', value: 'm1', id: 1 },
   { label: '焊接钢管', value: 'm2', id: 2 },
   { label: '无缝钢管', value: 'm3', id: 3 },
   { label: '球墨铸铁管', value: 'm4', id: 4 },
-  { label: 'I级钢筋混凝土管', value: 'm5', id: 5 },
-  { label: 'II级钢筋混凝土管', value: 'm6', id: 6 },
-  { label: '高密度聚乙烯双壁波纹管（HDPE）', value: 'm7', id: 7 },
+  // { label: 'I级钢筋混凝土管', value: 'm5', id: 5 },
+  // { label: 'II级钢筋混凝土管', value: 'm6', id: 6 },
+  // { label: '高密度聚乙烯双壁波纹管（HDPE）', value: 'm7', id: 7 },
+  { label: '聚乙烯PE100管（0.6MPa）', value: 'm5' },
+  { label: '聚乙烯PE100管（1.0MPa）', value: 'm6' },
   { label: '不锈钢无缝钢管', value: 'm8' },
-  { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9', id: 8 },
+  // { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9', id: 8 },暂时不处理
 ];
 // 管道材料和公称直径的关系
 export const nominalDiameterObj = {

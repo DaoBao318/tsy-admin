@@ -84,6 +84,9 @@
           autoSetPlaceHolder: true,
           autoSubmitOnEnter: false,
         },
+        pagination: {
+          showQuickJumper: false,
+        },
         useSearchForm: true,
         showTableSetting: true,
         bordered: true,
@@ -128,6 +131,9 @@
         showTableSetting: true,
         bordered: true,
         showIndexColumn: true,
+        pagination: {
+          showQuickJumper: false,
+        },
         actionColumn: {
           width: 80,
           title: '操作',

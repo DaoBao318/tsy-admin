@@ -32,7 +32,7 @@ const roleListPressure = (() => {
   for (let index = 0; index < 14; index++) {
     result.push({
       id: index + 1,
-      calculationFormula: ['海曾-威廉公式', '柯尔-勃洛克公式', '曼宁公式', '曼宁公式'][index],
+      calculationFormula: ['gs1', '柯尔-勃洛克公式', '曼宁公式', '曼宁公式'][index],
       pipeMaterial: [
         '镀锌钢管',
         '焊接钢管',

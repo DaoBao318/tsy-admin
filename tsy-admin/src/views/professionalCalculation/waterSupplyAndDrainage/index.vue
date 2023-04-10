@@ -129,7 +129,7 @@ div.geipaishui
           pop.open(true, record, { mode: DrawerFormMode.EDIT });
         }
       }
-
+      window.contextLoad = context;
       async function onConfirm({ exec, record, layerName, type }) {
         debugger;
         try {

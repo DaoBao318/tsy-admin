@@ -38,7 +38,6 @@ export const searchFormSchema: FormSchema[] = [
     label: '切换项目:',
     component: 'ApiSelect',
     colProps: { span: 8 },
-    required: true,
     componentProps: {
       api: getProjectInformation,
       params: {
@@ -54,8 +53,11 @@ export const searchFormSchema: FormSchema[] = [
       // not request untill to select
       immediate: true,
       onChange: (e, v) => {
-        debugger;
         if (!!v) {
+          setTimeout(() => {
+            window.contextLoad._value.table.reload();
+          }, 10);
+
           store.waterSupplyAndDrainageProjectTypeAction(v.projectType);
         } else {
           store.waterSupplyAndDrainageProjectTypeAction('');
@@ -71,19 +73,15 @@ export const searchFormSchema: FormSchema[] = [
 
 // column表单列表
 const columns: BasicColumn[] = [
-  // {
-  //   title: 'id',
-  //   dataIndex: 'id',
-  //   width: 60,
-  // },
   {
     title: '车站名称',
     dataIndex: 'stationName',
-    width: 120,
+    width: 220,
   },
   {
     title: '车站类型',
     dataIndex: 'stationType',
+    width: 240,
     slots: { customRender: 'stationType' },
   },
   {
@@ -202,10 +200,11 @@ export const useXListOptions = {
     createActions: (record, context) => createActionsColumns(record, context),
     beforeFetch,
     canResize: true,
+    canColDrag: true,
     inset: false,
     // resizeHeightOffset: -10,
     // scroll: { x: 6000, y: 200 },
-    pagination: { pageSize: 10, showQuickJumper: true },
+    pagination: { pageSize: 10 },
     showIndexColumn: true,
     // schemas: searchFormSchema,
     formConfig: {
