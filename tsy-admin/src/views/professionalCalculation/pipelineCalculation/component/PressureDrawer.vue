@@ -6,7 +6,7 @@
     cancelText="保存"
     okText="计算"
     :title="getTitle"
-    width="70%"
+    width="80%"
     @ok="handleSubmit"
   >
     <BasicForm @register="registerForm" />
@@ -26,7 +26,7 @@
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-        labelWidth: 120,
+        labelWidth: 130,
         baseColProps: { span: 24 },
         schemas: drawerFormPressure,
         showActionButtonGroup: false,

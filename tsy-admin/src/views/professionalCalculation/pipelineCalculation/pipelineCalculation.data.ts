@@ -8,10 +8,8 @@ import {
   calculationFormulaOption,
   calculationContentOption,
   unitOption,
-  nominalDiameterOption,
   flowConditionsOption,
   pipeShapeOption,
-  nominalDiameterObj,
 } from '/@/utils/calculation/count';
 import {
   calculateWilliamCoefficient,
@@ -390,13 +388,15 @@ export const drawerFormPressure: FormSchema[] = [
           // console.log(e)
           const { updateSchema } = formActionType;
           let label = '海曾-威廉系数';
-          let labelRecommend = '海曾-威廉推荐值';
+          let show = true;
           if (e === 'gs1') {
             label = '海曾-威廉系数';
-            labelRecommend = '海曾-威廉推荐值';
+            show = true;
+          } else if (e === 'gs11') {
+            label = '海曾-威廉系数';
+            show = false;
           } else {
             label = '粗糙系数';
-            labelRecommend = '粗糙系数推荐值';
           }
           formModel.coughnessCoefficient = undefined;
           formModel.coughnessCoefficientRecommend = undefined;
@@ -405,22 +405,12 @@ export const drawerFormPressure: FormSchema[] = [
             {
               field: 'coughnessCoefficient',
               label: label,
-            },
-            {
-              field: 'coughnessCoefficientRecommend',
-              label: labelRecommend,
+              show,
             },
           ]);
         },
       };
     },
-  },
-  {
-    field: 'waterTemperature',
-    label: '水温（℃）',
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-    defaultValue: 10,
   },
   {
     field: 'pipeMaterial',
@@ -444,9 +434,34 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'coughnessCoefficient',
     label: '海曾-威廉系数',
-    required: true,
     component: 'InputNumberExpand',
+    show: true,
+    helpMessage: ({ values }) => {
+      const mes = values.coughnessCoefficientRecommend
+        ? values.coughnessCoefficientRecommend
+        : '暂无';
+      const message = '海曾-威廉系数推荐值：' + mes;
+      return message;
+    },
     colProps: { span: 12 },
+    dynamicRules: ({ values }) => {
+      return [
+        {
+          required: true,
+          validator: (_, value) => {
+            debugger;
+            const min = Number(values.coughnessCoefficientRecommend.split('~')[0]);
+            const max = Number(values.coughnessCoefficientRecommend.split('~')[1]);
+            values.coughnessCoefficientRecommend;
+            if (value > max || value < min) {
+              const mes = '海曾-威廉系数范围在' + values.coughnessCoefficientRecommend + '之间';
+              return Promise.reject(mes);
+            }
+            return Promise.resolve();
+          },
+        },
+      ];
+    },
   },
   {
     field: 'coughnessCoefficientRecommend',
@@ -455,6 +470,7 @@ export const drawerFormPressure: FormSchema[] = [
     component: 'Input',
     colProps: { span: 12 },
     dynamicDisabled: true,
+    show: false,
   },
   {
     field: 'calculationContent',
@@ -551,6 +567,7 @@ export const drawerFormPressure: FormSchema[] = [
     label: '管道长度(m)',
     required: true,
     component: 'InputNumberExpand',
+    defaultValue: 1000,
     colProps: { span: 12 },
   },
   {
@@ -559,6 +576,7 @@ export const drawerFormPressure: FormSchema[] = [
     component: 'InputNumberExpand',
     colProps: { span: 12 },
     helpMessage: '局部水头损失范围在0.2-0.3之间',
+    defaultValue: 0.2,
     dynamicRules: ({ values }) => {
       return [
         {

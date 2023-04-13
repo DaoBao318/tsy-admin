@@ -984,31 +984,31 @@ export default [
       return resultSuccess(beijingRecord);
     },
   },
-  // //查询项目详情
-  // {
-  //   url: '/professional-subsystem/api/Project/GetProjectList',
-  //   timeout: 1000,
-  //   method: 'post',
-  //   response: () => {
-  //     return resultSuccess(itemInfo);
-  //   },
-  // },
-  // // 查询项目信息
-  // {
-  //   url: '/professional-subsystem/api/Project/GetStationInfoList',
-  //   timeout: 1000,
-  //   method: 'post',
-  //   response: () => {
-  //     return resultSuccess(pageInfo);
-  //   },
-  // },
-  // //查询项目详情
-  // {
-  //   url: '/professional-subsystem/api/ZYJSWaterCompute/GetWaterProjectInfo',
-  //   timeout: 0,
-  //   method: 'post',
-  //   response: () => {
-  //     return resultSuccess(beijingRecord);
-  //   },
-  // },
+  //查询项目详情
+  {
+    url: '/professional-subsystem/api/Project/GetProjectList',
+    timeout: 1000,
+    method: 'post',
+    response: () => {
+      return resultSuccess(itemInfo);
+    },
+  },
+  // 查询项目信息
+  {
+    url: '/professional-subsystem/api/Project/GetStationInfoList',
+    timeout: 1000,
+    method: 'post',
+    response: () => {
+      return resultSuccess(pageInfo);
+    },
+  },
+  //查询项目详情
+  {
+    url: '/professional-subsystem/api/ZYJSWaterCompute/GetWaterProjectInfo',
+    timeout: 0,
+    method: 'post',
+    response: () => {
+      return resultSuccess(beijingRecord);
+    },
+  },
 ] as MockMethod[];
