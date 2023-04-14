@@ -51,7 +51,7 @@ export function hydraulicGradient1(d, q, c, unit = 'cubicMeter', calculationManu
   let num = (10.67 * Math.pow(q, 1.852)) / Math.pow(c, 1.852) / Math.pow(d, 4.87);
   const { calculationFormula, pipeMaterial, velocityOfFlow } = calculationManualObj;
   if (calculationFormula === 'gs11') {
-    if (['m1', 'm2', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       if (Number(velocityOfFlow) >= 1.2) {
         num = (0.00107 * Math.pow(velocityOfFlow, 2)) / Math.pow(d, 1.3);
       } else {
@@ -97,7 +97,7 @@ export function hydraulicGradient2(d, q, c, unit = 'cubicMeter', calculationManu
   let num = (10.67 * Math.pow(q, 1.852)) / Math.pow(c, 1.852) / Math.pow(d, 4.87);
   const { calculationFormula, pipeMaterial } = calculationManualObj;
   if (calculationFormula === 'gs11') {
-    if (['m1', 'm2', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       if (Number(velocityOfFlow) >= 1.2) {
         num = (0.00107 * Math.pow(velocityOfFlow, 2)) / Math.pow(d, 1.3);
       } else {
@@ -143,7 +143,7 @@ export function hydraulicGradient3(q, c, d, unit = 'cubicMeter', calculationManu
   let num = (10.67 * Math.pow(q, 1.852)) / Math.pow(c, 1.852) / Math.pow(d, 4.87);
   const { calculationFormula, pipeMaterial, velocityOfFlow } = calculationManualObj;
   if (calculationFormula === 'gs11') {
-    if (['m1', 'm2', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       if (Number(velocityOfFlow) >= 1.2) {
         num = (0.00107 * Math.pow(velocityOfFlow, 2)) / Math.pow(d, 1.3);
       } else {
@@ -188,7 +188,7 @@ export function calculatePipeDiameter4(q, i, c, unit = 'cubicMeter', calculation
   const { calculationFormula, pipeMaterial } = calculationManualObj;
   if (calculationFormula === 'gs11') {
     //使用大于1.2的计算公式去计算管径
-    if (['m1', 'm2', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       const d = trialCalculationOfPipeDiameter1(q, i);
       const v = trialSpeed(d, i);
       if (v >= 1.2) {
@@ -232,7 +232,7 @@ export function calculateFlow5(i, c, d, unit = 'cubicMeter', calculationManualOb
   let calculateFlow = Math.pow(raw, 1 / 1.852);
   const { calculationFormula, pipeMaterial } = calculationManualObj;
   if (calculationFormula === 'gs11') {
-    if (['m1', 'm2', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       const v = trialSpeed(d, i);
       //默认用第一个速度计算流量
       if (v >= 1.2) {
@@ -267,7 +267,7 @@ export function calculateFlowRate5(q, d, i, unit = 'cubicMeter', calculationManu
   let calculateFlowRate = (4 * q) / Math.PI / Math.pow(d, 2);
   const { calculationFormula, pipeMaterial } = calculationManualObj;
   if (calculationFormula === 'gs11') {
-    if (['m1', 'm2', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       //默认用第一个速度计算流量
       calculateFlowRate = trialSpeed(d, i);
     } else {
@@ -284,6 +284,7 @@ export const Ch_recommend = {
   gs1: {
     m1: '90 ~ 100',
     m2: '90 ~ 100',
+    m21: '90 ~ 100',
     m3: '90 ~ 100',
     m4: '90 ~ 100',
     m5: '140 ~ 150',
@@ -295,6 +296,7 @@ export const Ch_recommend = {
   gs2: {
     m1: '0.0105 ~ 0.0115',
     m2: '0.0105 ~ 0.0115',
+    m21: '0.0105 ~ 0.0115',
     m3: '0.0105 ~ 0.0115',
     m4: '0.0105 ~ 0.0115',
     m5: '0.012 ~ 0.013',
@@ -306,6 +308,7 @@ export const Ch_recommend = {
   gs3: {
     m1: '0.0105 ~ 0.0115',
     m2: '0.0105 ~ 0.0115',
+    m21: '0.0105 ~ 0.0115',
     m3: '0.0105 ~ 0.0115',
     m4: '0.0105 ~ 0.0115',
     m5: '0.012 ~ 0.013',
@@ -317,6 +320,7 @@ export const Ch_recommend = {
   gs11: {
     m1: '90 ~ 100',
     m2: '90 ~ 100',
+    m21: '90 ~ 100',
     m3: '90 ~ 100',
     m4: '90 ~ 100',
     m5: '140 ~ 150',
@@ -330,6 +334,7 @@ export const Ch = {
   gs1: {
     m1: 90,
     m2: 90,
+    m21: 90,
     m3: 90,
     m4: 90,
     m5: 140,
@@ -341,6 +346,7 @@ export const Ch = {
   gs2: {
     m1: 0.0105,
     m2: 0.0105,
+    m21: 0.0105,
     m3: 0.0105,
     m4: 0.0105,
     m5: 0.012,
@@ -352,6 +358,7 @@ export const Ch = {
   gs3: {
     m1: 0.0105,
     m2: 0.0105,
+    m21: 0.0105,
     m3: 0.0105,
     m4: 0.0105,
     m5: 0.012,
@@ -363,6 +370,7 @@ export const Ch = {
   gs11: {
     m1: 90,
     m2: 90,
+    m21: 90,
     m3: 90,
     m4: 90,
     m5: 140,
@@ -443,6 +451,25 @@ const nominalDiameterOption = [
 ];
 //焊接钢管 ok
 const weldedSteelPipe = [
+  { label: '25', value: 25, shineUponNominalDiameter: 26 },
+  { label: '32', value: 32, shineUponNominalDiameter: 34.75 },
+  { label: '40', value: 40, shineUponNominalDiameter: 40 },
+  { label: '50', value: 50, shineUponNominalDiameter: 52 },
+  { label: '70', value: 70, shineUponNominalDiameter: 67 },
+  { label: '80', value: 80, shineUponNominalDiameter: 79.5 },
+  { label: '100', value: 100, shineUponNominalDiameter: 105 },
+  { label: '125', value: 125, shineUponNominalDiameter: 125 },
+  { label: '150', value: 150, shineUponNominalDiameter: 147 },
+  { label: '200', value: 200, shineUponNominalDiameter: 198 },
+  { label: '250', value: 250, shineUponNominalDiameter: 252 },
+  { label: '300', value: 300, shineUponNominalDiameter: 305 },
+  { label: '350', value: 350, shineUponNominalDiameter: 357 },
+  { label: '400', value: 400, shineUponNominalDiameter: 406 },
+  { label: '500', value: 500, shineUponNominalDiameter: 509 },
+  { label: '600', value: 600, shineUponNominalDiameter: 610 },
+];
+//钢管
+const steelPipe = [
   { label: '25', value: 25, shineUponNominalDiameter: 26 },
   { label: '32', value: 32, shineUponNominalDiameter: 34.75 },
   { label: '40', value: 40, shineUponNominalDiameter: 40 },
@@ -586,6 +613,7 @@ const steelMeshSkeletonPlasticCompositePipe = [
 export const pipeMaterialOption = [
   { label: '镀锌钢管', value: 'm1', id: 1 },
   { label: '焊接钢管', value: 'm2', id: 2 },
+  { label: '钢管', value: 'm21', id: 21 },
   { label: '无缝钢管', value: 'm3', id: 3 },
   { label: '球墨铸铁管', value: 'm4', id: 4 },
   // { label: 'I级钢筋混凝土管', value: 'm5', id: 5 },
@@ -599,6 +627,7 @@ export const pipeMaterialOption = [
 // 管道材料和公称直径的关系
 export const nominalDiameterObj = {
   m1: nominalDiameterOption,
+  m21: steelPipe,
   m2: weldedSteelPipe,
   m3: seamlessSteelTube,
   m4: ductileIronPipe,

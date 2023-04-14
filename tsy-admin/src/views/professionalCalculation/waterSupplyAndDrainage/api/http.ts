@@ -20,6 +20,8 @@ enum Api {
   getWaterProjectInfo = '/api/ZYJSWaterCompute/GetWaterProjectInfo', //详情信息
   saveComputeData = '/api/ZYJSWaterCompute/SaveComputeData', //保存车站详情信息
   exportExcel = '/api/ZYJSWaterCompute/ExportExcel', //导出车站信息
+  enterAndUpdateProjects = '/api/waterSupplyAndDrainageProjectData', //录入和更新的接口
+  enteringStationData = '/api/enteringStationData', //新建的车站信息
 }
 
 // other api url
@@ -108,3 +110,20 @@ export function exportExcel(params) {
     });
   });
 }
+// 整改后
+// 获取录入和更新的项目列表
+export const enterAndUpdateProjects = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.enterAndUpdateProjects, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+// 获取录入和更新的项目列表
+export const enteringStationData = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.enteringStationData, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};

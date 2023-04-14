@@ -1,6 +1,7 @@
 import { keepTwoDecimalFull } from '/@/utils/calculation/count';
 import { cloneDeep } from 'lodash-es';
 import { waterSourceStore } from '/@/store/modules/waterInfo';
+import { useRouter } from 'vue-router';
 const store = waterSourceStore();
 
 function judgmentType(value) {
@@ -331,4 +332,9 @@ export function dealSaveData(record) {
 
 export function getForwardAll(formModel) {
   return formModel;
+}
+
+export function getRouterQuery() {
+  const router = useRouter();
+  return router.currentRoute.value.query;
 }

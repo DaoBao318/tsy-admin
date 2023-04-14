@@ -87,3 +87,39 @@ value可以为任何
     //-     showSearch
     //-     v-model:value="model[field]"
     //-   )
+
+import { useGo } from '/@/hooks/web/usePage';
+import { defineComponent } from 'vue';
+export default defineComponent({
+  setup() {
+    const go = useGo();
+
+    // 执行刷新
+    go();
+    go(PageEnum.Home);
+    return {};
+  },
+});
+如何携带项目id
+
+
+项目 支持模糊查询
+/api/waterSupplyAndDrainageProjectData 
+
+序号 项目名称 waterSupplyAndDrainageProject 项目类型 waterSupplyAndDrainageType  数据来源 waterSupplyAndDrainageDataSource 操作--用水量计算 录入数据 编辑 删除 
+新增项目 
+项目名称 waterSupplyAndDrainageProject
+普铁还是高铁 ordinaryOrHighSpeedRail
+
+
+项目名称 车站查询
+
+接口方法名
+enterAndUpdateProjects
+
+车站名称 车站类型   操作 添加用水项 修改 删除
+接入 录入车站数据 enteringStationData 
+
+跳转携带参数
+
+const query = getRouterQuery(); //获取路由参数

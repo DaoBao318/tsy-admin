@@ -15,10 +15,40 @@ const professionalCalculation: AppRouteModule = {
   children: [
     {
       path: 'waterSupplyAndDrainage',
-      name: 'waterSupplyAndDrainage useWater',
+      name: 'WaterSupplyAndDrainage',
       meta: {
         title: '昼夜最大用水量计算',
         icon: 'ion:water-outline',
+        // ignoreKeepAlive: true,
+        // hideTab: true,
+        // permCode: 'professionalCalculation:waterSupplyAndDrainage',
+      },
+      component: () =>
+        import('/@/views/professionalCalculation/waterSupplyAndDrainage/project/index.vue'),
+    },
+    {
+      path: 'station',
+      name: 'Station',
+      meta: {
+        title: '昼夜最大用水量计算111',
+        icon: 'ion:water-outline',
+        hideTab: true,
+        hideMenu: true,
+        // ignoreKeepAlive: true,
+        // hideTab: true,
+        // permCode: 'professionalCalculation:waterSupplyAndDrainage',
+      },
+      component: () =>
+        import('/@/views/professionalCalculation/waterSupplyAndDrainage/station/index.vue'),
+    },
+    {
+      path: 'waterConsumptionCalculation',
+      name: 'WaterConsumptionCalculation',
+      meta: {
+        title: '昼夜最大用水量计算',
+        icon: 'ion:water-outline',
+        hideTab: true,
+        hideMenu: true,
         // ignoreKeepAlive: true,
         // hideTab: true,
         // permCode: 'professionalCalculation:waterSupplyAndDrainage',

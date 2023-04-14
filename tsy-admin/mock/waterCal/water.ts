@@ -959,6 +959,18 @@ export const beijingRecord = {
     },
   ],
 };
+const waterSupplyAndDrainageProjectData = [
+  {
+    waterSupplyAndDrainageProject: '长泰项目',
+    waterSupplyAndDrainageType: '高铁',
+    waterSupplyAndDrainageDataSource: '系统同步',
+  },
+  {
+    waterSupplyAndDrainageProject: '武汉项目',
+    waterSupplyAndDrainageType: '普通铁路',
+    waterSupplyAndDrainageDataSource: '手动录入',
+  },
+];
 export default [
   {
     url: '/professional-subsystem/api/edit/stationName',
@@ -1009,6 +1021,24 @@ export default [
     method: 'post',
     response: () => {
       return resultSuccess(beijingRecord);
+    },
+  },
+  //首页项目详情,包块查询手动录入和系统同步的
+  {
+    url: '/professional-subsystem/api/waterSupplyAndDrainageProjectData',
+    timeout: 0,
+    method: 'post',
+    response: () => {
+      return resultSuccess(waterSupplyAndDrainageProjectData);
+    },
+  },
+  //新建的车站信息
+  {
+    url: '/professional-subsystem/api/enteringStationData',
+    timeout: 0,
+    method: 'post',
+    response: () => {
+      return resultSuccess(pageInfo);
     },
   },
 ] as MockMethod[];
