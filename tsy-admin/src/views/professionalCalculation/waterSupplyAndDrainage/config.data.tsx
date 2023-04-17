@@ -35,7 +35,7 @@ const store = waterSourceStore();
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'projectID',
-    label: '切换项目:',
+    label: '项目名称:',
     component: 'ApiSelect',
     colProps: { span: 8 },
     componentProps: {
@@ -196,7 +196,7 @@ export const useXListOptions = {
     title: '昼夜最大用水量排水量列表',
     api: getStationInfoList,
     columns,
-    immediate: false,
+    immediate: true,
     createActions: (record, context) => createActionsColumns(record, context),
     beforeFetch,
     canResize: true,

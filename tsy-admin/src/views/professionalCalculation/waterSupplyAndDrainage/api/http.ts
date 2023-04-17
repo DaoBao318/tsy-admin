@@ -22,6 +22,7 @@ enum Api {
   exportExcel = '/api/ZYJSWaterCompute/ExportExcel', //导出车站信息
   enterAndUpdateProjects = '/api/waterSupplyAndDrainageProjectData', //录入和更新的接口
   enteringStationData = '/api/enteringStationData', //新建的车站信息
+  waterUseProjectItem = '/api/waterUseProjectItem', //获取用水条目信息
 }
 
 // other api url
@@ -123,6 +124,15 @@ export const enterAndUpdateProjects = (params) => {
 export const enteringStationData = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.enteringStationData, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+
+// 获取用水条目信息 api/waterUseProjectItem
+export const waterUseProjectItem = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.waterUseProjectItem, params }).then((res) => {
       resolve(res);
     });
   });

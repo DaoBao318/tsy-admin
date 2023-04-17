@@ -123,3 +123,25 @@ enterAndUpdateProjects
 跳转携带参数
 
 const query = getRouterQuery(); //获取路由参数
+
+车站用水项目
+
+用水项目  waterUseProject 用水明细 waterProject  单位 unit  数量(近期) recentQuantity 数量(远期) forwardQuantity
+
+穿梭框显示 搜索功能 show-search
+
+初始化渲染，将所有的值渲染在左边；
+
+可以将值在左边渲染和右边渲染；
+
+可以获取到右边渲染的值；
+
+搜索功能，支持对name进行模糊查询
+
+将数据进行一下整理
+将公共方法整理出来
+
+请求之前处理参数
+function beforeFetch(params) {
+
+项目id来自于

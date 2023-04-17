@@ -20,6 +20,35 @@ export const columns: BasicColumn[] = [
     dataIndex: 'stationTypeValue',
   },
 ];
+//用水项目  waterUseProject 用水明细 waterProject  单位 unit 数量(近期) recentQuantity 数量(远期) forwardQuantity
+export const waterItemColumns: BasicColumn[] = [
+  {
+    title: '用水类别',
+    dataIndex: 'waterUseProject',
+  },
+  {
+    title: '用水项目',
+    dataIndex: 'waterProject',
+  },
+  {
+    title: '单位',
+    dataIndex: 'unit',
+  },
+  {
+    title: '数量(近期)',
+    dataIndex: 'recentQuantity',
+    helpMessage: '支持Tab键跳的下一项',
+    edit: true,
+    editable: true,
+  },
+  {
+    title: '数量(远期)',
+    dataIndex: 'forwardQuantity',
+    helpMessage: '支持Tab键跳的下一项',
+    edit: true,
+    editable: true,
+  },
+];
 
 export const searchFormSchema: FormSchema[] = [
   {
@@ -36,6 +65,7 @@ export const formSchema: FormSchema[] = [
     label: '车站名称',
     required: true,
     component: 'Input',
+    colProps: { span: 12 },
   },
   {
     field: 'waterSupplyAndDrainageType',
@@ -50,6 +80,7 @@ export const formSchema: FormSchema[] = [
         { value: '04', label: '普铁-牵引变电所、线路所、警务区' },
       ],
     },
+    colProps: { span: 12 },
   },
   {
     field: 'projectID',
