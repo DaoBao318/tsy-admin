@@ -4,30 +4,33 @@ import { FormSchema } from '/@/components/Table';
 export const columns: BasicColumn[] = [
   {
     title: '项目名称',
-    dataIndex: 'waterSupplyAndDrainageProject',
+    dataIndex: 'projectName',
     width: 200,
   },
   {
     title: '项目类型',
-    dataIndex: 'waterSupplyAndDrainageType',
+    dataIndex: 'projectTypeName',
     width: 180,
-    customRender: ({ record }) => {
-      if (record.waterSupplyAndDrainageType) {
-        return record.waterSupplyAndDrainageType + '类型';
-      }
-    },
+    // customRender: ({ record }) => {
+    //   if (record.projectType === 'HighSpeed') {
+    //     return record.projectTypeName;
+    //   } else {
+    //     return record.projectTypeName;
+    //   }
+    // },
   },
   {
     title: '数据来源',
-    dataIndex: 'waterSupplyAndDrainageDataSource',
+    dataIndex: 'isSynchroType',
     width: 50,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'waterSupplyAndDrainageProject',
+    field: 'likeQuery',
     label: '项目名称',
+    helpMessage: '请先搜索，搜索不到会出现新增按钮',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -35,33 +38,27 @@ export const searchFormSchema: FormSchema[] = [
 
 export const formSchema: FormSchema[] = [
   {
-    field: 'waterSupplyAndDrainageProject',
+    field: 'projectName',
     label: '项目名称',
     required: true,
     component: 'Input',
   },
   {
-    field: 'waterSupplyAndDrainageType',
+    field: 'projectType',
     label: '项目类型',
     component: 'RadioButtonGroup',
-    defaultValue: '0',
+    defaultValue: 'HighSpeed',
     componentProps: {
       options: [
-        { label: '高铁', value: '0' },
-        { label: '普铁', value: '1' },
+        { label: '高铁', value: 'HighSpeed' },
+        { label: '普铁', value: 'OrdinaryRailway' },
       ],
     },
   },
   {
     field: 'projectID',
-    label: '项目名称',
+    label: '项目ID',
     show: false,
-    component: 'Input',
-  },
-  {
-    field: 'editorID',
-    label: '项目名称',
-    show: false,
-    component: 'Input',
+    component: 'InputNumber',
   },
 ];

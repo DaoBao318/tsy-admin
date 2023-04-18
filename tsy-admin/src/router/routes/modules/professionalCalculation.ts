@@ -30,7 +30,7 @@ const professionalCalculation: AppRouteModule = {
       path: 'station',
       name: 'Station',
       meta: {
-        title: '昼夜最大用水量计算111',
+        title: '新增车站',
         icon: 'ion:water-outline',
         hideTab: true,
         hideMenu: true,

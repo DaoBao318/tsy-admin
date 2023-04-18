@@ -1,10 +1,4 @@
-import {
-  getStationInfoList,
-  getProjectInformation,
-  getRecordInfo,
-  getStationTypeList,
-  exportExcel,
-} from './api/http';
+import { getStationInfoList, getRecordInfo, getStationTypeList, exportExcel } from './api/http';
 import { DrawerFormMode } from '/@/components-business/XList/v-2.0';
 import {
   HIGH_SPEED_LARGE_STATIONS,
@@ -32,42 +26,20 @@ export const LAYERS = {
 };
 const store = waterSourceStore();
 // 表单搜索框配置
+
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'projectID',
     label: '项目名称:',
-    component: 'ApiSelect',
+    component: 'Input',
+    dynamicDisabled: true,
     colProps: { span: 8 },
-    componentProps: {
-      api: getProjectInformation,
-      params: {
-        id: 1,
-      },
-      showSearch: true,
-      optionFilterProp: 'label',
-      // resultField: 'list2',
-      // // use name as label
-      // labelField: 'name',
-      // // use id as value
-      // valueField: 'id',
-      // not request untill to select
-      immediate: true,
-      onChange: (e, v) => {
-        if (!!v) {
-          setTimeout(() => {
-            window.contextLoad._value.table.reload();
-          }, 10);
-
-          store.waterSupplyAndDrainageProjectTypeAction(v.projectType);
-        } else {
-          store.waterSupplyAndDrainageProjectTypeAction('');
-        }
-        console.log('ApiSelect====>:', e, v);
-      },
-      onOptionsChange: (options) => {
-        console.log('get options', options.length, options);
-      },
-    },
+  },
+  {
+    field: 'stationName',
+    label: '车站名称:',
+    component: 'Input',
+    colProps: { span: 8 },
   },
 ];
 
@@ -76,7 +48,6 @@ const columns: BasicColumn[] = [
   {
     title: '车站名称',
     dataIndex: 'stationName',
-    width: 220,
   },
   {
     title: '车站类型',
@@ -181,16 +152,16 @@ function createActionsColumns(record, context) {
 
 //===================== -useXListOptions- ========================
 function beforeFetch(params) {
+  params.projectID = Number(window.queryParams.projectID);
   params.pageIndex = params['split.page'];
   params.pageSize = params['split.size'];
   params.totalCount = 0;
-  params.projectID = Number(params.projectID);
   delete params['split.page'];
   delete params['split.size'];
   delete params['time'];
   return params;
 }
-
+// const titleName = window.queryParams.projectID + ;
 export const useXListOptions = {
   useTableOptions: {
     title: '昼夜最大用水量排水量列表',

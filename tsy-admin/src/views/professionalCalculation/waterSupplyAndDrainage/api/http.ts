@@ -20,9 +20,14 @@ enum Api {
   getWaterProjectInfo = '/api/ZYJSWaterCompute/GetWaterProjectInfo', //详情信息
   saveComputeData = '/api/ZYJSWaterCompute/SaveComputeData', //保存车站详情信息
   exportExcel = '/api/ZYJSWaterCompute/ExportExcel', //导出车站信息
-  enterAndUpdateProjects = '/api/waterSupplyAndDrainageProjectData', //录入和更新的接口
+  enterAndUpdateProjects = '/api/Project/GetProjectList', //录入和更新的接口
+  updateProject = '/api/Project/UpdateProject', //新增项目信息
+  deleteProject = '/api/Project/DeleteProject', //新增项目信息
+
   enteringStationData = '/api/enteringStationData', //新建的车站信息
   waterUseProjectItem = '/api/waterUseProjectItem', //获取用水条目信息
+  updateStation = '/api/Project/UpdateStation',
+  deleteStation = '/api/Project/DeleteStation',
 }
 
 // other api url
@@ -71,6 +76,7 @@ export const getProjectInformation = () => {
 // 获取列表
 export const getStationInfoList = (params) => {
   console.log(params);
+  debugger;
   return defHttp.post({ url: Api.getStationInfoList, params });
 };
 // 获取车站类型
@@ -116,6 +122,28 @@ export function exportExcel(params) {
 export const enterAndUpdateProjects = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.enterAndUpdateProjects, params }).then((res) => {
+      debugger;
+      if (res.list.length == 0) {
+        store.dispalyProjectAction(true);
+      } else {
+        store.dispalyProjectAction(false);
+      }
+      resolve(res);
+    });
+  });
+};
+//新增项目
+export const updateProject = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.updateProject, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+//删除项目
+export const deleteProject = (params) => {
+  return new Promise((resolve) => {
+    defHttp.get({ url: Api.deleteProject, params }).then((res) => {
       resolve(res);
     });
   });
@@ -133,6 +161,22 @@ export const enteringStationData = (params) => {
 export const waterUseProjectItem = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.waterUseProjectItem, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+//新增车站项目
+export const updateStation = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.updateStation, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+//删除车站项目
+export const deleteStation = (params) => {
+  return new Promise((resolve) => {
+    defHttp.get({ url: Api.deleteStation, params }).then((res) => {
       resolve(res);
     });
   });

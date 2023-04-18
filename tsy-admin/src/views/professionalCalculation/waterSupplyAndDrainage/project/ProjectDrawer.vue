@@ -15,6 +15,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './project.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { updateProject } from '../api/http';
 
   export default defineComponent({
     name: 'RoleDrawer',
@@ -48,10 +49,10 @@
         try {
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
-          // TODO custom api
-          console.log(values);
-          closeDrawer();
-          emit('success');
+          updateProject(values).then(() => {
+            closeDrawer();
+            emit('success');
+          });
         } finally {
           setDrawerProps({ confirmLoading: false });
         }

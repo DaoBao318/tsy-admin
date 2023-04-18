@@ -1,3 +1,4 @@
+import { getStationTypeList } from '../api/http';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 
@@ -10,8 +11,8 @@ export const columns: BasicColumn[] = [
     title: '车站名称',
     dataIndex: 'stationName',
     // customRender: ({ record }) => {
-    //   if (record.waterSupplyAndDrainageType) {
-    //     return record.waterSupplyAndDrainageType + '类型';
+    //   if (record.projectTypeName) {
+    //     return record.projectTypeName + '类型';
     //   }
     // },
   },
@@ -52,6 +53,13 @@ export const waterItemColumns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
+    field: 'projectID',
+    label: '项目名称',
+    component: 'Input',
+    colProps: { span: 8 },
+    dynamicDisabled: true,
+  },
+  {
     field: 'stationName',
     label: '车站名称',
     component: 'Input',
@@ -59,39 +67,83 @@ export const searchFormSchema: FormSchema[] = [
   },
 ];
 
+//进行展示的
 export const formSchema: FormSchema[] = [
   {
     field: 'stationName',
     label: '车站名称',
-    required: true,
     component: 'Input',
     colProps: { span: 12 },
+    dynamicDisabled: true,
   },
   {
-    field: 'waterSupplyAndDrainageType',
+    field: 'stationTypeValue',
     label: '车站类型',
-    component: 'Select',
-    defaultValue: '01',
-    componentProps: {
-      options: [
-        { value: '01', label: '普铁-区段站' },
-        { value: '02', label: '普铁-中间站' },
-        { value: '03', label: '普铁-会让站、越行站' },
-        { value: '04', label: '普铁-牵引变电所、线路所、警务区' },
-      ],
-    },
+    component: 'Input',
     colProps: { span: 12 },
+    dynamicDisabled: true,
+  },
+];
+//进行新增和编辑操作的
+export const formSchemaStation: FormSchema[] = [
+  {
+    field: 'stationName',
+    label: '车站名称',
+    component: 'Input',
+    required: true,
+    colProps: { span: 24 },
+  },
+  {
+    field: 'stationType',
+    label: '车站类型：',
+    component: 'ApiSelect',
+    required: true,
+    colProps: { span: 24 },
+    // componentProps: {
+    //   min: 0,
+    //   style: { width: '100%' },
+    //   options: STATION_TYPE_OPTIONS,
+    // },
+    componentProps: {
+      api: getStationTypeList,
+      params: {
+        projectType: 'OrdinaryRailway',
+      },
+      // resultField: 'list2',
+      // // use name as label
+      // labelField: 'name',
+      // // use id as value
+      // valueField: 'id',
+      // not request untill to select
+      immediate: true,
+      onChange: (e, v) => {
+        console.log('ApiSelect====>:', e, v);
+      },
+      // atfer request callback
+      onOptionsChange: (options) => {
+        console.log('get options', options.length, options);
+      },
+    },
   },
   {
     field: 'projectID',
-    label: '项目名称',
+    label: '项目id',
     show: false,
     component: 'Input',
+    colProps: { span: 24 },
   },
   {
-    field: 'editorID',
+    field: 'projectName',
     label: '项目名称',
+    component: 'Input',
+    show: false,
+    colProps: { span: 24 },
+  },
+  {
+    field: 'stationID',
+    label: '车站ID',
     show: false,
     component: 'Input',
+    colProps: { span: 24 },
   },
 ];

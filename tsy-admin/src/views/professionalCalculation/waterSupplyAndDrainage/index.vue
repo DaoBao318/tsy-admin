@@ -10,7 +10,8 @@ div.geipaishui
     :checkedIsDis = "{type: 'checkbox'}"
     )
     template(#toolbar)
-      a-button(type="default"  preIcon="mdi:export" @click="batchExport") 批量导出
+      a-button(type="default" preIcon="ant-design:rollback-outlined"  @click="backPage") 返回
+      a-button(type="default" preIcon="mdi:export"  @click="batchExport") 批量导出
     template(#stationType="{ record, text }")
       span {{ record.stationTypeValue }}
       a-button.ml-1(type="default" size="small"  @click="onOpenDrawer(LAYERS.CHANGE_STATION_TYPE, record)") 变更
@@ -89,7 +90,7 @@ div.geipaishui
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, unref, computed } from 'vue';
+  import { defineComponent, ref, unref, computed, onMounted } from 'vue';
   import { XList, DrawerFormMode } from '/@/components-business/XList/v-2.0';
   import { useXListOptions, LAYERS } from './config.data';
   // import { addPage, batchPage } from './api/http';
@@ -103,8 +104,9 @@ div.geipaishui
   import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { getTestAPI } from '/@/api/demo/system';
   import { Loading } from '/@/components/Loading';
-  import { dealSaveData } from './utilsWaterSupplyAndDrainage';
+  import { dealSaveData, getRouterQuery } from './utilsWaterSupplyAndDrainage';
   import { exportExcel } from './api/http';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     components: {
@@ -114,6 +116,9 @@ div.geipaishui
     },
     setup() {
       let store = waterSourceStore();
+      window.queryParams = getRouterQuery();
+      const router = useRouter();
+      store.waterSupplyAndDrainageProjectTypeAction(window.queryParams.projectType);
       // store.getAllItemList();
       const loading = computed(() => {
         return store.waterSupplyAndDrainageDetailsLoadingGetter;
@@ -130,8 +135,11 @@ div.geipaishui
         }
       }
       window.contextLoad = context;
+      onMounted(() => {
+        context.value.table.getForm().setFieldsValue({ projectID: window.queryParams.projectName });
+      });
+
       async function onConfirm({ exec, record, layerName, type }) {
-        debugger;
         try {
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
             await exec(updateStationType, record);
@@ -181,7 +189,6 @@ div.geipaishui
         if (selectedRows.length === 0) {
           message.warn('请选择一条数据', 3);
         } else {
-          debugger;
           if (selectedRowsTips.length > 0) {
             message.warn(selectedRowsTips.join('、') + '；请新增之后再导出', 3);
           }
@@ -191,6 +198,9 @@ div.geipaishui
             exportExcel({ waterProjectWDtolist, exportNameObj });
           }
         }
+      }
+      function backPage() {
+        router.push({ name: 'WaterSupplyAndDrainage' });
       }
 
       function testApi() {
@@ -208,6 +218,7 @@ div.geipaishui
         onConfirm,
         dataSource,
         batchExport,
+        backPage,
         testApi,
         loading,
       };

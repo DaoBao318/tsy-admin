@@ -959,18 +959,39 @@ export const beijingRecord = {
     },
   ],
 };
-const waterSupplyAndDrainageProjectData = [
-  {
-    waterSupplyAndDrainageProject: '长泰项目',
-    waterSupplyAndDrainageType: '高铁',
-    waterSupplyAndDrainageDataSource: '系统同步',
+const waterSupplyAndDrainageProjectData = {
+  list: [
+    {
+      projectID: 2,
+      projectName: '常泰普铁项目Mock数据',
+      projectType: 'HighSpeed',
+      projectTypeName: '高铁',
+      isSynchro: 0,
+      isSynchroType: '录入',
+    },
+    {
+      projectID: 1,
+      projectName: '常泰项目',
+      projectType: 'HighSpeed',
+      projectTypeName: '高铁',
+      isSynchro: 1,
+      isSynchroType: '同步',
+    },
+    {
+      projectID: 6,
+      projectName: '测试1',
+      projectType: 'HighSpeed',
+      projectTypeName: '高铁',
+      isSynchro: 0,
+      isSynchroType: '录入',
+    },
+  ],
+  split: {
+    page: 1,
+    size: 10,
+    total: 3,
   },
-  {
-    waterSupplyAndDrainageProject: '武汉项目',
-    waterSupplyAndDrainageType: '普通铁路',
-    waterSupplyAndDrainageDataSource: '手动录入',
-  },
-];
+};
 export const waterUseProjectItem = {
   list: [
     {
@@ -1068,42 +1089,42 @@ export default [
       return resultSuccess(beijingRecord);
     },
   },
-  //查询项目详情
-  {
-    url: '/professional-subsystem/api/Project/GetProjectList',
-    timeout: 1000,
-    method: 'post',
-    response: () => {
-      return resultSuccess(itemInfo);
-    },
-  },
+  // 查询项目详情 废弃
+  // {
+  //   url: '/professional-subsystem/api/Project/GetProjectList',
+  //   timeout: 1000,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(itemInfo);
+  //   },
+  // },
   // 查询项目信息
-  {
-    url: '/professional-subsystem/api/Project/GetStationInfoList',
-    timeout: 1000,
-    method: 'post',
-    response: () => {
-      return resultSuccess(pageInfo);
-    },
-  },
+  // {
+  //   url: '/professional-subsystem/api/Project/GetStationInfoList',
+  //   timeout: 1000,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(pageInfo);
+  //   },
+  // },
   //查询项目详情
-  {
-    url: '/professional-subsystem/api/ZYJSWaterCompute/GetWaterProjectInfo',
-    timeout: 0,
-    method: 'post',
-    response: () => {
-      return resultSuccess(beijingRecord);
-    },
-  },
+  // {
+  //   url: '/professional-subsystem/api/ZYJSWaterCompute/GetWaterProjectInfo',
+  //   timeout: 0,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(beijingRecord);
+  //   },
+  // },
   //首页项目详情,包块查询手动录入和系统同步的
-  {
-    url: '/professional-subsystem/api/waterSupplyAndDrainageProjectData',
-    timeout: 0,
-    method: 'post',
-    response: () => {
-      return resultSuccess(waterSupplyAndDrainageProjectData);
-    },
-  },
+  // {
+  //   url: '/professional-subsystem/api/Project/GetProjectList',
+  //   timeout: 0,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(waterSupplyAndDrainageProjectData);
+  //   },
+  // },
   //新建的车站信息
   {
     url: '/professional-subsystem/api/enteringStationData',

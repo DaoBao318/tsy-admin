@@ -14,6 +14,7 @@ export const waterSourceStore = defineStore({
     waterSupplyAndDrainageDetailsLoading: false,
     waterSupplyAndDrainageProjectType: '',
     originalStationTemplate: {},
+    dispalyProject: false,
   }),
   getters: {
     allRewardSelectOptions: (state) => {
@@ -31,6 +32,9 @@ export const waterSourceStore = defineStore({
     },
     originalStationTemplateGetter: (state) => {
       return state.originalStationTemplate;
+    },
+    dispalyProjectGetter: (state) => {
+      return state.dispalyProject;
     },
   },
   actions: {
@@ -50,6 +54,9 @@ export const waterSourceStore = defineStore({
     },
     originalStationTemplateAction(value) {
       this.originalStationTemplate = value;
+    },
+    dispalyProjectAction(value) {
+      this.dispalyProject = value;
     },
   },
 });

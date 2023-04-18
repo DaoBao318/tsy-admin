@@ -106,9 +106,9 @@ export default defineComponent({
 项目 支持模糊查询
 /api/waterSupplyAndDrainageProjectData 
 
-序号 项目名称 waterSupplyAndDrainageProject 项目类型 waterSupplyAndDrainageType  数据来源 waterSupplyAndDrainageDataSource 操作--用水量计算 录入数据 编辑 删除 
+序号 项目名称 projectName 项目类型 projectTypeName  数据来源 isSynchroType 操作--用水量计算 录入数据 编辑 删除 
 新增项目 
-项目名称 waterSupplyAndDrainageProject
+项目名称 projectName
 普铁还是高铁 ordinaryOrHighSpeedRail
 
 
@@ -145,3 +145,43 @@ const query = getRouterQuery(); //获取路由参数
 function beforeFetch(params) {
 
 项目id来自于
+
+通过用户查询项目 getProjectInformation
+
+OrdinaryRailway 普铁
+HighSpeed 高铁
+
+新增车站的查询页面修改
+
+
+value值发生变化，自动进行查询。
+// componentProps: {
+    //   api: getProjectInformation,
+    //   params: {
+    //     id: 1,
+    //   },
+    //   showSearch: true,
+    //   optionFilterProp: 'label',
+    //   // resultField: 'list2',
+    //   // // use name as label
+    //   // labelField: 'name',
+    //   // // use id as value
+    //   // valueField: 'id',
+    //   // not request untill to select
+    //   immediate: true,
+    //   onChange: (e, v) => {
+    //     if (!!v) {
+    //       setTimeout(() => {
+    //         window.contextLoad._value.table.reload();
+    //       }, 10);
+
+    //       store.waterSupplyAndDrainageProjectTypeAction(v.projectType);
+    //     } else {
+    //       store.waterSupplyAndDrainageProjectTypeAction('');
+    //     }
+    //     console.log('ApiSelect====>:', e, v);
+    //   },
+    //   onOptionsChange: (options) => {
+    //     console.log('get options', options.length, options);
+    //   },
+    // },
