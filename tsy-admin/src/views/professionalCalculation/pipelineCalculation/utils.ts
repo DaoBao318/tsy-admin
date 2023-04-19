@@ -611,12 +611,16 @@ export const getArrMiddle = function (arr, item) {
 };
 
 // 压力计算 nominalDiameter
+/**
+ * 五种模式的 水力梯度 流量 流速 管径
+ * @param values 当前form的所有值
+ * @param setFieldsValue 给当前form设置value
+ */
 export const pressureCalculation = (values, setFieldsValue) => {
   const unit = values.unit;
   const c = values.coughnessCoefficient;
   const l = values.pipeLength;
   const percentage = values.percentageLocalResistanceLoss || 0.3;
-  debugger;
   if (values.calculationContent === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
     const q = values.rateOfFlow;
     const v = values.velocityOfFlow;

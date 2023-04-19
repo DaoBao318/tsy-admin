@@ -11,6 +11,7 @@ div.geipaishui
     )
     template(#toolbar)
       a-button(type="default" preIcon="ant-design:rollback-outlined"  @click="backPage") 返回
+      a-button(type="default" preIcon="ant-design:rollback-outlined"  @click="backPageCalculate") 用水项目编辑
       a-button(type="default" preIcon="mdi:export"  @click="batchExport") 批量导出
     template(#stationType="{ record, text }")
       span {{ record.stationTypeValue }}
@@ -202,6 +203,18 @@ div.geipaishui
       function backPage() {
         router.push({ name: 'WaterSupplyAndDrainage' });
       }
+      function backPageCalculate() {
+        // projectID=2&projectName=常泰普铁项目&projectType=OrdinaryRailway
+        const { projectID, projectName, projectType } = window.queryParams;
+        router.push({
+          name: 'Station',
+          query: {
+            projectID,
+            projectName,
+            projectType,
+          },
+        });
+      }
 
       function testApi() {
         getTestAPI({ useid: 1 });
@@ -219,6 +232,7 @@ div.geipaishui
         dataSource,
         batchExport,
         backPage,
+        backPageCalculate,
         testApi,
         loading,
       };

@@ -11,12 +11,12 @@
   >
     <div class="pt-3px pr-3px">
       <a-transfer
-        :data-source="mockData"
+        :data-source="transformData"
         :target-keys="targetKeys"
         show-search
         :filter-option="
           (inputValue, item) => {
-            return item.waterProject.indexOf(inputValue) !== -1;
+            return item.waterProjectName.indexOf(inputValue) !== -1;
           }
         "
         :show-select-all="true"
@@ -52,58 +52,27 @@
 <script lang="ts">
   import { defineComponent, ref, nextTick } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { difference } from 'lodash-es';
-  import { allDate } from './stationUtils';
-  interface MockData {
-    key: string;
-    waterUseProject: string;
-    waterProject: string;
-    unit: string;
-  }
+  import { difference, cloneDeep } from 'lodash-es';
+  import { TransformData, transformTableColumns } from './station.data';
+  import { transformToTableRaw } from './stationUtils';
+
   type tableColumn = Record<string, string>;
-  const mockData: MockData[] = [];
 
-  // 用水项目  waterUseProject 用水明细 waterProject  单位 unit
+  // 用水项目  classificationName 用水明细 waterProjectName  单位 unit
 
-  const leftTableColumns = [
-    {
-      dataIndex: 'waterUseProject',
-      title: '用水类别',
-    },
-    {
-      dataIndex: 'waterProject',
-      title: '用水项目',
-    },
-    {
-      dataIndex: 'unit',
-      title: '单位',
-    },
-  ];
-  const rightTableColumns = [
-    {
-      dataIndex: 'waterUseProject',
-      title: '用水类别',
-    },
-    {
-      dataIndex: 'waterProject',
-      title: '用水项目',
-    },
-    {
-      dataIndex: 'unit',
-      title: '单位',
-    },
-  ];
   export default defineComponent({
     components: { BasicModal },
     props: {
       userData: { type: Object },
     },
-    setup(props) {
+    emits: ['selectData'],
+    setup(props, { emit }) {
       //穿梭框数据
-      debugger;
+      const transformData = ref<TransformData[]>([]);
       const targetKeys = ref<string[]>([]);
-      const leftColumns = ref<tableColumn[]>(leftTableColumns);
-      const rightColumns = ref<tableColumn[]>(rightTableColumns);
+      let dataRaw = [];
+      const leftColumns = ref<tableColumn[]>(transformTableColumns);
+      const rightColumns = ref<tableColumn[]>(transformTableColumns);
 
       const onChange = (nextTargetKeys: string[]) => {
         targetKeys.value = nextTargetKeys;
@@ -136,21 +105,14 @@
       function onDataReceive(data) {
         console.log('Data Received', data);
         //数据初始化
-        // for (let i = 0; i < 20; i++) {
-        //   mockData.push({
-        //     key: i.toString(),
-        //     title: `content${i + 1}`,
-        //     description: `description of content${i + 1}`,
-        //   });
-        // }
-        if (mockData.length === 0) {
-          allDate.forEach((item, index) => {
-            item.key = index.toString();
-            mockData.push(item);
-          });
-        }
+        transformData.value = [];
+        dataRaw = cloneDeep(data.list);
+        data.list.forEach((item) => {
+          item.key = item.id.toString();
+          transformData.value.push(item);
+        });
 
-        targetKeys.value = mockData.filter((item) => +item.key % 3 > 1).map((item) => item.key);
+        targetKeys.value = data.waterSelected;
 
         //获取传递的值，进行set值
       }
@@ -160,13 +122,13 @@
       }
 
       function filterWater(inputValue, item) {
-        return (inputValue, item) => item.waterProject.indexOf(inputValue) !== -1;
+        return (inputValue, item) => item.waterProjectName.indexOf(inputValue) !== -1;
       }
-      function okHandle(params) {
+      function okHandle() {
         //获取选中值的key；
-        targetKeys;
-        // contentDialog.closeModal();
-        debugger;
+        const seletcedData = transformToTableRaw(targetKeys.value, dataRaw);
+        emit('selectData', seletcedData);
+        contentDialog.closeModal();
       }
 
       return {
@@ -174,7 +136,7 @@
         handleVisibleChange,
         okHandle,
 
-        mockData,
+        transformData,
         targetKeys,
         leftColumns,
         rightColumns,

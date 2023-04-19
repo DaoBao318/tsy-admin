@@ -93,7 +93,6 @@ BasicDrawer(
       });
 
       async function toSubmit(type) {
-        debugger;
         let record = null;
         try {
           record = await validate(); // 校验必填项目

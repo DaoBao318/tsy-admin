@@ -12,7 +12,7 @@
         <TableAction :actions="creatAction(record)" />
       </template>
     </BasicTable>
-    <RoleDrawer @register="registerDrawer" @success="handleSuccess" />
+    <StationDrawer @register="registerDrawer" @success="handleSuccess" />
     <ModalStation @register="registerStation" @success="handleSuccess" />
   </div>
 </template>
@@ -22,10 +22,10 @@
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
 
   import { useDrawer } from '/@/components/Drawer';
-  import RoleDrawer from './StationDrawer.vue';
+  import StationDrawer from './StationDrawer.vue';
 
   import { columns, searchFormSchema } from './station.data';
-  import { deleteStation, getStationInfoList } from '../api/http';
+  import { deleteStation, getSbuildWaterProjectData, getStationInfoList } from '../api/http';
   import { useGo } from '/@/hooks/web/usePage';
   import { getRouterQuery } from '../utilsWaterSupplyAndDrainage';
   import ModalStation from './ModalStation.vue';
@@ -35,7 +35,7 @@
 
   export default defineComponent({
     name: 'StationManagement',
-    components: { BasicTable, RoleDrawer, TableAction, ModalStation },
+    components: { BasicTable, StationDrawer, TableAction, ModalStation },
     setup() {
       //用水项弹窗
       const store = waterSourceStore();
@@ -100,11 +100,18 @@
           },
         });
       }
-
+      //编辑用水项目
       function handleEdit(record: Recordable) {
-        openDrawer(true, {
-          record,
-          isUpdate: true,
+        let params = {};
+        params['projectID'] = Number(record.projectID);
+        params['stationID'] = Number(record.stationID);
+        params['stationType'] = record.stationType;
+        getSbuildWaterProjectData(params).then((res) => {
+          openDrawer(true, {
+            res,
+            isUpdate: true,
+            record,
+          });
         });
       }
 
@@ -128,8 +135,8 @@
             onClick: handleEditStation.bind(null, record),
           },
           {
-            icon: 'clarity:note-edit-line',
-            tooltip: '编辑用水项目',
+            icon: 'ant-design:bg-colors-outlined',
+            tooltip: '操作用水项目',
             onClick: handleEdit.bind(null, record),
           },
           {

@@ -28,6 +28,9 @@ enum Api {
   waterUseProjectItem = '/api/waterUseProjectItem', //获取用水条目信息
   updateStation = '/api/Project/UpdateStation',
   deleteStation = '/api/Project/DeleteStation',
+  getSbuildWaterProjectData = '/api/ZYJSWaterCompute/GetSbuildWaterProjectData',
+  getWaterProjectList = '/api/ZYJSWaterCompute/GetWaterProjectList',
+  saveEnterWaterProjectData = '/api/ZYJSWaterCompute/SaveEnterWaterProjectData',
 }
 
 // other api url
@@ -76,7 +79,6 @@ export const getProjectInformation = () => {
 // 获取列表
 export const getStationInfoList = (params) => {
   console.log(params);
-  debugger;
   return defHttp.post({ url: Api.getStationInfoList, params });
 };
 // 获取车站类型
@@ -100,9 +102,6 @@ export const getRecordInfo = (params) => {
 };
 // 车站信息保存
 export function saveComputeData(data) {
-  // const dealParams = JSON.stringify(params);
-  // debugger;
-  // console.log(dealParams);
   return defHttp.post({ url: Api.saveComputeData, data });
 }
 // 车站信息导出
@@ -122,7 +121,6 @@ export function exportExcel(params) {
 export const enterAndUpdateProjects = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.enterAndUpdateProjects, params }).then((res) => {
-      debugger;
       if (res.list.length == 0) {
         store.dispalyProjectAction(true);
       } else {
@@ -177,6 +175,32 @@ export const updateStation = (params) => {
 export const deleteStation = (params) => {
   return new Promise((resolve) => {
     defHttp.get({ url: Api.deleteStation, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+
+//查询用水项目已选列表
+export const getSbuildWaterProjectData = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.getSbuildWaterProjectData, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+//查询用水项目列表
+export const getWaterProjectList = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.getWaterProjectList, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+
+//保存用水项目条目
+export const saveEnterWaterProjectData = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.saveEnterWaterProjectData, params }).then((res) => {
       resolve(res);
     });
   });

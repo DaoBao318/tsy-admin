@@ -41,12 +41,10 @@
         data && onDataReceive(data);
       });
       async function okHandle() {
-        debugger;
         const values = await validate();
         values.stationID = values.stationID ? values.stationID : 0;
         const { stationID, projectID, projectName, stationName, stationType } = values;
         updateStation({ stationID, projectID, projectName, stationName, stationType }).then(() => {
-          debugger;
           emit('success');
           message.success(messageStation);
         });
@@ -57,7 +55,6 @@
       function onDataReceive(data) {
         console.log('Data Received', data);
         // 方式1;
-        debugger;
         setFieldsValue({
           stationName: data.stationName,
           stationType: data.stationType,

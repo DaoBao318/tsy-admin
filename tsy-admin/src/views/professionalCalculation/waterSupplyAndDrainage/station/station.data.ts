@@ -25,7 +25,7 @@ export const columns: BasicColumn[] = [
 export const waterItemColumns: BasicColumn[] = [
   {
     title: '用水类别',
-    dataIndex: 'waterUseProject',
+    dataIndex: 'classificationName',
   },
   {
     title: '用水项目',
@@ -38,17 +38,17 @@ export const waterItemColumns: BasicColumn[] = [
   {
     title: '数量(近期)',
     dataIndex: 'recentQuantity',
-    helpMessage: '支持Tab键跳的下一项',
+    helpMessage: '编辑之后请点击小√',
     edit: true,
-    editable: true,
+    // editable: true,
   },
-  {
-    title: '数量(远期)',
-    dataIndex: 'forwardQuantity',
-    helpMessage: '支持Tab键跳的下一项',
-    edit: true,
-    editable: true,
-  },
+  // {
+  //   title: '数量(远期)',
+  //   dataIndex: 'forwardQuantity',
+  //   helpMessage: '支持Tab键跳的下一项',
+  //   edit: true,
+  //   editable: true,
+  // },
 ];
 
 export const searchFormSchema: FormSchema[] = [
@@ -147,3 +147,24 @@ export const formSchemaStation: FormSchema[] = [
     colProps: { span: 24 },
   },
 ];
+
+export const transformTableColumns = [
+  {
+    dataIndex: 'classificationName',
+    title: '用水类别',
+  },
+  {
+    dataIndex: 'waterProject',
+    title: '用水项目',
+  },
+  {
+    dataIndex: 'unit',
+    title: '单位',
+  },
+];
+export interface TransformData {
+  key: string;
+  classificationName: string;
+  waterProjectName: string;
+  unit: string;
+}

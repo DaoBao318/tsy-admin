@@ -449,7 +449,6 @@ export const drawerFormPressure: FormSchema[] = [
         {
           required: true,
           validator: (_, value) => {
-            debugger;
             const min = Number(values.coughnessCoefficientRecommend.split('~')[0]);
             const max = Number(values.coughnessCoefficientRecommend.split('~')[1]);
             values.coughnessCoefficientRecommend;
