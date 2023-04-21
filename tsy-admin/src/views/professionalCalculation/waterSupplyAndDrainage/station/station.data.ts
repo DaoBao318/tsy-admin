@@ -60,7 +60,7 @@ export const searchFormSchema: FormSchema[] = [
     dynamicDisabled: true,
   },
   {
-    field: 'stationName',
+    field: 'likeQuery',
     label: '车站名称',
     component: 'Input',
     colProps: { span: 8 },

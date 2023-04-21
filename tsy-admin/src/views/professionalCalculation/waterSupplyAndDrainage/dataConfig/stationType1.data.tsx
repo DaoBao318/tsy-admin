@@ -38,7 +38,7 @@ const basicSchema: FormSchema[] = [
     label: '车站名称:',
     field: 'stationName',
     component: 'Input',
-    colProps: { span: 23 },
+    colProps: { span: 12 },
     componentProps: {
       disabled: true,
     },
@@ -47,7 +47,7 @@ const basicSchema: FormSchema[] = [
     label: '车站名称:',
     field: 'stationTypeName',
     component: 'Input',
-    colProps: { span: 23 },
+    colProps: { span: 12 },
     componentProps: {
       disabled: true,
     },
@@ -56,11 +56,10 @@ const basicSchema: FormSchema[] = [
     label: '车站类型:',
     field: 'stationType',
     component: 'Select',
-    colProps: { span: 23 },
+    colProps: { span: 12 },
     show: false,
     componentProps: {
       disabled: true,
-      placeholder: '请选择车站类型',
       options: STATION_TYPE_OPTIONS,
     },
   },
@@ -74,6 +73,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     colProps: { span: 8 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -83,6 +83,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -92,6 +93,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -101,6 +103,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -114,6 +117,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
       return {
         placeholder: '请选择单位用水量',
         disabled: false,
+        size: 'small',
         onChange: (value) => {
           if (formModel.unitWaterMan === 0 && value !== formModel.unitWaterMin) {
             message.warn('单位用水量建议与推荐值保持一致', 1);
@@ -135,6 +139,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -144,6 +149,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -154,6 +160,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     // show: false,
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
 ];
@@ -165,6 +172,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     colProps: { span: 8 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -174,6 +182,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -183,6 +192,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -192,6 +202,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -205,6 +216,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
       return {
         placeholder: '请选择单位用水量',
         disabled: false,
+        size: 'small',
         onChange: (value) => {
           if (formModel.unitWaterMan === 0 && value !== formModel.unitWaterMin) {
             message.warn('单位用水量建议与推荐值保持一致', 1);
@@ -226,6 +238,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -235,6 +248,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     colProps: { span: 2 },
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
   {
@@ -245,6 +259,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     // show: false,
     componentProps: {
       disabled: true,
+      size: 'small',
     },
   },
 ];

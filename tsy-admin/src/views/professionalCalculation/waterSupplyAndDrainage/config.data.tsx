@@ -1,4 +1,10 @@
-import { getStationInfoList, getRecordInfo, getStationTypeList, exportExcel } from './api/http';
+import {
+  getStationInfoList,
+  getRecordInfo,
+  getStationTypeList,
+  exportExcel,
+  updateStationType,
+} from './api/http';
 import { DrawerFormMode } from '/@/components-business/XList/v-2.0';
 import {
   HIGH_SPEED_LARGE_STATIONS,
@@ -36,7 +42,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
   {
-    field: 'stationName',
+    field: 'likeQuery',
     label: '车站名称:',
     component: 'Input',
     colProps: { span: 8 },
@@ -87,6 +93,12 @@ function createActionsColumns(record, context) {
       mode: DrawerFormMode.EDIT,
     });
   }
+  async function resetStationData() {
+    const { stationType, stationID, projectID } = record;
+    updateStationType({ stationType, stationID, projectID }).then(() => {
+      context.table.reload();
+    });
+  }
 
   async function viewDetail() {
     // 判断车站类型，打开不同的layer；假使是会让站
@@ -126,6 +138,7 @@ function createActionsColumns(record, context) {
       {
         icon: 'material-symbols:add-box-outline',
         label: '新增',
+        tooltip: '新增',
         onClick: handlerEdit,
       },
     ];
@@ -133,17 +146,23 @@ function createActionsColumns(record, context) {
     return [
       {
         icon: 'clarity:note-edit-line',
-        label: '编辑',
+        tooltip: '编辑车站',
         onClick: handlerEdit,
       },
       {
         icon: 'bx:message-detail',
-        label: '详情',
+        label: '',
+        tooltip: '查看详情',
         onClick: viewDetail,
       },
       {
+        icon: 'ant-design:retweet-outlined',
+        tooltip: '重置计算数据',
+        onClick: resetStationData,
+      },
+      {
         icon: 'mdi:export',
-        label: '导出',
+        tooltip: '导出车站',
         onClick: handlerExport,
       },
     ];
@@ -155,6 +174,7 @@ function beforeFetch(params) {
   params.projectID = Number(window.queryParams.projectID);
   params.pageIndex = params['split.page'];
   params.pageSize = params['split.size'];
+  params.likeQuery = params.likeQuery ? params.likeQuery : '';
   params.totalCount = 0;
   delete params['split.page'];
   delete params['split.size'];
@@ -186,6 +206,7 @@ export const useXListOptions = {
       showActionButtonGroup: true,
       layout: 'horizontal',
       autoSubmitOnEnter: true,
+      showResetButton: false,
     },
   },
   layers: [

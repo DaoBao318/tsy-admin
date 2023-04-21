@@ -45,6 +45,7 @@
       const [registerDrawer, { openDrawer }] = useDrawer();
       function beforeFetch(params) {
         params.projectID = Number(query.projectID);
+        params.likeQuery = params.likeQuery ? params.likeQuery : '';
         params.pageIndex = params['split.page'];
         params.pageSize = params['split.size'];
         params.totalCount = 0;
@@ -60,6 +61,8 @@
         formConfig: {
           labelWidth: 120,
           schemas: searchFormSchema,
+          autoSubmitOnEnter: true,
+          showResetButton: false,
         },
         beforeFetch,
         useSearchForm: true,

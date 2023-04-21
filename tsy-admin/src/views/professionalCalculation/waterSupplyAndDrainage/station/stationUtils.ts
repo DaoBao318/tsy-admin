@@ -194,3 +194,66 @@ export function deepClone1(obj) {
   }
   return copy;
 }
+
+export function deepClone2(obj) {
+  const copy = Array.isArray(obj) ? [] : {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const type = Object.prototype.toString.call(obj[key]).slice(8, -1).toLocaleUpperCase();
+      copy[key] = type === 'object' || type === 'array' ? deepClone2(obj[key]) : obj[key];
+    }
+  }
+  return copy;
+}
+
+export function toTree(arr = []) {
+  const arrNew: [] = deepClone2(arr);
+  arrNew.filter((p) => {
+    const c = arrNew.filter((item) => (item.id = p.pid));
+    c.length && (p.children = c);
+    return p.pid === null;
+  });
+}
+
+export function toTree2(arr) {
+  const newArr = JSON.parse(JSON.stringify(arr));
+  return newArr.filter((p) => {
+    const c = newArr.filter((item) => item.pid === p.id);
+    c.length && (p.children = c);
+
+    return p.pid == null;
+  });
+}
+/**
+ * 将筛选的值进行排序输出
+ * @param keys 选择的key值
+ * @param arrList 原始的数组
+ * @returns 排序后的keys
+ */
+export function sortKeys(keys, arrList) {
+  const obj = {};
+  arrList.forEach((item) => {
+    obj[item.id + ''] = item.waterSupplyTypeID;
+  });
+  let arr = [];
+  const newObj = deepClone2(obj);
+
+  for (const key in obj) {
+    if (!keys.includes(key)) {
+      delete newObj[key];
+    }
+  }
+  const objLast = {};
+  for (const key in newObj) {
+    if (!objLast[newObj[key]]) {
+      objLast[newObj[key]] = [];
+    }
+    if (objLast[newObj[key]]) {
+      objLast[newObj[key]].push(key);
+    }
+  }
+  for (const key in objLast) {
+    arr = arr.concat(objLast[key]);
+  }
+  return arr;
+}

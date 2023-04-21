@@ -185,3 +185,13 @@ value值发生变化，自动进行查询。
     //     console.log('get options', options.length, options);
     //   },
     // },
+
+      if (createActions) {
+    other['actionColumn'] = {
+      width: 280,
+      title: '操作',
+      dataIndex: 'action',
+      fixed: 'right',
+      slots: { customRender: 'action' },
+    };
+  }

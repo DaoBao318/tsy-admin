@@ -17,7 +17,7 @@ const professionalCalculation: AppRouteModule = {
       path: 'waterSupplyAndDrainage',
       name: 'WaterSupplyAndDrainage',
       meta: {
-        title: '项目列表',
+        title: '昼夜最大用水量计算',
         icon: 'ion:water-outline',
         // ignoreKeepAlive: true,
         // hideTab: true,

@@ -143,6 +143,7 @@ div.geipaishui
       async function onConfirm({ exec, record, layerName, type }) {
         try {
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
+            debugger;
             await exec(updateStationType, record);
             // TODO: 发送接口数据；里面会自动刷新列表
             setTimeout(() => {

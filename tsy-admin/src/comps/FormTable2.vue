@@ -222,6 +222,9 @@
     text-align: center;
     height: 40px;
   }
+  .vben-basic-form .ant-form-item:not(.ant-form-item-with-help) {
+    margin-bottom: -2px!important;
+  }
 
   >>> .ant-form-item {
     text-align: center;
@@ -230,7 +233,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 8px;
+    padding: 2px;
   }
 
   .ant-form-item.required::before {
@@ -248,7 +251,7 @@
     border-right: 1px solid #f0f0f0;
     border-left: 1px solid #f0f0f0;
     background: #fff;
-    padding: 32px 0;
+    padding: 10px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -287,14 +290,14 @@
   .ant-table-body {
     // max-height: 500px
     overflow-y: auto;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
 
     &::-webkit-scrollbar {
       display: none; /* Chrome Safari */
     }
 
     .tr {
-      border-bottom: 1px solid #f0f0f0;
+      // border-bottom: 1px solid #f0f0f0;
     }
   }
 </style>

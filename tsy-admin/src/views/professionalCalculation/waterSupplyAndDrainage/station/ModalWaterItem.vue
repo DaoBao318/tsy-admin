@@ -16,7 +16,7 @@
         show-search
         :filter-option="
           (inputValue, item) => {
-            return item.waterProjectName.indexOf(inputValue) !== -1;
+            return item.waterProject.indexOf(inputValue) !== -1;
           }
         "
         :show-select-all="true"
@@ -54,7 +54,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { difference, cloneDeep } from 'lodash-es';
   import { TransformData, transformTableColumns } from './station.data';
-  import { transformToTableRaw } from './stationUtils';
+  import { sortKeys, transformToTableRaw } from './stationUtils';
 
   type tableColumn = Record<string, string>;
 
@@ -75,7 +75,7 @@
       const rightColumns = ref<tableColumn[]>(transformTableColumns);
 
       const onChange = (nextTargetKeys: string[]) => {
-        targetKeys.value = nextTargetKeys;
+        targetKeys.value = sortKeys(nextTargetKeys, dataRaw);
       };
 
       const getRowSelection = ({
@@ -111,8 +111,8 @@
           item.key = item.id.toString();
           transformData.value.push(item);
         });
-
-        targetKeys.value = data.waterSelected;
+        const keysSort = sortKeys(data.waterSelected, data.list);
+        targetKeys.value = keysSort;
 
         //获取传递的值，进行set值
       }
@@ -121,9 +121,9 @@
         v && props.userData && nextTick(() => onDataReceive(props.userData));
       }
 
-      function filterWater(inputValue, item) {
-        return (inputValue, item) => item.waterProjectName.indexOf(inputValue) !== -1;
-      }
+      // function filterWater(inputValue, item) {
+      //   return (inputValue, item) => item.waterProjectName.indexOf(inputValue) !== -1;
+      // }
       function okHandle() {
         //获取选中值的key；
         const seletcedData = transformToTableRaw(targetKeys.value, dataRaw);
@@ -142,7 +142,6 @@
         rightColumns,
         onChange,
         getRowSelection,
-        filterWater,
       };
     },
   });
