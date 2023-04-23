@@ -26,7 +26,7 @@
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-        labelWidth: 130,
+        labelWidth: 150,
         baseColProps: { span: 24 },
         schemas: drawerFormPressure,
         showActionButtonGroup: false,
@@ -50,10 +50,12 @@
 
       async function handleSubmit() {
         try {
+          debugger;
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
+          debugger;
           pressureCalculation(values, setFieldsValue);
           // closeDrawer();
           emit('success');

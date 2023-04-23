@@ -507,7 +507,7 @@ const seamlessSteelTube = [
   { label: '600', value: 600, shineUponNominalDiameter: 610 },
 ];
 //球墨铸铁管 ok
-const ductileIronPipe = [
+export const ductileIronPipe = [
   { label: '100', value: 100, shineUponNominalDiameter: 99 },
   { label: '150', value: 150, shineUponNominalDiameter: 149 },
   { label: '200', value: 200, shineUponNominalDiameter: 199 },

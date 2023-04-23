@@ -24,7 +24,9 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
 
+  let likeQuery = '';
   function beforeFetch(params) {
+    likeQuery = params.likeQuery;
     params.pageIndex = params['split.page'];
     params.pageSize = params['split.size'];
     params.totalCount = 0;
@@ -71,6 +73,7 @@
       function handleCreate() {
         openDrawer(true, {
           isUpdate: false,
+          likeQuery,
         });
       }
 

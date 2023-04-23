@@ -257,3 +257,13 @@ export function sortKeys(keys, arrList) {
   }
   return arr;
 }
+
+export function dealParams(values) {
+  const i = Object.keys(values).length;
+  const n = (i - 2) / 3;
+  const arr = [];
+  for (let i = 1; i < n; i++) {
+    arr.push({ stationName: values['stationName' + i], stationType: values['stationType' + i] });
+  }
+  return arr;
+}

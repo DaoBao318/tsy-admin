@@ -14,6 +14,8 @@
     </BasicTable>
     <StationDrawer @register="registerDrawer" @success="handleSuccess" />
     <ModalStation @register="registerStation" @success="handleSuccess" />
+    <ModalCopy @register="registerCopy" @success="handleSuccess" />
+    <ModalStationEditor @register="registerEditor" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts">
@@ -29,17 +31,28 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { getRouterQuery } from '../utilsWaterSupplyAndDrainage';
   import ModalStation from './ModalStation.vue';
+  import ModalCopy from './ModalCopy.vue';
+  import ModalStationEditor from './ModalStationEditor.vue';
   import { useModal } from '/@/components/Modal';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { message } from 'ant-design-vue';
 
   export default defineComponent({
     name: 'StationManagement',
-    components: { BasicTable, StationDrawer, TableAction, ModalStation },
+    components: {
+      BasicTable,
+      StationDrawer,
+      TableAction,
+      ModalStation,
+      ModalCopy,
+      ModalStationEditor,
+    },
     setup() {
       //用水项弹窗
       const store = waterSourceStore();
       const [registerStation, { openModal: openModalStation }] = useModal();
+      const [registerCopy, { openModal: openModalCopy }] = useModal();
+      const [registerEditor, { openModal: openModalEditor }] = useModal();
       const query = getRouterQuery(); //获取路由参数
       const { projectID, projectName, projectType } = query;
       const [registerDrawer, { openDrawer }] = useDrawer();
@@ -87,7 +100,7 @@
         openModalStation(true, query);
       }
       function handleEditStation(record: Recordable) {
-        openModalStation(true, record);
+        openModalEditor(true, record);
       }
       const go = useGo();
       function handleBack() {
@@ -117,6 +130,10 @@
           });
         });
       }
+      //复制车站
+      function copyStation(record: Recordable) {
+        openModalCopy(true, record);
+      }
 
       function handleDelete(record: Recordable) {
         const { stationID } = record;
@@ -143,6 +160,11 @@
             onClick: handleEdit.bind(null, record),
           },
           {
+            icon: 'ant-design:copy-outlined',
+            tooltip: '复制车站',
+            onClick: copyStation.bind(null, record),
+          },
+          {
             icon: 'ant-design:delete-outlined',
             tooltip: '删除车站',
             popConfirm: {
@@ -165,6 +187,9 @@
         handleBack,
         handleCalculate,
         registerStation,
+        copyStation,
+        registerCopy,
+        registerEditor,
       };
     },
   });

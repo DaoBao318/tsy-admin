@@ -41,6 +41,11 @@
             ...data.record,
           });
         }
+        if (data.likeQuery) {
+          setFieldsValue({
+            projectName: data.likeQuery,
+          });
+        }
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增项目' : '编辑项目'));

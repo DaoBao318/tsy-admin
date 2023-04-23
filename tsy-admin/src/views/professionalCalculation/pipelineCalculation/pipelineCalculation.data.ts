@@ -10,6 +10,7 @@ import {
   unitOption,
   flowConditionsOption,
   pipeShapeOption,
+  ductileIronPipe,
 } from '/@/utils/calculation/count';
 import {
   calculateWilliamCoefficient,
@@ -418,6 +419,7 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
+    defaultValue: 'm4',
     componentProps: ({ formModel, formActionType }) => {
       return {
         options: pipeMaterialOption,
@@ -436,10 +438,11 @@ export const drawerFormPressure: FormSchema[] = [
     label: '海曾-威廉系数',
     component: 'InputNumberExpand',
     show: true,
+    defaultValue: 90,
     helpMessage: ({ values }) => {
       const mes = values.coughnessCoefficientRecommend
         ? values.coughnessCoefficientRecommend
-        : '暂无';
+        : '90 ~ 100';
       const message = '海曾-威廉系数推荐值：' + mes;
       return message;
     },
@@ -467,6 +470,7 @@ export const drawerFormPressure: FormSchema[] = [
     label: '海曾-威廉推荐值',
     required: false,
     component: 'Input',
+    defaultValue: '90 ~ 100',
     colProps: { span: 12 },
     dynamicDisabled: true,
     show: false,
@@ -477,6 +481,7 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
+    defaultValue: 'nr1',
     componentProps: ({ formModel, formActionType }) => {
       return {
         placeholder: '请选择内容',
@@ -493,20 +498,20 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'calculateInnerDiameter',
     label: '计算内径(mm)',
-    required: true,
     component: 'InputNumberExpand',
+    dynamicDisabled: true,
     colProps: { span: 6 },
   },
   {
     field: 'nominalDiameter',
-    label: '公称直径',
+    label: '推荐公称直径DN(mm)',
     component: 'Select',
+    dynamicDisabled: true,
     colProps: { span: 6 },
     componentProps: () => {
       return {
-        placeholder: '请选择内容',
-        options: [],
-        disabled: false,
+        placeholder: ' ',
+        options: ductileIronPipe,
       };
     },
   },
@@ -550,6 +555,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'velocityOfFlow',
     label: '流速(m/s)',
+    defaultValue: 1,
     required: true,
     component: 'InputNumberExpand',
     colProps: { span: 12 },
@@ -557,7 +563,7 @@ export const drawerFormPressure: FormSchema[] = [
   {
     field: 'hydraulicGradient',
     label: '水力坡度',
-    required: true,
+    dynamicDisabled: true,
     component: 'InputNumberExpand',
     colProps: { span: 12 },
   },

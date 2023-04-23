@@ -2,18 +2,12 @@
   <BasicModal
     v-bind="$attrs"
     @register="register"
-    :title="typeStation ? '批量新增车站' : '编辑车站'"
-    width="1000px"
+    title="复制车站"
     @ok="okHandle"
     @visible-change="handleVisibleChange"
   >
     <div class="pt-3px pr-3px">
-      <BasicForm @register="registerForm" :model="model">
-        <template #add="{ field }">
-          <a-button v-if="field === 'symbol0'" @click="add">+</a-button>
-          <a-button v-else @click="del(field)">-</a-button>
-        </template>
-      </BasicForm>
+      <BasicForm @register="registerForm" :model="model" />
     </div>
   </BasicModal>
 </template>
@@ -21,10 +15,9 @@
   import { defineComponent, ref, nextTick } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { addFormList, formSchemaStation } from './station.data';
-  import { addBatchStation } from '../api/http';
+  import { formSchemaStation } from './station.data';
+  import { copyStation } from '../api/http';
   import { message } from 'ant-design-vue';
-  import { dealParams } from './stationUtils';
 
   export default defineComponent({
     components: { BasicModal, BasicForm },
@@ -34,13 +27,10 @@
     emits: ['success'],
     setup(props, { emit }) {
       const modelRef = ref({});
-      let messageStation = '车站修改成功';
-      const [
-        registerForm,
-        { setFieldsValue, validate, clearValidate, appendSchemaByField, removeSchemaByFiled },
-      ] = useForm({
+      let messageStation = '车站复制成功';
+      const [registerForm, { setFieldsValue, validate, clearValidate }] = useForm({
         labelWidth: 120,
-        schemas: formSchemaStation(),
+        schemas: formSchemaStation(true),
         showActionButtonGroup: false,
         actionColOptions: {
           span: 24,
@@ -52,44 +42,38 @@
       });
       async function okHandle() {
         const values = await validate();
-        const { projectID, stationName, stationType } = values;
-        let arr = dealParams(values);
-        arr = arr.concat([{ stationName, stationType }]);
-        addBatchStation({ projectID, list: arr }).then((res) => {
-          if (typeof res === 'string') {
+        debugger;
+        const { stationID, projectID, stationName } = values;
+        copyStation({ stationID, projectID, stationName }).then((res) => {
+          if (res.success) {
             emit('success');
             message.success(messageStation);
             closeModal();
           } else {
+            message.warn(res.msg);
             return;
           }
         });
       }
-      const typeStation = ref(true);
+
       function onDataReceive(data) {
+        console.log('Data Received', data);
         // 方式1;
         setFieldsValue({
+          stationName: data.stationName + '___复制',
+          stationType: data.stationType,
           projectID: data.projectID,
+          projectName: data.projectName,
+          stationID: data.stationID,
         });
         if (data.type === 'add') {
-          typeStation.value = true;
           clearValidate(['stationName', 'stationType']);
           messageStation = '车站新增成功';
-        } else {
-          typeStation.value = false;
         }
       }
 
       function handleVisibleChange(v) {
         v && props.userData && nextTick(() => onDataReceive(props.userData));
-      }
-      const n = ref(1);
-      function add() {
-        addFormList(appendSchemaByField, n);
-      }
-      function del(field) {
-        removeSchemaByFiled([`stationName${field}`, `stationType${field}`, `${field}`]);
-        n.value--;
       }
 
       return {
@@ -98,9 +82,6 @@
         model: modelRef,
         handleVisibleChange,
         okHandle,
-        typeStation,
-        add,
-        del,
       };
     },
   });

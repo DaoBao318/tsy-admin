@@ -195,3 +195,5 @@ value值发生变化，自动进行查询。
       slots: { customRender: 'action' },
     };
   }
+
+  //请求前非标数据转化，如果不是vben框架的非标数据，需要转化为code，message，result,type数据类型。

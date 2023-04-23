@@ -85,68 +85,119 @@ export const formSchema: FormSchema[] = [
   },
 ];
 //进行新增和编辑操作的
-export const formSchemaStation: FormSchema[] = [
-  {
-    field: 'stationName',
-    label: '车站名称',
-    component: 'Input',
-    required: true,
-    colProps: { span: 24 },
-  },
-  {
-    field: 'stationType',
-    label: '车站类型：',
-    component: 'ApiSelect',
-    required: true,
-    colProps: { span: 24 },
-    // componentProps: {
-    //   min: 0,
-    //   style: { width: '100%' },
-    //   options: STATION_TYPE_OPTIONS,
-    // },
-    componentProps: {
-      api: getStationTypeList,
-      params: {
-        projectType: 'OrdinaryRailway',
-      },
-      // resultField: 'list2',
-      // // use name as label
-      // labelField: 'name',
-      // // use id as value
-      // valueField: 'id',
-      // not request untill to select
-      immediate: true,
-      onChange: (e, v) => {
-        console.log('ApiSelect====>:', e, v);
-      },
-      // atfer request callback
-      onOptionsChange: (options) => {
-        console.log('get options', options.length, options);
+let optionStation = {};
+export const formSchemaStation = function (copy = false): FormSchema[] {
+  return [
+    {
+      field: 'stationName',
+      label: '车站名称',
+      component: 'Input',
+      required: true,
+      colProps: { span: copy ? 24 : 10 },
+    },
+    {
+      field: 'stationType',
+      label: '车站类型：',
+      component: 'ApiSelect',
+      required: true,
+      show: !copy,
+      colProps: { span: 10 },
+      // componentProps: {
+      //   min: 0,
+      //   style: { width: '100%' },
+      //   options: STATION_TYPE_OPTIONS,
+      // },
+      componentProps: {
+        api: getStationTypeList,
+        params: {
+          projectType: 'OrdinaryRailway',
+        },
+        // resultField: 'list2',
+        // // use name as label
+        // labelField: 'name',
+        // // use id as value
+        // valueField: 'id',
+        // not request untill to select
+        immediate: true,
+        onChange: (e, v) => {
+          console.log('ApiSelect====>:', e, v);
+        },
+        // atfer request callback
+        onOptionsChange: (options) => {
+          optionStation = options;
+          console.log('get options', options.length, options);
+        },
       },
     },
-  },
-  {
-    field: 'projectID',
-    label: '项目id',
-    show: false,
-    component: 'Input',
-    colProps: { span: 24 },
-  },
-  {
-    field: 'projectName',
-    label: '项目名称',
-    component: 'Input',
-    show: false,
-    colProps: { span: 24 },
-  },
-  {
-    field: 'stationID',
-    label: '车站ID',
-    show: false,
-    component: 'Input',
-    colProps: { span: 24 },
-  },
-];
+    {
+      field: 'symbol0',
+      component: 'Input',
+      label: ' ',
+      colProps: { span: 4 },
+      slot: 'add',
+    },
+    {
+      field: 'projectID',
+      label: '项目id',
+      show: false,
+      component: 'Input',
+      colProps: { span: 24 },
+    },
+    {
+      field: 'stationID',
+      label: '车站ID',
+      show: false,
+      component: 'Input',
+      colProps: { span: 24 },
+    },
+  ];
+};
+export const formSchemaStationEditor = function (): FormSchema[] {
+  return [
+    {
+      field: 'stationName',
+      label: '车站名称',
+      component: 'Input',
+      required: true,
+      colProps: { span: 24 },
+    },
+    {
+      field: 'stationType',
+      label: '车站类型：',
+      component: 'ApiSelect',
+      required: true,
+      colProps: { span: 24 },
+      componentProps: {
+        api: getStationTypeList,
+        params: {
+          projectType: 'OrdinaryRailway',
+        },
+        immediate: true,
+      },
+    },
+    {
+      field: 'projectID',
+      label: '项目id',
+      show: false,
+      component: 'Input',
+      colProps: { span: 24 },
+    },
+    {
+      field: 'projectName',
+      label: '项目名称',
+      component: 'Input',
+      show: false,
+      colProps: { span: 24 },
+    },
+    {
+      field: 'stationID',
+      label: '车站ID',
+      show: false,
+      component: 'Input',
+      colProps: { span: 24 },
+    },
+  ];
+};
 
 export const transformTableColumns = [
   {
@@ -168,3 +219,41 @@ export interface TransformData {
   waterProjectName: string;
   unit: string;
 }
+
+export const addFormList = function (appendSchemaByField, n) {
+  appendSchemaByField(
+    {
+      field: `stationName${n.value}`,
+      component: 'Input',
+      label: '车站名称',
+      required: true,
+      colProps: { span: 10 },
+    },
+    '',
+  );
+  appendSchemaByField(
+    {
+      field: `stationType${n.value}`,
+      component: 'Select',
+      label: '车站类型',
+      required: true,
+      colProps: { span: 10 },
+      componentProps: {
+        options: optionStation,
+      },
+    },
+    '',
+  );
+
+  appendSchemaByField(
+    {
+      field: `${n.value}`,
+      component: 'Input',
+      label: ' ',
+      slot: 'add',
+      colProps: { span: 4 },
+    },
+    '',
+  );
+  n.value++;
+};

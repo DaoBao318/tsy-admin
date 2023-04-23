@@ -26,7 +26,9 @@ enum Api {
 
   enteringStationData = '/api/enteringStationData', //新建的车站信息
   waterUseProjectItem = '/api/waterUseProjectItem', //获取用水条目信息
-  updateStation = '/api/Project/UpdateStation',
+  updateStation = '/api/Project/UpdateStation', //修改车站
+  addBatchStation = '/api/Project/AddBatchStation', //批量新增车站
+  copyStation = '/api/Project/CopyStation', //复制车站
   deleteStation = '/api/Project/DeleteStation',
   getSbuildWaterProjectData = '/api/ZYJSWaterCompute/GetSbuildWaterProjectData',
   getWaterProjectList = '/api/ZYJSWaterCompute/GetWaterProjectList',
@@ -163,10 +165,26 @@ export const waterUseProjectItem = (params) => {
     });
   });
 };
-//新增车站项目
+//修改车站项目
 export const updateStation = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.updateStation, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+//批量新增车站项目
+export const addBatchStation = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.addBatchStation, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+//复制车站
+export const copyStation = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.copyStation, params }).then((res) => {
       resolve(res);
     });
   });

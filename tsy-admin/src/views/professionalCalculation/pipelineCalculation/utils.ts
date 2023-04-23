@@ -35,7 +35,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         dynamicDisabled: true,
       },
       {
@@ -86,7 +86,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         dynamicDisabled: false,
       },
       {
@@ -141,7 +141,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         dynamicDisabled: false,
       },
       {
@@ -197,7 +197,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         dynamicDisabled: true,
       },
       {
@@ -252,7 +252,7 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         dynamicDisabled: false,
       },
       {
@@ -299,6 +299,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
     formModel.hydraulicGradient = undefined;
     formModel.nominalDiameter = undefined;
     formModel.calculateInnerDiameter = undefined;
+    formModel.velocityOfFlow = 1;
     updateSchema([
       {
         field: 'rateOfFlow',
@@ -313,7 +314,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '推荐公称直径',
+        label: '推荐公称直径DN(mm)',
         required: false,
         dynamicDisabled: true,
       },
@@ -348,7 +349,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         required: true,
         dynamicDisabled: false,
       },
@@ -370,6 +371,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
     formModel.hydraulicGradient = undefined;
     formModel.nominalDiameter = undefined;
     formModel.calculateInnerDiameter = undefined;
+    formModel.velocityOfFlow = 1;
     updateSchema([
       {
         field: 'rateOfFlow',
@@ -383,7 +385,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         required: true,
         dynamicDisabled: false,
       },
@@ -419,7 +421,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '推荐公称直径',
+        label: '推荐公称直径DN(mm)',
         required: false,
         dynamicDisabled: true,
       },
@@ -455,7 +457,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       {
         field: 'nominalDiameter',
         required: true,
-        label: '公称直径',
+        label: '公称直径DN(mm)',
         dynamicDisabled: false,
       },
       {
@@ -562,6 +564,7 @@ export const countNominalDiameter = (e, updateSchema, formModel) => {
       options: nominalDiameterOptions,
       onChange(e, v) {
         if (v) {
+          debugger;
           const { shineUponNominalDiameter } = v;
           formModel.calculateInnerDiameter = shineUponNominalDiameter;
           console.log('--------e--', e, formModel);
@@ -628,7 +631,10 @@ export const pressureCalculation = (values, setFieldsValue) => {
     const i = hydraulicGradient1(d, q, c, unit, values);
     const lossAlongTheWayResult = frictionalHeadLoss(i, l);
     const LocalResistanceLossResult = lossAlongTheWayResultCal(lossAlongTheWayResult, percentage);
-    const hydraulicLossResult = lossAlongTheWayResult + LocalResistanceLossResult;
+    const hydraulicLossResult = keepTwoDecimalFull(
+      lossAlongTheWayResult + LocalResistanceLossResult,
+      2,
+    );
     const nominalDiameter = getArrMiddle(nominalDiameterObj[values.pipeMaterial], d);
     setFieldsValue({
       calculateInnerDiameter: d,
@@ -650,7 +656,10 @@ export const pressureCalculation = (values, setFieldsValue) => {
     const i = hydraulicGradient2(d, q, c, unit, values);
     const lossAlongTheWayResult = frictionalHeadLoss(i, l);
     const LocalResistanceLossResult = lossAlongTheWayResultCal(lossAlongTheWayResult, percentage);
-    const hydraulicLossResult = lossAlongTheWayResult + LocalResistanceLossResult;
+    const hydraulicLossResult = keepTwoDecimalFull(
+      lossAlongTheWayResult + LocalResistanceLossResult,
+      2,
+    );
     setFieldsValue({
       velocityOfFlow: v,
       hydraulicGradient: i,
@@ -670,7 +679,10 @@ export const pressureCalculation = (values, setFieldsValue) => {
     const i = hydraulicGradient3(q, c, d, unit, values);
     const lossAlongTheWayResult = frictionalHeadLoss(i, l);
     const LocalResistanceLossResult = lossAlongTheWayResultCal(lossAlongTheWayResult, percentage);
-    const hydraulicLossResult = lossAlongTheWayResult + LocalResistanceLossResult;
+    const hydraulicLossResult = keepTwoDecimalFull(
+      lossAlongTheWayResult + LocalResistanceLossResult,
+      2,
+    );
     setFieldsValue({
       rateOfFlow: q,
       hydraulicGradient: i,
@@ -690,7 +702,10 @@ export const pressureCalculation = (values, setFieldsValue) => {
     const v = calculateFlowRate4(q, d, unit);
     const lossAlongTheWayResult = frictionalHeadLoss(i, l);
     const LocalResistanceLossResult = lossAlongTheWayResultCal(lossAlongTheWayResult, percentage);
-    const hydraulicLossResult = lossAlongTheWayResult + LocalResistanceLossResult;
+    const hydraulicLossResult = keepTwoDecimalFull(
+      lossAlongTheWayResult + LocalResistanceLossResult,
+      2,
+    );
     const nominalDiameter = getArrMiddle(nominalDiameterObj[values.pipeMaterial], d);
     setFieldsValue({
       velocityOfFlow: v,
@@ -712,7 +727,10 @@ export const pressureCalculation = (values, setFieldsValue) => {
     const v = calculateFlowRate5(q, d, i, unit, values);
     const lossAlongTheWayResult = frictionalHeadLoss(i, l);
     const LocalResistanceLossResult = lossAlongTheWayResultCal(lossAlongTheWayResult, percentage);
-    const hydraulicLossResult = lossAlongTheWayResult + LocalResistanceLossResult;
+    const hydraulicLossResult = keepTwoDecimalFull(
+      lossAlongTheWayResult + LocalResistanceLossResult,
+      2,
+    );
     setFieldsValue({
       velocityOfFlow: v,
       rateOfFlow: q,
