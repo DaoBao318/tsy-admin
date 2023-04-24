@@ -77,7 +77,7 @@ export const transformToTable = function (queryWater, selectData, recentQuantity
       waterProjectId: item.waterProjectId,
       waterProject: item.waterProject,
       unit: item.unit,
-      recentQuantity: recentQuantityObj[item.id],
+      recentQuantity: recentQuantityObj[item.id] || item.recentQuantity,
       // recentQuantity: 0,
     };
     return obj;
@@ -108,11 +108,25 @@ export const stationSave = function (getDataSource) {
 export const validateNum = function (list) {
   let mes = '';
   list.forEach((item) => {
-    if (item.recentQuantity === 0) {
+    if (item.recentQuantity === 0 || isNaN(item.recentQuantity)) {
       mes = mes + '《' + item.waterProject + '》；';
     }
   });
   return mes;
+};
+
+export const dealSearch = (inputValue, item) => {
+  const arr = inputValue.split(' ');
+  const flag = arr
+    .map((inputValue) => {
+      return (
+        item.classificationName.indexOf(inputValue) !== -1 ||
+        item.waterProject.indexOf(inputValue) !== -1 ||
+        (item.classificationName + item.waterProject).indexOf(inputValue) !== -1
+      );
+    })
+    .every((item) => item);
+  return flag;
 };
 
 export interface QueryModel {
@@ -254,6 +268,9 @@ export function sortKeys(keys, arrList) {
   }
   for (const key in objLast) {
     arr = arr.concat(objLast[key]);
+  }
+  if (arr.length === 0) {
+    arr = ['1', '2'];
   }
   return arr;
 }

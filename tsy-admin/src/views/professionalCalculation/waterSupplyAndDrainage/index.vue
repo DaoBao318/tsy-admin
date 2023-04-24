@@ -10,7 +10,7 @@ div.geipaishui
     :checkedIsDis = "{type: 'checkbox'}"
     )
     template(#toolbar)
-      a-button(type="default" preIcon="ant-design:rollback-outlined"  @click="backPage") 返回
+      a-button(type="default" preIcon="ant-design:rollback-outlined"  @click="backPage") 返回项目
       a-button(type="default" preIcon="ant-design:rollback-outlined"  @click="backPageCalculate") 用水项目编辑
       a-button(type="default" preIcon="mdi:export"  @click="batchExport") 批量导出
     template(#stationType="{ record, text }")
@@ -143,7 +143,6 @@ div.geipaishui
       async function onConfirm({ exec, record, layerName, type }) {
         try {
           if (layerName === LAYERS.CHANGE_STATION_TYPE) {
-            debugger;
             await exec(updateStationType, record);
             // TODO: 发送接口数据；里面会自动刷新列表
             setTimeout(() => {
@@ -160,9 +159,6 @@ div.geipaishui
               console.log(record);
               let params = dealSaveData(record);
               await exec(saveComputeData, params);
-              setTimeout(() => {
-                context.value.table.reload();
-              }, 1000);
             }
           }
         } catch (err) {
@@ -189,7 +185,7 @@ div.geipaishui
           };
         });
         if (selectedRows.length === 0) {
-          message.warn('请选择一条数据', 3);
+          message.warn('请至少选择一条水量计算后的数据', 3);
         } else {
           if (selectedRowsTips.length > 0) {
             message.warn(selectedRowsTips.join('、') + '；请新增之后再导出', 3);

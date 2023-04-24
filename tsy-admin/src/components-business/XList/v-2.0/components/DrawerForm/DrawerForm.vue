@@ -3,6 +3,7 @@ BasicDrawer(
   v-bind="drawerProps"
   @register='registerDrawer'
   @ok="toSubmit('confirm')"
+  @close="closeDialog"
   @export = "toSubmit('export')"
 )
   BasicForm(@register='registerForm')
@@ -91,7 +92,9 @@ BasicDrawer(
           setFieldsValue(outData);
         }
       });
-
+      const closeDialog = () => {
+        debugger;
+      };
       async function toSubmit(type) {
         let record = null;
         try {
@@ -102,11 +105,13 @@ BasicDrawer(
           return;
         }
         const success = () => {
-          message.success('提交成功');
+          // message.success('提交成功');
           changeOkLoading(false);
-          closeDrawer();
+          // closeDrawer();
+          message.success('水量计算保存成功');
           props.context?.table?.reload();
         };
+
         const fail = () => {
           changeOkLoading(false);
         };
@@ -134,6 +139,7 @@ BasicDrawer(
         registerDrawer,
         registerForm,
         cancel: () => {
+          debugger;
           closeDrawer();
         },
         drawerTitle,
@@ -141,6 +147,7 @@ BasicDrawer(
         DrawerFormMode,
         drawerProps,
         toSubmit,
+        closeDialog,
       };
     },
   });

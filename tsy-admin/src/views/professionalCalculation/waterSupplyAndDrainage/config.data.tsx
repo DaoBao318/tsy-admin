@@ -46,6 +46,15 @@ export const searchFormSchema: FormSchema[] = [
     label: '车站名称:',
     component: 'Input',
     colProps: { span: 8 },
+    componentProps: () => {
+      return {
+        onChange: () => {
+          setTimeout(() => {
+            window.contextLoad.value.table.reload();
+          }, 10);
+        },
+      };
+    },
   },
 ];
 
@@ -146,15 +155,15 @@ function createActionsColumns(record, context) {
     return [
       {
         icon: 'clarity:note-edit-line',
-        tooltip: '编辑车站',
+        tooltip: '水量计算/详情',
         onClick: handlerEdit,
       },
-      {
-        icon: 'bx:message-detail',
-        label: '',
-        tooltip: '查看详情',
-        onClick: viewDetail,
-      },
+      // {
+      //   icon: 'bx:message-detail',
+      //   label: '',
+      //   tooltip: '查看详情',
+      //   onClick: viewDetail,
+      // },
       {
         icon: 'ant-design:retweet-outlined',
         tooltip: '重置计算数据',
@@ -162,7 +171,7 @@ function createActionsColumns(record, context) {
       },
       {
         icon: 'mdi:export',
-        tooltip: '导出车站',
+        tooltip: '导出计算结果',
         onClick: handlerExport,
       },
     ];

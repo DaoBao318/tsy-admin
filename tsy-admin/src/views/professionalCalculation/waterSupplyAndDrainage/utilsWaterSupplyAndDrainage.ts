@@ -36,6 +36,7 @@ export const waterDataInitialization = (res, key) => {
       item.recommendedUnitWater = item.unitWaterMin + '~' + item.unitWaterMan;
     } else {
       item.recommendedUnitWater = item.unitWaterMin;
+      item.unitWaterMan = item.unitWaterMin;
     }
   });
 };

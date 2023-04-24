@@ -118,16 +118,26 @@ export const travelerUseTableSchemas: FormSchema[] = [
         placeholder: '请选择单位用水量',
         disabled: false,
         size: 'small',
-        onChange: (value) => {
-          if (formModel.unitWaterMan === 0 && value !== formModel.unitWaterMin) {
-            message.warn('单位用水量建议与推荐值保持一致', 1);
-          } else {
-            if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
-              message.warn('单位用水量不建议超出用水量的范围', 1);
-            }
-          }
+        onChange: function () {
           const proxyData = { [formModel.stationID]: window.allFormList };
           subtotalOfWaterConsumption(formModel, proxyData);
+        },
+        onBlur: (value) => {
+          const target = value.target;
+          value = Number(value.currentTarget.value);
+          target.style.color = '';
+          if (
+            formModel.unitWaterMan === formModel.unitWaterMin &&
+            value !== formModel.unitWaterMin
+          ) {
+            message.warn('单位用水量建议与推荐值保持一致', 3);
+            target.style.color = 'red';
+          } else {
+            if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
+              message.warn('单位用水量不建议超出用水量的范围', 3);
+              target.style.color = 'red';
+            }
+          }
         },
       };
     },
@@ -217,16 +227,26 @@ export const servicesUseTableSchemas: FormSchema[] = [
         placeholder: '请选择单位用水量',
         disabled: false,
         size: 'small',
-        onChange: (value) => {
-          if (formModel.unitWaterMan === 0 && value !== formModel.unitWaterMin) {
-            message.warn('单位用水量建议与推荐值保持一致', 1);
-          } else {
-            if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
-              message.warn('单位用水量不建议超出用水量的范围', 1);
-            }
-          }
+        onChange: function () {
           const proxyData = { [formModel.stationID]: window.allFormList };
           subtotalOfWaterConsumption(formModel, proxyData);
+        },
+        onBlur: (value) => {
+          const target = value.target;
+          value = Number(value.currentTarget.value);
+          target.style.background = '';
+          if (
+            formModel.unitWaterMan === formModel.unitWaterMin &&
+            value !== formModel.unitWaterMin
+          ) {
+            message.warn('单位用水量建议与推荐值保持一致', 3);
+            target.style.background = '#ff4d4f';
+          } else {
+            if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
+              message.warn('单位用水量不建议超出用水量的范围', 3);
+              target.style.background = '#ff4d4f';
+            }
+          }
         },
       };
     },

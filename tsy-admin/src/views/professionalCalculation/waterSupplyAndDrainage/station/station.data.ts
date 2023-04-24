@@ -38,7 +38,7 @@ export const waterItemColumns: BasicColumn[] = [
   {
     title: '数量(近期)',
     dataIndex: 'recentQuantity',
-    helpMessage: '编辑之后请点击小√',
+    helpMessage: '编辑后请点击√或者按enter键',
     edit: true,
     // editable: true,
   },
@@ -51,22 +51,30 @@ export const waterItemColumns: BasicColumn[] = [
   // },
 ];
 
-export const searchFormSchema: FormSchema[] = [
-  {
-    field: 'projectID',
-    label: '项目名称',
-    component: 'Input',
-    colProps: { span: 8 },
-    dynamicDisabled: true,
-  },
-  {
-    field: 'likeQuery',
-    label: '车站名称',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-];
-
+export const searchFormSchema = function (): FormSchema[] {
+  return [
+    {
+      field: 'projectID',
+      label: '项目名称',
+      component: 'Input',
+      colProps: { span: 8 },
+      dynamicDisabled: true,
+    },
+    {
+      field: 'likeQuery',
+      label: '车站名称',
+      component: 'Input',
+      colProps: { span: 8 },
+      componentProps: {
+        onChange: () => {
+          setTimeout(() => {
+            window.stationReload();
+          }, 10);
+        },
+      },
+    },
+  ];
+};
 //进行展示的
 export const formSchema: FormSchema[] = [
   {

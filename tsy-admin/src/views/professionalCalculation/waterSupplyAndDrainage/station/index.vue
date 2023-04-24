@@ -2,7 +2,7 @@
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button preIcon="ant-design:rollback-outlined" @click="handleBack"> 返回 </a-button>
+        <a-button preIcon="ant-design:rollback-outlined" @click="handleBack"> 返回项目 </a-button>
         <a-button preIcon="ant-design:send-outlined" @click="handleCalculate">
           用水量计算
         </a-button>
@@ -56,7 +56,9 @@
       const query = getRouterQuery(); //获取路由参数
       const { projectID, projectName, projectType } = query;
       const [registerDrawer, { openDrawer }] = useDrawer();
+      let likeQuery = '';
       function beforeFetch(params) {
+        likeQuery = params.likeQuery;
         params.projectID = Number(query.projectID);
         params.likeQuery = params.likeQuery ? params.likeQuery : '';
         params.pageIndex = params['split.page'];
@@ -73,7 +75,7 @@
         columns,
         formConfig: {
           labelWidth: 120,
-          schemas: searchFormSchema,
+          schemas: searchFormSchema(),
           autoSubmitOnEnter: true,
           showResetButton: false,
         },
@@ -83,13 +85,14 @@
         bordered: true,
         showIndexColumn: true,
         actionColumn: {
-          width: 180,
+          width: 200,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
           fixed: 'right',
         },
       });
+      window.stationReload = reload;
       onMounted(() => {
         getForm().setFieldsValue({ projectID: query.projectName });
         store.waterSupplyAndDrainageProjectTypeAction(query.projectType);
@@ -97,6 +100,7 @@
 
       function handleCreate() {
         query.type = 'add';
+        query.likeQuery = likeQuery;
         openModalStation(true, query);
       }
       function handleEditStation(record: Recordable) {

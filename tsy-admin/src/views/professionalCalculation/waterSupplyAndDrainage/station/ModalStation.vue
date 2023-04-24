@@ -59,6 +59,10 @@
           if (typeof res === 'string') {
             emit('success');
             message.success(messageStation);
+            for (let i = 1; i < arr.length; i++) {
+              removeSchemaByFiled([`stationName${i}`, `stationType${i}`, `${i}`]);
+            }
+
             closeModal();
           } else {
             return;
@@ -70,6 +74,8 @@
         // 方式1;
         setFieldsValue({
           projectID: data.projectID,
+          stationName: data.likeQuery,
+          stationType: undefined,
         });
         if (data.type === 'add') {
           typeStation.value = true;

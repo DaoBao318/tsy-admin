@@ -33,6 +33,15 @@ export const searchFormSchema: FormSchema[] = [
     helpMessage: '请先搜索，搜索不到会出现新增按钮',
     component: 'Input',
     colProps: { span: 8 },
+    componentProps: () => {
+      return {
+        onChange: () => {
+          setTimeout(() => {
+            window.projectReload();
+          }, 10);
+        },
+      };
+    },
   },
 ];
 

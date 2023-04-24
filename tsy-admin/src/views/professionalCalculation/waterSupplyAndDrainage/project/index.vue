@@ -69,7 +69,7 @@
           fixed: 'right',
         },
       });
-
+      window.projectReload = reload;
       function handleCreate() {
         openDrawer(true, {
           isUpdate: false,

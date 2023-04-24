@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="register"
     @ok="okHandle"
-    title="选择用水项目"
+    title="选择用水项目（多个搜索条件用空格隔开）"
     width="1000px"
     :defaultFullscreen="true"
     :min-height="360"
@@ -16,7 +16,7 @@
         show-search
         :filter-option="
           (inputValue, item) => {
-            return item.waterProject.indexOf(inputValue) !== -1;
+            return dealSearch(inputValue, item);
           }
         "
         :show-select-all="true"
@@ -54,7 +54,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { difference, cloneDeep } from 'lodash-es';
   import { TransformData, transformTableColumns } from './station.data';
-  import { sortKeys, transformToTableRaw } from './stationUtils';
+  import { sortKeys, transformToTableRaw, dealSearch } from './stationUtils';
 
   type tableColumn = Record<string, string>;
 
@@ -142,6 +142,7 @@
         rightColumns,
         onChange,
         getRowSelection,
+        dealSearch,
       };
     },
   });
