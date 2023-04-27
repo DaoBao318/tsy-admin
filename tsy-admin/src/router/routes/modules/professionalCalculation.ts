@@ -65,6 +65,16 @@ const professionalCalculation: AppRouteModule = {
         title: '管道水力计算',
       },
     },
+    {
+      path: 'equipmentSelection',
+      name: 'EquipmentSelection',
+      component: () => import('/@/views/professionalCalculation/equipmentSelection/index.vue'),
+      meta: {
+        // affix: true,
+        icon: 'ant-design:carry-out-outlined',
+        title: '设备选型',
+      },
+    },
   ],
 };
 

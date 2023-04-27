@@ -14,7 +14,6 @@ enum Api {
   updatePage = '/api/yuque/update_page',
   batchPage = 'api/yuque/batch_page',
   updateStationType = '/api/Project/UpdateStationType', //变更车站
-  getProjectInformation = '/api/Project/GetProjectList',
   getStationInfoList = '/api/Project/GetStationInfoList', // 列表
   getStationTypeList = '/api/Project/GetStationTypeList',
   getWaterProjectInfo = '/api/ZYJSWaterCompute/GetWaterProjectInfo', //详情信息
@@ -68,16 +67,7 @@ export function updatePage(id: number) {
 export function updateStationType(params) {
   return defHttp.post({ url: Api.updateStationType, params });
 }
-// 获取项目信息
-export const getProjectInformation = () => {
-  const params = {};
-  params['id'] = 1; //获取用户信息
-  return new Promise((resolve) => {
-    defHttp.post({ url: Api.getProjectInformation, params }).then((res) => {
-      resolve(res);
-    });
-  });
-};
+
 // 获取列表
 export const getStationInfoList = (params) => {
   console.log(params);

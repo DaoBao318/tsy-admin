@@ -970,35 +970,52 @@ export const beijingRecord = {
 export const waterSupplyAndDrainageProjectData = {
   list: [
     {
-      projectID: 2,
-      projectName: '常泰普铁项目Mock数据',
-      projectType: 'HighSpeed',
-      projectTypeName: '高铁',
-      isSynchro: 0,
-      isSynchroType: '录入',
-    },
-    {
       projectID: 1,
       projectName: '常泰项目',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 1,
+      isExist: '否',
       isSynchroType: '同步',
     },
     {
-      projectID: 6,
-      projectName: '测试1',
+      projectID: 141,
+      projectName: '广州南至东莞高铁',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 0,
+      isExist: '是',
+      isSynchroType: '录入',
+    },
+    {
+      projectID: 121,
+      projectName: '广州南至深圳高铁',
+      projectType: 'HighSpeed',
+      projectTypeName: '高铁',
+      isSynchro: 0,
+      isExist: '是',
+      isSynchroType: '录入',
+    },
+    {
+      projectID: 101,
+      projectName: '武汉西',
+      projectType: 'OrdinaryRailway',
+      projectTypeName: '普铁',
+      isSynchro: 0,
+      isExist: '是',
+      isSynchroType: '录入',
+    },
+    {
+      projectID: 26,
+      projectName: '武汉项目',
+      projectType: 'HighSpeed',
+      projectTypeName: '高铁',
+      isSynchro: 0,
+      isExist: '否',
       isSynchroType: '录入',
     },
   ],
-  split: {
-    page: 1,
-    size: 10,
-    total: 3,
-  },
+  split: { page: 1, size: 999, total: 5 },
 };
 export const waterUseProjectItem = {
   projectID: 1,
@@ -1728,14 +1745,14 @@ export default [
   //   },
   // },
   // //首页项目详情,包块查询手动录入和系统同步的
-  // {
-  //   url: '/professional-subsystem/api/Project/GetProjectList',
-  //   timeout: 0,
-  //   method: 'post',
-  //   response: () => {
-  //     return resultSuccess(waterSupplyAndDrainageProjectData);
-  //   },
-  // },
+  // // {
+  // //   url: '/professional-subsystem/api/Project/GetProjectList',
+  // //   timeout: 0,
+  // //   method: 'post',
+  // //   response: () => {
+  // //     return resultSuccess(waterSupplyAndDrainageProjectData);
+  // //   },
+  // // },
   // //新建的车站信息
   // {
   //   url: '/professional-subsystem/api/enteringStationData',
