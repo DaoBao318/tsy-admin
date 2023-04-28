@@ -419,7 +419,6 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: 12 },
-    defaultValue: 'm4',
     componentProps: ({ formModel, formActionType }) => {
       return {
         options: pipeMaterialOption,

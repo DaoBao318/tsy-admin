@@ -72,3 +72,9 @@ excessHeadHSix 2  -- 3
 计算公式
 
 当有一个必填项没有校验通过的时候，就会报错。
+
+waterSupplyDesignFlow 流量1
+
+
+outdoorFireMaxStrength
+firePumpDesignFlow 1

@@ -8,11 +8,17 @@
         <TableAction :actions="creatAction(record)" />
       </template>
     </BasicTable>
-    <EquipDrawer @register="registerDrawer" @success="handleSuccess" />
+    <EquipDrawer
+      @register="registerDrawer"
+      @success="handleSuccess"
+      @totalHead="handleTotalLoss"
+      :transformValue="transformValue"
+    />
+    <ModalCount @register="registerCount" @countValue="countValue" />
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent, ref, computed } from 'vue';
 
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
 
@@ -23,6 +29,8 @@
   import { exportEquipWord, getEquitment, getStationDeviceSelectionEdit } from './api/http';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { message } from 'ant-design-vue';
+  import ModalCount from './totalHeadLoss/ModalCount.vue';
+  import { useModal } from '/@/components/Modal';
 
   function beforeFetch(params) {
     params.pageIndex = params['split.page'];
@@ -37,9 +45,10 @@
 
   export default defineComponent({
     name: 'EquipmentSelection',
-    components: { BasicTable, EquipDrawer, TableAction },
+    components: { BasicTable, EquipDrawer, TableAction, ModalCount },
     setup() {
       let store = waterSourceStore();
+      const [registerCount, { openModal: openModalCount }] = useModal();
 
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerTable, { reload, getSelectRows }] = useTable({
@@ -73,8 +82,14 @@
         if (rows.length === 0) {
           message.warn('请先选择一条数据，再进行批量导出');
         } else {
-          const { projectName } = rows[0];
-          let params = {};
+          const { projectName, projectID } = rows[0];
+          const stationidList = rows
+            .map((item) => {
+              return item.stationID + '';
+            })
+            .join(',');
+
+          let params = { stationidList, projectID };
           params.exportNameObj = { projectName };
           exportEquipWord(params);
         }
@@ -86,13 +101,17 @@
         getStationDeviceSelectionEdit({ projectID, stationID }).then((res) => {
           openDrawer(true, {
             record: res,
-            isUpdate: true,
+            openModalCount: openModalCount,
           });
         });
       }
-
+      let setFieldsValueFlag = function ({}) {};
+      //点击计算按钮的时候，传递过来
       function handleSuccess() {
         reload();
+      }
+      function handleTotalLoss(setFieldsValue) {
+        setFieldsValueFlag = setFieldsValue;
       }
       function creatAction(record): ActionItem[] {
         const { projectID, projectName, stationID } = record;
@@ -107,11 +126,22 @@
             tooltip: '导出',
             onClick: () => {
               let params = {};
-              params.exportNameObj = { projectName };
-              exportEquipWord(params);
+              exportEquipWord({
+                projectID,
+                stationidList: stationID + '',
+                exportNameObj: projectName,
+              });
             },
           },
         ];
+      }
+      const transformValue = ref('');
+      function countValue(value) {
+        if (value.type === 'voltageStabilization') {
+          setFieldsValueFlag({ vfpBadWayHeadLoss: value.hydraulicLossResult });
+        } else {
+          setFieldsValueFlag({ firePumpBadWayHeadLoss: value.hydraulicLossResult });
+        }
       }
 
       return {
@@ -120,7 +150,11 @@
         exportBatch,
         handleEdit,
         handleSuccess,
+        handleTotalLoss,
         creatAction,
+        registerCount,
+        transformValue,
+        countValue,
       };
     },
   });

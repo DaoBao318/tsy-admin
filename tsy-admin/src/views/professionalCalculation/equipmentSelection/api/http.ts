@@ -1,10 +1,10 @@
 // import { createAxios } from '/@/utils/http/axios';
 import { defHttp } from '/@/utils/http/axios';
 import { waterSourceStore } from '/@/store/modules/waterInfo';
-import { transBlobWord } from '../../pipelineCalculation/utils';
+import { transBlobExcel } from '../../pipelineCalculation/utils';
 const store = waterSourceStore();
 enum Api {
-  exportEquipWord = '/api/ZYJSWaterCompute/SaveWordFile', //导出车站信息
+  exportEquipWord = '/api/ZYJSWaterCompute/DeviceCreateExcelFrom', //导出车站信息
 
   getProjectInformation = '/api/Project/GetProjectList', //获取项目信息
   getModelSelectTypeList = '/api/ZYJSWaterCompute/GetModelSelectTypeList', //获取项目信息
@@ -27,7 +27,7 @@ export function exportEquipWord(params) {
   delete params.exportNameObj;
   return new Promise((resolve) => {
     defHttp.post({ url: Api.exportEquipWord, params, responseType: 'blob' }).then((res) => {
-      transBlobWord(res, exportNameObj);
+      transBlobExcel(res, exportNameObj);
       resolve(res);
     });
   });

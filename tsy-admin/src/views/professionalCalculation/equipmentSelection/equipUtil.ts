@@ -12,10 +12,10 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
   // record.excessHeadHSix = 3; // 2-3
   // record.excessHeadHTwelve = 3; // 2-3
   record.workConditionBadPressure = 0.15; // >=0.15
-  record.vfpBadWayHeadLoss = record.vfpBadWayHeadLoss ? record.vfpBadWayHeadLoss : 66; //后端给 h4
+  record.vfpBadWayHeadLoss = record.vfpBadWayHeadLoss ? record.vfpBadWayHeadLoss : undefined; //没有值默认给0
   record.firePumpBadWayHeadLoss = record.firePumpBadWayHeadLoss
     ? record.firePumpBadWayHeadLoss
-    : 88; //后端给 h10
+    : undefined; //没有值默认给0
   if (EQUIP_TYPE.LARGE_STATION.includes(record.stationType)) {
     record.busWaterSingle = 2.5;
     record.waterSameRatio = 0.5;
@@ -57,11 +57,12 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       },
     ]);
   } else if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(record.stationType)) {
+    record.busWaterRows = 0; //没有
+    record.groupsNumber = 0; //没有
     record.busWaterSingle = 0; //没有
     record.waterSameRatio = 0.6;
     record.stabilivoltPumpDesignFlow = 1;
     record.modelSelectType = 'Division';
-
     updateSchema([
       {
         field: 'modelSelectType',

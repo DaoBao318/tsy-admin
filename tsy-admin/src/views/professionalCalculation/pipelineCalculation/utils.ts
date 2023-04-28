@@ -543,7 +543,7 @@ export const transBlob = (excelDownloadInfo, exportNameObj) => {
     window.URL.revokeObjectURL(href); //释放blob对象
   }
 };
-export const transBlobWord = (excelDownloadInfo, exportNameObj) => {
+export const transBlobExcel = (excelDownloadInfo, exportNameObj) => {
   // 如果后端返回的result是进过Blob处理的，直接 window.URL.createObjectURL()
   // 如果没有,就需要先实例化一个Blob对象,再window.URL.createObjectURL()
   // excelDownloadInfo = new Blob([JSON.stringify(excelDownloadInfo.data) as any], {
@@ -553,15 +553,15 @@ export const transBlobWord = (excelDownloadInfo, exportNameObj) => {
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(
       excelDownloadInfo,
-      `${exportNameObj.projectName}-设备选型-${moment().format('YYYYMMDDHHmmss')}.docx`,
+      `${exportNameObj.projectName}-设施设备选型计算-${moment().format('YYYYMMDDHHmmss')}.xlsx`,
     );
   } else {
     const downloadElement = document.createElement('a');
     const href = window.URL.createObjectURL(blob); //创建下载的链接
     downloadElement.href = href;
-    downloadElement.download = `${exportNameObj.projectName}-设备选型-${moment().format(
+    downloadElement.download = `${exportNameObj.projectName}-设施设备选型计算-${moment().format(
       'YYYYMMDDHHmmss',
-    )}.docx`; //下载后文件名docx
+    )}.xlsx`; //下载后文件名xlsx
     document.body.appendChild(downloadElement);
     downloadElement.click(); //点击下载
     document.body.removeChild(downloadElement); //下载完成移除元素

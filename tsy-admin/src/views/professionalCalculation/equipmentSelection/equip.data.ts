@@ -215,6 +215,14 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.firePumpDesignFlow = e;
+          console.log(e);
+        },
+      };
+    },
   },
   {
     field: 'fireContinueTime',
@@ -250,7 +258,6 @@ export const formSchema: FormSchema[] = [
         params: {},
         immediate: true,
         onChange: (e: any) => {
-          debugger;
           if (e === 'JointDesign') {
             formActionType.updateSchema([
               {
@@ -431,7 +438,7 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'excessHeadHSix',
-    label: '富裕水头h6(m)',
+    label: '富裕水头h5(m)',
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -442,14 +449,6 @@ export const formSchema: FormSchema[] = [
     label: '变频供水设备设计流量Q(L/s)',
     dynamicDisabled: true,
     component: 'InputNumberExpand',
-    colProps: { span: EQUIP.WIDTH_NUMBER },
-  },
-  {
-    field: 'vfpBadWayHeadLoss',
-    label: '变频泵至最不利点沿程水头损失h4(m)',
-    helpMessage: '来自于管道压力计算的值',
-    component: 'InputNumberExpand',
-    dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
@@ -466,6 +465,23 @@ export const formSchema: FormSchema[] = [
     colProps: { span: EQUIP.WIDTH_NUMBER },
     component: 'Input',
   },
+  {
+    field: 'vfpBadWayHeadLoss',
+    label: '变频泵至最不利点总水头损失(m)h4',
+    helpMessage: '请点击计算获取总水头损失',
+    component: 'InputNumberExpand',
+    required: true,
+    dynamicDisabled: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+  },
+  {
+    field: 'js1',
+    component: 'Input',
+    label: ' ',
+    labelWidth: 20,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    slot: 'add1',
+  },
 
   { label: '消防泵', field: 'divider4', component: 'Divider', helpMessage: '消防泵' },
   {
@@ -474,10 +490,18 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.outdoorFireMaxStrength = e;
+          console.log(e);
+        },
+      };
+    },
   },
   {
     field: 'sffPoolLowestWaterLevel',
-    label: '消防水池最低有效水位h7(m)',
+    label: '消防水池最低有效水位h6(m)',
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -492,7 +516,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'sffBadDesignGroundElevation',
-    label: '消防最不利点设计地面标高h8(m)',
+    label: '消防最不利点设计地面标高h7(m)',
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -507,7 +531,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'ffBadHydrantPressure',
-    label: '消防最不利点消火栓压力h9(m)',
+    label: '消防最不利点消火栓压力h8(m)',
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -515,16 +539,9 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'excessHeadHTwelve',
-    label: '富裕水头h12(m)',
+    label: '富裕水头h10(m)',
     component: 'InputNumberExpand',
     required: true,
-    colProps: { span: EQUIP.WIDTH_NUMBER },
-  },
-  {
-    field: 'firePumpBadWayHeadLoss',
-    label: '消防泵至最不利点沿程水头损失h10(m)',
-    component: 'InputNumberExpand',
-    dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
@@ -540,6 +557,23 @@ export const formSchema: FormSchema[] = [
     dynamicDisabled: true,
     component: 'Input',
     colProps: { span: EQUIP.WIDTH_NUMBER },
+  },
+  {
+    field: 'firePumpBadWayHeadLoss',
+    label: '消防泵至最不利点总水头损失(m)h9',
+    component: 'InputNumberExpand',
+    helpMessage: '请点击计算获取总水头损失',
+    dynamicDisabled: true,
+    required: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+  },
+  {
+    field: 'js2',
+    component: 'Input',
+    label: ' ',
+    labelWidth: 20,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    slot: 'add2',
   },
 
   { label: '稳压泵', field: 'divider5', component: 'Divider', helpMessage: '稳压泵' },
