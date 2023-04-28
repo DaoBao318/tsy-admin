@@ -88,7 +88,7 @@
               return item.stationID + '';
             })
             .join(',');
-
+          // 修改批量逻辑
           let params = { stationidList, projectID };
           params.exportNameObj = { projectName };
           exportEquipWord(params);
