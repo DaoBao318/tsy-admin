@@ -179,6 +179,9 @@ export const formSchemaCount: FormSchema[] = [
     required: true,
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
+    componentProps: {
+      disabled: true,
+    },
   },
   {
     field: 'unit',
@@ -298,7 +301,7 @@ export const formSchemaCount: FormSchema[] = [
   {
     field: 'lossAlongTheWayResult',
     label: '沿程损失',
-    show: false,
+    // show: false,
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     componentProps: {
@@ -310,7 +313,7 @@ export const formSchemaCount: FormSchema[] = [
     label: '局部阻力损失',
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
-    show: false,
+    // show: false,
     componentProps: {
       disabled: true,
     },
@@ -321,7 +324,7 @@ export const formSchemaCount: FormSchema[] = [
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     componentProps: {
-      disabled: true,
+      disabled: false,
     },
   },
 ];

@@ -5,19 +5,30 @@
     showFooter
     okText="计算"
     cancelText="关闭"
-    title="设备选型计算"
+    :title="titleEquipment"
     width="100%"
     @close="handleClose"
     @ok="handleSubmit"
   >
-    <BasicForm @register="registerForm">
-      <template #add1>
-        <a-button size="small" @click="openDialog('voltageStabilization')">计算</a-button>
-      </template>
-      <template #add2>
-        <a-button size="small" @click="openDialog('fireFighting')">计算</a-button>
-      </template>
-    </BasicForm>
+    <!-- <CollapseContainer
+      title="设备设施选型计算（长泰项目--常州南站--高铁-大型车站 ）"
+      helpMessage="长泰项目--常州南站--高铁-大型车站 "
+    >
+  </CollapseContainer> -->
+    <div style="padding: 10px 80px 0 20px">
+      <BasicForm @register="registerForm">
+        <template #add1>
+          <a-button size="small" color="success" @click="openDialog('voltageStabilization')"
+            >算水损</a-button
+          >
+        </template>
+        <template #add2>
+          <a-button size="small" color="success" @click="openDialog('fireFighting')"
+            >算水损</a-button
+          >
+        </template>
+      </BasicForm>
+    </div>
   </BasicDrawer>
 </template>
 <script lang="ts">
@@ -26,17 +37,19 @@
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { saveEquipment } from './api/http';
-  import { calculateEquip, initializeAssignmentStructure } from './equipUtil';
+  import { calculateEquip, initializeAssignmentStructure, saveDisplay } from './equipUtil';
   import { message } from 'ant-design-vue';
   import { keepTwoDecimalFull } from '/@/utils/calculation/count';
+  import { CollapseContainer } from '/@/components/Container';
+  import { EQUIP_TYPE } from './equipUtil';
 
   export default defineComponent({
     name: 'EquipDrawer',
-    components: { BasicDrawer, BasicForm },
+    components: { BasicDrawer, BasicForm, CollapseContainer },
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
       // const treeData = ref<TreeItem[]>([]);
-
+      const titleEquipment = ref('');
       const [
         registerForm,
         {
@@ -49,7 +62,7 @@
           validateFields,
         },
       ] = useForm({
-        labelWidth: 280,
+        labelWidth: 200,
         baseColProps: { span: 24 },
         schemas: formSchema,
         showActionButtonGroup: false,
@@ -71,6 +84,8 @@
           stationType,
           stationTypeName,
         };
+        titleEquipment.value =
+          '设施设备选型' + '(' + projectName + '-' + stationName + stationTypeName + ')';
         openModalCount = data.openModalCount;
         setDrawerProps({ confirmLoading: false });
         initializeAssignmentStructure(setFieldsValue, updateSchema, data.record);
@@ -84,8 +99,11 @@
           calculateEquip(values, setFieldsValue);
           const newValues = await validate();
           const data = Object.assign(newValues, basicData);
+          delete data.activeChlorineMes;
+          delete data.modelSelectType1;
+          delete data.modelSelectType2;
           saveEquipment(data).then((res) => {
-            setFieldsValue({ ...res });
+            saveDisplay(updateSchema, setFieldsValue, res);
             message.success('设备选型数据保存成功');
             // closeDrawer();
           });
@@ -107,6 +125,7 @@
               'busWaterSingle',
               'produceLifeTotalFlow',
               'waterSameRatio',
+              'stationType',
             ]);
             const {
               busWaterRows,
@@ -114,12 +133,23 @@
               busWaterSingle,
               produceLifeTotalFlow,
               waterSameRatio,
+              stationType,
             } = values;
             //按照类型判断,中间站已经默认为0
-            const waterSupplyDesignFlow = keepTwoDecimalFull(
-              busWaterRows * groupsNumber * busWaterSingle + produceLifeTotalFlow * waterSameRatio,
-              2,
-            );
+            debugger;
+            let waterSupplyDesignFlow = 0;
+            const busWaterTotalFlow = busWaterRows * groupsNumber * busWaterSingle;
+            if (EQUIP_TYPE.LARGE_STATION.includes(stationType)) {
+              const temp = 3.6 * (busWaterTotalFlow + produceLifeTotalFlow * waterSameRatio);
+              waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
+            } else if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(stationType)) {
+              const temp = 3.6 * (produceLifeTotalFlow * waterSameRatio);
+              waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
+            } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(stationType)) {
+              const temp = 3.6 * (0.5 * busWaterTotalFlow + produceLifeTotalFlow * waterSameRatio);
+              waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
+            }
+
             setFieldsValue({ waterSupplyDesignFlow });
             openModalCount(true, {
               rateOfFlow: waterSupplyDesignFlow,
@@ -135,15 +165,15 @@
             } = getFieldsValue();
             let info = '';
             if (busWaterRows) {
-              info = '客车上水同时上水排数N(列)';
+              info = '同时上水排数';
             } else if (groupsNumber) {
-              info = '列车最大编组辆数ni(辆/列)';
+              info = '列车最大编组';
             } else if (busWaterSingle) {
-              info = '单个客车上水栓流量qi(L/s)';
+              info = '上水栓流量';
             } else if (produceLifeTotalFlow) {
-              info = '生产生活房屋(含站房)设计总秒流量Q2(L/s)';
+              info = '房屋总秒流量';
             } else if (waterSameRatio) {
-              info = '同时用水系数k1';
+              info = '同时用水系数';
             } else {
               info = '';
             }
@@ -154,11 +184,11 @@
         } else {
           //消防泵设计流量(L/s)
           try {
-            const values = await validateFields(['firePumpDesignFlow']);
-            const { firePumpDesignFlow } = values;
-            openModalCount(true, { rateOfFlow: firePumpDesignFlow, type: 'fireFighting' });
+            const values = await validateFields(['outdoorFireMaxStrength']);
+            const { outdoorFireMaxStrength } = values;
+            openModalCount(true, { rateOfFlow: outdoorFireMaxStrength, type: 'fireFighting' });
           } catch (e) {
-            message.warn('请填写《消防泵设计流量(L/s)》');
+            message.warn('请填写《消防秒流量》');
           }
         }
       }
@@ -168,6 +198,7 @@
         handleSubmit,
         handleClose,
         openDialog,
+        titleEquipment,
       };
     },
   });

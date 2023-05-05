@@ -52,7 +52,7 @@
 
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerTable, { reload, getSelectRows }] = useTable({
-        title: '设备选型列表',
+        title: '设施设备选型列表',
         api: getEquitment,
         columns,
         formConfig: {
@@ -82,16 +82,37 @@
         if (rows.length === 0) {
           message.warn('请先选择一条数据，再进行批量导出');
         } else {
+          debugger;
           const { projectName, projectID } = rows[0];
-          const stationidList = rows
-            .map((item) => {
-              return item.stationID + '';
-            })
-            .join(',');
-          // 修改批量逻辑
-          let params = { stationidList, projectID };
-          params.exportNameObj = { projectName };
-          exportEquipWord(params);
+          const IsComputeTrue = rows.filter((item) => {
+            return item.isCompute === '是';
+          });
+          const IsComputeFalse = rows.filter((item) => {
+            return item.isCompute === '否';
+          });
+          const stationidList = IsComputeTrue.map((item) => {
+            return item.stationID;
+          });
+          const stationNameListExport = IsComputeTrue.map((item) => {
+            return '《' + item.stationName + '》';
+          });
+          const stationNameList = IsComputeFalse.map((item) => {
+            return '《' + item.stationName + '》';
+          });
+          if (stationNameList.length > 0) {
+            const mes = stationNameList.join(',');
+            message.warning('请将如下车站进行设备选型计算之后再导出：' + mes);
+          }
+          if (stationidList.length > 0) {
+            // 修改批量逻辑
+            let str = stationidList.join(',');
+            let params = { stationidList: str, projectID };
+            params.exportNameObj = { projectName };
+            exportEquipWord(params).then(() => {
+              const mes = stationNameListExport.join(',');
+              message.success(mes + '导出成功');
+            });
+          }
         }
       }
 
