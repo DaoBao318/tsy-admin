@@ -324,7 +324,7 @@ export const formSchemaCount: FormSchema[] = [
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     componentProps: {
-      disabled: false,
+      disabled: true,
     },
   },
 ];

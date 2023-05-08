@@ -32,6 +32,9 @@ import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
 import InputColor from './components/InputColor.vue';
 import InputNumberExpand from './components/InputNumberExpand.vue';
+import InputNumberExpand1 from './components/InputNumberExpand1.vue';
+import InputNumberExpand2 from './components/InputNumberExpand2.vue';
+import InputNumberExpand3 from './components/InputNumberExpand3.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -58,6 +61,9 @@ componentMap.set('Cascader', Cascader);
 componentMap.set('Slider', Slider);
 componentMap.set('Rate', Rate);
 componentMap.set('InputNumberExpand', InputNumberExpand);
+componentMap.set('InputNumberExpand1', InputNumberExpand1);
+componentMap.set('InputNumberExpand2', InputNumberExpand2);
+componentMap.set('InputNumberExpand3', InputNumberExpand3);
 componentMap.set('InputColor', InputColor);
 
 componentMap.set('DatePicker', DatePicker);

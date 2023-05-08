@@ -115,5 +115,8 @@ export type ComponentType =
   | 'Divider'
   | 'ColorInput'
   | 'InputNumberExpand'
+  | 'InputNumberExpand1'
+  | 'InputNumberExpand2'
+  | 'InputNumberExpand3'
   | 'InputColor'
   | 'ColorConvert';

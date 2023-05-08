@@ -163,7 +163,7 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
   }
   if (record.modelSelectType === 'JointDesign') {
     record.modelSelectType1 = '生活泵、消防泵分设';
-    record.modelSelectType2 = '生活水池（水箱）、消防水池合设';
+    record.modelSelectType2 = '生活、消防水池合设';
     updateSchema([
       {
         field: 'cleanPoolEffectiveVolume',
@@ -200,7 +200,7 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       },
     ]);
     record.modelSelectType1 = '生活泵、消防泵分设';
-    record.modelSelectType2 = '生活水池（水箱）、消防水池分设';
+    record.modelSelectType2 = '生活水池、消防水池分设';
   }
   setFieldsValue({ ...record });
 };

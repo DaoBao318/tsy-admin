@@ -109,7 +109,7 @@ BasicDrawer(
           changeOkLoading(false);
           // closeDrawer();
           message.success('水量计算保存成功');
-          props.context?.table?.reload();
+          // props.context?.table?.reload();
         };
 
         const fail = () => {

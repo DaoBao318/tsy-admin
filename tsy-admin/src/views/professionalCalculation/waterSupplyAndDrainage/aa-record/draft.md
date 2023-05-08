@@ -197,3 +197,51 @@ value值发生变化，自动进行查询。
   }
 
   //请求前非标数据转化，如果不是vben框架的非标数据，需要转化为code，message，result,type数据类型。
+
+  passengerTrainsFecalSewageDtoList 旅客列车集便污水 不变，只是改名称和计算逻辑
+designSewageVolumeNewDtoList 生产生活排水量（原设计污水） 生产生活排水量 1
+makeMaxDrainageDtoList 昼夜最大排水量（新增） 使用原设计污水逻辑  2
+
+index 
+
+
+删除生产生活 06删除服务用水
+producedrainMaxWaterDtoList 被替换
+lifedrainMaxWaterDtoList 删除掉
+
+  {
+    title: '八、昼夜最大排水量（生活污水）',
+    schemas: lifedrainMaxWaterDtoList,
+  },
+
+  初始化
+
+  修改值
+
+  HIGH_SPEED_TRAIN_DEPOT 06
+
+    { value: '01', label: '普铁-区段站' },0.55 *16 *2 *2  0.55*16*2
+  { value: '02', label: '普铁-中间站' },
+  { value: '03', label: '普铁-会让站、越行站' },
+  { value: '05', label: '高铁-中间站' }, 正在做
+  { value: '06', label: '高铁-动车段' }, 搞定
+  { value: '07', label: '高铁-大型车站' },
+
+    ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG: '04', // 普铁-牵引变电所、线路所、警务区
+
+      CHANGE_STATION_TYPE: '0', // 变更车站的modal弹窗
+  ORDINARY_RAILWAY_SECTION_STATION: '01', // 普铁区段站 有*2
+  ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF: '02', // 普铁-中间站 无
+  ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION: '03', // 普铁-会让站、越行站 无 特殊 两项合并
+
+  HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION: '05', // 高铁-中间站 无
+  HIGH_SPEED_TRAIN_DEPOT: '06', // 高铁-动车段  有
+  HIGH_SPEED_LARGE_STATIONS: '07', // 高铁-大型车站 有 *2
+
+  window.screen.width
+
+        window.οnresize = function () {
+        debugger;
+        console.log(window.screen.width + '-------------------------');
+      };
+      stylePadding

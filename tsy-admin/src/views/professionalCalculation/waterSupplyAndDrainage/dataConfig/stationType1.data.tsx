@@ -234,17 +234,17 @@ export const servicesUseTableSchemas: FormSchema[] = [
         onBlur: (value) => {
           const target = value.target;
           value = Number(value.currentTarget.value);
-          target.style.background = '';
+          target.style.color = '';
           if (
             formModel.unitWaterMan === formModel.unitWaterMin &&
             value !== formModel.unitWaterMin
           ) {
             message.warn('单位用水量建议与推荐值保持一致', 3);
-            target.style.background = '#ff4d4f';
+            target.style.color = '#ff4d4f';
           } else {
             if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
               message.warn('单位用水量不建议超出用水量的范围', 3);
-              target.style.background = '#ff4d4f';
+              target.style.color = '#ff4d4f';
             }
           }
         },
@@ -502,6 +502,40 @@ const serviceDtoList: FormSchema[] = [
     },
   },
 ];
+// 管网漏失及基建、未预见水量
+const pipeAndCapitalConstructionDtoList: FormSchema[] = [
+  {
+    label: '管网漏失及基建、未预见水量',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
+    field: 'pipeAndCapitalConstructionDtoList_recent',
+    component: 'InputNumber',
+    helpMessage: '近期的生产用水、生活用水、浇洒道路及绿化用水之和乘以15%',
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+    componentProps: ({ schema }) => {
+      return {
+        placeholder: '请先输入',
+        disabled: true,
+        immediate: true,
+      };
+    },
+  },
+  {
+    label: '管网漏失及基建、未预见水量',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
+    field: 'pipeAndCapitalConstructionDtoList_forward',
+    component: 'InputNumber',
+    helpMessage: '远期的生产用水、生活用水、浇洒道路及绿化用水之和乘以15%',
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+    componentProps: () => {
+      return {
+        placeholder: '请先输入',
+        disabled: true,
+        immediate: true,
+      };
+    },
+  },
+];
+
 // 管网漏失
 const pipeNetworkDtoList: FormSchema[] = [
   {
@@ -616,22 +650,22 @@ const makeMaxWaterDtoList: FormSchema[] = [
     },
   },
 ];
-// 昼夜最大排水量（生产污水）
-const producedrainMaxWaterDtoList: FormSchema[] = [
+// 生产生活排水量
+const designSewageVolumeNewDtoList: FormSchema[] = [
   {
     label: '',
     labelWidth: 0,
-    field: 'producedrainMaxWaterDtoList',
+    field: 'designSewageVolumeNewDtoList',
     component: 'Input',
     colProps: { span: 24 },
-    slot: 'producedrainMaxWaterDtoList',
+    slot: 'designSewageVolumeNewDtoList',
   },
   {
-    label: ' 近期昼夜最大排水量（生产污水）',
+    label: ' 生产生活排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'producedrainMaxWaterDtoList_recent',
+    field: 'designSewageVolumeNewDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '近期生产污水小计*单位用水量',
+    helpMessage: '近期生产生活排水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -641,11 +675,11 @@ const producedrainMaxWaterDtoList: FormSchema[] = [
     },
   },
   {
-    label: '远期昼夜最大排水量（生产污水）',
+    label: '远期生产生活排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'producedrainMaxWaterDtoList_forward',
+    field: 'designSewageVolumeNewDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '近期生产污水小计*单位用水量',
+    helpMessage: '近期生产生活排水小计*单位用水量',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -655,46 +689,7 @@ const producedrainMaxWaterDtoList: FormSchema[] = [
     },
   },
 ];
-// 昼夜最大排水量（生活污水）
-const lifedrainMaxWaterDtoList: FormSchema[] = [
-  {
-    label: '',
-    labelWidth: 0,
-    field: 'lifedrainMaxWaterDtoList',
-    component: 'Input',
-    colProps: { span: 24 },
-    slot: 'lifedrainMaxWaterDtoList',
-  },
-  {
-    label: ' 近期昼夜最大排水量（生活污水）',
-    labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'lifedrainMaxWaterDtoList_recent',
-    component: 'InputNumber',
-    helpMessage: '近期生活污水小计*单位用水量',
-    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
-    componentProps: ({ schema }) => {
-      return {
-        placeholder: '请先输入',
-        disabled: true,
-      };
-    },
-  },
-  {
-    label: '远期昼夜最大排水量（生活污水）',
-    labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'lifedrainMaxWaterDtoList_forward',
-    component: 'InputNumber',
-    helpMessage: '远期生活污水小计*单位用水量',
-    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
-    componentProps: () => {
-      return {
-        placeholder: '请先输入',
-        disabled: true,
-      };
-    },
-  },
-];
-// 昼夜最大排水量（运输污水）
+// 旅客列车集便污水量
 const passengerTrainsFecalSewageDtoList: FormSchema[] = [
   {
     label: '',
@@ -705,7 +700,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     slot: 'passengerTrainsFecalSewageDtoList',
   },
   {
-    label: ' 近期昼夜最大排水量（运输污水）',
+    label: ' 近期旅客列车集便污水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTrainsFecalSewageDtoList_recent',
     component: 'InputNumber',
@@ -719,7 +714,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     },
   },
   {
-    label: '远期昼夜最大排水量（运输污水）',
+    label: '远期旅客列车集便污水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTrainsFecalSewageDtoList_forward',
     component: 'InputNumber',
@@ -733,14 +728,14 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     },
   },
 ];
-// 设计污水量
-const designSewageVolumeDtoList: FormSchema[] = [
+// 昼夜最大排水量
+const makeMaxDrainageDtoList: FormSchema[] = [
   {
-    label: ' 近期设计污水量',
+    label: ' 昼夜最大排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'designSewageVolumeDtoList_recent',
+    field: 'makeMaxDrainageDtoList_recent',
     component: 'InputNumber',
-    helpMessage: '近期（运输污水小计+生产污水小计+生活污水小计）之和',
+    helpMessage: '近期（旅客列车集便污水量+生产生活排水小计）之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: ({ schema }) => {
       return {
@@ -750,11 +745,50 @@ const designSewageVolumeDtoList: FormSchema[] = [
     },
   },
   {
-    label: '近期设计污水量',
+    label: '昼夜最大排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'designSewageVolumeDtoList_forward',
+    field: 'makeMaxDrainageDtoList_forward',
     component: 'InputNumber',
-    helpMessage: '远期（运输污水小计+生产污水小计+生活污水小计）之和',
+    helpMessage: '远期（旅客列车集便污水量+生产生活排水小计）之和',
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+    componentProps: () => {
+      return {
+        placeholder: '请先输入',
+        disabled: true,
+      };
+    },
+  },
+];
+// 昼夜最大排水量 有系数
+const makeMaxDrainageDtoListCoefficient: FormSchema[] = [
+  {
+    label: '',
+    labelWidth: 0,
+    field: 'makeMaxDrainageDtoList',
+    component: 'Input',
+    colProps: { span: 24 },
+    slot: 'makeMaxDrainageDtoList',
+  },
+  {
+    label: ' 昼夜最大排水量',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
+    field: 'makeMaxDrainageDtoList_recent',
+    component: 'InputNumber',
+    helpMessage: '近期（运输污水小计+生产生活排水小计+生活污水小计）之和',
+    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+    componentProps: ({ schema }) => {
+      return {
+        placeholder: '请先输入',
+        disabled: true,
+      };
+    },
+  },
+  {
+    label: '昼夜最大排水量',
+    labelWidth: STATION_WIDTH.COUNT_LABEL,
+    field: 'makeMaxDrainageDtoList_forward',
+    component: 'InputNumber',
+    helpMessage: '远期（运输污水小计+生产生活排水小计+生活污水小计）之和',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -766,6 +800,7 @@ const designSewageVolumeDtoList: FormSchema[] = [
 ];
 
 // 根据不同的类型进行项目配置
+//01
 export const ORDINARY_RAILWAY_SECTION_STATION = [
   {
     title: '基本配置',
@@ -804,23 +839,20 @@ export const ORDINARY_RAILWAY_SECTION_STATION = [
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '九、昼夜最大排水量（运输污水）',
+    title: '九、旅客列车集便污水量',
     schemas: passengerTrainsFecalSewageDtoList,
   },
   {
-    title: '十、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
-  },
-  {
-    title: '十一、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
+    title: '十、生产生活排水量',
+    schemas: designSewageVolumeNewDtoList,
   },
 
   {
-    title: '十二、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '十二、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoList,
   },
 ];
+//02
 export const ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF = [
   {
     title: '基本配置',
@@ -855,18 +887,11 @@ export const ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF = [
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '八、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
-  },
-  {
-    title: '九、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
-  },
-  {
-    title: '十、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '八、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoListCoefficient,
   },
 ];
+//03
 export const ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION = [
   {
     title: '基本配置',
@@ -885,30 +910,19 @@ export const ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION = [
     schemas: greenAndRoadWaterSchemas,
   },
   {
-    title: '四、管网漏失',
-    schemas: pipeNetworkDtoList,
+    title: '四、管网漏失及基建、未预见水量',
+    schemas: pipeAndCapitalConstructionDtoList,
   },
   {
-    title: '五、基建未预见',
-    schemas: capitalConstructionDtoList,
-  },
-  {
-    title: '六、昼夜最大用水量',
+    title: '五、昼夜最大用水量',
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '七、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
-  },
-  {
-    title: '八、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
-  },
-  {
-    title: '九、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '六、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoListCoefficient,
   },
 ];
+//04取消
 export const ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG = [
   {
     title: '基本配置',
@@ -935,18 +949,16 @@ export const ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG = [
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '七、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
+    title: '七、生产生活排水量',
+    schemas: designSewageVolumeNewDtoList,
   },
+
   {
-    title: '八、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
-  },
-  {
-    title: '九、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '九、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoList,
   },
 ];
+//05
 export const HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION = [
   {
     title: '基本配置',
@@ -981,18 +993,11 @@ export const HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION = [
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '八、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
-  },
-  {
-    title: '九、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
-  },
-  {
-    title: '十、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '八、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoListCoefficient,
   },
 ];
+//06
 export const HIGH_SPEED_TRAIN_DEPOT = [
   {
     title: '基本配置',
@@ -1015,38 +1020,31 @@ export const HIGH_SPEED_TRAIN_DEPOT = [
     schemas: greenAndRoadWaterSchemas,
   },
   {
-    title: '五、服务行业用水',
-    schemas: serviceDtoList,
-  },
-  {
-    title: '六、管网漏失',
+    title: '五、管网漏失',
     schemas: pipeNetworkDtoList,
   },
   {
-    title: '七、基建未预见',
+    title: '六、基建未预见',
     schemas: capitalConstructionDtoList,
   },
   {
-    title: '八、昼夜最大用水量',
+    title: '七、昼夜最大用水量',
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '九、昼夜最大排水量（运输污水）',
+    title: '八、旅客列车集便污水量',
     schemas: passengerTrainsFecalSewageDtoList,
   },
   {
-    title: '十、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
+    title: '九、生产生活排水量',
+    schemas: designSewageVolumeNewDtoList,
   },
   {
-    title: '十一、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
-  },
-  {
-    title: '十二、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '十、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoList,
   },
 ];
+//07
 export const HIGH_SPEED_LARGE_STATIONS = [
   {
     title: '基本配置',
@@ -1085,19 +1083,15 @@ export const HIGH_SPEED_LARGE_STATIONS = [
     schemas: makeMaxWaterDtoList,
   },
   {
-    title: '九、昼夜最大排水量（运输污水）',
+    title: '九、旅客列车集便污水量',
     schemas: passengerTrainsFecalSewageDtoList,
   },
   {
-    title: '十、昼夜最大排水量（生产污水）',
-    schemas: producedrainMaxWaterDtoList,
+    title: '十、生产生活排水量',
+    schemas: designSewageVolumeNewDtoList,
   },
   {
-    title: '十一、昼夜最大排水量（生活污水）',
-    schemas: lifedrainMaxWaterDtoList,
-  },
-  {
-    title: '十二、设计污水量',
-    schemas: designSewageVolumeDtoList,
+    title: '十一、昼夜最大排水量',
+    schemas: makeMaxDrainageDtoList,
   },
 ];

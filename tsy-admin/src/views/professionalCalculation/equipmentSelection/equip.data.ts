@@ -186,7 +186,7 @@ export const formSchema: FormSchema[] = [
               },
             ]);
             formModel.modelSelectType1 = '生活泵、消防泵分设';
-            formModel.modelSelectType2 = '生活水池（水箱）、消防水池合设';
+            formModel.modelSelectType2 = '生活、消防水池合设';
           } else if (e === 'Division') {
             formActionType.updateSchema([
               {
@@ -206,7 +206,7 @@ export const formSchema: FormSchema[] = [
               },
             ]);
             formModel.modelSelectType1 = '生活泵、消防泵分设';
-            formModel.modelSelectType2 = '生活水池（水箱）、消防水池分设';
+            formModel.modelSelectType2 = '生活、消防水池分设';
           } else {
           }
           console.log(e);
@@ -549,9 +549,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'js1',
     component: 'Input',
-    label: '总水头损失计算',
-    helpMessage:
-      '设计站点变频泵至最不利点的总水头损失，含沿程水头损失h4（m）和局部水头损失h5（m）。',
+    label: '',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     slot: 'add1',
   },
@@ -699,9 +697,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'js2',
     component: 'Input',
-    label: '总水头损失计算',
-    helpMessage:
-      '设计站点消防泵至最不利点的总水头损失，含沿程水头损失h10（m）和局部水头损失h11（m）。',
+    label: '',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     slot: 'add2',
   },

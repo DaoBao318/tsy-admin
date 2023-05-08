@@ -5,7 +5,6 @@ export const itemInfo = [
   { value: '01', label: '普铁-区段站' },
   { value: '02', label: '普铁-中间站' },
   { value: '03', label: '普铁-会让站、越行站' },
-  { value: '04', label: '普铁-牵引变电所、线路所、警务区' },
   { value: '05', label: '高铁-中间站' },
   { value: '06', label: '高铁-动车段' },
   { value: '07', label: '高铁-大型车站' },

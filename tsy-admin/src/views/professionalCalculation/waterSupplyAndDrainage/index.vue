@@ -65,14 +65,14 @@ div.geipaishui
           :initList='model[field]'
           showIndex
           )
-    template(#producedrainMaxWaterDtoList="{model, field}")
+    template(#designSewageVolumeNewDtoList="{model, field}")
       FormTable(
           :schemas="servicesUseTableSchemas" 
           ref="formTable"
           :initList='model[field]'
           showIndex
           )
-    template(#lifedrainMaxWaterDtoList="{model, field}")
+    template(#makeMaxDrainageDtoList="{model, field}")
       FormTable(
           :schemas="servicesUseTableSchemas" 
           ref="formTable"
@@ -85,8 +85,15 @@ div.geipaishui
           ref="formTable"
           :initList='model[field]'
           showIndex
-          )      
-    template(#EditTip)
+          ) 
+    template(#pipeAndCapitalConstructionDtoList="{model, field}")
+      FormTable(
+          :schemas="servicesUseTableSchemas" 
+          ref="formTable"
+          :initList='model[field]'
+          showIndex
+          )       
+    template(#EditTip) 
       .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
 </template>
 
@@ -141,29 +148,33 @@ div.geipaishui
       });
 
       async function onConfirm({ exec, record, layerName, type }) {
-        try {
-          if (layerName === LAYERS.CHANGE_STATION_TYPE) {
-            await exec(updateStationType, record);
-            // TODO: 发送接口数据；里面会自动刷新列表
+        if (layerName === LAYERS.CHANGE_STATION_TYPE) {
+          await exec(updateStationType, record);
+          // TODO: 发送接口数据；里面会自动刷新列表
+          setTimeout(() => {
+            context.value.table.reload();
+          }, 1000);
+        } else {
+          if (type === 'export') {
+            const { projectName, computeID, projectID, stationID, stationType } = record;
+
+            const waterProjectWDtolist = [{ computeID, projectID, stationID, stationType }];
+            const exportNameObj = { projectName };
+            exportExcel({ waterProjectWDtolist, exportNameObj });
+          } else {
+            console.log(record);
+            let params = dealSaveData(record);
+            await exec(saveComputeData, params);
             setTimeout(() => {
               context.value.table.reload();
             }, 1000);
-          } else {
-            if (type === 'export') {
-              const { projectName, computeID, projectID, stationID, stationType } = record;
-
-              const waterProjectWDtolist = [{ computeID, projectID, stationID, stationType }];
-              const exportNameObj = { projectName };
-              exportExcel({ waterProjectWDtolist, exportNameObj });
-            } else {
-              console.log(record);
-              let params = dealSaveData(record);
-              await exec(saveComputeData, params);
-            }
           }
-        } catch (err) {
-          message.error(JSON.stringify(err));
         }
+        // try {
+
+        // } catch (err) {
+        //   message.error(JSON.stringify(err));
+        // }
       }
       function batchExport() {
         let selectRows = context.value.table.getSelectRows();
@@ -185,7 +196,11 @@ div.geipaishui
           };
         });
         if (selectedRows.length === 0) {
-          message.warn('请至少选择一条水量计算后的数据', 3);
+          if (selectRows.length === 0) {
+            message.warn('请先选择一条数据', 3);
+          } else {
+            message.warn('所选的数据中，未包含计算过的数据，请先计算后再导出', 3);
+          }
         } else {
           if (selectedRowsTips.length > 0) {
             message.warn(selectedRowsTips.join('、') + '；请新增之后再导出', 3);

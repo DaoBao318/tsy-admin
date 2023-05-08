@@ -206,6 +206,7 @@ export const useXListOptions = {
     // scroll: { x: 6000, y: 200 },
     pagination: { pageSize: 10 },
     showIndexColumn: true,
+    clickToRowSelect: false,
     // schemas: searchFormSchema,
     formConfig: {
       labelWidth: 120,

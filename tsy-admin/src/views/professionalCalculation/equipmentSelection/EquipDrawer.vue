@@ -15,17 +15,15 @@
       helpMessage="长泰项目--常州南站--高铁-大型车站 "
     >
   </CollapseContainer> -->
-    <div style="padding: 10px 80px 0 20px">
+    <div :class="stylePadding">
       <BasicForm @register="registerForm">
         <template #add1>
           <a-button size="small" color="success" @click="openDialog('voltageStabilization')"
-            >算水损</a-button
+            >算</a-button
           >
         </template>
         <template #add2>
-          <a-button size="small" color="success" @click="openDialog('fireFighting')"
-            >算水损</a-button
-          >
+          <a-button size="small" color="success" @click="openDialog('fireFighting')">算</a-button>
         </template>
       </BasicForm>
     </div>
@@ -49,6 +47,12 @@
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
       // const treeData = ref<TreeItem[]>([]);
+      const stylePadding = ref();
+      if (window.screen.width > 1800) {
+        stylePadding.value = 'largeScreen';
+      } else {
+        stylePadding.value = 'smallScreen';
+      }
       const titleEquipment = ref('');
       const [
         registerForm,
@@ -62,7 +66,7 @@
           validateFields,
         },
       ] = useForm({
-        labelWidth: 200,
+        labelWidth: 150,
         baseColProps: { span: 24 },
         schemas: formSchema,
         showActionButtonGroup: false,
@@ -199,7 +203,16 @@
         handleClose,
         openDialog,
         titleEquipment,
+        stylePadding,
       };
     },
   });
 </script>
+<style lang="less" scoped>
+  .largeScreen {
+    padding: 0 360px 0 250px;
+  }
+  .smallScreen {
+    padding: 0 30px 0 35px;
+  }
+</style>
