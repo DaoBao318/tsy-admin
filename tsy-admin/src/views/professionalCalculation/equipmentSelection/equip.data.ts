@@ -1,5 +1,5 @@
 import { getModelSelectTypeList, getProjectInformation } from './api/http';
-import { EQUIP, nc, transformData } from './equipUtil';
+import { EQUIP, nc, transformData1, transformData2, transformData3 } from './equipUtil';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 
@@ -225,7 +225,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'modelSelectType2',
     label: '蓄水设施设置',
-    helpMessage: '设计站点生活清水池（水箱）、消防水池设置形式：合设or分设。',
+    helpMessage: '设计站点生活清水池(水箱)、消防水池设置形式：合设or分设。',
     component: 'Input',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -233,9 +233,9 @@ export const formSchema: FormSchema[] = [
 
   {
     field: 'dnMwoMax',
-    label: '最大用水量Qd',
-    helpMessage: '设计站点（含站房）昼夜最大用水量Qd（m3/d）。',
-    component: 'InputNumberExpand',
+    label: `最大用水量`,
+    helpMessage: '设计站点(含站房)昼夜最大用水量Qd(m³/d)。',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -243,20 +243,28 @@ export const formSchema: FormSchema[] = [
         onChange: (e: any) => {
           formModel.waterStorageCoefficient = nc(e);
         },
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.dnMwoMax = transformData1(target);
+        },
       };
     },
   },
   {
     field: 'busWaterRows',
     label: '同时上水排数',
-    helpMessage: '设计站点（给水站、动车所等）旅客列车同时上水排数N（列）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点(给水站、动车所等)旅客列车同时上水排数N(列)。',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onChange: () => {
           formModel.vfpBadWayHeadLoss = undefined;
+        },
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.busWaterRows = transformData1(target);
         },
       };
     },
@@ -264,9 +272,8 @@ export const formSchema: FormSchema[] = [
   {
     field: 'groupsNumber',
     label: '列车最大编组',
-    helpMessage: '设计站点（给水站、动车所等）旅客列车最大编组辆数ni（辆/列）。',
+    helpMessage: '设计站点(给水站、动车所等)旅客列车最大编组辆数ni(辆/列)。',
     component: 'InputNumberExpand',
-    required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
@@ -275,18 +282,37 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
+    dynamicRules: ({ values }) => {
+      return [
+        {
+          required: true,
+          validator: (_, value) => {
+            if ((value + '').indexOf('.') > -1 || !value) {
+              const mes = '只能输入正整数';
+              return Promise.reject(mes);
+            }
+
+            return Promise.resolve();
+          },
+        },
+      ];
+    },
   },
   {
     field: 'busWaterSingle',
     label: '上水栓流量',
-    helpMessage: '客车上水栓单栓秒流量qi（L/s）。',
-    component: 'InputNumberExpand',
+    helpMessage: '客车上水栓单栓秒流量qi(L/s)。',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onChange: () => {
           formModel.vfpBadWayHeadLoss = undefined;
+        },
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.busWaterSingle = transformData1(target);
         },
       };
     },
@@ -294,8 +320,8 @@ export const formSchema: FormSchema[] = [
   {
     field: 'produceLifeTotalFlow',
     label: '房屋总秒流量',
-    helpMessage: '设计站点生产生活房屋（含站房）设计总秒流量Q2（L/s）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点生产生活房屋(含站房)设计总秒流量Q₂(L/s)。',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -303,13 +329,17 @@ export const formSchema: FormSchema[] = [
         onChange: () => {
           formModel.vfpBadWayHeadLoss = undefined;
         },
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.produceLifeTotalFlow = transformData1(target);
+        },
       };
     },
   },
   {
     field: 'waterSameRatio',
     label: '同时用水系数',
-    helpMessage: '指生产生活房屋（含站房）同时用水系数k1。',
+    helpMessage: '指生产生活房屋(含站房)同时用水系数k₁。',
     component: 'InputNumberExpand',
     required: true,
     dynamicDisabled: false,
@@ -323,7 +353,7 @@ export const formSchema: FormSchema[] = [
               return Promise.resolve();
             }
             if (value > 0.7 || value < 0.6) {
-              return Promise.reject('同时用水系数k1在0.6-0.7之间');
+              return Promise.reject('同时用水系数k₁在0.6-0.7之间');
             }
             return Promise.resolve();
           },
@@ -341,8 +371,8 @@ export const formSchema: FormSchema[] = [
   {
     field: 'outdoorFireMaxStrength',
     label: '消防秒流量',
-    helpMessage: '设计站点室外消防最大设计秒流量（L/s）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点室外消防最大设计秒流量(L/s)。',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -352,25 +382,45 @@ export const formSchema: FormSchema[] = [
           formModel.firePumpBadWayHeadLoss = undefined;
           console.log(e);
         },
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.outdoorFireMaxStrength = transformData1(target);
+        },
       };
     },
   },
   {
     field: 'fireContinueTime',
     label: '火灾延续时间',
-    helpMessage: '设计站点室外消防火灾延续时间t（h）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点室外消防火灾延续时间t(h)。',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.fireContinueTime = transformData1(target);
+        },
+      };
+    },
   },
 
   {
     field: 'busWaterTotalFlow',
     label: '上水总流量',
-    helpMessage: '设计站点（给水站、动车所等）考虑同时上水的客车上水总流量q1（L/s）。',
+    helpMessage: '设计站点(给水站、动车所等)考虑同时上水的客车上水总流量q₁(L/s)。',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.busWaterTotalFlow = transformData1(target);
+        },
+      };
+    },
   },
 
   {
@@ -431,31 +481,39 @@ export const formSchema: FormSchema[] = [
   {
     field: 'waterStorageCoefficient',
     label: '水池贮水系数',
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand3',
     helpMessage: [
       '生产生活用水水池贮水系数β',
-      'β=1/2~1/4（Qd≤500）',
-      'β=1/4~1/6（500＜Qd≤1000）',
-      'β=1/6~1/8（1000＜Qd≤2000）',
-      'β=1/8~1/10（2000＜Qd≤3000）',
-      'β=1/10（3000＜Qd）',
+      'β=1/2~1/4(Qd≤500)',
+      'β=1/4~1/6(500＜Qd≤1000)',
+      'β=1/6~1/8(1000＜Qd≤2000)',
+      'β=1/8~1/10(2000＜Qd≤3000)',
+      'β=1/10(3000＜Qd)',
     ],
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.waterStorageCoefficient = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'outdoorFireMaxMwoMax',
     label: '消防用水量',
-    helpMessage: '设计站点室外消防最大用水量YX（m3/d）。',
+    helpMessage: '设计站点室外消防最大用水量YX(m³/d)。',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
 
   {
     field: 'cleanPoolEffectiveVolume',
     label: '水池合设容积',
-    helpMessage: '设计站点清水池与消防水池合设的有效容积V1。',
+    helpMessage: '设计站点清水池与消防水池合设的有效容积V₁(m³)。',
     dynamicDisabled: true,
     component: 'InputNumberExpand',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -464,7 +522,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'producePoolEffectiveVolume',
     label: '生活水池容积',
-    helpMessage: '设计站点生活水池（水箱）单独设置的有效容积V2。',
+    helpMessage: '设计站点生活水池(水箱)单独设置的有效容积V₂(m³)。',
     dynamicDisabled: true,
     component: 'InputNumberExpand',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -472,7 +530,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'ffPoolEffectiveVolume',
     label: '消防水池容积',
-    helpMessage: '设计站点消防水池单独设置的有效容积V3。',
+    helpMessage: '设计站点消防水池单独设置的有效容积V₃(m³)。',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     component: 'InputNumberExpand',
@@ -507,15 +565,15 @@ export const formSchema: FormSchema[] = [
   {
     field: 'pooLowWaterElevation',
     label: '低水位标高',
-    helpMessage: '设计站点水池（水箱）最低水位绝对标高h1（m）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点水池(水箱)最低水位绝对标高h₁(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.pooLowWaterElevation = transformData(target);
+          formModel.pooLowWaterElevation = transformData3(target);
         },
       };
     },
@@ -523,15 +581,15 @@ export const formSchema: FormSchema[] = [
   {
     field: 'dullDesignGroundElevation',
     label: '地面标高',
-    helpMessage: '设计站点水力计算最不利点处的房屋设计地面绝对标高h2（m）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点水力计算最不利点处的房屋设计地面绝对标高h₂(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.dullDesignGroundElevation = transformData(target);
+          formModel.dullDesignGroundElevation = transformData3(target);
         },
       };
     },
@@ -539,32 +597,38 @@ export const formSchema: FormSchema[] = [
   {
     field: 'vfpBadWayHeadLoss',
     label: '总水头损失',
-    helpMessage:
-      '设计站点变频泵至最不利点的总水头损失，含沿程水头损失h4（m）和局部水头损失h5（m）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点变频泵至最不利点的总水头损失，含沿程水头损失h₄(m)和局部水头损失h₅(m)。',
+    component: 'InputNumberExpand3',
     required: true,
-    dynamicDisabled: true,
-    colProps: { span: EQUIP.WIDTH_NUMBER },
+    colProps: { span: 5 },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.vfpBadWayHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js1',
     component: 'Input',
     label: '',
-    colProps: { span: EQUIP.WIDTH_NUMBER },
+    colProps: { span: 1 },
     slot: 'add1',
   },
   {
     field: 'dullAskWaterPressure',
     label: '房屋要求水压',
-    helpMessage: '设计站点最不利点处的房屋室内要求水压h3（m）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点最不利点处的房屋室内要求水压h₃(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.dullAskWaterPressure = transformData(target);
+          formModel.dullAskWaterPressure = transformData3(target);
         },
       };
     },
@@ -573,15 +637,15 @@ export const formSchema: FormSchema[] = [
   {
     field: 'excessHeadHSix',
     label: '富裕水头',
-    helpMessage: '计算泵组设计扬程的富裕水头h6（m）。',
-    component: 'InputNumberExpand',
+    helpMessage: '计算泵组设计扬程的富裕水头h₆(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.excessHeadHSix = transformData(target);
+          formModel.excessHeadHSix = transformData3(target);
         },
       };
     },
@@ -590,18 +654,18 @@ export const formSchema: FormSchema[] = [
   {
     field: 'waterSupplyDesignFlow',
     label: '设计流量',
-    helpMessage: '变频供水设备设计流量Q（m3/h）。',
+    helpMessage: '变频供水设备设计流量Q(m³/h)。',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
     field: 'waterSupplyDesignLift',
     label: '泵组设计扬程',
-    helpMessage: '变频供水设备设计扬程H1（m）=h2-h1+h3+h4+h5+h6。',
+    helpMessage: '变频供水设备设计扬程H₁(m)=h₂-h₁+h₃+h₄+h₅+h₆。',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand3',
   },
   {
     field: 'waterSupplyModel',
@@ -611,12 +675,17 @@ export const formSchema: FormSchema[] = [
     component: 'InputTextArea',
   },
   { label: '消防供水设备选型计算', field: 'divider41', component: 'Divider' },
-  { label: '<<<<<<消防主泵计算', field: 'divider4', component: 'Divider' },
+  {
+    label: '◆ 消防主泵计算',
+    field: 'divider4',
+    component: 'Divider',
+    colProps: { span: 23 },
+  },
   {
     field: 'firePumpDesignFlow',
     label: '主泵设计流量',
-    helpMessage: '消防泵设计流量（L/s)',
-    component: 'InputNumberExpand',
+    helpMessage: '消防泵设计流量(L/s)',
+    component: 'InputNumberExpand1',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -631,8 +700,8 @@ export const formSchema: FormSchema[] = [
   {
     field: 'sffPoolLowestWaterLevel',
     label: '低水位标高',
-    helpMessage: '设计站点消防水池最低水位绝对标高h7（m）',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点消防水池最低水位绝对标高h₇(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -643,7 +712,7 @@ export const formSchema: FormSchema[] = [
         },
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.sffPoolLowestWaterLevel = transformData(target);
+          formModel.sffPoolLowestWaterLevel = transformData3(target);
         },
       };
     },
@@ -651,8 +720,8 @@ export const formSchema: FormSchema[] = [
   {
     field: 'sffBadDesignGroundElevation',
     label: '地面标高',
-    helpMessage: '设计站点消防最不利点处的房屋设计地面绝对标高h8（m)',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点消防最不利点处的房屋设计地面绝对标高h₈(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -663,7 +732,7 @@ export const formSchema: FormSchema[] = [
         },
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.sffBadDesignGroundElevation = transformData(target);
+          formModel.sffBadDesignGroundElevation = transformData3(target);
         },
       };
     },
@@ -671,15 +740,15 @@ export const formSchema: FormSchema[] = [
   {
     field: 'ffBadHydrantPressure',
     label: '消防栓压力',
-    helpMessage: '设计站点消防最不利点处消火栓所需设计压力h9（m）。',
-    component: 'InputNumberExpand',
+    helpMessage: '设计站点消防最不利点处消火栓所需设计压力h₉(m)。',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.ffBadHydrantPressure = transformData(target);
+          formModel.ffBadHydrantPressure = transformData3(target);
         },
       };
     },
@@ -687,33 +756,39 @@ export const formSchema: FormSchema[] = [
   {
     field: 'firePumpBadWayHeadLoss',
     label: '总水头损失',
-    helpMessage:
-      '设计站点消防泵至最不利点的总水头损失，含沿程水头损失h10（m）和局部水头损失h11（m）。',
-    component: 'InputNumberExpand',
-    dynamicDisabled: true,
+    helpMessage: '设计站点消防泵至最不利点的总水头损失，含沿程水头损失h₁₀(m)和局部水头损失h₁₁(m)。',
+    component: 'InputNumberExpand3',
     required: true,
-    colProps: { span: EQUIP.WIDTH_NUMBER },
+    colProps: { span: 5 },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.firePumpBadWayHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js2',
     component: 'Input',
     label: '',
-    colProps: { span: EQUIP.WIDTH_NUMBER },
+    colProps: { span: 1 },
     slot: 'add2',
   },
 
   {
     field: 'excessHeadHTwelve',
     label: '富裕水头',
-    helpMessage: '富裕水头h12（m）',
-    component: 'InputNumberExpand',
+    helpMessage: '富裕水头h₁₂(m)',
+    component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.excessHeadHTwelve = transformData(target);
+          formModel.excessHeadHTwelve = transformData3(target);
         },
       };
     },
@@ -721,9 +796,9 @@ export const formSchema: FormSchema[] = [
   {
     field: 'firePumpDesignLift',
     label: '主泵设计扬程',
-    helpMessage: '消防主泵设计扬程H2（m）=h8-h7+h9+h10+h11+h12。',
+    helpMessage: '消防主泵设计扬程H₂(m)=h₈-h₇+h₉+h₁₀+h₁₁+h₁₂',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
@@ -735,18 +810,26 @@ export const formSchema: FormSchema[] = [
     show: false,
   },
 
-  { label: '<<<<<<消防稳压泵计算', field: 'divider5', component: 'Divider' },
+  { label: '◆ 消防稳压泵计算', field: 'divider5', component: 'Divider', colProps: { span: 23 } },
   {
     field: 'stabilivoltPumpDesignFlow',
     label: '辅泵设计流量',
-    helpMessage: '消防稳压泵设计秒流量（L/s）',
-    component: 'InputNumberExpand',
+    helpMessage: '消防稳压泵设计秒流量(L/s)',
+    component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.stabilivoltPumpDesignFlow = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'ffPoolLowestWaterLevel',
-    label: '消防水池最低有效水位h7(m)',
+    label: '消防水池最低有效水位h₇(m)。',
     helpMessage: '',
     show: false,
     component: 'InputNumberExpand',
@@ -763,7 +846,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'ffBadDesignGroundElevation',
-    label: '最不利点消防设施处地面标高h8(m)',
+    label: '最不利点消防设施处地面标高h₈(m)。',
     helpMessage: '',
     show: false,
     component: 'InputNumberExpand',
@@ -782,49 +865,57 @@ export const formSchema: FormSchema[] = [
   {
     field: 'workConditionBadPressure',
     label: '消防设施压力',
-    helpMessage: '准工作状态最不利点消防设施压力P0（MPa），临高压时应以水带充实水柱来推算。',
+    helpMessage: '准工作状态最不利点消防设施压力P₀(MPa)，临高压时应以水带充实水柱来推算。',
     required: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.workConditionBadPressure = transformData2(target);
+        },
+      };
+    },
   },
   {
     field: 'stabilivoltPumpMinWorkingPressure',
     label: '最低工作压力',
-    helpMessage: '稳压泵最低工作压力P1（MPa）',
+    helpMessage: '稳压泵最低工作压力P₁(MPa)',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
     field: 'firePumpStartPressure',
     label: '主泵启动压力',
-    helpMessage: '消防主泵启动压力P2(MPa)',
+    helpMessage: '消防主泵启动压力P₂(MPa)',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
     field: 'firePumpStartPumpPressure',
     label: '稳压泵启泵压力',
-    helpMessage: '稳压泵启泵压力：PS1(MPa)',
+    helpMessage: '稳压泵启泵压力：PS₁(MPa)',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
     field: 'firePumpStopPumpPressure',
     label: '稳压泵停泵压力',
-    helpMessage: '稳压泵停泵压力PS2(MPa)',
+    helpMessage: '稳压泵停泵压力PS₂(MPa)',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
     field: 'stabilivoltPumpDesignLift',
     label: '稳压泵扬程',
-    helpMessage: '稳压泵扬程P（MPa）',
+    helpMessage: '稳压泵扬程P(MPa)',
     dynamicDisabled: true,
-    component: 'InputNumberExpand',
+    component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
@@ -858,7 +949,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'activeChlorineMes',
     label: '设计有效氯(g/h)',
-    helpMessage: '消毒剂投加量按0.5~1.0（g/m³）计。',
+    helpMessage: '消毒剂投加量按0.5~1.0(g/m³)计。',
     dynamicDisabled: true,
     component: 'Input',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -866,7 +957,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'activeChlorine',
     label: '有效氯(g/h)最小值',
-    helpMessage: '消毒剂投加量按0.5~1.0（g/m³）计。',
+    helpMessage: '消毒剂投加量按0.5~1.0(g/m³)计。',
     dynamicDisabled: true,
     show: false,
     component: 'InputNumberExpand',
@@ -876,7 +967,7 @@ export const formSchema: FormSchema[] = [
     field: 'activeChlorineMax',
     label: '有效氯(g/h)最大值',
     show: false,
-    helpMessage: '消毒剂投加量按0.5~1.0（g/m³）计。',
+    helpMessage: '消毒剂投加量按0.5~1.0(g/m³)计。',
     dynamicDisabled: true,
     component: 'InputNumberExpand',
     colProps: { span: EQUIP.WIDTH_NUMBER },

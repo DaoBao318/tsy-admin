@@ -7,17 +7,17 @@
     cancelText="关闭"
     @ok="okHandle"
     @cancel="closeHandle"
-    width="90%"
-    :min-height="300"
+    width="60%"
+    :min-height="350"
     @visible-change="handleVisibleChange"
   >
-    <div class="pt-3px pr-3px">
+    <div :class="stylePaddingModal">
       <BasicForm @register="registerForm" :model="model" />
     </div>
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick } from 'vue';
+  import { defineComponent, ref, nextTick, onBeforeUnmount } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchemaCount } from './count.data';
@@ -30,13 +30,26 @@
     },
     emits: ['countValue'],
     setup(props, { emit }) {
+      const stylePaddingModal = ref();
+      const modelSetInterval = setInterval(() => {
+        if (window.screen.width > 1800) {
+          stylePaddingModal.value = 'largeScreen';
+        } else {
+          stylePaddingModal.value = 'smallScreen';
+        }
+      }, 1000);
+
+      onBeforeUnmount(() => {
+        clearInterval(modelSetInterval);
+      });
+
       const modelRef = ref({});
       const [registerForm, { setFieldsValue, validate, getFieldsValue, clearValidate }] = useForm({
-        labelWidth: 150,
+        labelWidth: 120,
         schemas: formSchemaCount,
         showActionButtonGroup: false,
         compact: true,
-        size: 'small',
+        size: 'default',
         actionColOptions: {
           span: 24,
         },
@@ -90,7 +103,36 @@
         handleVisibleChange,
         okHandle,
         closeHandle,
+        stylePaddingModal,
       };
     },
   });
 </script>
+<style lang="stylus" scoped>
+  .largeScreen {
+    padding: 40px 100px 0 100px;
+    >>> .ant-divider-inner-text {
+      font-weight: 900;
+      position: absolute;
+      top: -12px;
+      left: -40px;
+      font-size: 15px;
+    }
+    >>> .ant-form-item-required{
+      color: red;
+    }
+  }
+  .smallScreen {
+    padding: 10px 0 0 0;
+    >>> .ant-divider-inner-text {
+      font-weight: 900;
+      position: absolute;
+      top: -12px;
+      left: -40px;
+      font-size: 15px;
+    }
+    >>> .ant-form-item-required{
+      color: red;
+    }
+  }
+</style>

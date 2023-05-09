@@ -15,22 +15,32 @@
       helpMessage="长泰项目--常州南站--高铁-大型车站 "
     >
   </CollapseContainer> -->
-    <div :class="stylePadding">
+    <div :class="stylePaddingDrawer">
       <BasicForm @register="registerForm">
         <template #add1>
-          <a-button size="small" color="success" @click="openDialog('voltageStabilization')"
+          <a-button
+            size="small"
+            preIcon="carbon:calculator-check"
+            type="primary"
+            @click="openDialog('voltageStabilization')"
             >算</a-button
           >
         </template>
         <template #add2>
-          <a-button size="small" color="success" @click="openDialog('fireFighting')">算</a-button>
+          <a-button
+            size="small"
+            type="primary"
+            preIcon="carbon:calculator-check"
+            @click="openDialog('fireFighting')"
+            >算</a-button
+          >
         </template>
       </BasicForm>
     </div>
   </BasicDrawer>
 </template>
 <script lang="ts">
-  import { defineComponent, watch, ref, computed, unref } from 'vue';
+  import { defineComponent, ref, onBeforeUnmount } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
@@ -46,13 +56,17 @@
     components: { BasicDrawer, BasicForm, CollapseContainer },
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
-      // const treeData = ref<TreeItem[]>([]);
-      const stylePadding = ref();
-      if (window.screen.width > 1800) {
-        stylePadding.value = 'largeScreen';
-      } else {
-        stylePadding.value = 'smallScreen';
-      }
+      const stylePaddingDrawer = ref();
+      const drawerSetInterval = setInterval(() => {
+        if (window.screen.width > 1800) {
+          stylePaddingDrawer.value = 'largeScreen';
+        } else {
+          stylePaddingDrawer.value = 'smallScreen';
+        }
+      }, 1000);
+      onBeforeUnmount(() => {
+        clearInterval(drawerSetInterval);
+      });
       const titleEquipment = ref('');
       const [
         registerForm,
@@ -140,7 +154,6 @@
               stationType,
             } = values;
             //按照类型判断,中间站已经默认为0
-            debugger;
             let waterSupplyDesignFlow = 0;
             const busWaterTotalFlow = busWaterRows * groupsNumber * busWaterSingle;
             if (EQUIP_TYPE.LARGE_STATION.includes(stationType)) {
@@ -203,16 +216,72 @@
         handleClose,
         openDialog,
         titleEquipment,
-        stylePadding,
+        stylePaddingDrawer,
       };
     },
   });
 </script>
-<style lang="less" scoped>
+<style lang="stylus" scoped>
   .largeScreen {
     padding: 0 360px 0 250px;
+    >>> .ant-form-item-required{
+      color: red;
+    }
+    >>> .ant-divider-inner-text {
+      font-weight: 900;
+      position: absolute;
+      top: -12px;
+      left: -40px;
+      font-size: 15px;
+    }
+    >>> .ant-col-23{
+      .ant-divider-inner-text {
+      font-weight: 600;
+      position: absolute;
+      top: -12px;
+      left: -20px;
+      font-size: 14px;
+    }
+    }
+    >>> .ant-col-19{
+      .ant-form-item-no-colon{
+        position: relative;
+        top: 5px;
+      }
+      .ant-input{
+        height: 30px!important;
+      }
+    }
   }
   .smallScreen {
     padding: 0 30px 0 35px;
+    >>> .ant-divider-inner-text {
+      font-weight: 900;
+      position: absolute;
+      top: -12px;
+      left: -40px;
+      font-size: 15px;
+    }
+    >>> .ant-col-23{
+      .ant-divider-inner-text {
+        font-weight: 600;
+        position: absolute;
+        top: -12px;
+        left: -20px;
+        font-size: 14px;
+      }
+    }
+    >>> .ant-col-19{
+      .ant-form-item-no-colon{
+        position: relative;
+        top: 5px;
+      }
+      .ant-input{
+        height: 30px!important;
+      }
+    }
+    >>> .ant-form-item-required{
+      color: red;
+    }
   }
 </style>

@@ -260,7 +260,7 @@ export const calculateEquip = (value, setFieldsValue) => {
   //室外消防最大用水量YX(m3/d)
   const outdoorFireMaxMwoMax = keepTwoDecimalFull(
     3.6 * outdoorFireMaxStrength * fireContinueTime,
-    1,
+    3,
   );
   // 清水池(与消防水池合设)有效容积V1
   let cleanPoolEffectiveVolume = 0;
@@ -301,7 +301,7 @@ export const calculateEquip = (value, setFieldsValue) => {
     dullAskWaterPressure +
     vfpBadWayHeadLoss +
     excessHeadHSix;
-  const waterSupplyDesignLift = keepTwoDecimalFull(waterSupplyDesignLiftTemp, 1);
+  const waterSupplyDesignLift = keepTwoDecimalFull(waterSupplyDesignLiftTemp, 3);
 
   // 消防主泵设计扬程H2（m）
   const firePumpDesignLiftTemp =
@@ -310,25 +310,25 @@ export const calculateEquip = (value, setFieldsValue) => {
     ffBadHydrantPressure +
     firePumpBadWayHeadLoss +
     excessHeadHTwelve;
-  const firePumpDesignLift = keepTwoDecimalFull(firePumpDesignLiftTemp, 1);
+  const firePumpDesignLift = keepTwoDecimalFull(firePumpDesignLiftTemp, 3);
 
   //稳压泵最低工作压力P1(MPa)
   const stabilivoltPumpMinWorkingPressureTemp =
     workConditionBadPressure + 0.01 * (sffBadDesignGroundElevation - sffPoolLowestWaterLevel);
   const stabilivoltPumpMinWorkingPressure = keepTwoDecimalFull(
     stabilivoltPumpMinWorkingPressureTemp,
-    3,
+    2,
   );
   //稳压泵启泵压力：PS1(MPa)
-  const firePumpStartPumpPressure = keepTwoDecimalFull(stabilivoltPumpMinWorkingPressure + 0.07, 3);
+  const firePumpStartPumpPressure = keepTwoDecimalFull(stabilivoltPumpMinWorkingPressure + 0.07, 2);
 
   //稳压泵启泵压力：PS1(MPa)
-  const firePumpStopPumpPressure = keepTwoDecimalFull(firePumpStartPumpPressure + 0.05, 3);
+  const firePumpStopPumpPressure = keepTwoDecimalFull(firePumpStartPumpPressure + 0.05, 2);
 
   //稳压泵扬程P(MPa)
   const stabilivoltPumpDesignLift = keepTwoDecimalFull(
     (firePumpStartPumpPressure + firePumpStopPumpPressure) / 2,
-    3,
+    2,
   );
   // 有效氯(g/h)最小值
   const activeChlorine = keepTwoDecimalFull(waterSupplyDesignFlow * 0.5, 1);
@@ -412,6 +412,12 @@ export const saveDisplay = (updateSchema, setFieldsValue, res) => {
   // ]);
 };
 
-export const transformData = (rawValue) => {
+export const transformData1 = (rawValue) => {
+  return keepTwoDecimalFull(rawValue, 1);
+};
+export const transformData2 = (rawValue) => {
+  return keepTwoDecimalFull(rawValue, 2);
+};
+export const transformData3 = (rawValue) => {
   return keepTwoDecimalFull(rawValue, 3);
 };

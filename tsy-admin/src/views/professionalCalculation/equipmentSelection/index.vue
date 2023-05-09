@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button type="primary" @click="exportBatch"> 批量导出 </a-button>

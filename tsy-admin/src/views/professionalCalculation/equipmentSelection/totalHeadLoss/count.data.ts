@@ -83,7 +83,7 @@ export const formSchemaCount: FormSchema[] = [
   {
     field: 'calculationContent',
     label: '计算内容',
-    required: true,
+    // required: true,
     component: 'Select',
     dynamicDisabled: true,
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
@@ -176,7 +176,7 @@ export const formSchemaCount: FormSchema[] = [
   {
     field: 'rateOfFlow',
     label: '流量(m³/h)',
-    required: true,
+    // required: true,
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     componentProps: {
