@@ -118,5 +118,8 @@ export type ComponentType =
   | 'InputNumberExpand1'
   | 'InputNumberExpand2'
   | 'InputNumberExpand3'
+  | 'InputNumberExpand40'
+  | 'InputNumberExpand42'
   | 'InputColor'
+  | 'InputColor2'
   | 'ColorConvert';

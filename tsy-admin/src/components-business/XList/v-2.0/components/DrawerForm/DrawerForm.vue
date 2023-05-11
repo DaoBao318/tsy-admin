@@ -6,12 +6,14 @@ BasicDrawer(
   @close="closeDialog"
   @export = "toSubmit('export')"
 )
-  BasicForm(@register='registerForm')
-    template(#[item]='data', v-for='item in Object.keys($slots)')
-      slot(:name='item', v-bind='data || {}')
+  div(:class="stylePaddingXlistDrawer")
+    BasicForm(@register='registerForm')
+      template(#[item]='data', v-for='item in Object.keys($slots)')
+        slot(:name='item', v-bind='data || {}')
+    p(class="annotationContent") {{ outDataValue && outDataValue.annotationContent }}
 </template>
 <script lang="ts">
-  import { defineComponent, ref, unref } from 'vue';
+  import { defineComponent, ref, unref, onBeforeUnmount,onMounted,nextTick } from 'vue';
   import _ from 'lodash';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
@@ -49,6 +51,33 @@ BasicDrawer(
     },
     emits: ['confirm', 'register', 'export'],
     setup(props, { emit }) {
+      const stylePaddingXlistDrawer = ref();
+      // const drawerSetInterval = setInterval(() => {
+      //   if (window.screen.width > 1800) {
+      //     stylePaddingXlistDrawer.value = 'largeScreenXlist';
+      //   } else {
+      //     stylePaddingXlistDrawer.value = 'smallScreenXlist';
+      //   }
+      // }, 1000);
+      // onBeforeUnmount(() => {
+      //   clearInterval(drawerSetInterval);
+      // });
+      onMounted(() => {
+        nextTick(() => {
+          resizeFun();
+          window.addEventListener('resize', resizeFun);
+        });
+      });
+      onBeforeUnmount(() => {
+        window.removeEventListener('resize', resizeFun);
+      });
+      const resizeFun = () => {
+        if (window.screen.width > 1800) {
+          stylePaddingXlistDrawer.value = 'largeScreenXlist';
+        } else {
+          stylePaddingXlistDrawer.value = 'smallScreenXlist';
+        }
+      };
       const { useFormOptions } = unref(props);
       const confirmLoading = ref<boolean>(false);
       const drawerTitle = ref('');
@@ -64,11 +93,13 @@ BasicDrawer(
         mode: DrawerFormMode.ADD,
         maskClosable: false,
       });
-
+      const outDataValue = ref(null);
       const [registerDrawer, { closeDrawer, changeOkLoading }] = useDrawerInner((outData) => {
         resetFields();
         if (Array.isArray(outData)) {
+          debugger;
           const [data, outDrawerProps] = outData;
+          outDataValue.value = data;
           let { mode = DrawerFormMode.ADD, ...other } = outDrawerProps;
           if (typeof mode !== 'number') {
             mode = DrawerFormMode.EDIT;
@@ -92,9 +123,7 @@ BasicDrawer(
           setFieldsValue(outData);
         }
       });
-      const closeDialog = () => {
-        debugger;
-      };
+      const closeDialog = () => {};
       async function toSubmit(type) {
         let record = null;
         try {
@@ -139,7 +168,6 @@ BasicDrawer(
         registerDrawer,
         registerForm,
         cancel: () => {
-          debugger;
           closeDrawer();
         },
         drawerTitle,
@@ -148,7 +176,49 @@ BasicDrawer(
         drawerProps,
         toSubmit,
         closeDialog,
+        stylePaddingXlistDrawer,
+        outDataValue,
       };
     },
   });
 </script>
+<style lang="stylus" scoped>
+  .largeScreenXlist {
+    padding: 0 160px 0 150px;
+    >>> .ant-divider-inner-text {
+      font-weight: 900;
+      // position: absolute;
+      // top: -12px;
+      // left: -40px;
+      font-size: 15px;
+    }
+    .annotationContent{
+      color: #666e;
+      margin: 10px 0px;
+      padding: 15px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      background: #eee;
+      text-indent: 2em;
+    }
+  }
+  .smallScreenXlist {
+    padding: 0 12px 0 10px;
+    >>> .ant-divider-inner-text {
+      font-weight: 900;
+      // position: absolute;
+      // top: -12px;
+      // left: -40px;
+      font-size: 15px;
+    }
+    .annotationContent{
+      color: #666e;
+      margin: 10px 0px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      background: #eee;
+      text-indent: 2em;
+    }
+  }
+</style>

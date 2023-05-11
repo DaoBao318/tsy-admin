@@ -86,13 +86,13 @@ div.geipaishui
           :initList='model[field]'
           showIndex
           ) 
-    template(#pipeAndCapitalConstructionDtoList="{model, field}")
-      FormTable(
-          :schemas="servicesUseTableSchemas" 
-          ref="formTable"
-          :initList='model[field]'
-          showIndex
-          )       
+    //- template(#pipeAndCapitalConstructionDtoList="{model, field}")
+    //-   FormTable(
+    //-       :schemas="servicesUseTableSchemas" 
+    //-       ref="formTable"
+    //-       :initList='model[field]'
+    //-       showIndex
+    //-       )       
     template(#EditTip) 
       .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
 </template>
@@ -108,7 +108,6 @@ div.geipaishui
   import FormTable from '/@/comps/FormTable2.vue';
   import { findLabelByValue } from '/@/utils/util';
   import { travelerUseTableSchemas, servicesUseTableSchemas } from './dataConfig/stationType1.data';
-  import { STATION_TYPE_OPTIONS } from './dataConfig/constant';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { getTestAPI } from '/@/api/demo/system';
   import { Loading } from '/@/components/Loading';
@@ -232,7 +231,6 @@ div.geipaishui
         getTestAPI({ useid: 1 });
       }
       return {
-        STATION_TYPE_OPTIONS,
         findLabelByValue,
         useXListOptions,
         travelerUseTableSchemas,

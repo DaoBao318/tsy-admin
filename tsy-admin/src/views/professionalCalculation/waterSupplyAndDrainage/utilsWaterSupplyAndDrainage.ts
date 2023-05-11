@@ -2,6 +2,7 @@ import { keepTwoDecimalFull } from '/@/utils/calculation/count';
 import { cloneDeep } from 'lodash-es';
 import { waterSourceStore } from '/@/store/modules/waterInfo';
 import { useRouter } from 'vue-router';
+import { annotationContent, calculationFormulaPrompt } from './calculationFormulaPrompt';
 const store = waterSourceStore();
 
 function judgmentType(value) {
@@ -15,27 +16,30 @@ function processingNumberUndefined(num) {
 }
 //用水数据初始化
 export const waterDataInitialization = (res, key) => {
+  const { stationType } = res;
+  res.annotationContent = annotationContent(stationType);
   res[key].forEach((item) => {
     item.type = key;
-    item.stationType = res.stationType;
+    item.stationType = stationType;
     //数字转化
     item.unitWater = processingNumberUndefined(item.unitWater);
     item.unitWaterMin = processingNumberUndefined(item.unitWaterMin);
     item.unitWaterMan = processingNumberUndefined(item.unitWaterMan);
     item.recentQuantity = processingNumberUndefined(item.recentQuantity);
     item.forwardQuantity = processingNumberUndefined(item.forwardQuantity);
+    item.calculationFormulaDisplay = calculationFormulaPrompt(res.stationType, item);
     const fixedCoefficient = getTraverPersionValue(item);
     item.recentConsumption = keepTwoDecimalFull(
       processingNumberUndefined(item.unitWater) *
         processingNumberUndefined(item.recentQuantity) *
         fixedCoefficient,
-      3,
+      1,
     );
     item.forwardConsumption = keepTwoDecimalFull(
       processingNumberUndefined(item.unitWater) *
         processingNumberUndefined(item.forwardQuantity) *
         fixedCoefficient,
-      3,
+      1,
     );
 
     if (!!item.unitWaterMan) {
@@ -54,8 +58,8 @@ export const basicWaterUse = (res, key) => {
   const forwardSum = res[key]?.reduce((pre, item) => {
     return (pre = pre + item.forwardConsumption);
   }, 0);
-  res[key + '_recent'] = keepTwoDecimalFull(recentSum, 3);
-  res[key + '_forward'] = keepTwoDecimalFull(forwardSum, 3);
+  res[key + '_recent'] = keepTwoDecimalFull(recentSum, 2);
+  res[key + '_forward'] = keepTwoDecimalFull(forwardSum, 2);
 };
 //service pipe network
 function sumArr(arr) {
@@ -79,8 +83,8 @@ export const serviceDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -99,8 +103,8 @@ export const pipeNetworkDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -122,8 +126,8 @@ export const unforeseenInfrastructure = (res, key) => {
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
       processingNumberUndefined(res['pipeNetworkDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -149,8 +153,8 @@ export const makeMaxWaterDtoListFun = (res, key) => {
     processingNumberUndefined(res['capitalConstructionDtoList' + '_forward']),
   ];
 
-  res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 3);
-  res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 3);
+  res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 1);
+  res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 1);
 };
 //管网漏失及基建、未预见水量
 export const pipeAndCapitalConstructionDtoListFun = (res, key) => {
@@ -164,8 +168,8 @@ export const pipeAndCapitalConstructionDtoListFun = (res, key) => {
     processingNumberUndefined(res['lifeDtoList' + '_forward']),
     processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
   ];
-  res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent) * 0.15, 3);
-  res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward) * 0.15, 3);
+  res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent) * 0.15, 1);
+  res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward) * 0.15, 1);
   // res[key][0]['recentConsumption'] = res[key + '_recent'];
   // res[key][0]['forwardConsumption'] = res[key + '_forward'];
 };
@@ -181,8 +185,8 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -190,7 +194,7 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
 //昼夜最大排水量
 export const makeMaxDrainageDtoListFun = (res, key) => {
   const { stationType } = res;
-  if (['07', '06', '01'].includes(stationType)) {
+  if (['07', '06', '01', '09'].includes(stationType)) {
     const recent = [
       processingNumberUndefined(res['passengerTrainsFecalSewageDtoList' + '_recent']),
       processingNumberUndefined(res['designSewageVolumeNewDtoList' + '_recent']),
@@ -199,8 +203,8 @@ export const makeMaxDrainageDtoListFun = (res, key) => {
       processingNumberUndefined(res['passengerTrainsFecalSewageDtoList' + '_forward']),
       processingNumberUndefined(res['designSewageVolumeNewDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 3);
-    res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 3);
+    res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 1);
+    res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 1);
   } else if (['05', '03', '02'].includes(stationType)) {
     const recent = [
       processingNumberUndefined(res['produceDtoList' + '_recent']),
@@ -213,8 +217,8 @@ export const makeMaxDrainageDtoListFun = (res, key) => {
       processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
 
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 3);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 3);
+    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -250,9 +254,9 @@ export const processingStationDetails = (res) => {
         if (['makeMaxWaterDtoList'].includes(key)) {
           makeMaxWaterDtoListFun(res, key);
         }
-        if (['pipeAndCapitalConstructionDtoList'].includes(key)) {
-          pipeAndCapitalConstructionDtoListFun(res, key);
-        }
+        // if (['pipeAndCapitalConstructionDtoList'].includes(key)) {
+        //   pipeAndCapitalConstructionDtoListFun(res, key);
+        // }
         if (['designSewageVolumeNewDtoList'].includes(key)) {
           designSewageVolumeNewDtoListFun(res, key);
         }
@@ -270,8 +274,8 @@ function getTraverPersionValue(formModel): number {
   const { stationType, waterProject } = formModel;
   let num = 1;
   // formModel.recentQuantity = 10; 用于测试数量
-  //计算公式来自于模板
-  if (formModel.type === 'passengerTrainsFecalSewageDtoList') {
+  //计算公式来自于模板 后端计算
+  if (formModel.type === 'passengerTrainsFecalSewageDtoList_back_calulation') {
     if (['01'].includes(stationType) && waterProject.indexOf('通过') > -1) {
       num = 0.55 * 16 * 4;
       return num;
@@ -302,16 +306,15 @@ function getTraverPersionValue(formModel): number {
 // const fixedCoefficient = 1;
 export function basicWaterUseLinkage(formModel, allFormList) {
   const unitWater = formModel.unitWater;
-  debugger;
   if (!!unitWater || unitWater === 0) {
     const fixedCoefficient = getTraverPersionValue(formModel);
     formModel.recentConsumption = keepTwoDecimalFull(
       formModel.recentQuantity * fixedCoefficient * unitWater,
-      3,
+      2,
     );
     formModel.forwardConsumption = keepTwoDecimalFull(
       formModel.forwardQuantity * fixedCoefficient * unitWater,
-      3,
+      2,
     );
     getRencetSum(formModel.type, formModel.stationID, allFormList);
     getForwardSum(formModel.type, formModel.stationID, allFormList);
@@ -322,18 +325,17 @@ export function getRencetSum(type, stationID, allFormList) {
   const recentSum = allFormList[stationID][type]?.reduce((pre, item) => {
     return (pre = pre + item.recentConsumption);
   }, 0);
-  allFormList[stationID][type + '_recent'] = keepTwoDecimalFull(recentSum, 3) || 0;
+  allFormList[stationID][type + '_recent'] = keepTwoDecimalFull(recentSum, 1) || 0;
 }
 export function getForwardSum(type, stationID, allFormList) {
   const forwardSum = allFormList[stationID][type]?.reduce((pre, item) => {
     return (pre = pre + item.forwardConsumption);
   }, 0);
 
-  allFormList[stationID][type + '_forward'] = keepTwoDecimalFull(forwardSum, 3) || 0;
+  allFormList[stationID][type + '_forward'] = keepTwoDecimalFull(forwardSum, 1) || 0;
 }
 // 联动计算
 export const subtotalOfWaterConsumption = (formModel, allFormList) => {
-  debugger;
   const res = allFormList[formModel.stationID];
   const key = formModel.type;
   if (judgmentType(res[key]) === 'array') {
@@ -352,33 +354,32 @@ export const subtotalOfWaterConsumption = (formModel, allFormList) => {
     pipeNetworkDtoList(res, 'pipeNetworkDtoList');
     unforeseenInfrastructure(res, 'capitalConstructionDtoList');
     makeMaxWaterDtoListFun(res, 'makeMaxWaterDtoList');
-    pipeAndCapitalConstructionDtoListFun(res, 'pipeAndCapitalConstructionDtoList');
+    // pipeAndCapitalConstructionDtoListFun(res, 'pipeAndCapitalConstructionDtoList');
     designSewageVolumeNewDtoListFun(res, 'designSewageVolumeNewDtoList');
     makeMaxDrainageDtoListFun(res, 'makeMaxDrainageDtoList');
   }
 };
 
 function getTotalDate(res, raw): any[] {
-  debugger;
   raw['makeMaxWaterDtoList'][0].recentConsumption = res['makeMaxWaterDtoList_recent'];
   raw['makeMaxWaterDtoList'][0].forwardConsumption = res['makeMaxWaterDtoList_forward'];
   raw['makeMaxDrainageDtoList'][0].recentConsumption = res['makeMaxDrainageDtoList_recent'];
   raw['makeMaxDrainageDtoList'][0].forwardConsumption = res['makeMaxDrainageDtoList_forward'];
   //管网漏失及基建未预见
-  if (
-    raw['pipeAndCapitalConstructionDtoList'] &&
-    raw['pipeAndCapitalConstructionDtoList'].length > 0
-  ) {
-    raw['pipeAndCapitalConstructionDtoList'][0].recentConsumption =
-      res['pipeAndCapitalConstructionDtoList_recent'];
-    raw['pipeAndCapitalConstructionDtoList'][0].forwardConsumption =
-      res['pipeAndCapitalConstructionDtoList_forward'];
-    return [
-      raw['makeMaxWaterDtoList'][0],
-      raw['makeMaxDrainageDtoList'][0],
-      raw['pipeAndCapitalConstructionDtoList'][0],
-    ];
-  }
+  // if (
+  //   raw['pipeAndCapitalConstructionDtoList'] &&
+  //   raw['pipeAndCapitalConstructionDtoList'].length > 0
+  // ) {
+  //   raw['pipeAndCapitalConstructionDtoList'][0].recentConsumption =
+  //     res['pipeAndCapitalConstructionDtoList_recent'];
+  //   raw['pipeAndCapitalConstructionDtoList'][0].forwardConsumption =
+  //     res['pipeAndCapitalConstructionDtoList_forward'];
+  //   return [
+  //     raw['makeMaxWaterDtoList'][0],
+  //     raw['makeMaxDrainageDtoList'][0],
+  //     raw['pipeAndCapitalConstructionDtoList'][0],
+  //   ];
+  // }
 
   return [raw['makeMaxWaterDtoList'][0], raw['makeMaxDrainageDtoList'][0]];
 }
@@ -402,6 +403,7 @@ export function dealSaveData(record) {
     delete item['recommendedUnitWater'];
     delete item['type'];
     delete item['stationType'];
+    delete item['calculationFormulaDisplay'];
   });
   let unitWater = 0;
   waterComputeDtos = waterComputeDtos.filter((item) => {
@@ -410,14 +412,13 @@ export function dealSaveData(record) {
     }
     return item.classification !== 'MakeMaxDrainage';
   });
-  debugger;
   const totalArray = getTotalDate(res, raw);
   waterComputeDtos = waterComputeDtos.concat(totalArray);
-  waterComputeDtos.forEach((item)=>{
+  waterComputeDtos.forEach((item) => {
     if (item.classification === 'MakeMaxDrainage') {
       item.unitWater = unitWater;
     }
-  })
+  });
   result['waterComputeDtos'] = waterComputeDtos;
   return result;
 }

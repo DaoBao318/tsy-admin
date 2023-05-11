@@ -40,6 +40,9 @@
                 v-model:value='model[item.field]',
                 v-bind='typeof item.componentProps === "function" ? item.componentProps({ formModel: model, form: formRef, index }) : item.componentProps || {}'
               )
+                template(#suffix)
+                  a-tooltip(:title='model["calculationFormulaDisplay"]' v-if='!!model["calculationFormulaDisplay"]')
+                    info-circle-outlined(style="color: rgba(0, 0, 0, 0.45)")
             template(v-else)
               template(v-if='item.slot === "no"')
                 span {{ model[item.field] }}
@@ -52,7 +55,7 @@
                     v-if='index !== dataSource.length - 1'
                   )
               template(v-else-if="item.slot")
-                slot(:name='item.slot' v-bind='{ model, field: item.field, index, fns: { handleRemove, handleUp, handleDown } } || {}')
+                slot(:name='item.slot' v-bind='{ model, field: item.field, index, fns: { handleRemove, handleUp, handleDown } } || {}')      
 
 </template>
 <script lang="ts">
@@ -61,9 +64,17 @@
   import { Form } from 'ant-design-vue';
   import { SvgIcon } from '/@/components/Icon/index';
   import { MinusCircleOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
+  import { InfoCircleOutlined } from '@ant-design/icons-vue';
 
   export default defineComponent({
-    components: { SvgIcon, MinusCircleOutlined, ArrowUpOutlined, ArrowDownOutlined, Form },
+    components: {
+      SvgIcon,
+      MinusCircleOutlined,
+      ArrowUpOutlined,
+      ArrowDownOutlined,
+      Form,
+      InfoCircleOutlined,
+    },
     props: {
       initList: {
         type: Array,
@@ -107,12 +118,12 @@
         (list = []) => {
           dataSource.value = list;
           // 如果是固定奖励项数的
-          const pushLen = unref(props.fixedItemNum) - list.length;
-          if (pushLen > 0) {
-            for (let i = list.length; i < pushLen; i++) {
-              // dataSource.value.push({});
-            }
-          }
+          // const pushLen = unref(props.fixedItemNum) - list.length;
+          // if (pushLen > 0) {
+          //   for (let i = list.length; i < pushLen; i++) {
+          //     // dataSource.value.push({});
+          //   }
+          // }
         },
         { immediate: true },
       );

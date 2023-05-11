@@ -40,7 +40,7 @@
   </BasicDrawer>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onBeforeUnmount } from 'vue';
+  import { defineComponent, ref, onBeforeUnmount, nextTick, onMounted } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
@@ -57,16 +57,32 @@
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
       const stylePaddingDrawer = ref();
-      const drawerSetInterval = setInterval(() => {
+      // const drawerSetInterval = setInterval(() => {
+      //   if (window.screen.width > 1800) {
+      //     stylePaddingDrawer.value = 'largeScreen';
+      //   } else {
+      //     stylePaddingDrawer.value = 'smallScreen';
+      //   }
+      // }, 1000);
+      // onBeforeUnmount(() => {
+      //   clearInterval(drawerSetInterval);
+      // });
+      onMounted(() => {
+        nextTick(() => {
+          resizeFun();
+          window.addEventListener('resize', resizeFun);
+        });
+      });
+      onBeforeUnmount(() => {
+        window.removeEventListener('resize', resizeFun);
+      });
+      const resizeFun = () => {
         if (window.screen.width > 1800) {
           stylePaddingDrawer.value = 'largeScreen';
         } else {
           stylePaddingDrawer.value = 'smallScreen';
         }
-      }, 1000);
-      onBeforeUnmount(() => {
-        clearInterval(drawerSetInterval);
-      });
+      };
       const titleEquipment = ref('');
       const [
         registerForm,

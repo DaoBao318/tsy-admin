@@ -7,7 +7,7 @@ export const EQUIP = {
 export const EQUIP_TYPE = {
   LARGE_STATION: ['01', '07'],
   INTERMEDIATE_STATION: ['02', '03', '05'],
-  HIGH_SPEED_TRAIN_STATION: ['06'],
+  HIGH_SPEED_TRAIN_STATION: ['06', '09'],
 };
 export const initializeAssignmentStructure = (setFieldsValue, updateSchema, record) => {
   // record.excessHeadHSix = 3; // 2-3

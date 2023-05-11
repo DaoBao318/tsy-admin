@@ -17,7 +17,7 @@
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick, onBeforeUnmount } from 'vue';
+  import { defineComponent, ref, nextTick, onBeforeUnmount, onMounted } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchemaCount } from './count.data';
@@ -31,17 +31,32 @@
     emits: ['countValue'],
     setup(props, { emit }) {
       const stylePaddingModal = ref();
-      const modelSetInterval = setInterval(() => {
+      // const modelSetInterval = setInterval(() => {
+      //   if (window.screen.width > 1800) {
+      //     stylePaddingModal.value = 'largeScreen';
+      //   } else {
+      //     stylePaddingModal.value = 'smallScreen';
+      //   }
+      // }, 1000);
+      // onBeforeUnmount(() => {
+      //   clearInterval(modelSetInterval);
+      // });
+      onMounted(() => {
+        nextTick(() => {
+          resizeFun();
+          window.addEventListener('resize', resizeFun);
+        });
+      });
+      onBeforeUnmount(() => {
+        window.removeEventListener('resize', resizeFun);
+      });
+      const resizeFun = () => {
         if (window.screen.width > 1800) {
           stylePaddingModal.value = 'largeScreen';
         } else {
           stylePaddingModal.value = 'smallScreen';
         }
-      }, 1000);
-
-      onBeforeUnmount(() => {
-        clearInterval(modelSetInterval);
-      });
+      };
 
       const modelRef = ref({});
       const [registerForm, { setFieldsValue, validate, getFieldsValue, clearValidate }] = useForm({

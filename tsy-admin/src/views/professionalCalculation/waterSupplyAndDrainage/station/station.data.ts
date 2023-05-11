@@ -110,11 +110,6 @@ export const formSchemaStation = function (copy = false): FormSchema[] {
       required: true,
       show: !copy,
       colProps: { span: 10 },
-      // componentProps: {
-      //   min: 0,
-      //   style: { width: '100%' },
-      //   options: STATION_TYPE_OPTIONS,
-      // },
       componentProps: {
         api: getStationTypeList,
         params: {

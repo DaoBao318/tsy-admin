@@ -31,10 +31,13 @@ import { StrengthMeter } from '/@/components/StrengthMeter';
 import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
 import InputColor from './components/InputColor.vue';
+import InputColor2 from './components/InputColor2.vue';
 import InputNumberExpand from './components/InputNumberExpand.vue';
 import InputNumberExpand1 from './components/InputNumberExpand1.vue';
 import InputNumberExpand2 from './components/InputNumberExpand2.vue';
 import InputNumberExpand3 from './components/InputNumberExpand3.vue';
+import InputNumberExpand40 from './components/InputNumberExpand40.vue';
+import InputNumberExpand42 from './components/InputNumberExpand42.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -64,7 +67,10 @@ componentMap.set('InputNumberExpand', InputNumberExpand);
 componentMap.set('InputNumberExpand1', InputNumberExpand1);
 componentMap.set('InputNumberExpand2', InputNumberExpand2);
 componentMap.set('InputNumberExpand3', InputNumberExpand3);
+componentMap.set('InputNumberExpand40', InputNumberExpand40);
+componentMap.set('InputNumberExpand42', InputNumberExpand42);
 componentMap.set('InputColor', InputColor);
+componentMap.set('InputColor2', InputColor2);
 
 componentMap.set('DatePicker', DatePicker);
 componentMap.set('MonthPicker', DatePicker.MonthPicker);

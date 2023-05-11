@@ -979,7 +979,7 @@ export const waterSupplyAndDrainageProjectData = {
     },
     {
       projectID: 141,
-      projectName: '广州南至东莞高铁',
+      projectName: '广州南至东莞高铁MOCK',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 0,

@@ -245,3 +245,64 @@ lifedrainMaxWaterDtoList 删除掉
         console.log(window.screen.width + '-------------------------');
       };
       stylePadding
+
+
+      calculationFormulaDisplay
+
+      else if (waterProject.indexOf('服务行业用水') > -1) {
+      mes = '（Q1+Q2+Q3+Q4）*（0.08～0.1）=Q5';
+    } else if (waterProject.indexOf('管网漏失') > -1) {
+      mes = '（Q1+Q2+Q3+Q4）*（0.1～0.12）=Q6';
+    } else if (waterProject.indexOf('基建未预见') > -1) {
+      mes = '（Q1+Q2+Q3+Q4+Q6）*（0.1～0.15）=Q7';
+    }else if (waterProject.indexOf('生产生活排水量') > -1) {
+      mes = '（Q2+Q3+Q5）*（0.80～0.95）=Q2’';
+    } 
+
+    if (waterProject.indexOf('服务行业用水') > -1) {
+      mes = '（Q1+Q2+Q3）*（0.08～0.1）=Q4';
+    } else if (waterProject.indexOf('管网漏失') > -1) {
+      mes = '（Q1+Q2+Q3）*（0.1～0.12）=Q5';
+    } else if (waterProject.indexOf('基建未预见') > -1) {
+      mes = '（Q1+Q2+Q3+Q5）*（0.1～0.15）=Q6';
+    } else if (waterProject.indexOf('近期昼夜最大排水量') > -1) {
+      mes = '（Q1+Q2+Q4）*（0.80～0.95）=Q’';
+    } else
+
+      if (waterProject.indexOf('管网漏失') > -1) {
+      mes = '（Q1+Q2+Q3）*（0.1～0.12）=Q4';
+    } else if (waterProject.indexOf('基建未预见') > -1) {
+      mes = '（Q1+Q2+Q3+Q4）*（0.1～0.15）=Q5';
+    } else if (waterProject.indexOf('近期昼夜最大排水量') > -1) {
+      mes = '（Q1+Q2）*（0.80～0.95）=Q’';
+    } else
+
+    else if (waterProject.indexOf('管网漏失') > -1) {
+      mes = '（Q1+Q2+Q3+Q4）*（0.1～0.12）=Q5';
+    } else if (waterProject.indexOf('基建未预见') > -1) {
+      mes = '（Q1+Q2+Q3+Q4+Q5）*（0.1～0.15）=Q6';
+    } else if (waterProject.indexOf('生产生活排水量') > -1) {
+      mes = '（Q2+Q3）*（0.80～0.95）=Q2’';
+    }
+
+        if (waterProject.indexOf('服务行业用水') > -1) {
+      mes = '（Q1+Q2+Q3）*（0.08～0.1）=Q4';
+    } else if (waterProject.indexOf('管网漏失') > -1) {
+      mes = '（Q1+Q2+Q3）*（0.1～0.12）=Q5';
+    } else if (waterProject.indexOf('基建未预见') > -1) {
+      mes = '（Q1+Q2+Q3+Q5）*（0.1～0.15）=Q6';
+    } else if (waterProject.indexOf('近期昼夜最大排水量') > -1) {
+      mes = '（Q1+Q2+Q4）*（0.80～0.95）=Q’';
+    } else
+
+     else if (waterProject.indexOf('生产生活排水量') > -1) {
+      mes = '（Q2+Q3）*（0.80～0.95）=Q2’';
+    } 
+
+    else if (waterProject.indexOf('服务行业用水') > -1) {
+      mes = '（Q1+Q2+Q3+Q4）*（0.08～0.1）=Q5';
+    } else if (waterProject.indexOf('管网漏失') > -1) {
+      mes = '（Q1+Q2+Q3+Q4）*（0.1～0.12）=Q6';
+    } else if (waterProject.indexOf('基建未预见') > -1) {
+      mes = '（Q1+Q2+Q3+Q4+Q6）*（0.1～0.15）=Q7';
+    }

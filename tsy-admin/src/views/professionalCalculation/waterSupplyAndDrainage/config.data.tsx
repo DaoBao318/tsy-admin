@@ -14,6 +14,7 @@ import {
   ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG,
   ORDINARY_RAILWAY_SECTION_STATION,
   ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION,
+  PASSENGER_AIRCRAFT_TURNAROUND_SECTION,
 } from './dataConfig/stationType1.data';
 import { FormSchema } from '/@/components/Form';
 import { BasicColumn } from '/@/components/Table';
@@ -25,6 +26,7 @@ export const LAYERS = {
   ORDINARY_RAILWAY_SECTION_STATION: '01', // 普铁区段站
   ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF: '02', // 普铁-中间站
   ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION: '03', // 普铁-会让站、越行站
+  PASSENGER_AIRCRAFT_TURNAROUND_SECTION: '09', // 普铁-会让站、越行站
   ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG: '04', // 普铁-牵引变电所、线路所、警务区
   HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION: '05', // 高铁-中间站
   HIGH_SPEED_TRAIN_DEPOT: '06', // 高铁-动车段
@@ -237,11 +239,6 @@ export const useXListOptions = {
             component: 'ApiSelect',
             required: true,
             colProps: { span: 22 },
-            // componentProps: {
-            //   min: 0,
-            //   style: { width: '100%' },
-            //   options: STATION_TYPE_OPTIONS,
-            // },
             componentProps: {
               api: getStationTypeList,
               params: {
@@ -289,7 +286,7 @@ export const useXListOptions = {
       name: LAYERS.ORDINARY_RAILWAY_SECTION_STATION,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '普铁-区段站',
       },
       useFormOptions: {
@@ -298,10 +295,22 @@ export const useXListOptions = {
       },
     },
     {
+      name: LAYERS.PASSENGER_AIRCRAFT_TURNAROUND_SECTION,
+      component: 'DrawerForm',
+      componentProps: {
+        width: STATION_WIDTH.DRAWER_WIDTH,
+        title: '普铁-区段站',
+      },
+      useFormOptions: {
+        labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,
+        schemas: PASSENGER_AIRCRAFT_TURNAROUND_SECTION,
+      },
+    },
+    {
       name: LAYERS.ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '普铁-中间站',
       },
       useFormOptions: {
@@ -313,7 +322,7 @@ export const useXListOptions = {
       name: LAYERS.ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '普铁-会让站、越行站',
       },
       useFormOptions: {
@@ -325,7 +334,7 @@ export const useXListOptions = {
       name: LAYERS.ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '普铁-牵引变电所、线路所、警务区',
       },
       useFormOptions: {
@@ -337,7 +346,7 @@ export const useXListOptions = {
       name: LAYERS.HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '高铁-中间站',
       },
       useFormOptions: {
@@ -349,7 +358,7 @@ export const useXListOptions = {
       name: LAYERS.HIGH_SPEED_TRAIN_DEPOT,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '高铁-动车段',
       },
       useFormOptions: {
@@ -361,7 +370,7 @@ export const useXListOptions = {
       name: LAYERS.HIGH_SPEED_LARGE_STATIONS,
       component: 'DrawerForm',
       componentProps: {
-        width: '90%',
+        width: STATION_WIDTH.DRAWER_WIDTH,
         title: '高铁-大型车站',
       },
       useFormOptions: {

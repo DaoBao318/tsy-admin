@@ -95,7 +95,7 @@ export const waterSupplyAndDrainageProjectData = {
   list: [
     {
       projectID: 1,
-      projectName: '常泰项目',
+      projectName: '常泰项目MOCK',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 1,
@@ -104,7 +104,7 @@ export const waterSupplyAndDrainageProjectData = {
     },
     {
       projectID: 141,
-      projectName: '广州南至东莞高铁',
+      projectName: '广州南至东莞高铁MOCK',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 0,
@@ -113,7 +113,7 @@ export const waterSupplyAndDrainageProjectData = {
     },
     {
       projectID: 121,
-      projectName: '广州南至深圳高铁',
+      projectName: '广州南至深圳高铁MOCK',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 0,
@@ -122,7 +122,7 @@ export const waterSupplyAndDrainageProjectData = {
     },
     {
       projectID: 101,
-      projectName: '武汉西',
+      projectName: '武汉西MOCK',
       projectType: 'OrdinaryRailway',
       projectTypeName: '普铁',
       isSynchro: 0,
@@ -131,7 +131,7 @@ export const waterSupplyAndDrainageProjectData = {
     },
     {
       projectID: 26,
-      projectName: '武汉项目',
+      projectName: '武汉项目MOCK',
       projectType: 'HighSpeed',
       projectTypeName: '高铁',
       isSynchro: 0,
