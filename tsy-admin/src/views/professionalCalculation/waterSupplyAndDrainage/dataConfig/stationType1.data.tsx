@@ -464,46 +464,48 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
 ];
 
 // 服务用水小计
-const serviceDtoList: FormSchema[] = [
-  {
-    label: '',
-    labelWidth: 0,
-    field: 'serviceDtoList',
-    component: 'Input',
-    colProps: { span: 24 },
-    slot: 'serviceDtoList',
-  },
-  {
-    label: '服务用水小计',
-    labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'serviceDtoList_recent',
-    component: 'InputNumberExpand40',
-    helpMessage: '近期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量',
-    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
-    componentProps: ({ schema }) => {
-      return {
-        placeholder: '请先输入',
-        disabled: true,
-        immediate: true,
-      };
+const serviceDtoListType = (helpMessage): FormSchema[] => {
+  return [
+    {
+      label: '',
+      labelWidth: 0,
+      field: 'serviceDtoList',
+      component: 'Input',
+      colProps: { span: 24 },
+      slot: 'serviceDtoList',
     },
-  },
-  {
-    label: '服务远期用水小计',
-    labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'serviceDtoList_forward',
-    component: 'InputNumberExpand40',
-    helpMessage: '远期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量',
-    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
-    componentProps: () => {
-      return {
-        placeholder: '请先输入',
-        disabled: true,
-        immediate: true,
-      };
+    {
+      label: '服务用水小计',
+      labelWidth: STATION_WIDTH.COUNT_LABEL,
+      field: 'serviceDtoList_recent',
+      component: 'InputNumberExpand40',
+      helpMessage: '近期的' + helpMessage,
+      colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+      componentProps: ({ schema }) => {
+        return {
+          placeholder: '请先输入',
+          disabled: true,
+          immediate: true,
+        };
+      },
     },
-  },
-];
+    {
+      label: '服务远期用水小计',
+      labelWidth: STATION_WIDTH.COUNT_LABEL,
+      field: 'serviceDtoList_forward',
+      component: 'InputNumberExpand40',
+      helpMessage: '远期的' + helpMessage,
+      colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+      componentProps: () => {
+        return {
+          placeholder: '请先输入',
+          disabled: true,
+          immediate: true,
+        };
+      },
+    },
+  ];
+};
 // 管网漏失及基建、未预见水量 又分开处理
 const pipeAndCapitalConstructionDtoList: FormSchema[] = [
   {
@@ -826,7 +828,7 @@ export const ORDINARY_RAILWAY_SECTION_STATION = [
   },
   {
     title: '五、服务行业用水',
-    schemas: serviceDtoList,
+    schemas: serviceDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
   },
   {
     title: '六、管网漏失',
@@ -922,7 +924,7 @@ export const ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF = [
   },
   {
     title: '四、服务行业用水',
-    schemas: serviceDtoList,
+    schemas: serviceDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
   },
   {
     title: '五、管网漏失',
@@ -1032,7 +1034,7 @@ export const HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION = [
   },
   {
     title: '四、服务行业用水',
-    schemas: serviceDtoList,
+    schemas: serviceDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
   },
   {
     title: '五、管网漏失',
@@ -1122,7 +1124,7 @@ export const HIGH_SPEED_LARGE_STATIONS = [
   },
   {
     title: '五、服务行业用水',
-    schemas: serviceDtoList,
+    schemas: serviceDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
   },
   {
     title: '六、管网漏失',

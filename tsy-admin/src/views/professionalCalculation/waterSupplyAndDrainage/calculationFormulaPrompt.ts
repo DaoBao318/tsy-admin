@@ -8,6 +8,19 @@
 export function calculationFormulaPrompt(stationType, item) {
   const { waterProject } = item;
   let mes = '';
+  if (waterProject.indexOf('军供站厕所') > -1) {
+    mes = '（大便器个数*0.08+小便器个数*0.07+洗手盆个数*0.02）*16';
+  } else if (waterProject.indexOf('军供站锅炉房') > -1) {
+    mes = '蒸汽锅炉：（13~57）*台数；热水锅炉：（20~37）*台数';
+  } else if (waterProject.indexOf('洗涤车间') > -1) {
+    mes = '（0.04~0.08）*干衣重量（kg）';
+  } else if (waterProject.indexOf('') > -1) {
+    mes = '';
+  } else if (waterProject.indexOf('') > -1) {
+    mes = '';
+  } else {
+    mes = '';
+  }
   if (stationType === '01') {
     if (waterProject.indexOf('通过旅客列车上水') > -1) {
       mes = '1.2*qᵢ*16*2';
@@ -17,8 +30,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = 'β*qᵢ’*32*2';
     } else if (waterProject.indexOf('始发终到旅客列车卸污量') > -1) {
       mes = 'β*qᵢ’*32';
-    } else if (waterProject.indexOf('') > -1) {
-      mes = '';
+    } else if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*3*0.02';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else if (waterProject.indexOf('') > -1) {
@@ -27,8 +40,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = '';
     }
   } else if (stationType === '02') {
-    if (waterProject.indexOf('') > -1) {
-      mes = '';
+    if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*3*0.02';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else if (waterProject.indexOf('') > -1) {
@@ -43,8 +56,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = '';
     }
   } else if (stationType === '03') {
-    if (waterProject.indexOf('') > -1) {
-      mes = '';
+    if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*3*0.02';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else if (waterProject.indexOf('') > -1) {
@@ -71,8 +84,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = 'β*qᵢ’*32';
     } else if (waterProject.indexOf('污物箱冲洗卸污量') > -1) {
       mes = '（0.4～1.0）*32/15';
-    } else if (waterProject.indexOf('') > -1) {
-      mes = '';
+    } else if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*3*0.02';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else if (waterProject.indexOf('') > -1) {
@@ -81,8 +94,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = '';
     }
   } else if (stationType === '05') {
-    if (waterProject.indexOf('') > -1) {
-      mes = '';
+    if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*2*0.004';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else if (waterProject.indexOf('') > -1) {
@@ -109,8 +122,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = 'β*qᵢ’*n';
     } else if (waterProject.indexOf('污物箱冲洗卸污量') > -1) {
       mes = '（0.4～1.0）*n/15';
-    } else if (waterProject.indexOf('') > -1) {
-      mes = '';
+    } else if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*2*0.004';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else if (waterProject.indexOf('') > -1) {
@@ -129,8 +142,8 @@ export function calculationFormulaPrompt(stationType, item) {
       mes = 'β**qᵢ’*n*2';
     } else if (waterProject.indexOf('污物箱冲洗卸污量') > -1) {
       mes = 'β*qᵢ’*n';
-    } else if (waterProject.indexOf('') > -1) {
-      mes = '';
+    } else if (waterProject.indexOf('站房') === 0) {
+      mes = '最高聚集人数*2*0.004';
     } else if (waterProject.indexOf('') > -1) {
       mes = '';
     } else {

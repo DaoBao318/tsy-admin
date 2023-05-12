@@ -97,12 +97,12 @@
       }
       const go = useGo();
       function creatAction(record): ActionItem[] {
-        const { projectID, projectName, projectType } = record;
-        if (record.isSynchro === 1) {
+        const { projectID, projectName, projectType, isSynchro } = record;
+        if (isSynchro === 1) {
           return [
             {
-              icon: 'typcn:arrow-forward',
-              tooltip: '用水量计算',
+              icon: 'ant-design:calculator-outlined',
+              tooltip: '计算用水量',
               onClick: () => {
                 go({
                   name: 'WaterConsumptionCalculation',
@@ -110,6 +110,7 @@
                     projectID,
                     projectName,
                     projectType,
+                    isSynchro,
                   },
                 });
               },
@@ -118,8 +119,8 @@
         } else {
           let jumbData = [
             {
-              icon: 'typcn:arrow-forward-outline',
-              tooltip: '数据录入',
+              icon: 'ant-design:file-add-outlined',
+              tooltip: '添加用水项目',
               onClick: () => {
                 go({
                   name: 'Station',
@@ -135,8 +136,8 @@
           if (record.isExist === '是') {
             jumbData = [
               {
-                icon: 'typcn:arrow-forward',
-                tooltip: '用水量计算',
+                icon: 'ant-design:calculator-outlined',
+                tooltip: '计算用水量',
                 onClick: () => {
                   go({
                     name: 'WaterConsumptionCalculation',
@@ -149,8 +150,8 @@
                 },
               },
               {
-                icon: 'typcn:arrow-forward-outline',
-                tooltip: '数据录入',
+                icon: 'ant-design:file-add-outlined',
+                tooltip: '添加用水项目',
                 onClick: () => {
                   go({
                     name: 'Station',

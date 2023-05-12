@@ -306,3 +306,5 @@ lifedrainMaxWaterDtoList 删除掉
     } else if (waterProject.indexOf('基建未预见') > -1) {
       mes = '（Q1+Q2+Q3+Q4+Q6）*（0.1～0.15）=Q7';
     }
+
+    : '近期的（运输用水+生产用水+生活用水+绿化用水）*单位用水量' 01
