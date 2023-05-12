@@ -151,6 +151,67 @@ export const getModelSelectTypeList = [
     value: 'JointDesign',
   },
 ];
+export const detailEquip = {
+  projectID: 1,
+  projectName: '常泰项目MOCK',
+  stationID: 4,
+  stationName: '常州高新区站MOCK',
+  stationType: '06',
+  stationTypeName: '高速（客运专线）铁路-动车段MOCK',
+  modelSelectType: 'JointDesign',
+  modelSelectTypeName: '生活、消防管网合设',
+  dnMwoMax: 2000,
+  busWaterRows: 2,
+  groupsNumber: 16,
+  busWaterSingle: 1.5,
+  busWaterTotalFlow: 48,
+  produceLifeTotalFlow: 75,
+  waterSameRatio: 0.5,
+  outdoorFireMaxStrength: 40,
+  fireContinueTime: 3,
+  outdoorFireMaxMwoMax: 432,
+  waterStorageCoefficient: -0.042,
+  pollShape: '矩形',
+  poolTopCoveringSoil: 500,
+  cleanPoolModel:
+    '400m³矩形储水池（池顶覆土500mm）1座-22S804，页84；300m³矩形储水池（池顶覆土500mm）1座-22S804，页64；100m³矩形储水池（池顶覆土500mm）1座-22S804，页19；100m³矩形储水池（池顶覆土500mm）1座-22S804，页19；',
+  cleanPoolEffectiveVolume: 700,
+  producePoolModel: null,
+  producePoolEffectiveVolume: null,
+  ffPoolModel: null,
+  ffPoolEffectiveVolume: null,
+  waterSupplyDesignFlow: 221.4,
+  pooLowWaterElevation: -5,
+  dullDesignGroundElevation: 18,
+  dullAskWaterPressure: 25,
+  vfpBadWayHeadLoss: 39,
+  excessHeadHSix: 3,
+  waterSupplyDesignLift: 90,
+  waterSupplyModel: null,
+  firePumpDesignFlow: 40,
+  ffPoolLowestWaterLevel: -5,
+  ffBadDesignGroundElevation: 20,
+  ffBadHydrantPressure: 15,
+  firePumpBadWayHeadLoss: 36,
+  excessHeadHTwelve: 3,
+  firePumpDesignLift: 79,
+  firePumpModel: '',
+  stabilivoltPumpDesignFlow: 1,
+  sffPoolLowestWaterLevel: -5,
+  sffBadDesignGroundElevation: 20,
+  workConditionBadPressure: 0.22,
+  stabilivoltPumpMinWorkingPressure: 0.47,
+  firePumpStartPressure: 0.47,
+  firePumpStartPumpPressure: 0.54,
+  firePumpStopPumpPressure: 0.59,
+  stabilivoltPumpDesignLift: 0.565,
+  stabilivoltPumpModel: null,
+  disinfectWaterSupplyDesignFlow: 221.4,
+  disinfectDeviceDosage: '0.5~1.0',
+  activeChlorine: 110.7,
+  activeChlorineMax: 221.4,
+  disinfectDeviceModel: null,
+};
 
 export default [
   // //列表
@@ -178,6 +239,15 @@ export default [
   //   method: 'post',
   //   response: () => {
   //     return resultSuccess(getModelSelectTypeList);
+  //   },
+  // },
+  // //详情
+  // {
+  //   url: '/professional-subsystem/api/ZYJSWaterCompute/GetStationDeviceSelectionEdit',
+  //   timeout: 0,
+  //   method: 'post',
+  //   response: () => {
+  //     return resultSuccess(detailEquip);
   //   },
   // },
 ] as MockMethod[];

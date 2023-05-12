@@ -27,20 +27,20 @@ export const columns: BasicColumn[] = [
     width: 180,
   },
   {
-    title: '蓄水设施设备选型',
+    title: '清水池型号选型',
     dataIndex: 'cleanPoolModel',
     width: 180,
   },
-  // {
-  //   title: '生活水池(水箱)-水池型号11',
-  //   dataIndex: 'producePoolModel',
-  //   width: 180,
-  // },
-  // {
-  //   title: '消防水池型号11',
-  //   dataIndex: 'ffPoolModel',
-  //   width: 180,
-  // },
+  {
+    title: '生活水池型号选型',
+    dataIndex: 'producePoolModel',
+    width: 180,
+  },
+  {
+    title: '消防水池型号选型',
+    dataIndex: 'ffPoolModel',
+    width: 180,
+  },
   {
     title: '变频供水设备选型',
     dataIndex: 'waterSupplyModel',
@@ -240,12 +240,29 @@ export const formSchema: FormSchema[] = [
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
       return {
-        onChange: (e: any) => {
-          formModel.waterStorageCoefficient = nc(e);
+        onChange: () => {
+          // formModel.waterStorageCoefficient = nc(e);
+          formModel.vfpBadWayHeadLoss = undefined;
         },
         onBlur: (value) => {
           const target = value.target.value;
           formModel.dnMwoMax = transformData1(target);
+        },
+      };
+    },
+  },
+  {
+    field: 'busWaterSupply',
+    label: `客车上水量`,
+    helpMessage: '客车上水量(m³/d)。',
+    component: 'InputNumberExpand1',
+    required: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.busWaterSupply = transformData1(target);
         },
       };
     },
@@ -282,7 +299,7 @@ export const formSchema: FormSchema[] = [
         },
       };
     },
-    dynamicRules: ({ values }) => {
+    dynamicRules: () => {
       return [
         {
           required: true,
@@ -318,48 +335,12 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'produceLifeTotalFlow',
-    label: '房屋总秒流量',
-    helpMessage: '设计站点生产生活房屋(含站房)设计总秒流量Q₂(L/s)。',
-    component: 'InputNumberExpand1',
-    required: true,
-    colProps: { span: EQUIP.WIDTH_NUMBER },
-    componentProps: ({ formModel }) => {
-      return {
-        onChange: () => {
-          formModel.vfpBadWayHeadLoss = undefined;
-        },
-        onBlur: (value) => {
-          const target = value.target.value;
-          formModel.produceLifeTotalFlow = transformData1(target);
-        },
-      };
-    },
-  },
-  {
     field: 'waterSameRatio',
     label: '同时用水系数',
-    helpMessage: '指生产生活房屋(含站房)同时用水系数k₁。',
+    helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=2.5~3。',
     component: 'InputNumberExpand',
     required: true,
-    dynamicDisabled: false,
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicRules: ({ values }) => {
-      return [
-        {
-          required: true,
-          validator: (_, value) => {
-            if (value === 0.5) {
-              return Promise.resolve();
-            }
-            if (value > 0.7 || value < 0.6) {
-              return Promise.reject('同时用水系数k₁在0.6-0.7之间');
-            }
-            return Promise.resolve();
-          },
-        },
-      ];
-    },
     componentProps: ({ formModel }) => {
       return {
         onChange: () => {
@@ -409,7 +390,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'busWaterTotalFlow',
     label: '上水总流量',
-    helpMessage: '设计站点(给水站、动车所等)考虑同时上水的客车上水总流量q₁(L/s)。',
+    helpMessage: '设计站点(给水站、动车所等)考虑同时上水的客车上水总流量Q₁(L/s)。',
     dynamicDisabled: true,
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -418,6 +399,22 @@ export const formSchema: FormSchema[] = [
         onBlur: (value) => {
           const target = value.target.value;
           formModel.busWaterTotalFlow = transformData1(target);
+        },
+      };
+    },
+  },
+  {
+    field: 'produceLifeTotalFlow',
+    label: '房屋总秒流量',
+    helpMessage: '设计站点生产生活房屋(含站房)设计总秒流量Q₂(L/s)。',
+    component: 'InputNumberExpand1',
+    dynamicDisabled: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.produceLifeTotalFlow = transformData1(target);
         },
       };
     },
@@ -482,14 +479,7 @@ export const formSchema: FormSchema[] = [
     field: 'waterStorageCoefficient',
     label: '水池贮水系数',
     component: 'InputNumberExpand3',
-    helpMessage: [
-      '生产生活用水水池贮水系数β',
-      'β=1/2~1/4(Qd≤500)',
-      'β=1/4~1/6(500＜Qd≤1000)',
-      'β=1/6~1/8(1000＜Qd≤2000)',
-      'β=1/8~1/10(2000＜Qd≤3000)',
-      'β=1/10(3000＜Qd)',
-    ],
+    helpMessage: '生产生活用水水池贮水系数β=1/2~1/3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
@@ -504,7 +494,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'outdoorFireMaxMwoMax',
     label: '消防用水量',
-    helpMessage: '设计站点室外消防最大用水量YX(m³/d)。',
+    helpMessage: '设计站点室外消防最大用水量Yₓ(m³/d)。',
     dynamicDisabled: true,
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -637,7 +627,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'excessHeadHSix',
     label: '富裕水头',
-    helpMessage: '计算泵组设计扬程的富裕水头h₆(m)。',
+    helpMessage: '计算泵组设计扬程的富裕水头h₆=2~3(m)。',
     component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -780,7 +770,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'excessHeadHTwelve',
     label: '富裕水头',
-    helpMessage: '富裕水头h₁₂(m)',
+    helpMessage: '富裕水头h₁₂=2~3(m)',
     component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },

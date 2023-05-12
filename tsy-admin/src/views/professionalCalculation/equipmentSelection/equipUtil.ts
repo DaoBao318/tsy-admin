@@ -21,7 +21,6 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     : undefined; //没有值默认给0
   if (EQUIP_TYPE.LARGE_STATION.includes(record.stationType)) {
     record.busWaterSingle = 2.5;
-    record.waterSameRatio = 0.5;
     record.stabilivoltPumpDesignFlow = 1;
     updateSchema([
       {
@@ -32,11 +31,22 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       {
         field: 'waterSameRatio',
         label: '同时用水系数',
-        dynamicDisabled: true,
+        helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=2.5~3。',
+      },
+      {
+        field: 'waterStorageCoefficient',
+        label: '水池贮水系数',
+        helpMessage: '生产生活用水水池贮水系数β=1/2~1/3',
       },
       {
         field: 'busWaterRows',
         label: '同时上水排数',
+        required: true,
+        show: true,
+      },
+      {
+        field: 'busWaterSupply',
+        label: '客车上水量',
         required: true,
         show: true,
       },
@@ -60,9 +70,8 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     ]);
   } else if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(record.stationType)) {
     record.busWaterRows = 0; //没有
-    record.groupsNumber = 0; //没有
+    record.groupsNumber = 1; //没有
     record.busWaterSingle = 0; //没有
-    record.waterSameRatio = 0.6;
     record.stabilivoltPumpDesignFlow = 1;
     record.modelSelectType = 'Division';
     updateSchema([
@@ -74,11 +83,22 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       {
         field: 'waterSameRatio',
         label: '同时用水系数',
-        dynamicDisabled: false,
+        helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=5~6。',
+      },
+      {
+        field: 'waterStorageCoefficient',
+        label: '水池贮水系数',
+        helpMessage: ['市政管径 >DN100且供水可靠时，1/3≥β≥1/4；', '接管水源不可靠时，β=1'],
       },
       {
         field: 'busWaterRows',
         label: '同时上水排数',
+        required: false,
+        show: false,
+      },
+      {
+        field: 'busWaterSupply',
+        label: '客车上水量',
         required: false,
         show: false,
       },
@@ -107,7 +127,6 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     ]);
   } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(record.stationType)) {
     record.busWaterSingle = 1.5;
-    record.waterSameRatio = 0.5;
     record.stabilivoltPumpDesignFlow = 1;
     record.modelSelectType = 'JointDesign';
     updateSchema([
@@ -119,7 +138,18 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       {
         field: 'waterSameRatio',
         label: '同时用水系数',
-        dynamicDisabled: true,
+        helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=2.5~3。',
+      },
+      {
+        field: 'waterStorageCoefficient',
+        label: '水池贮水系数',
+        helpMessage: '生产生活用水水池贮水系数β=1/2~1/3',
+      },
+      {
+        field: 'busWaterSupply',
+        label: '客车上水量',
+        required: true,
+        show: true,
       },
       {
         field: 'busWaterRows',
@@ -239,7 +269,7 @@ export const calculateEquip = (value, setFieldsValue) => {
     outdoorFireMaxStrength,
     fireContinueTime,
     dnMwoMax,
-    produceLifeTotalFlow,
+    busWaterSupply,
     waterSameRatio,
     pooLowWaterElevation,
     dullDesignGroundElevation,
@@ -253,10 +283,14 @@ export const calculateEquip = (value, setFieldsValue) => {
     firePumpBadWayHeadLoss,
     excessHeadHTwelve,
     workConditionBadPressure,
+    waterStorageCoefficient, //生产生活用水贮水系数β
   } = value;
-  const waterStorageCoefficient = value.waterStorageCoefficient; //生产生活用水贮水系数β
+
   // 客车上水总流量q1(L/s)
-  const busWaterTotalFlow = keepTwoDecimalFull(busWaterRows * groupsNumber * busWaterSingle, 1);
+  const busWaterTotalFlow = keepTwoDecimalFull(
+    busWaterRows * groupsNumber * busWaterSingle * 3.6,
+    1,
+  );
   //室外消防最大用水量YX(m3/d)
   const outdoorFireMaxMwoMax = keepTwoDecimalFull(
     3.6 * outdoorFireMaxStrength * fireContinueTime,
@@ -270,27 +304,42 @@ export const calculateEquip = (value, setFieldsValue) => {
   let ffPoolEffectiveVolume = 0;
   //变频供水设备设计流量Q(L/s)
   let waterSupplyDesignFlow = 0;
+  //变频供水设备设计流量Q(m³/h)
+  let produceLifeTotalFlow = 0;
+  let divisionCoefficient = 16;
+  if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(value.stationType)) {
+    divisionCoefficient = 12;
+  }
+  produceLifeTotalFlow = (dnMwoMax * waterSameRatio) / divisionCoefficient;
 
   if (value.modelSelectType === 'JointDesign') {
     cleanPoolEffectiveVolume = keepTwoDecimalFull(
-      dnMwoMax * waterStorageCoefficient + outdoorFireMaxMwoMax,
+      (dnMwoMax + busWaterSupply) * waterStorageCoefficient + outdoorFireMaxMwoMax,
       2,
     );
     cleanPoolEffectiveVolume = roundUp(cleanPoolEffectiveVolume);
   } else {
-    producePoolEffectiveVolume = keepTwoDecimalFull(dnMwoMax * waterStorageCoefficient, 1);
+    if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(value.stationType)) {
+      producePoolEffectiveVolume = keepTwoDecimalFull(dnMwoMax * waterStorageCoefficient, 1);
+    } else {
+      producePoolEffectiveVolume = keepTwoDecimalFull(
+        (dnMwoMax + busWaterSupply) * waterStorageCoefficient,
+        1,
+      );
+    }
     producePoolEffectiveVolume = roundUp(producePoolEffectiveVolume);
     ffPoolEffectiveVolume = keepTwoDecimalFull(outdoorFireMaxMwoMax, 1);
     ffPoolEffectiveVolume = roundUp(ffPoolEffectiveVolume);
   }
+
   if (EQUIP_TYPE.LARGE_STATION.includes(value.stationType)) {
-    const temp = 3.6 * (busWaterTotalFlow + produceLifeTotalFlow * waterSameRatio);
+    const temp = busWaterTotalFlow + produceLifeTotalFlow;
     waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
   } else if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(value.stationType)) {
-    const temp = 3.6 * (produceLifeTotalFlow * waterSameRatio);
+    const temp = produceLifeTotalFlow;
     waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
   } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(value.stationType)) {
-    const temp = 3.6 * (0.5 * busWaterTotalFlow + produceLifeTotalFlow * waterSameRatio);
+    const temp = 0.5 * busWaterTotalFlow + produceLifeTotalFlow;
     waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
   }
 
@@ -341,6 +390,7 @@ export const calculateEquip = (value, setFieldsValue) => {
     cleanPoolEffectiveVolume,
     producePoolEffectiveVolume,
     ffPoolEffectiveVolume,
+    produceLifeTotalFlow,
     waterSupplyDesignFlow,
     waterStorageCoefficient, //β系数
     waterSupplyDesignLift,

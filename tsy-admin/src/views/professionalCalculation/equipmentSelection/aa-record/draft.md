@@ -78,3 +78,7 @@ waterSupplyDesignFlow 流量1
 
 outdoorFireMaxStrength
 firePumpDesignFlow 1
+
+busWaterSupply  客车上水量（m3/d)
+
+YX(m³/d) todo

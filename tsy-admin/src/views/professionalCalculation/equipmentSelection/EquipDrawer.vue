@@ -48,12 +48,11 @@
   import { calculateEquip, initializeAssignmentStructure, saveDisplay } from './equipUtil';
   import { message } from 'ant-design-vue';
   import { keepTwoDecimalFull } from '/@/utils/calculation/count';
-  import { CollapseContainer } from '/@/components/Container';
   import { EQUIP_TYPE } from './equipUtil';
 
   export default defineComponent({
     name: 'EquipDrawer',
-    components: { BasicDrawer, BasicForm, CollapseContainer },
+    components: { BasicDrawer, BasicForm },
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
       const stylePaddingDrawer = ref();
@@ -105,7 +104,7 @@
       });
       let basicData = {};
       let openModalCount;
-      const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+      const [registerDrawer, { setDrawerProps }] = useDrawerInner(async (data) => {
         // 初始化赋值
         resetFields();
         const { projectID, projectName, stationID, stationName, stationType, stationTypeName } =
@@ -160,26 +159,26 @@
               'produceLifeTotalFlow',
               'waterSameRatio',
               'stationType',
+              'dnMwoMax',
             ]);
             const {
               busWaterRows,
               groupsNumber,
               busWaterSingle,
               produceLifeTotalFlow,
-              waterSameRatio,
               stationType,
             } = values;
             //按照类型判断,中间站已经默认为0
             let waterSupplyDesignFlow = 0;
             const busWaterTotalFlow = busWaterRows * groupsNumber * busWaterSingle;
             if (EQUIP_TYPE.LARGE_STATION.includes(stationType)) {
-              const temp = 3.6 * (busWaterTotalFlow + produceLifeTotalFlow * waterSameRatio);
+              const temp = busWaterTotalFlow + produceLifeTotalFlow;
               waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
             } else if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(stationType)) {
-              const temp = 3.6 * (produceLifeTotalFlow * waterSameRatio);
+              const temp = produceLifeTotalFlow;
               waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
             } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(stationType)) {
-              const temp = 3.6 * (0.5 * busWaterTotalFlow + produceLifeTotalFlow * waterSameRatio);
+              const temp = 0.5 * busWaterTotalFlow + produceLifeTotalFlow;
               waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
             }
 
@@ -265,7 +264,7 @@
         top: 5px;
       }
       .ant-input{
-        height: 30px!important;
+        height: 30px;
       }
     }
   }
@@ -292,7 +291,7 @@
         position: relative;
         top: 5px;
       }
-      .ant-input{
+      .ant-input.ant-input-disabled{
         height: 30px!important;
       }
     }
