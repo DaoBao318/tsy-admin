@@ -11,7 +11,7 @@
           v-if='!(item.ifShow === false)',
           v-show="!(item.show === false)"
           :span='item?.colProps?.span || restSpan',
-          :class='{ required: item.required, "margin-left": "5px" }'
+          :class='{ required: item.required, "margin-left": "5px", "recommendedUnitWater": item.recommendedUnitWater }'
         ) {{ item.label }}
   .ant-table-body
     .ant-table-body-empty(v-if='!dataSource || !dataSource.length', @click='addOneItem')

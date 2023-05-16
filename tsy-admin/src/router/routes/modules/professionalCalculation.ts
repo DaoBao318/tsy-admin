@@ -17,7 +17,7 @@ const professionalCalculation: AppRouteModule = {
       path: 'waterSupplyAndDrainage',
       name: 'WaterSupplyAndDrainage',
       meta: {
-        title: '昼夜最大用水量计算',
+        title: '站点昼夜最大用水量排水量计算',
         icon: 'ion:water-outline',
         // ignoreKeepAlive: true,
         // hideTab: true,
@@ -45,7 +45,7 @@ const professionalCalculation: AppRouteModule = {
       path: 'waterConsumptionCalculation',
       name: 'WaterConsumptionCalculation',
       meta: {
-        title: '昼夜最大用水量计算',
+        title: '站点昼夜最大用水量排水量计算',
         icon: 'ion:water-outline',
         hideTab: true,
         hideMenu: true,
@@ -72,7 +72,20 @@ const professionalCalculation: AppRouteModule = {
       meta: {
         // affix: true,
         icon: 'ant-design:carry-out-outlined',
-        title: '设备选型',
+        title: '设备设施选型',
+      },
+    },
+    {
+      path: 'equipmentSelectionStation',
+      name: 'EquipmentSelectionStation',
+      component: () =>
+        import('/@/views/professionalCalculation/equipmentSelection/station/index.vue'),
+      meta: {
+        // affix: true,
+        icon: 'ant-design:carry-out-outlined',
+        title: '设备设施选型车站',
+        hideTab: true,
+        hideMenu: true,
       },
     },
   ],

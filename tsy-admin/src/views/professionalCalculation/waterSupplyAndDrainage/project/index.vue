@@ -102,7 +102,7 @@
           return [
             {
               icon: 'ant-design:calculator-outlined',
-              tooltip: '计算用水量',
+              tooltip: '进入计算结果展示',
               onClick: () => {
                 go({
                   name: 'WaterConsumptionCalculation',
@@ -120,7 +120,7 @@
           let jumbData = [
             {
               icon: 'ant-design:file-add-outlined',
-              tooltip: '添加用水项目',
+              tooltip: '进入车站属性编辑',
               onClick: () => {
                 go({
                   name: 'Station',
@@ -137,7 +137,7 @@
             jumbData = [
               {
                 icon: 'ant-design:calculator-outlined',
-                tooltip: '计算用水量',
+                tooltip: '进入计算结果展示',
                 onClick: () => {
                   go({
                     name: 'WaterConsumptionCalculation',
@@ -151,7 +151,7 @@
               },
               {
                 icon: 'ant-design:file-add-outlined',
-                tooltip: '添加用水项目',
+                tooltip: '进入车站属性编辑',
                 onClick: () => {
                   go({
                     name: 'Station',
@@ -168,7 +168,7 @@
           return jumbData.concat([
             {
               icon: 'clarity:note-edit-line',
-              tooltip: '编辑项目',
+              tooltip: '编辑项目属性',
               onClick: handleEdit.bind(null, record),
             },
             {

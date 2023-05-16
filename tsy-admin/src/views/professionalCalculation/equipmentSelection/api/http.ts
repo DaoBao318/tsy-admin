@@ -34,9 +34,7 @@ export function exportEquipWord(params) {
 }
 
 // 获取项目信息
-export const getProjectInformation = () => {
-  const params = { likeQuery: '', pageIndex: 1, pageSize: 999, totalCount: 0, useID: 0 };
-
+export const getProjectInformation = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.getProjectInformation, params }).then((res) => {
       resolve(res);

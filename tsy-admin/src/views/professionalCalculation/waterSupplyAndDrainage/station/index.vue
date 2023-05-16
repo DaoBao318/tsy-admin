@@ -2,11 +2,11 @@
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button preIcon="ant-design:rollback-outlined" @click="handleBack"> 返回项目 </a-button>
-        <a-button preIcon="ant-design:send-outlined" @click="handleCalculate">
-          用水量计算
-        </a-button>
         <a-button type="primary" @click="handleCreate"> 新增车站 </a-button>
+        <a-button preIcon="ant-design:rollback-outlined" @click="handleCalculate">
+          返回车站列表
+        </a-button>
+        <a-button preIcon="ant-design:rollback-outlined" @click="handleBack"> 返回项目 </a-button>
       </template>
       <template #action="{ record }">
         <TableAction :actions="creatAction(record)" />

@@ -10,8 +10,8 @@ div.geipaishui
     :checkedIsDis = "{type: 'checkbox'}"
     )
     template(#toolbar)
+      a-button( v-if ="projectFlag" type="default" preIcon="ant-design:rollback-outlined"  @click="backPageCalculate") 返回车站属性
       a-button( type="default" preIcon="ant-design:rollback-outlined"  @click="backPage") 返回项目
-      a-button( v-if ="projectFlag" type="default" preIcon="ant-design:rollback-outlined"  @click="backPageCalculate") 用水项目编辑
       a-button(type="default" preIcon="mdi:export"  @click="batchExport") 批量导出
     template(#stationType="{ record, text }")
       span {{ record.stationTypeValue }}

@@ -13,7 +13,7 @@ BasicDrawer(
     p(class="annotationContent") {{ outDataValue && outDataValue.annotationContent }}
 </template>
 <script lang="ts">
-  import { defineComponent, ref, unref, onBeforeUnmount,onMounted,nextTick } from 'vue';
+  import { defineComponent, ref, unref, onBeforeUnmount, onMounted, nextTick } from 'vue';
   import _ from 'lodash';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
@@ -66,16 +66,23 @@ BasicDrawer(
         nextTick(() => {
           resizeFun();
           window.addEventListener('resize', resizeFun);
+          document.addEventListener('keydown', onkeydownFn);
         });
       });
       onBeforeUnmount(() => {
         window.removeEventListener('resize', resizeFun);
+        document.removeEventListener('keydown', onkeydownFn);
       });
       const resizeFun = () => {
         if (window.screen.width > 1800) {
           stylePaddingXlistDrawer.value = 'largeScreenXlist';
         } else {
           stylePaddingXlistDrawer.value = 'smallScreenXlist';
+        }
+      };
+      const onkeydownFn = (e) => {
+        if (e && e.keyCode === 13) {
+          // e.target.blur();
         }
       };
       const { useFormOptions } = unref(props);
@@ -201,6 +208,21 @@ BasicDrawer(
       background: #eee;
       text-indent: 2em;
     }
+    // >>> .ant-col-3{
+    //   .ant-form-item-control-input-content{
+    //       .ant-input-disabled{
+    //         background: red;
+    //       }
+
+    //   }
+    // }
+    >>> .ant-col-3.ant-form-item.required{
+      color: red;
+    }
+    >>> .ant-col-3.ant-form-item.recommendedUnitWater{
+      color: #55d187;
+      border: 1px dashed;
+    }
   }
   .smallScreenXlist {
     padding: 0 12px 0 10px;
@@ -219,6 +241,13 @@ BasicDrawer(
       font-weight: 600;
       background: #eee;
       text-indent: 2em;
+    }
+    >>> .ant-col-3.ant-form-item.required{
+      color: red;
+    }
+    >>> .ant-col-3.ant-form-item.recommendedUnitWater{
+      color: #55d187;
+      border: 1px dashed;
     }
   }
 </style>

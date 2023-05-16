@@ -267,7 +267,7 @@ export function calculateFlowRate5(q, d, i, unit = 'cubicMeter', calculationManu
   let calculateFlowRate = (4 * q) / Math.PI / Math.pow(d, 2);
   const { calculationFormula, pipeMaterial } = calculationManualObj;
   if (calculationFormula === 'gs11') {
-    if (['m1', 'm2', 'm21', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
+    if (['m1', 'm2', 'm21', 'm3', 'm4', 'm8'].includes(pipeMaterial)) {
       //默认用第一个速度计算流量
       calculateFlowRate = trialSpeed(d, i);
     } else {
@@ -289,6 +289,7 @@ export const Ch_recommend = {
     m4: '90 ~ 100',
     m5: '140 ~ 150',
     m6: '140 ~ 150',
+    m61: '140 ~ 150',
     m7: '140 ~ 150',
     m8: '90 ~ 100',
     m9: '140 ~ 150',
@@ -301,6 +302,7 @@ export const Ch_recommend = {
     m4: '0.0105 ~ 0.0115',
     m5: '0.012 ~ 0.013',
     m6: '0.012 ~ 0.013',
+    m61: '0.012 ~ 0.013',
     m7: '0.010 ~ 0.030',
     m8: '0.0105 ~ 0.0115',
     m9: '0.010 ~ 0.030',
@@ -313,6 +315,7 @@ export const Ch_recommend = {
     m4: '0.0105 ~ 0.0115',
     m5: '0.012 ~ 0.013',
     m6: '0.012 ~ 0.013',
+    m61: '0.012 ~ 0.013',
     m7: '0.010 ~ 0.030',
     m8: '0.0105 ~ 0.0115',
     m9: '0.010 ~ 0.030',
@@ -325,6 +328,7 @@ export const Ch_recommend = {
     m4: '90 ~ 100',
     m5: '140 ~ 150',
     m6: '140 ~ 150',
+    m61: '140 ~ 150',
     m7: '140 ~ 150',
     m8: '90 ~ 100',
     m9: '140 ~ 150',
@@ -339,6 +343,7 @@ export const Ch = {
     m4: 90,
     m5: 140,
     m6: 140,
+    m61: 140,
     m7: 140,
     m8: 90,
     m9: 140,
@@ -351,6 +356,7 @@ export const Ch = {
     m4: 0.0105,
     m5: 0.012,
     m6: 0.012,
+    m61: 0.012,
     m7: 0.011,
     m8: 0.0105,
     m9: 0.011,
@@ -363,6 +369,7 @@ export const Ch = {
     m4: 0.0105,
     m5: 0.012,
     m6: 0.012,
+    m61: 0.012,
     m7: 0.011,
     m8: 0.0105,
     m9: 0.011,
@@ -375,6 +382,7 @@ export const Ch = {
     m4: 90,
     m5: 140,
     m6: 140,
+    m61: 140,
     m7: 140,
     m8: 90,
     m9: 140,
@@ -520,39 +528,46 @@ export const ductileIronPipe = [
 ];
 //聚乙烯PE100管（0.6MPa）ok
 const polyethylenePE100Pipe_6 = [
-  { label: '32', value: 32, shineUponNominalDiameter: 31.6 },
-  { label: '40', value: 40, shineUponNominalDiameter: 39.8 },
-  { label: '50', value: 50, shineUponNominalDiameter: 57.4 },
-  { label: '65', value: 65, shineUponNominalDiameter: 68.2 },
-  { label: '80', value: 80, shineUponNominalDiameter: 82 },
-  { label: '100', value: 100, shineUponNominalDiameter: 100.6 },
-  { label: '110', value: 110, shineUponNominalDiameter: 114.4 },
-  { label: '150', value: 150, shineUponNominalDiameter: 146.6 },
-  { label: '175', value: 175, shineUponNominalDiameter: 183.6 },
-  { label: '200', value: 200, shineUponNominalDiameter: 206.8 },
-  { label: '225', value: 225, shineUponNominalDiameter: 229.8 },
-  { label: '250', value: 250, shineUponNominalDiameter: 257.6 },
-  { label: '300', value: 300, shineUponNominalDiameter: 289.8 },
-  { label: '350', value: 350, shineUponNominalDiameter: 326.8 },
-  { label: '400', value: 400, shineUponNominalDiameter: 368.4 },
+  { label: '50', value: 50, shineUponNominalDiameter: 58.4 },
+  { label: '65', value: 65, shineUponNominalDiameter: 69.2 },
+  { label: '80', value: 80, shineUponNominalDiameter: 83 },
+  { label: '100', value: 100, shineUponNominalDiameter: 101.6 },
+  { label: '150', value: 150, shineUponNominalDiameter: 147.6 },
+  { label: '200', value: 200, shineUponNominalDiameter: 182.8 },
+  { label: '250', value: 250, shineUponNominalDiameter: 228.6 },
+  { label: '300', value: 300, shineUponNominalDiameter: 290.8 },
+  { label: '350', value: 350, shineUponNominalDiameter: 327.8 },
+  { label: '400', value: 400, shineUponNominalDiameter: 369.4 },
 ];
 //聚乙烯PE100管（1.0MPa）ok
 const polyethylenePE100Pipe_10 = [
-  { label: '32', value: 32, shineUponNominalDiameter: 32.6 },
-  { label: '40', value: 40, shineUponNominalDiameter: 40.8 },
-  { label: '50', value: 50, shineUponNominalDiameter: 51.4 },
+  { label: '32', value: 32, shineUponNominalDiameter: 35.4 },
+  { label: '40', value: 40, shineUponNominalDiameter: 44.2 },
+  { label: '50', value: 50, shineUponNominalDiameter: 55.8 },
   { label: '65', value: 65, shineUponNominalDiameter: 66 },
   { label: '80', value: 80, shineUponNominalDiameter: 79.2 },
   { label: '100', value: 100, shineUponNominalDiameter: 96.8 },
-  { label: '110', value: 110, shineUponNominalDiameter: 110.2 },
   { label: '150', value: 150, shineUponNominalDiameter: 141 },
-  { label: '175', value: 175, shineUponNominalDiameter: 176.2 },
-  { label: '200', value: 200, shineUponNominalDiameter: 198.2 },
-  { label: '225', value: 225, shineUponNominalDiameter: 220.4 },
-  { label: '250', value: 250, shineUponNominalDiameter: 246.8 },
+  { label: '200', value: 200, shineUponNominalDiameter: 173.2 },
+  { label: '250', value: 250, shineUponNominalDiameter: 216.8 },
   { label: '300', value: 300, shineUponNominalDiameter: 277.6 },
   { label: '350', value: 350, shineUponNominalDiameter: 312.8 },
   { label: '400', value: 400, shineUponNominalDiameter: 352.6 },
+];
+////聚乙烯PE100管（1.6MPa）ok
+const polyethylenePE100Pipe_16 = [
+  { label: '32', value: 32, shineUponNominalDiameter: 32.6 },
+  { label: '40', value: 40, shineUponNominalDiameter: 40.8 },
+  { label: '50', value: 50, shineUponNominalDiameter: 51.4 },
+  { label: '65', value: 65, shineUponNominalDiameter: 61.4 },
+  { label: '80', value: 80, shineUponNominalDiameter: 73.6 },
+  { label: '100', value: 100, shineUponNominalDiameter: 90 },
+  { label: '150', value: 150, shineUponNominalDiameter: 130.8 },
+  { label: '200', value: 200, shineUponNominalDiameter: 163.6 },
+  { label: '250', value: 250, shineUponNominalDiameter: 204.6 },
+  { label: '300', value: 300, shineUponNominalDiameter: 257.8 },
+  { label: '350', value: 350, shineUponNominalDiameter: 290.6 },
+  { label: '400', value: 400, shineUponNominalDiameter: 327.4 },
 ];
 //高密度聚乙烯双壁波纹管（HDPE） 不显示
 const highDensityPolyethyleneDoubleWallCorrugatedPipe = [
@@ -621,6 +636,7 @@ export const pipeMaterialOption = [
   // { label: '高密度聚乙烯双壁波纹管（HDPE）', value: 'm7', id: 7 },
   { label: '聚乙烯PE100管（0.6MPa）', value: 'm5' },
   { label: '聚乙烯PE100管（1.0MPa）', value: 'm6' },
+  { label: '聚乙烯PE100管（1.6MPa）', value: 'm61' },
   { label: '不锈钢无缝钢管', value: 'm8' },
   // { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9', id: 8 },暂时不处理
 ];
@@ -633,6 +649,7 @@ export const nominalDiameterObj = {
   m4: ductileIronPipe,
   m5: polyethylenePE100Pipe_6,
   m6: polyethylenePE100Pipe_10,
+  m61: polyethylenePE100Pipe_16,
   m7: highDensityPolyethyleneDoubleWallCorrugatedPipe,
   m8: stainlessSteelSeamlessSteelPipe,
   m9: steelMeshSkeletonPlasticCompositePipe,

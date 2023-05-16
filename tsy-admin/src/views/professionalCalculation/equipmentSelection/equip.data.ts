@@ -1,4 +1,4 @@
-import { getModelSelectTypeList, getProjectInformation } from './api/http';
+import { getModelSelectTypeList } from './api/http';
 import { EQUIP, nc, transformData1, transformData2, transformData3 } from './equipUtil';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
@@ -10,9 +10,28 @@ export const columns: BasicColumn[] = [
     width: 200,
   },
   {
+    title: '项目类型',
+    dataIndex: 'projectTypeName',
+    width: 180,
+    // customRender: ({ record }) => {
+    //   if (record.projectType === 'HighSpeed') {
+    //     return record.projectTypeName;
+    //   } else {
+    //     return record.projectTypeName;
+    //   }
+    // },
+  },
+  // {
+  //   title: '数据来源',
+  //   dataIndex: 'isSynchroType',
+  //   width: 50,
+  // },
+];
+
+export const columnsStation: BasicColumn[] = [
+  {
     title: '车站名',
     dataIndex: 'stationName',
-    width: 180,
     // customRender: ({ record }) => {
     //   if (record.projectType === 'HighSpeed') {
     //     return record.projectTypeName;
@@ -24,82 +43,70 @@ export const columns: BasicColumn[] = [
   {
     title: '车站类型',
     dataIndex: 'stationTypeName',
-    width: 180,
-  },
-  {
-    title: '清水池型号选型',
-    dataIndex: 'cleanPoolModel',
-    width: 180,
-  },
-  {
-    title: '生活水池型号选型',
-    dataIndex: 'producePoolModel',
-    width: 180,
-  },
-  {
-    title: '消防水池型号选型',
-    dataIndex: 'ffPoolModel',
-    width: 180,
-  },
-  {
-    title: '变频供水设备选型',
-    dataIndex: 'waterSupplyModel',
-    width: 180,
   },
   // {
-  //   title: '消防泵-泵型号',
-  //   dataIndex: 'firePumpModel',
+  //   title: '清水池型号选型',
+  //   dataIndex: 'cleanPoolModel',
   //   width: 180,
   // },
-  {
-    title: '变频供水设备选型',
-    dataIndex: 'stabilivoltPumpModel',
-    width: 180,
-  },
-  {
-    title: '消毒设备选型',
-    dataIndex: 'disinfectDeviceModel',
-    width: 180,
-  },
+  // {
+  //   title: '生活水池型号选型',
+  //   dataIndex: 'producePoolModel',
+  //   width: 180,
+  // },
+  // {
+  //   title: '消防水池型号选型',
+  //   dataIndex: 'ffPoolModel',
+  //   width: 180,
+  // },
+  // {
+  //   title: '变频供水设备选型',
+  //   dataIndex: 'waterSupplyModel',
+  //   width: 180,
+  // },
+  // // {
+  // //   title: '消防泵-泵型号',
+  // //   dataIndex: 'firePumpModel',
+  // //   width: 180,
+  // // },
+  // {
+  //   title: '变频供水设备选型',
+  //   dataIndex: 'stabilivoltPumpModel',
+  //   width: 180,
+  // },
+  // {
+  //   title: '消毒设备选型',
+  //   dataIndex: 'disinfectDeviceModel',
+  //   width: 180,
+  // },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'projectID',
-    label: '切换项目:',
-    component: 'ApiSelect',
+    field: 'likeQuery',
+    label: '项目名称',
+    helpMessage: '支持模糊查询',
+    component: 'Input',
     colProps: { span: 8 },
-    required: true,
     componentProps: {
-      api: getProjectInformation,
-      params: {
-        likeQuery: '',
-        pageIndex: 1,
-        pageSize: 999,
-        totalCount: 0,
-        useID: 0,
-      },
-      showSearch: true,
-      optionFilterProp: 'label',
-      resultField: 'list',
-      // // use name as label
-      labelField: 'projectName',
-      // // use id as value
-      valueField: 'projectID',
-      // not request untill to select
-      immediate: true,
-      onChange: (e, v) => {
-        if (!!v) {
+      onChange: (e) => {
+        if (!!e) {
           setTimeout(() => {
             window.equipLoad();
           }, 10);
-        } else {
         }
       },
-      onOptionsChange: (options) => {
-        console.log('get options', options.length, options);
-      },
     },
+  },
+];
+
+export const searchFormSchemaStation: FormSchema[] = [
+  {
+    field: 'projectName',
+    label: '项目名称',
+    component: 'Input',
+    colProps: { span: 8 },
+    dynamicDisabled: true,
   },
   {
     field: 'likeQuery',
@@ -109,11 +116,11 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
     componentProps: {
       onChange: (e) => {
-        // if (!!e) {
-        //   setTimeout(() => {
-        //     window.equipLoad();
-        //   }, 10);
-        // }
+        if (!!e) {
+          setTimeout(() => {
+            window.equipStationLoad();
+          }, 10);
+        }
       },
     },
   },

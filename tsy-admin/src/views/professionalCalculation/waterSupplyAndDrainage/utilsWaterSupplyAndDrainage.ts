@@ -14,6 +14,30 @@ function processingNumberUndefined(num) {
   }
   return Number(num);
 }
+function displayEmpty(num) {
+  if (!num) {
+    return undefined;
+  } else {
+    return processingNumberUndefined(num);
+  }
+}
+function displayEmptyCalculate(unitWater, num) {
+  if (!num) {
+    return undefined;
+  } else {
+    return keepTwoDecimalFull(
+      processingNumberUndefined(unitWater) * processingNumberUndefined(num),
+      1,
+    );
+  }
+}
+function displayEmptyDigit(num, digit) {
+  if (!num) {
+    return undefined;
+  } else {
+    return keepTwoDecimalFull(processingNumberUndefined(num), digit);
+  }
+}
 //用水数据初始化
 export const waterDataInitialization = (res, key) => {
   const { stationType } = res;
@@ -25,22 +49,12 @@ export const waterDataInitialization = (res, key) => {
     item.unitWater = processingNumberUndefined(item.unitWater);
     item.unitWaterMin = processingNumberUndefined(item.unitWaterMin);
     item.unitWaterMan = processingNumberUndefined(item.unitWaterMan);
-    item.recentQuantity = processingNumberUndefined(item.recentQuantity);
-    item.forwardQuantity = processingNumberUndefined(item.forwardQuantity);
+    // 当数量为零的时候，不显示值
+    item.recentQuantity = displayEmpty(item.recentQuantity);
+    item.forwardQuantity = displayEmpty(item.forwardQuantity);
     item.calculationFormulaDisplay = calculationFormulaPrompt(res.stationType, item);
-    const fixedCoefficient = getTraverPersionValue(item);
-    item.recentConsumption = keepTwoDecimalFull(
-      processingNumberUndefined(item.unitWater) *
-        processingNumberUndefined(item.recentQuantity) *
-        fixedCoefficient,
-      1,
-    );
-    item.forwardConsumption = keepTwoDecimalFull(
-      processingNumberUndefined(item.unitWater) *
-        processingNumberUndefined(item.forwardQuantity) *
-        fixedCoefficient,
-      1,
-    );
+    item.recentConsumption = displayEmptyCalculate(item.unitWater, item.recentQuantity);
+    item.forwardConsumption = displayEmptyCalculate(item.unitWater, item.forwardQuantity);
 
     if (!!item.unitWaterMan) {
       item.recommendedUnitWater = item.unitWaterMin + '~' + item.unitWaterMan;
@@ -53,13 +67,13 @@ export const waterDataInitialization = (res, key) => {
 //基础数据计算
 export const basicWaterUse = (res, key) => {
   const recentSum = res[key]?.reduce((pre, item) => {
-    return (pre = pre + item.recentConsumption);
+    return (pre = pre + processingNumberUndefined(item.recentConsumption));
   }, 0);
   const forwardSum = res[key]?.reduce((pre, item) => {
-    return (pre = pre + item.forwardConsumption);
+    return (pre = pre + processingNumberUndefined(item.forwardConsumption));
   }, 0);
-  res[key + '_recent'] = keepTwoDecimalFull(recentSum, 2);
-  res[key + '_forward'] = keepTwoDecimalFull(forwardSum, 2);
+  res[key + '_recent'] = displayEmptyDigit(recentSum, 2);
+  res[key + '_forward'] = displayEmptyDigit(forwardSum, 2);
 };
 //service pipe network
 function sumArr(arr) {
@@ -83,8 +97,8 @@ export const serviceDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -103,8 +117,8 @@ export const pipeNetworkDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -126,8 +140,8 @@ export const unforeseenInfrastructure = (res, key) => {
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
       processingNumberUndefined(res['pipeNetworkDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -153,8 +167,8 @@ export const makeMaxWaterDtoListFun = (res, key) => {
     processingNumberUndefined(res['capitalConstructionDtoList' + '_forward']),
   ];
 
-  res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 1);
-  res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 1);
+  res[key + '_recent'] = displayEmptyDigit(sumArr(recent), 1);
+  res[key + '_forward'] = displayEmptyDigit(sumArr(forward), 1);
 };
 //管网漏失及基建、未预见水量
 export const pipeAndCapitalConstructionDtoListFun = (res, key) => {
@@ -168,8 +182,8 @@ export const pipeAndCapitalConstructionDtoListFun = (res, key) => {
     processingNumberUndefined(res['lifeDtoList' + '_forward']),
     processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
   ];
-  res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent) * 0.15, 1);
-  res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward) * 0.15, 1);
+  res[key + '_recent'] = displayEmptyDigit(sumArr(recent) * 0.15, 1);
+  res[key + '_forward'] = displayEmptyDigit(sumArr(forward) * 0.15, 1);
   // res[key][0]['recentConsumption'] = res[key + '_recent'];
   // res[key][0]['forwardConsumption'] = res[key + '_forward'];
 };
@@ -185,8 +199,8 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -203,8 +217,8 @@ export const makeMaxDrainageDtoListFun = (res, key) => {
       processingNumberUndefined(res['passengerTrainsFecalSewageDtoList' + '_forward']),
       processingNumberUndefined(res['designSewageVolumeNewDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = keepTwoDecimalFull(sumArr(recent), 1);
-    res[key + '_forward'] = keepTwoDecimalFull(sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(sumArr(forward), 1);
   } else if (['05', '03', '02'].includes(stationType)) {
     const recent = [
       processingNumberUndefined(res['produceDtoList' + '_recent']),
@@ -217,8 +231,8 @@ export const makeMaxDrainageDtoListFun = (res, key) => {
       processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
 
-    res[key + '_recent'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = keepTwoDecimalFull(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -308,11 +322,11 @@ export function basicWaterUseLinkage(formModel, allFormList) {
   const unitWater = formModel.unitWater;
   if (!!unitWater || unitWater === 0) {
     const fixedCoefficient = getTraverPersionValue(formModel);
-    formModel.recentConsumption = keepTwoDecimalFull(
+    formModel.recentConsumption = displayEmptyDigit(
       formModel.recentQuantity * fixedCoefficient * unitWater,
       2,
     );
-    formModel.forwardConsumption = keepTwoDecimalFull(
+    formModel.forwardConsumption = displayEmptyDigit(
       formModel.forwardQuantity * fixedCoefficient * unitWater,
       2,
     );
@@ -323,16 +337,16 @@ export function basicWaterUseLinkage(formModel, allFormList) {
 
 export function getRencetSum(type, stationID, allFormList) {
   const recentSum = allFormList[stationID][type]?.reduce((pre, item) => {
-    return (pre = pre + item.recentConsumption);
+    return (pre = pre + processingNumberUndefined(item.recentConsumption));
   }, 0);
-  allFormList[stationID][type + '_recent'] = keepTwoDecimalFull(recentSum, 1) || 0;
+  allFormList[stationID][type + '_recent'] = displayEmptyDigit(recentSum, 1);
 }
 export function getForwardSum(type, stationID, allFormList) {
   const forwardSum = allFormList[stationID][type]?.reduce((pre, item) => {
-    return (pre = pre + item.forwardConsumption);
+    return (pre = pre + processingNumberUndefined(item.forwardConsumption));
   }, 0);
 
-  allFormList[stationID][type + '_forward'] = keepTwoDecimalFull(forwardSum, 1) || 0;
+  allFormList[stationID][type + '_forward'] = displayEmptyDigit(forwardSum, 1);
 }
 // 联动计算
 export const subtotalOfWaterConsumption = (formModel, allFormList) => {
@@ -400,6 +414,7 @@ export function dealSaveData(record) {
     }
   }
   waterComputeDtos.forEach((item) => {
+    //如果传递给后端的是undefined null 会被自动过滤
     delete item['recommendedUnitWater'];
     delete item['type'];
     delete item['stationType'];

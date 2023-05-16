@@ -1,4 +1,5 @@
 import { keepTwoDecimalFull } from '/@/utils/calculation/count';
+import { useRouter } from 'vue-router';
 
 export const EQUIP = {
   WIDTH_NUMBER: 6,
@@ -471,3 +472,7 @@ export const transformData2 = (rawValue) => {
 export const transformData3 = (rawValue) => {
   return keepTwoDecimalFull(rawValue, 3);
 };
+export function getRouterQueryEquip() {
+  const router = useRouter();
+  return router.currentRoute.value.query;
+}

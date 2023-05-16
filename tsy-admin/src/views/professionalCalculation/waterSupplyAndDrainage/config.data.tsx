@@ -149,7 +149,7 @@ function createActionsColumns(record, context) {
       {
         icon: 'material-symbols:add-box-outline',
         label: '新增',
-        tooltip: '新增',
+        tooltip: '首次计算昼夜最大用水量和排水量',
         onClick: handlerEdit,
       },
     ];
@@ -157,7 +157,7 @@ function createActionsColumns(record, context) {
     return [
       {
         icon: 'clarity:note-edit-line',
-        tooltip: '水量计算/详情',
+        tooltip: '修改单位用水量',
         onClick: handlerEdit,
       },
       // {
@@ -168,7 +168,7 @@ function createActionsColumns(record, context) {
       // },
       {
         icon: 'ant-design:retweet-outlined',
-        tooltip: '重置计算数据',
+        tooltip: '删除昼夜用水量和排水量的计算结果',
         onClick: resetStationData,
       },
       {
@@ -187,6 +187,7 @@ function beforeFetch(params) {
   params.pageSize = params['split.size'];
   params.likeQuery = params.likeQuery ? params.likeQuery : '';
   params.totalCount = 0;
+  params.isSynchro = window.queryParams.isSynchro;
   delete params['split.page'];
   delete params['split.size'];
   delete params['time'];

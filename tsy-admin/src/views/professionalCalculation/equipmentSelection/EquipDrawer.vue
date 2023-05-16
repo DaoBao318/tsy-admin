@@ -70,16 +70,23 @@
         nextTick(() => {
           resizeFun();
           window.addEventListener('resize', resizeFun);
+          document.addEventListener('keydown', onkeydownFn);
         });
       });
       onBeforeUnmount(() => {
         window.removeEventListener('resize', resizeFun);
+        document.removeEventListener('keydown', onkeydownFn);
       });
       const resizeFun = () => {
         if (window.screen.width > 1800) {
           stylePaddingDrawer.value = 'largeScreen';
         } else {
           stylePaddingDrawer.value = 'smallScreen';
+        }
+      };
+      const onkeydownFn = (e) => {
+        if (e && e.keyCode === 13) {
+          // e.target.blur();
         }
       };
       const titleEquipment = ref('');

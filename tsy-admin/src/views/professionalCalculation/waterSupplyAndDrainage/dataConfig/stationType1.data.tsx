@@ -169,6 +169,7 @@ export const travelerUseTableSchemas: FormSchema[] = [
     field: 'recommendedUnitWater',
     component: 'Input',
     colProps: { span: STATION_WIDTH.NUMBER_RECOMMEND },
+    recommendedUnitWater: true,
     // show: false,
     componentProps: {
       disabled: true,
@@ -279,6 +280,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     component: 'Input',
     colProps: { span: STATION_WIDTH.NUMBER_RECOMMEND },
     // show: false,
+    recommendedUnitWater: true,
     componentProps: {
       disabled: true,
       size: 'small',
@@ -296,7 +298,6 @@ const travelerUseWaterSchemas: FormSchema[] = [
     slot: 'travelerUseList',
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -311,7 +312,6 @@ const travelerUseWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: false,
       };
@@ -326,7 +326,6 @@ const travelerUseWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -352,7 +351,6 @@ const productUseWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -367,7 +365,6 @@ const productUseWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -399,7 +396,6 @@ const lifeUseWaterSchemas: FormSchema[] = [
       }, 0);
 
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: false,
       };
@@ -414,7 +410,6 @@ const lifeUseWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -440,7 +435,6 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -455,7 +449,6 @@ const greenAndRoadWaterSchemas: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -483,7 +476,6 @@ const serviceDtoListType = (helpMessage): FormSchema[] => {
       colProps: { span: STATION_WIDTH.COUNT_WIDTH },
       componentProps: () => {
         return {
-          placeholder: '请先输入',
           disabled: true,
           immediate: true,
         };
@@ -498,7 +490,6 @@ const serviceDtoListType = (helpMessage): FormSchema[] => {
       colProps: { span: STATION_WIDTH.COUNT_WIDTH },
       componentProps: () => {
         return {
-          placeholder: '请先输入',
           disabled: true,
           immediate: true,
         };
@@ -517,7 +508,6 @@ export const pipeAndCapitalConstructionDtoList: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -532,7 +522,6 @@ export const pipeAndCapitalConstructionDtoList: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -560,7 +549,6 @@ const pipeNetworkDtoListType = (helpMessage): FormSchema[] => {
       colProps: { span: STATION_WIDTH.COUNT_WIDTH },
       componentProps: () => {
         return {
-          placeholder: '请先输入',
           disabled: true,
           immediate: true,
         };
@@ -575,7 +563,6 @@ const pipeNetworkDtoListType = (helpMessage): FormSchema[] => {
       colProps: { span: STATION_WIDTH.COUNT_WIDTH },
       componentProps: () => {
         return {
-          placeholder: '请先输入',
           disabled: true,
           immediate: true,
         };
@@ -602,7 +589,6 @@ const capitalConstructionDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
         immediate: true,
       };
@@ -617,7 +603,6 @@ const capitalConstructionDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -634,7 +619,6 @@ const makeMaxWaterDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -648,7 +632,6 @@ const makeMaxWaterDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -673,7 +656,6 @@ const designSewageVolumeNewDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -687,7 +669,6 @@ const designSewageVolumeNewDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -712,7 +693,6 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -726,7 +706,6 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -743,7 +722,6 @@ const makeMaxDrainageDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -757,7 +735,6 @@ const makeMaxDrainageDtoList = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -782,7 +759,6 @@ const makeMaxDrainageDtoListCoefficient = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
@@ -796,7 +772,6 @@ const makeMaxDrainageDtoListCoefficient = (helpMessage): FormSchema[] => [
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
-        placeholder: '请先输入',
         disabled: true,
       };
     },
