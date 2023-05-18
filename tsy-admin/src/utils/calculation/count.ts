@@ -291,7 +291,7 @@ export const Ch_recommend = {
     m6: '140 ~ 150',
     m61: '140 ~ 150',
     m7: '140 ~ 150',
-    m8: '90 ~ 100',
+    m8: '130 ~ 140',
     m9: '140 ~ 150',
   },
   gs2: {
@@ -330,13 +330,13 @@ export const Ch_recommend = {
     m6: '140 ~ 150',
     m61: '140 ~ 150',
     m7: '140 ~ 150',
-    m8: '90 ~ 100',
+    m8: '130 ~ 140',
     m9: '140 ~ 150',
   },
 };
 export const Ch = {
   gs1: {
-    m1: 90,
+    m1: 100,
     m2: 90,
     m21: 90,
     m3: 90,
@@ -345,7 +345,7 @@ export const Ch = {
     m6: 140,
     m61: 140,
     m7: 140,
-    m8: 90,
+    m8: 130,
     m9: 140,
   },
   gs2: {
@@ -375,7 +375,7 @@ export const Ch = {
     m9: 0.011,
   },
   gs11: {
-    m1: 90,
+    m1: 100,
     m2: 90,
     m21: 90,
     m3: 90,
@@ -384,7 +384,7 @@ export const Ch = {
     m6: 140,
     m61: 140,
     m7: 140,
-    m8: 90,
+    m8: 130,
     m9: 140,
   },
 };
@@ -414,6 +414,11 @@ export const calculationContentOption = [
   { label: '计算管径、流速', value: PipelineCalculationEnum.PIPE_DIAMETER_FLOW_RATE },
   { label: '计算流量、流速', value: PipelineCalculationEnum.FLOW_RATE },
 ];
+export const calculationContentOption2 = [
+  { label: '计算管径、水力坡降', value: PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT },
+  { label: '计算流速、水力坡降', value: PipelineCalculationEnum.FLOW_SPEED_GRADIENT },
+  { label: '计算流量、水力坡降', value: PipelineCalculationEnum.FLOW_GRADIENT },
+];
 /**
  * 水流条件
  */
@@ -440,22 +445,18 @@ export const unitOption = [
  *镀锌钢管 todo
  */
 const nominalDiameterOption = [
-  { label: '25', value: 25, shineUponNominalDiameter: 26 },
-  { label: '32', value: 32, shineUponNominalDiameter: 34.75 },
-  { label: '40', value: 40, shineUponNominalDiameter: 40 },
-  { label: '50', value: 50, shineUponNominalDiameter: 52 },
-  { label: '70', value: 70, shineUponNominalDiameter: 67 },
-  { label: '80', value: 80, shineUponNominalDiameter: 79.5 },
-  { label: '100', value: 100, shineUponNominalDiameter: 105 },
-  { label: '125', value: 125, shineUponNominalDiameter: 125 },
-  { label: '150', value: 150, shineUponNominalDiameter: 147 },
-  { label: '200', value: 200, shineUponNominalDiameter: 198 },
-  { label: '250', value: 250, shineUponNominalDiameter: 252 },
-  { label: '300', value: 300, shineUponNominalDiameter: 305 },
-  { label: '350', value: 350, shineUponNominalDiameter: 357 },
-  { label: '400', value: 400, shineUponNominalDiameter: 406 },
-  { label: '500', value: 500, shineUponNominalDiameter: 509 },
-  { label: '600', value: 600, shineUponNominalDiameter: 610 },
+  { label: '15/21.3/2.8', value: 15, shineUponNominalDiameter: 15.7 },
+  { label: '20/26.9/2.8', value: 20, shineUponNominalDiameter: 21.3 },
+  { label: '25/33.7/3.2', value: 25, shineUponNominalDiameter: 27.3 },
+  { label: '32/42.4/3.5', value: 32, shineUponNominalDiameter: 35.4 },
+  { label: '40/48.3/3.5', value: 40, shineUponNominalDiameter: 41.3 },
+  { label: '50/60.3/3.8', value: 50, shineUponNominalDiameter: 52.7 },
+  { label: '65/76.1/4', value: 65, shineUponNominalDiameter: 68.1 },
+  { label: '80/88.9/4', value: 80, shineUponNominalDiameter: 80.9 },
+  { label: '100/114.3/4', value: 100, shineUponNominalDiameter: 106.3 },
+  { label: '150/168.3/4.5', value: 150, shineUponNominalDiameter: 159.3 },
+  { label: '200/219.1/6', value: 200.1, shineUponNominalDiameter: 207.1 },
+  { label: '200/219.1/6.5', value: 200.2, shineUponNominalDiameter: 206.1 },
 ];
 //焊接钢管 ok
 const weldedSteelPipe = [
@@ -582,22 +583,56 @@ const highDensityPolyethyleneDoubleWallCorrugatedPipe = [
 ];
 //不锈钢无缝钢管 todo
 const stainlessSteelSeamlessSteelPipe = [
-  { label: '25', value: 25, shineUponNominalDiameter: 26 },
-  { label: '32', value: 32, shineUponNominalDiameter: 34.75 },
-  { label: '40', value: 40, shineUponNominalDiameter: 40 },
-  { label: '50', value: 50, shineUponNominalDiameter: 52 },
-  { label: '70', value: 70, shineUponNominalDiameter: 67 },
-  { label: '80', value: 80, shineUponNominalDiameter: 79.5 },
-  { label: '100', value: 100, shineUponNominalDiameter: 105 },
-  { label: '125', value: 125, shineUponNominalDiameter: 125 },
-  { label: '150', value: 150, shineUponNominalDiameter: 147 },
-  { label: '200', value: 200, shineUponNominalDiameter: 198 },
-  { label: '250', value: 250, shineUponNominalDiameter: 252 },
-  { label: '300', value: 300, shineUponNominalDiameter: 305 },
-  { label: '350', value: 350, shineUponNominalDiameter: 357 },
-  { label: '400', value: 400, shineUponNominalDiameter: 406 },
-  { label: '500', value: 500, shineUponNominalDiameter: 509 },
-  { label: '600', value: 600, shineUponNominalDiameter: 610 },
+  { label: '20/20/0.6', value: 20.1, shineUponNominalDiameter: 18.8 },
+  { label: '20/20/0.8', value: 20.2, shineUponNominalDiameter: 18.4 },
+  { label: '20/20/1', value: 20.3, shineUponNominalDiameter: 18 },
+  { label: '20/22.2/0.6', value: 20.4, shineUponNominalDiameter: 21 },
+  { label: '20/22.2/0.8', value: 20.5, shineUponNominalDiameter: 20.6 },
+  { label: '20/22.2/1', value: 20.6, shineUponNominalDiameter: 20.2 },
+  { label: '25/25.4/0.8', value: 25.1, shineUponNominalDiameter: 23.8 },
+  { label: '25/25.4/1', value: 25.2, shineUponNominalDiameter: 23.4 },
+  { label: '25/28.58/0.8', value: 25.3, shineUponNominalDiameter: 26.98 },
+  { label: '25/28.58/1', value: 25.4, shineUponNominalDiameter: 26.58 },
+  { label: '32/31.8/0.8', value: 32.1, shineUponNominalDiameter: 30.2 },
+  { label: '32/31.8/1', value: 32.2, shineUponNominalDiameter: 29.8 },
+  { label: '32/31.8/1.2', value: 32.3, shineUponNominalDiameter: 29.4 },
+  { label: '32/34/1', value: 32.4, shineUponNominalDiameter: 32 },
+  { label: '32/34/1.2', value: 32.5, shineUponNominalDiameter: 31.6 },
+  { label: '32/34/1.5', value: 32.6, shineUponNominalDiameter: 31 },
+  { label: '40/40/1', value: 40.1, shineUponNominalDiameter: 38 },
+  { label: '40/40/1.2', value: 40.2, shineUponNominalDiameter: 37.6 },
+  { label: '40/42.7/1.2', value: 40.3, shineUponNominalDiameter: 40.3 },
+  { label: '40/42.7/1.5', value: 40.4, shineUponNominalDiameter: 39.7 },
+  { label: '50/48.6/1', value: 50.1, shineUponNominalDiameter: 46.6 },
+  { label: '50/48.6/1.2', value: 50.2, shineUponNominalDiameter: 46.2 },
+  { label: '50/48.6/1.5', value: 50.3, shineUponNominalDiameter: 45.6 },
+  { label: '50/50.8/1', value: 50.4, shineUponNominalDiameter: 48.8 },
+  { label: '50/50.8/1.2', value: 50.5, shineUponNominalDiameter: 48.4 },
+  { label: '50/50.8/1.5', value: 50.6, shineUponNominalDiameter: 47.8 },
+  { label: '65/76.1/1.2', value: 65.1, shineUponNominalDiameter: 73.3 },
+  { label: '65/76.1/1.5', value: 65.2, shineUponNominalDiameter: 73.1 },
+  { label: '65/76.1/2', value: 65.3, shineUponNominalDiameter: 72.1 },
+  { label: '65/67/1.2', value: 65.4, shineUponNominalDiameter: 64.6 },
+  { label: '80/88.9/2', value: 80.1, shineUponNominalDiameter: 84.9 },
+  { label: '80/88.9/1.5', value: 80.2, shineUponNominalDiameter: 85.9 },
+  { label: '100/101.6/2', value: 100.1, shineUponNominalDiameter: 97.6 },
+  { label: '100/101.6/1.5', value: 100.2, shineUponNominalDiameter: 98.6 },
+  { label: '100/108/2', value: 100.3, shineUponNominalDiameter: 104 },
+  { label: '125/133/2', value: 125.1, shineUponNominalDiameter: 129 },
+  { label: '125/133/2.5', value: 125.2, shineUponNominalDiameter: 128 },
+  { label: '125/133/3', value: 125.3, shineUponNominalDiameter: 127 },
+  { label: '150/159/3', value: 150.1, shineUponNominalDiameter: 153 },
+  { label: '150/159/2.5', value: 150.2, shineUponNominalDiameter: 154 },
+  { label: '150/159/2', value: 150.3, shineUponNominalDiameter: 155 },
+  { label: '200/219/2.5', value: 200.1, shineUponNominalDiameter: 214 },
+  { label: '200/219/3', value: 200.2, shineUponNominalDiameter: 213 },
+  { label: '250/273/2.5', value: 250.1, shineUponNominalDiameter: 268 },
+  { label: '250/273/3', value: 250.2, shineUponNominalDiameter: 267 },
+  { label: '250/273/3.5', value: 250.3, shineUponNominalDiameter: 267 },
+  { label: '250/273/4', value: 250.4, shineUponNominalDiameter: 265 },
+  { label: '300/325/3', value: 250.5, shineUponNominalDiameter: 319 },
+  { label: '300/325/3.5', value: 250.6, shineUponNominalDiameter: 318 },
+  { label: '300/325/4', value: 250.7, shineUponNominalDiameter: 317 },
 ];
 //钢丝网骨架塑料（聚乙烯）复合管  暂不显示
 const steelMeshSkeletonPlasticCompositePipe = [
@@ -626,18 +661,18 @@ const steelMeshSkeletonPlasticCompositePipe = [
  * 5,6 与速度无关
  */
 export const pipeMaterialOption = [
-  { label: '镀锌钢管', value: 'm1', id: 1 },
-  { label: '焊接钢管', value: 'm2', id: 2 },
-  { label: '钢管', value: 'm21', id: 21 },
-  { label: '无缝钢管', value: 'm3', id: 3 },
   { label: '球墨铸铁管', value: 'm4', id: 4 },
+  { label: '钢管', value: 'm21', id: 21 },
+  { label: '镀锌钢管', value: 'm1', id: 1 }, //一一对应
+  { label: '不锈钢管', value: 'm8' }, // 联动
+  { label: '无缝钢管', value: 'm3', id: 3 }, // 联动
+  // { label: '焊接钢管', value: 'm2', id: 2 },
   // { label: 'I级钢筋混凝土管', value: 'm5', id: 5 },
   // { label: 'II级钢筋混凝土管', value: 'm6', id: 6 },
   // { label: '高密度聚乙烯双壁波纹管（HDPE）', value: 'm7', id: 7 },
   { label: '聚乙烯PE100管（0.6MPa）', value: 'm5' },
   { label: '聚乙烯PE100管（1.0MPa）', value: 'm6' },
   { label: '聚乙烯PE100管（1.6MPa）', value: 'm61' },
-  { label: '不锈钢无缝钢管', value: 'm8' },
   // { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9', id: 8 },暂时不处理
 ];
 // 管道材料和公称直径的关系
