@@ -31,8 +31,8 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       },
       {
         field: 'waterSameRatio',
-        label: '同时用水系数',
-        helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=2.5~3。',
+        label: '时变化系数',
+        helpMessage: '指生产生活房屋（含站房）用水时变化系数，为经验值k₁=2.5~3。',
       },
       {
         field: 'waterStorageCoefficient',
@@ -83,8 +83,8 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       },
       {
         field: 'waterSameRatio',
-        label: '同时用水系数',
-        helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=5~6。',
+        label: '时变化系数',
+        helpMessage: '指生产生活房屋（含站房）用水时变化系数，为经验值k₁=5~6。',
       },
       {
         field: 'waterStorageCoefficient',
@@ -138,8 +138,8 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       },
       {
         field: 'waterSameRatio',
-        label: '同时用水系数',
-        helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=2.5~3。',
+        label: '时变化系数',
+        helpMessage: '指生产生活房屋（含站房）用水时变化系数，为经验值k₁=2.5~3。',
       },
       {
         field: 'waterStorageCoefficient',
@@ -419,60 +419,30 @@ export const saveEquip = (value) => {
 
 export const saveDisplay = (updateSchema, setFieldsValue, res) => {
   setFieldsValue({ ...res });
-  // updateSchema([
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  //   {
-  //     field: '',
-  //     label: '',
-  //     helpMessage: res,
-  //   },
-  // ]);
 };
 
 export const transformData1 = (rawValue) => {
+  if (rawValue === '') {
+    return null;
+  }
   return keepTwoDecimalFull(rawValue, 1);
 };
 export const transformData2 = (rawValue) => {
+  if (rawValue === '') {
+    return null;
+  }
   return keepTwoDecimalFull(rawValue, 2);
 };
 export const transformData3 = (rawValue) => {
+  if (rawValue === '') {
+    return null;
+  }
   return keepTwoDecimalFull(rawValue, 3);
 };
 export function getRouterQueryEquip() {
   const router = useRouter();
   return router.currentRoute.value.query;
+}
+export function judgmentType(value) {
+  return Object.prototype.toString.call(value).slice(8, -1).toLocaleLowerCase();
 }

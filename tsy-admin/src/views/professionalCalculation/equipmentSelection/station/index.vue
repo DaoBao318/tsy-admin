@@ -147,7 +147,7 @@
         return [
           {
             icon: 'clarity:note-edit-line',
-            tooltip: '设备选型',
+            tooltip: '设施设备选型',
             onClick: handleEdit.bind(null, record),
           },
           {

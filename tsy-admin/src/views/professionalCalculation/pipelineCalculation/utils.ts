@@ -16,6 +16,8 @@ import {
   hydraulicGradient3,
   nominalDiameterObj,
   keepTwoDecimalFull,
+  calculationContentOption,
+  calculationContentOption2,
 } from '/@/utils/calculation/count';
 import { defHttp } from '/@/utils/http/axios';
 import moment from 'moment';
@@ -294,7 +296,25 @@ export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
     ]);
   }
 };
+export function getnominalDiameterName(pipeMaterial, calculationContent) {
+  let label = '';
+  if (['m1', 'm8', 'm3'].includes(pipeMaterial)) {
+    if (['nr1', 'nr4'].includes(calculationContent)) {
+      label = '推荐公称直径/外径/壁厚(mm)';
+    } else {
+      label = '公称直径/外径/壁厚(mm)';
+    }
+  } else {
+    if (['nr1', 'nr4'].includes(calculationContent)) {
+      label = '推荐公称直径DN(mm)';
+    } else {
+      label = '公称直径DN(mm)';
+    }
+  }
+  return label;
+}
 export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) => {
+  const labelNominalDiameter = getnominalDiameterName(formModel.pipeMaterial, target);
   if (target === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
     formModel.hydraulicGradient = undefined;
     formModel.nominalDiameter = undefined;
@@ -314,7 +334,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '推荐公称直径DN(mm)',
+        label: labelNominalDiameter,
         required: false,
         dynamicDisabled: true,
       },
@@ -349,7 +369,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
+        label: labelNominalDiameter,
         required: true,
         dynamicDisabled: false,
       },
@@ -385,7 +405,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
+        label: labelNominalDiameter,
         required: true,
         dynamicDisabled: false,
       },
@@ -421,7 +441,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'nominalDiameter',
-        label: '推荐公称直径DN(mm)',
+        label: labelNominalDiameter,
         required: false,
         dynamicDisabled: true,
       },
@@ -457,7 +477,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       {
         field: 'nominalDiameter',
         required: true,
-        label: '公称直径DN(mm)',
+        label: labelNominalDiameter,
         dynamicDisabled: false,
       },
       {
@@ -583,18 +603,41 @@ export const countNominalDiameter = (e, updateSchema, formModel) => {
   }
   formModel.calculateInnerDiameter = undefined;
   formModel.nominalDiameter = undefined;
+  const label = getnominalDiameterName(e, formModel.calculationContent);
   updateSchema({
     field: 'nominalDiameter',
+    label,
     componentProps: {
       options: nominalDiameterOptions,
+      showSearch: true,
+      optionFilterProp: 'label',
       onChange(e, v) {
         if (v) {
-          debugger;
           const { shineUponNominalDiameter } = v;
           formModel.calculateInnerDiameter = shineUponNominalDiameter;
           console.log('--------e--', e, formModel);
         }
       },
+    },
+  });
+  let options = calculationContentOption;
+  if (['m1', 'm4', 'm8', 'm3', 'm21'].includes(e) && formModel.calculationFormula === 'gs11') {
+    options = calculationContentOption2;
+  }
+  updateSchema({
+    field: 'calculationContent',
+    label: '计算内容',
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        placeholder: '请选择内容',
+        options,
+        disabled: false,
+        onChange: async (e: any) => {
+          const target = e;
+          const { updateSchema } = formActionType;
+          pipeMaterialSwitchingPressure(updateSchema, target, formModel);
+        },
+      };
     },
   });
 };
@@ -613,29 +656,36 @@ export function lossAlongTheWayResultCal(lossAlongTheWayResult, percentage): num
 }
 //获取对象中的数组
 const getArr = function (arr) {
-  return arr.map((item) => item.value);
+  return arr.map((item) => item.shineUponNominalDiameter);
 };
 // 获取数组中的临近值
 export const getArrMiddle = function (arr, item) {
+  const newMapArr = JSON.parse(JSON.stringify(arr));
+  const newMap = {};
+  newMapArr.forEach((item) => {
+    newMap[item.shineUponNominalDiameter] = item.value;
+  });
   arr = getArr(arr);
   arr.push(item);
   arr = arr.sort((a, b) => a - b);
   const index = arr.indexOf(item);
   const len = arr.length;
+  let result = 0;
   if (index === 0) {
-    return arr[1];
+    result = arr[1];
   } else if (index === len - 1) {
-    return arr[len - 2];
+    result = arr[len - 2];
   } else {
     const left = item - arr[index - 1];
     const right = arr[index + 1] - item;
     const min = Math.min(left, right);
     if (min === right) {
-      return arr[index + 1];
+      result = arr[index + 1];
     } else {
-      return arr[index - 1];
+      result = arr[index - 1];
     }
   }
+  return newMap[result];
 };
 
 // 压力计算 nominalDiameter

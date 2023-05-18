@@ -62,7 +62,7 @@ const professionalCalculation: AppRouteModule = {
       meta: {
         // affix: true,
         icon: 'fluent:pipeline-20-filled',
-        title: '管道水力计算',
+        title: '压力管道水力计算',
       },
     },
     {

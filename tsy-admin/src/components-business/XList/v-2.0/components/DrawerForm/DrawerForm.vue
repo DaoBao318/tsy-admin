@@ -82,7 +82,7 @@ BasicDrawer(
       };
       const onkeydownFn = (e) => {
         if (e && e.keyCode === 13) {
-          // e.target.blur();
+          e.target.blur();
         }
       };
       const { useFormOptions } = unref(props);
@@ -104,7 +104,6 @@ BasicDrawer(
       const [registerDrawer, { closeDrawer, changeOkLoading }] = useDrawerInner((outData) => {
         resetFields();
         if (Array.isArray(outData)) {
-          debugger;
           const [data, outDrawerProps] = outData;
           outDataValue.value = data;
           let { mode = DrawerFormMode.ADD, ...other } = outDrawerProps;

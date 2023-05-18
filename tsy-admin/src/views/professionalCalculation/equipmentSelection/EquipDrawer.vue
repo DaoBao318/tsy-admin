@@ -45,7 +45,12 @@
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { saveEquipment } from './api/http';
-  import { calculateEquip, initializeAssignmentStructure, saveDisplay } from './equipUtil';
+  import {
+    calculateEquip,
+    initializeAssignmentStructure,
+    judgmentType,
+    saveDisplay,
+  } from './equipUtil';
   import { message } from 'ant-design-vue';
   import { keepTwoDecimalFull } from '/@/utils/calculation/count';
   import { EQUIP_TYPE } from './equipUtil';
@@ -86,7 +91,7 @@
       };
       const onkeydownFn = (e) => {
         if (e && e.keyCode === 13) {
-          // e.target.blur();
+          e.target.blur();
         }
       };
       const titleEquipment = ref('');
@@ -157,13 +162,13 @@
       }
       async function openDialog(type) {
         emit('totalHead', setFieldsValue);
+        debugger;
         if (type === 'voltageStabilization') {
           try {
             const values = await validateFields([
               'busWaterRows',
               'groupsNumber',
               'busWaterSingle',
-              'produceLifeTotalFlow',
               'waterSameRatio',
               'stationType',
               'dnMwoMax',
@@ -172,9 +177,16 @@
               busWaterRows,
               groupsNumber,
               busWaterSingle,
-              produceLifeTotalFlow,
               stationType,
+              dnMwoMax,
+              waterSameRatio,
             } = values;
+            let produceLifeTotalFlow = 0;
+            let divisionCoefficient = 16;
+            if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(stationType)) {
+              divisionCoefficient = 12;
+            }
+            produceLifeTotalFlow = (dnMwoMax * waterSameRatio) / divisionCoefficient;
             //按照类型判断,中间站已经默认为0
             let waterSupplyDesignFlow = 0;
             const busWaterTotalFlow = busWaterRows * groupsNumber * busWaterSingle;
@@ -195,24 +207,19 @@
               type: 'voltageStabilization',
             });
           } catch (e) {
-            const {
-              busWaterRows,
-              groupsNumber,
-              busWaterSingle,
-              produceLifeTotalFlow,
-              waterSameRatio,
-            } = getFieldsValue();
+            const { busWaterRows, groupsNumber, busWaterSingle, dnMwoMax, waterSameRatio } =
+              getFieldsValue();
             let info = '';
-            if (busWaterRows) {
+            if (judgmentType(busWaterRows) === 'null') {
               info = '同时上水排数';
-            } else if (groupsNumber) {
+            } else if (judgmentType(groupsNumber) === 'null') {
               info = '列车最大编组';
-            } else if (busWaterSingle) {
+            } else if (judgmentType(busWaterSingle) === 'null') {
               info = '上水栓流量';
-            } else if (produceLifeTotalFlow) {
-              info = '房屋总秒流量';
-            } else if (waterSameRatio) {
-              info = '同时用水系数';
+            } else if (judgmentType(dnMwoMax) === 'null') {
+              info = '最大用水量';
+            } else if (judgmentType(waterSameRatio) === 'null') {
+              info = '房屋变化系数';
             } else {
               info = '';
             }

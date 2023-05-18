@@ -509,6 +509,8 @@ export const drawerFormPressure: FormSchema[] = [
     colProps: { span: 6 },
     componentProps: () => {
       return {
+        showSearch: true,
+        optionFilterProp: 'label',
         placeholder: ' ',
         options: ductileIronPipe,
       };

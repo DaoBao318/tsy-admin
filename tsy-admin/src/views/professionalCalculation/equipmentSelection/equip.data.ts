@@ -241,7 +241,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'dnMwoMax',
     label: `最大用水量`,
-    helpMessage: '设计站点(含站房)昼夜最大用水量Qd(m³/d)。',
+    helpMessage: '设计站点（含站房，不含客车上水）昼夜最大用水量Qd（m3/d）。',
     component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -260,8 +260,8 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'busWaterSupply',
-    label: `客车上水量`,
-    helpMessage: '客车上水量(m³/d)。',
+    label: `客车上水量Qₛ`,
+    helpMessage: '设计站点客车上水量Qₛ(m³/d)。',
     component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -325,7 +325,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'busWaterSingle',
     label: '上水栓流量',
-    helpMessage: '客车上水栓单栓秒流量qi(L/s)。',
+    helpMessage: '客车上水栓单栓秒流量qᵢ(L/s)。',
     component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -343,8 +343,8 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'waterSameRatio',
-    label: '同时用水系数',
-    helpMessage: '指生产生活房屋(含站房)同时用水系数k₁=2.5~3。',
+    label: '时变化系数',
+    helpMessage: '指生产生活房屋（含站房）用水时变化系数，为经验值k₁=2.5~3。',
     component: 'InputNumberExpand',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -412,8 +412,8 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'produceLifeTotalFlow',
-    label: '房屋总秒流量',
-    helpMessage: '设计站点生产生活房屋(含站房)设计总秒流量Q₂(L/s)。',
+    label: '房屋设计流量',
+    helpMessage: '设计站点生产生活房屋（含站房）设计流量Q₂（m³/d）。',
     component: 'InputNumberExpand1',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },

@@ -7,8 +7,8 @@
     cancelText="关闭"
     @ok="okHandle"
     @cancel="closeHandle"
-    width="60%"
-    :min-height="350"
+    width="80%"
+    :min-height="minHeight"
     @visible-change="handleVisibleChange"
   >
     <div :class="stylePaddingModal">
@@ -50,20 +50,23 @@
       onBeforeUnmount(() => {
         window.removeEventListener('resize', resizeFun);
       });
+      const minHeight = ref(0);
       const resizeFun = () => {
         if (window.screen.width > 1800) {
           stylePaddingModal.value = 'largeScreen';
+          minHeight.value = 450;
         } else {
           stylePaddingModal.value = 'smallScreen';
+          minHeight.value = 360;
         }
       };
 
       const modelRef = ref({});
       const [registerForm, { setFieldsValue, validate, getFieldsValue, clearValidate }] = useForm({
-        labelWidth: 120,
+        labelWidth: 180,
         schemas: formSchemaCount,
         showActionButtonGroup: false,
-        compact: true,
+        // compact: true,
         size: 'default',
         actionColOptions: {
           span: 24,
@@ -119,6 +122,7 @@
         okHandle,
         closeHandle,
         stylePaddingModal,
+        minHeight,
       };
     },
   });
@@ -143,7 +147,7 @@
       font-weight: 900;
       position: absolute;
       top: -12px;
-      left: -40px;
+      left: -15px;
       font-size: 15px;
     }
     >>> .ant-form-item-required{
