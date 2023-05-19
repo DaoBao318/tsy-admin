@@ -2,7 +2,7 @@
   <div class="pressure-top">
     <BasicTable @register="registerTablePressure">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreatePressure"> 管道压力计算 </a-button>
+        <a-button type="primary" @click="handleCreatePressure"> 管道压力新增 </a-button>
       </template>
       <template #action="{ record }">
         <TableAction

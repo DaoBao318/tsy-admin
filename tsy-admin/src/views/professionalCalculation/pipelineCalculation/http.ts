@@ -17,7 +17,7 @@ export const getPressurePage = (params) => {
         dealData = localStorage.getItem('pressurePageSave');
       }
       res.list = JSON.parse(dealData);
-      res.list = [];
+      // res.list = [];
       res.split.total = res.list.length;
       resolve(res);
     });

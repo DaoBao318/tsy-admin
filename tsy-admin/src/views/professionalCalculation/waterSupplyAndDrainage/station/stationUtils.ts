@@ -120,9 +120,11 @@ export const dealSearch = (inputValue, item) => {
   const flag = arr
     .map((inputValue) => {
       return (
-        item.classificationName.indexOf(inputValue) !== -1 ||
-        item.waterProject.indexOf(inputValue) !== -1 ||
-        (item.classificationName + item.waterProject).indexOf(inputValue) !== -1
+        item.classificationName.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1 ||
+        item.waterProject.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1 ||
+        (item.classificationName.toLowerCase() + item.waterProject.toLowerCase()).indexOf(
+          inputValue.toLowerCase(),
+        ) !== -1
       );
     })
     .every((item) => item);
