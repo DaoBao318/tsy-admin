@@ -1,348 +1,85 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { h, reactive } from 'vue';
+import { h } from 'vue';
 //BasicForm
 import {
   pipeMaterialOption,
   calculationFormulaOptionPressure,
-  calculationFormulaOption,
   calculationContentOption,
   unitOption,
-  flowConditionsOption,
-  pipeShapeOption,
   ductileIronPipe,
+  calculationFormulaOptionPressureMap,
+  pipeMaterialOptionMap,
+  calculationContentOptionMap,
 } from '/@/utils/calculation/count';
 import {
   calculateWilliamCoefficient,
   countNominalDiameter,
-  pipeMaterialSwitchingGravity,
   pipeMaterialSwitchingPressure,
 } from './utils';
-export const columnGravity: BasicColumn[] = [
-  {
-    title: '计算公式',
-    dataIndex: 'calculationFormula',
-    width: 200,
-  },
-  {
-    title: '管道材料',
-    dataIndex: 'pipeMaterial',
-    width: 180,
-    slots: { customRender: 'pipeMaterial' },
-  },
-  {
-    title: '计算内容',
-    dataIndex: 'calculationContent',
-    width: 200,
-  },
-  {
-    title: '计算内径（mm）',
-    dataIndex: 'calculateInnerDiameter',
-    width: 120,
-    customRender: () => {
-      return h('span', { class: 'status' }, '100mm');
-    },
-  },
-  {
-    title: '流速',
-    dataIndex: 'velocityOfFlow',
-    width: 180,
-  },
-  {
-    title: '流量（L/s）',
-    dataIndex: 'rateOfFlow',
-  },
-  {
-    title: '水力坡度',
-    dataIndex: 'hydraulicGradient',
-  },
-  {
-    title: '地沟高（mm）',
-    dataIndex: 'trenchHeight',
-  },
-  {
-    title: '沟宽（mm）',
-    dataIndex: 'ditchWidth',
-  },
-];
+export const columnGravity: BasicColumn[] = [];
 
-export const searchFormGravity: FormSchema[] = [
-  {
-    field: 'pipeMaterial',
-    label: '管道材料',
-    helpMessage: (renderCallbackParams) => {
-      console.log('renderCallbackParams', renderCallbackParams);
-      return '2';
-    },
-    component: 'Select',
-    componentProps: {
-      options: pipeMaterialOption,
-    },
-    colProps: { span: 8 },
-  },
-  {
-    field: 'flowConditions',
-    label: '水流条件',
-    component: 'Select',
-    componentProps: {
-      options: [
-        { label: '满流', value: '0' },
-        { label: '非满流', value: '1' },
-      ],
-    },
-    colProps: { span: 8 },
-  },
-];
+export const searchFormGravity: FormSchema[] = [];
 
-export const drawerFormGravity: FormSchema[] = [
-  {
-    field: 'calculationFormula',
-    label: '计算公式',
-    required: true,
-    component: 'RadioGroup',
-    colProps: { span: 24 },
-    defaultValue: 'gs3',
-    componentProps: {
-      options: calculationFormulaOption,
-    },
-  },
-  {
-    field: 'pipeMaterial',
-    label: '管道材料',
-    required: true,
-    component: 'Select',
-    colProps: { span: 12 },
-    componentProps: ({ formModel, formActionType }) => {
-      return {
-        options: pipeMaterialOption,
-        placeholder: '请选择材料',
-        onChange: (e: any) => {
-          // console.log(e)
-          const { updateSchema } = formActionType;
-          countNominalDiameter(e, updateSchema, formModel);
-        },
-      };
-    },
-  },
-
-  {
-    field: 'calculationContent',
-    label: '计算内容',
-    required: true,
-    component: 'Select',
-    colProps: { span: 12 },
-    componentProps: ({ formModel, formActionType }) => {
-      return {
-        placeholder: '请选择内容',
-        options: calculationContentOption,
-        disabled: false,
-        onChange: async (e: any) => {
-          const target = e;
-          const { updateSchema, setProps } = formActionType;
-          pipeMaterialSwitchingGravity(updateSchema, target);
-        },
-      };
-    },
-  },
-  {
-    field: 'pipeShape',
-    label: '管道形状',
-    required: true,
-    component: 'RadioGroup',
-    colProps: { span: 12 },
-    componentProps: {
-      options: pipeShapeOption,
-    },
-  },
-  {
-    field: 'flowConditions',
-    label: '水流条件',
-    required: true,
-    component: 'RadioGroup',
-    colProps: { span: 12 },
-    componentProps: {
-      options: flowConditionsOption,
-    },
-  },
-
-  {
-    field: 'rateOfFlow',
-    label: '流量(L/s)',
-    required: true,
-    component: 'InputNumberExpand',
-    defaultValue: 20,
-    colProps: { span: 6 },
-  },
-  {
-    field: 'unit',
-    label: '单位',
-    required: true,
-    component: 'Select',
-    colProps: { span: 6 },
-    componentProps: {
-      options: unitOption,
-    },
-  },
-  {
-    field: 'coughnessCoefficient',
-    label: '阻力系数',
-    required: true,
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'calculateInnerDiameter',
-    label: '计算内径(mm)',
-    required: true,
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'nominalDiameter',
-    label: '公称直径',
-    component: 'Select',
-    colProps: { span: 12 },
-    componentProps: () => {
-      return {
-        placeholder: '请选择内容',
-        options: [],
-        disabled: false,
-      };
-    },
-  },
-
-  {
-    field: 'velocityOfFlow',
-    label: '流速（m/s）',
-    required: true,
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'hydraulicGradient',
-    label: '水力坡度',
-    required: true,
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'trenchHeight',
-    label: '地沟高（mm）',
-    required: true,
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'wideHeightRatio',
-    label: '宽高比',
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'maximumDitchHeight',
-    label: '最大沟高（mm）',
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  {
-    field: 'maximumPipeDiameter',
-    label: '最大管径',
-    component: 'InputNumberExpand',
-    colProps: { span: 12 },
-  },
-  { label: '计算结果', field: 'field3', component: 'Divider', helpMessage: '计算结果' },
-  {
-    field: 'rateOfFlowResult',
-    label: '流量(L/s)',
-    component: 'InputNumberExpand',
-    colProps: { span: 6 },
-    componentProps: {
-      disabled: true,
-    },
-  },
-  {
-    field: 'caliberResult',
-    label: '管径',
-    component: 'InputNumberExpand',
-    colProps: { span: 6 },
-    componentProps: {
-      disabled: true,
-    },
-  },
-  {
-    field: 'velocityOfFlowResult',
-    label: '流速（m/s）',
-    component: 'InputNumberExpand',
-    colProps: { span: 6 },
-    componentProps: {
-      disabled: true,
-    },
-  },
-  {
-    field: 'hydraulicGradientResult',
-    label: '水力坡度',
-    component: 'InputNumberExpand',
-    colProps: { span: 6 },
-    componentProps: {
-      disabled: true,
-    },
-  },
-  {
-    field: 'fullnessResult',
-    label: '充满度',
-    component: 'InputNumberExpand',
-    colProps: { span: 6 },
-    componentProps: {
-      disabled: true,
-    },
-  },
-  {
-    field: 'ditchWidthResult',
-    label: '沟宽（mm）',
-    component: 'InputNumberExpand',
-    colProps: { span: 6 },
-    componentProps: {
-      disabled: true,
-    },
-  },
-];
+export const drawerFormGravity: FormSchema[] = [];
 
 export const columnsPressure: BasicColumn[] = [
   {
     title: '计算公式',
     dataIndex: 'calculationFormula',
-    width: 200,
+    width: 220,
+    customRender: ({ text }) => {
+      const content = calculationFormulaOptionPressureMap[text];
+      return h('span', { class: 'status' }, content);
+    },
   },
   {
     title: '管道材料',
     dataIndex: 'pipeMaterial',
-    width: 180,
+    width: 150,
+    customRender: ({ text }) => {
+      const content = pipeMaterialOptionMap[text];
+      return h('span', { class: 'status' }, content);
+    },
   },
   {
     title: '计算内容',
     dataIndex: 'calculationContent',
     width: 200,
+    customRender: ({ text }) => {
+      const content = calculationContentOptionMap[text];
+      return h('span', { class: 'status' }, content);
+    },
   },
   {
     title: '计算内径（mm）',
     dataIndex: 'calculateInnerDiameter',
-    width: 120,
-    customRender: () => {
-      return h('span', { class: 'status' }, '100mm');
+    width: 80,
+    customRender: ({ text }) => {
+      return h('span', { class: 'status' }, text);
     },
   },
   {
-    title: '流速',
+    title: '流速(m/s)',
     dataIndex: 'velocityOfFlow',
-    width: 180,
+    width: 80,
   },
   {
-    title: '流量（L/s）',
+    title: '流量（L/s|m³/h）',
     dataIndex: 'rateOfFlow',
+    width: 80,
+    customRender: ({ text, record }) => {
+      let unit = 'L/s';
+      if (record.unit === 'cubicMeter') {
+        unit = 'm³/h';
+      }
+      return h('span', { class: 'status' }, text + unit);
+    },
   },
   {
     title: '水力坡度',
     dataIndex: 'hydraulicGradient',
+    width: 80,
   },
 ];
 
@@ -371,6 +108,7 @@ export const searchFormPressure: FormSchema[] = [
 ];
 
 export const drawerFormPressure: FormSchema[] = [
+  { field: 'pressureID', label: '压力ID', show: false, component: 'Input' },
   {
     field: 'calculationFormula',
     label: '计算公式',

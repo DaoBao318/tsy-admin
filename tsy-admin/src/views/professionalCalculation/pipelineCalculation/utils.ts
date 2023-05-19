@@ -21,281 +21,6 @@ import {
 } from '/@/utils/calculation/count';
 import { defHttp } from '/@/utils/http/axios';
 import moment from 'moment';
-export const pipeMaterialSwitchingGravity = (updateSchema, target) => {
-  if (target === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
-    updateSchema([
-      {
-        field: 'rateOfFlow',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'calculateInnerDiameter',
-        label: '计算内径(mm)',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
-        dynamicDisabled: true,
-      },
-      {
-        field: 'velocityOfFlow',
-        dynamicDisabled: false,
-      },
-      {
-        field: 'hydraulicGradient',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'trenchHeight',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'wideHeightRatio',
-        label: '宽高比',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'maximumDitchHeight',
-        label: '最大沟高（mm）',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'maximumPipeDiameter',
-        label: '最大管径',
-        required: true,
-        dynamicDisabled: false,
-      },
-    ]);
-  } else if (target === PipelineCalculationEnum.FLOW_SPEED_GRADIENT) {
-    updateSchema([
-      {
-        field: 'rateOfFlow',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'calculateInnerDiameter',
-        label: '计算内径(mm)',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
-        dynamicDisabled: false,
-      },
-      {
-        field: 'velocityOfFlow',
-        label: '流速（m/s）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'hydraulicGradient',
-        label: '水力坡度',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'trenchHeight',
-        label: '地沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'wideHeightRatio',
-        label: '沟宽',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'maximumDitchHeight',
-        label: '最大沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'maximumPipeDiameter',
-        label: '最大管径',
-        required: false,
-        dynamicDisabled: true,
-      },
-    ]);
-  } else if (target === PipelineCalculationEnum.FLOW_GRADIENT) {
-    updateSchema([
-      {
-        field: 'rateOfFlow',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'calculateInnerDiameter',
-        label: '计算内径(mm)',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
-        dynamicDisabled: false,
-      },
-      {
-        field: 'velocityOfFlow',
-        label: '流速（m/s）',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'hydraulicGradient',
-        label: '水力坡度',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'trenchHeight',
-        label: '地沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'wideHeightRatio',
-        label: '沟宽',
-        defaultValue: 1500,
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'maximumDitchHeight',
-        label: '最大沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'maximumPipeDiameter',
-        label: '最大管径',
-        required: false,
-        dynamicDisabled: true,
-      },
-    ]);
-  } else if (target === PipelineCalculationEnum.PIPE_DIAMETER_FLOW_RATE) {
-    updateSchema([
-      {
-        field: 'rateOfFlow',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'calculateInnerDiameter',
-        label: '计算内径(mm)',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
-        dynamicDisabled: true,
-      },
-      {
-        field: 'velocityOfFlow',
-        label: '流速（m/s）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'hydraulicGradient',
-        label: '水力坡度',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'trenchHeight',
-        label: '地沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'wideHeightRatio',
-        label: '宽高比',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'maximumDitchHeight',
-        label: '最大沟高（mm）',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'maximumPipeDiameter',
-        label: '最大管径',
-        required: true,
-        dynamicDisabled: false,
-      },
-    ]);
-  } else if (target === PipelineCalculationEnum.FLOW_RATE) {
-    updateSchema([
-      {
-        field: 'rateOfFlow',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'calculateInnerDiameter',
-        label: '计算内径(mm)',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'nominalDiameter',
-        label: '公称直径DN(mm)',
-        dynamicDisabled: false,
-      },
-      {
-        field: 'velocityOfFlow',
-        label: '流速（m/s）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'hydraulicGradient',
-        label: '水力坡度',
-        required: true,
-        dynamicDisabled: false,
-      },
-      {
-        field: 'trenchHeight',
-        label: '地沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'wideHeightRatio',
-        label: '沟宽',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'maximumDitchHeight',
-        label: '最大沟高（mm）',
-        required: false,
-        dynamicDisabled: true,
-      },
-      {
-        field: 'maximumPipeDiameter',
-        label: '最大管径',
-        required: false,
-        dynamicDisabled: true,
-      },
-    ]);
-  }
-};
 export function getnominalDiameterName(pipeMaterial, calculationContent) {
   let label = '';
   if (['m1', 'm8', 'm3'].includes(pipeMaterial)) {
@@ -821,6 +546,45 @@ export const pressureCalculation = (values, setFieldsValue) => {
   }
 };
 
-//重力计算
+//压力数据保存和修改
 
-export const gravityCalculation = (values, setFieldsValue) => {};
+export const dealPressureData = (values) => {
+  const pressureID = values.pressureID;
+  let dealData = '[]';
+  if (
+    localStorage.getItem('pressurePageSave') !== 'undefined' &&
+    !!localStorage.getItem('pressurePageSave')
+  ) {
+    dealData = localStorage.getItem('pressurePageSave');
+  }
+  let beforeData = JSON.parse(dealData);
+  if (pressureID) {
+    beforeData = beforeData.filter((item) => item.pressureID !== pressureID);
+    beforeData = beforeData.concat(values);
+  } else {
+    const id = '' + new Date().getTime();
+    values.pressureID = id;
+    beforeData.push(values);
+  }
+  //通过一个必填项，对不合理的数据进行过滤
+  beforeData = beforeData.filter((item) => !!item.hydraulicLossResult);
+  const sortData = beforeData.sort((a, b) => Number(a.pressureID) - Number(b.pressureID));
+  console.log('paixu----------11----', sortData);
+  localStorage.setItem('pressurePageSave', JSON.stringify(sortData));
+};
+
+export const deletePressure = (values) => {
+  const pressureID = values.pressureID;
+  let dealData = '[]';
+  if (
+    localStorage.getItem('pressurePageSave') !== 'undefined' &&
+    !!localStorage.getItem('pressurePageSave')
+  ) {
+    dealData = localStorage.getItem('pressurePageSave');
+  }
+  let beforeData = JSON.parse(dealData);
+  if (pressureID) {
+    beforeData = beforeData.filter((item) => item.pressureID !== pressureID);
+  }
+  localStorage.setItem('pressurePageSave', JSON.stringify(beforeData));
+};

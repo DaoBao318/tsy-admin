@@ -1,3 +1,4 @@
+import { seamlessSteelTube } from './seamlessSteelTube';
 import { PipelineCalculationEnum } from '/@/enums/pipelineCalculation';
 
 export function keepTwoDecimalFull(num, digit = 5): number {
@@ -277,6 +278,16 @@ export function calculateFlowRate5(q, d, i, unit = 'cubicMeter', calculationManu
   return keepTwoDecimalFull(calculateFlowRate, 3);
 }
 
+export const pipeMaterialOptionMap11 = {
+  m4: '球墨铸铁管',
+  m21: '钢管',
+  m1: '镀锌钢管',
+  m8: '不锈钢管',
+  m3: '无缝钢管',
+  m5: '聚乙烯PE100管（0.6MPa）',
+  m6: '聚乙烯PE100管（1.0MPa）',
+  m61: '聚乙烯PE100管（1.6MPa）',
+};
 /**
  * 海曾 威廉系数和粗糙系数与公式和材料有关
  */
@@ -338,9 +349,9 @@ export const Ch = {
   gs1: {
     m1: 100,
     m2: 90,
-    m21: 90,
-    m3: 90,
-    m4: 90,
+    m21: 100,
+    m3: 100,
+    m4: 100,
     m5: 140,
     m6: 140,
     m61: 140,
@@ -377,9 +388,9 @@ export const Ch = {
   gs11: {
     m1: 100,
     m2: 90,
-    m21: 90,
-    m3: 90,
-    m4: 90,
+    m21: 100,
+    m3: 100,
+    m4: 100,
     m5: 140,
     m6: 140,
     m61: 140,
@@ -397,13 +408,10 @@ export const calculationFormulaOptionPressure = [
   // { label: '柯尔-勃洛克公式', value: 'gs2' },
   // { label: '曼宁公式', value: 'gs3' },
 ];
-/**
- * 计算公式
- */
-export const calculationFormulaOption = [
-  { label: '柯尔-勃洛克公式', value: 'gs2', disabled: true },
-  { label: '曼宁公式', value: 'gs3' },
-];
+export const calculationFormulaOptionPressureMap = {
+  gs1: '海曾-威廉公式',
+  gs11: '《给水排水设计手册》计算公式',
+};
 /**
  * 计算内容
  */
@@ -414,24 +422,17 @@ export const calculationContentOption = [
   { label: '计算管径、流速', value: PipelineCalculationEnum.PIPE_DIAMETER_FLOW_RATE },
   { label: '计算流量、流速', value: PipelineCalculationEnum.FLOW_RATE },
 ];
+export const calculationContentOptionMap = {
+  nr1: '计算管径、水力坡降',
+  nr2: '计算流速、水力坡降',
+  nr3: '计算流量、水力坡降',
+  nr4: '计算管径、流速',
+  nr5: '计算流量、流速',
+};
 export const calculationContentOption2 = [
   { label: '计算管径、水力坡降', value: PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT },
   { label: '计算流速、水力坡降', value: PipelineCalculationEnum.FLOW_SPEED_GRADIENT },
   { label: '计算流量、水力坡降', value: PipelineCalculationEnum.FLOW_GRADIENT },
-];
-/**
- * 水流条件
- */
-export const flowConditionsOption = [
-  { label: '满流', value: 'sl1' },
-  { label: '非满流', value: 'sl2' },
-];
-/**
- * 管道形状
- */
-export const pipeShapeOption = [
-  { label: '圆形', value: 'xz1' },
-  { label: '矩形管', value: 'xz2' },
 ];
 /**
  * 单位
@@ -496,25 +497,7 @@ const steelPipe = [
   { label: '500', value: 500, shineUponNominalDiameter: 509 },
   { label: '600', value: 600, shineUponNominalDiameter: 610 },
 ];
-//无缝钢管 todo
-const seamlessSteelTube = [
-  { label: '25', value: 25, shineUponNominalDiameter: 26 },
-  { label: '32', value: 32, shineUponNominalDiameter: 34.75 },
-  { label: '40', value: 40, shineUponNominalDiameter: 40 },
-  { label: '50', value: 50, shineUponNominalDiameter: 52 },
-  { label: '70', value: 70, shineUponNominalDiameter: 67 },
-  { label: '80', value: 80, shineUponNominalDiameter: 79.5 },
-  { label: '100', value: 100, shineUponNominalDiameter: 105 },
-  { label: '125', value: 125, shineUponNominalDiameter: 125 },
-  { label: '150', value: 150, shineUponNominalDiameter: 147 },
-  { label: '200', value: 200, shineUponNominalDiameter: 198 },
-  { label: '250', value: 250, shineUponNominalDiameter: 252 },
-  { label: '300', value: 300, shineUponNominalDiameter: 305 },
-  { label: '350', value: 350, shineUponNominalDiameter: 357 },
-  { label: '400', value: 400, shineUponNominalDiameter: 406 },
-  { label: '500', value: 500, shineUponNominalDiameter: 509 },
-  { label: '600', value: 600, shineUponNominalDiameter: 610 },
-];
+
 //球墨铸铁管 ok
 export const ductileIronPipe = [
   { label: '100', value: 100, shineUponNominalDiameter: 99 },
@@ -675,6 +658,16 @@ export const pipeMaterialOption = [
   { label: '聚乙烯PE100管（1.6MPa）', value: 'm61' },
   // { label: '钢丝网骨架塑料（聚乙烯）复合管', value: 'm9', id: 8 },暂时不处理
 ];
+export const pipeMaterialOptionMap = {
+  m4: '球墨铸铁管',
+  m21: '钢管',
+  m1: '镀锌钢管',
+  m8: '不锈钢管',
+  m3: '无缝钢管',
+  m5: '聚乙烯PE100管（0.6MPa）',
+  m6: '聚乙烯PE100管（1.0MPa）',
+  m61: '聚乙烯PE100管（1.6MPa）',
+};
 // 管道材料和公称直径的关系
 export const nominalDiameterObj = {
   m1: nominalDiameterOption,

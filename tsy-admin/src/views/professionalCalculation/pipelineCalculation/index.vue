@@ -1,122 +1,48 @@
 <template>
-  <div>
-    <a-tabs v-model:activeKey="activeKey" :style="{ marginBottom: '1px' }">
-      <a-tab-pane key="1" tab="管道重力计算">
-        <BasicTable @register="registerTable">
-          <template #toolbar>
-            <a-button type="primary" @click="handleCreate"> 新增 </a-button>
-            <a-button type="primary" @click="batchExportGravity"> 批量导出 </a-button>
-          </template>
-          <template #action="{ record }">
-            <TableAction
-              :actions="[
-                {
-                  icon: 'clarity:note-edit-line',
-                  onClick: handleEdit.bind(null, record),
-                },
-              ]"
-            />
-          </template>
-          <template #pipeMaterial="{ record }">
-            <div>
-              {{ record.pipeMaterial + '材料' }}
-            </div>
-          </template>
-        </BasicTable>
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="管道压力计算" force-render>
-        <BasicTable @register="registerTablePressure">
-          <template #toolbar>
-            <a-button type="primary" @click="handleCreatePressure"> 新增 </a-button>
-            <a-button type="primary" @click="batchExportPressure"> 批量导出 </a-button>
-          </template>
-          <template #action="{ record }">
-            <TableAction
-              :actions="[
-                {
-                  icon: 'clarity:note-edit-line',
-                  onClick: handleEditPressure.bind(null, record),
-                },
-              ]"
-            />
-          </template>
-        </BasicTable>
-      </a-tab-pane>
-    </a-tabs>
-
-    <GravityDrawer @register="registerDrawer" @success="handleSuccess" />
+  <div class="pressure-top">
+    <BasicTable @register="registerTablePressure">
+      <template #toolbar>
+        <a-button type="primary" @click="handleCreatePressure"> 管道压力计算 </a-button>
+      </template>
+      <template #action="{ record }">
+        <TableAction
+          :actions="[
+            {
+              icon: 'clarity:note-edit-line',
+              tooltip: '管道压力修改',
+              onClick: handleEditPressure.bind(null, record),
+            },
+            {
+              icon: 'ant-design:delete-outlined',
+              tooltip: '删除',
+              popConfirm: {
+                title: '确认删除?',
+                confirm: handleDelete.bind(null, record),
+              },
+            },
+          ]"
+        />
+      </template>
+    </BasicTable>
     <PressureDrawer @register="registerDrawerPressure" @success="handleSuccessPressure" />
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getGravityPage, getPressurePage } from '/@/api/demo/system';
 
   import { useDrawer } from '/@/components/Drawer';
-  import GravityDrawer from './component/GravityDrawer.vue';
   import PressureDrawer from './component/PressureDrawer.vue';
 
-  import {
-    columnGravity,
-    searchFormGravity,
-    columnsPressure,
-    searchFormPressure,
-  } from './pipelineCalculation.data';
+  import { columnsPressure, searchFormPressure } from './pipelineCalculation.data';
+  import { getPressurePage } from './http';
+  import { deletePressure } from './utils';
 
   export default defineComponent({
     name: 'RoleManagement',
-    components: { BasicTable, GravityDrawer, TableAction, PressureDrawer },
+    components: { BasicTable, TableAction, PressureDrawer },
     setup() {
-      const [registerDrawer, { openDrawer }] = useDrawer();
-      const [registerTable, { reload }] = useTable({
-        title: '管道重力列表',
-        api: getGravityPage,
-        columns: columnGravity,
-        formConfig: {
-          labelWidth: 120,
-          schemas: searchFormGravity,
-          alwaysShowLines: 10,
-          showActionButtonGroup: true,
-          layout: 'horizontal',
-          model: { pipeMaterial: 'm1', flowConditions: '0' },
-          autoSetPlaceHolder: true,
-          autoSubmitOnEnter: false,
-        },
-        pagination: {
-          showQuickJumper: false,
-        },
-        useSearchForm: true,
-        showTableSetting: true,
-        bordered: true,
-        showIndexColumn: true,
-        actionColumn: {
-          width: 80,
-          title: '操作',
-          dataIndex: 'action',
-          slots: { customRender: 'action' },
-          fixed: 'right',
-        },
-      });
-
-      function handleCreate() {
-        openDrawer(true, {
-          isUpdate: false,
-        });
-      }
-
-      function handleEdit(record: Recordable) {
-        openDrawer(true, {
-          record,
-          isUpdate: true,
-        });
-      }
-      function batchExportGravity() {}
-
-      function handleSuccess() {
-        reload();
-      }
       //管道压力计算 Pressure
       const [registerDrawerPressure, { openDrawer: openDrawerPressure }] = useDrawer();
       const [registerTablePressure, { reload: reloadPressure }] = useTable({
@@ -127,7 +53,7 @@
           labelWidth: 120,
           schemas: searchFormPressure,
         },
-        useSearchForm: true,
+        useSearchForm: false,
         showTableSetting: true,
         bordered: true,
         showIndexColumn: true,
@@ -135,7 +61,7 @@
           showQuickJumper: false,
         },
         actionColumn: {
-          width: 80,
+          width: 140,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
@@ -159,25 +85,24 @@
       function handleSuccessPressure() {
         reloadPressure();
       }
-      function batchExportPressure() {}
+      function handleDelete(record) {
+        deletePressure(record);
+        reloadPressure();
+      }
 
-      let activeKey = ref('1');
       return {
-        registerTable,
-        registerDrawer,
-        handleCreate,
-        handleEdit,
-        handleSuccess,
-        batchExportGravity,
-
         registerTablePressure,
         registerDrawerPressure,
         handleCreatePressure,
         handleEditPressure,
         handleSuccessPressure,
-        batchExportPressure,
-        activeKey,
+        handleDelete,
       };
     },
   });
 </script>
+<style scoped>
+  .pressure-top {
+    padding: 15px 10px 0 10px;
+  }
+</style>

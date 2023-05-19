@@ -3,11 +3,9 @@ import {
   DeptListItem,
   MenuParams,
   RoleParams,
-  RolePageParams,
   MenuListGetResultModel,
   DeptListGetResultModel,
   AccountListGetResultModel,
-  RolePageListGetResultModel,
   RoleListGetResultModel,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
@@ -18,8 +16,6 @@ enum Api {
   DeptList = '/system/getDeptList',
   setRoleStatus = '/system/setRoleStatus',
   MenuList = '/system/getMenuList',
-  RolePageList = '/system/getRoleListByPageGravity',
-  RolePageListPressure = '/system/getPressurePage',
   GetAllRoleList = '/system/getAllRoleList',
 
   getTestAPI = '/api/Project/GetProjectList',
@@ -33,12 +29,12 @@ export const getDeptList = (params?: DeptListItem) =>
 
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
-//获取重力数据
-export const getGravityPage = (params?: RolePageParams) =>
-  defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageList, params });
-//获取压力数据
-export const getPressurePage = (params?: RolePageParams) =>
-  defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageListPressure, params });
+// //获取重力数据
+// export const getGravityPage = (params?: RolePageParams) =>
+//   defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageList, params });
+// //获取压力数据
+// export const getPressurePage = (params?: RolePageParams) =>
+//   defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageListPressure, params });
 
 export const getAllRoleList = (params?: RoleParams) =>
   defHttp.get<RoleListGetResultModel>({ url: Api.GetAllRoleList, params });
