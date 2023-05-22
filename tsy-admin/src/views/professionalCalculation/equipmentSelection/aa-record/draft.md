@@ -82,3 +82,7 @@ firePumpDesignFlow 1
 busWaterSupply  客车上水量（m3/d)
 
 YX(m³/d) todo
+
+1	  2	  3  4	5	 6
+52	17	16 17	3	 11
+

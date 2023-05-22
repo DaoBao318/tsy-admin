@@ -6,29 +6,6 @@ export const LOCALE: { [key: string]: LocaleType } = {
   EN_US: 'en',
   RU_RU: 'ru',
 };
-export const LOCALKEY: WaterSupply[] = [
-  {
-    num: 1,
-    sum: 2,
-    title: '生活用水',
-  },
-  {
-    sum: 3,
-    num: 1,
-    title: '生产用水',
-  },
-  {
-    sum: 1,
-    num: 3,
-    title: '绿化用水',
-  },
-];
-export const COLUM: WaterSupply = {
-  title: '生产用水',
-  num: 1,
-  sum: 2,
-};
-
 export const localeSetting: LocaleSetting = {
   showPicker: true,
   // Locale

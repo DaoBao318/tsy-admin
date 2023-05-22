@@ -15,28 +15,36 @@
       helpMessage="长泰项目--常州南站--高铁-大型车站 "
     >
   </CollapseContainer> -->
-    <div :class="stylePaddingDrawer">
-      <BasicForm @register="registerForm">
-        <template #add1>
-          <a-button
-            size="small"
-            preIcon="carbon:calculator-check"
-            type="primary"
-            @click="openDialog('voltageStabilization')"
-            >算</a-button
-          >
-        </template>
-        <template #add2>
-          <a-button
-            size="small"
-            type="primary"
-            preIcon="carbon:calculator-check"
-            @click="openDialog('fireFighting')"
-            >算</a-button
-          >
-        </template>
-      </BasicForm>
-    </div>
+    <a-tabs v-model:activeKey="activeKey" :class="stylePaddingDrawer">
+      <a-tab-pane key="1" tab="给水设备设施选型">
+        <div class="equipt-basis water-supply">
+          <BasicForm @register="registerForm">
+            <template #add1>
+              <a-button
+                size="small"
+                preIcon="carbon:calculator-check"
+                type="primary"
+                @click="openDialog('voltageStabilization')"
+                >算</a-button
+              >
+            </template>
+            <template #add2>
+              <a-button
+                size="small"
+                type="primary"
+                preIcon="carbon:calculator-check"
+                @click="openDialog('fireFighting')"
+                >算</a-button
+              >
+            </template>
+          </BasicForm>
+        </div>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="排水设备设施选型">
+        <div class="equipt-basis water-drainage">
+          <BasicForm @register="registerFormDrainage" /> </div
+      ></a-tab-pane>
+    </a-tabs>
   </BasicDrawer>
 </template>
 <script lang="ts">
@@ -45,6 +53,7 @@
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { saveEquipment } from './api/http';
+
   import {
     calculateEquip,
     initializeAssignmentStructure,
@@ -54,12 +63,14 @@
   import { message } from 'ant-design-vue';
   import { keepTwoDecimalFull } from '/@/utils/calculation/count';
   import { EQUIP_TYPE } from './equipUtil';
+  import { formSchemaDrainage } from './drainage.data';
 
   export default defineComponent({
     name: 'EquipDrawer',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
+      const activeKey = ref('1');
       const stylePaddingDrawer = ref();
       // const drawerSetInterval = setInterval(() => {
       //   if (window.screen.width > 1800) {
@@ -114,6 +125,24 @@
         compact: true,
         size: 'small',
       });
+      const [
+        registerFormDrainage,
+        {
+          resetFields: resetFieldsDrainage,
+          setFieldsValue: setFieldsValueDrainage,
+          validate: validateDrainage,
+        },
+      ] = useForm({
+        labelWidth: 150,
+        baseColProps: { span: 24 },
+        schemas: formSchemaDrainage,
+        showActionButtonGroup: false,
+        compact: true,
+        size: 'small',
+      });
+      resetFieldsDrainage();
+      setFieldsValueDrainage({});
+      validateDrainage();
       let basicData = {};
       let openModalCount;
       const [registerDrawer, { setDrawerProps }] = useDrawerInner(async (data) => {
@@ -246,71 +275,86 @@
         openDialog,
         titleEquipment,
         stylePaddingDrawer,
+        activeKey,
+        registerFormDrainage,
       };
     },
   });
 </script>
 <style lang="stylus" scoped>
   .largeScreen {
-    padding: 0 360px 0 250px;
-    >>> .ant-form-item-required{
-      color: red;
+    >>> .ant-tabs-bar.ant-tabs-top-bar{
+      margin: 0 320px 15px 150px;
     }
-    >>> .ant-divider-inner-text {
-      font-weight: 900;
-      position: absolute;
-      top: -12px;
-      left: -40px;
-      font-size: 15px;
-    }
-    >>> .ant-col-23{
-      .ant-divider-inner-text {
-      font-weight: 600;
-      position: absolute;
-      top: -12px;
-      left: -20px;
-      font-size: 14px;
-    }
-    }
-    >>> .ant-col-19{
-      .ant-form-item-no-colon{
-        position: relative;
-        top: 5px;
+    .equipt-basis{
+      padding: 0 360px 0 250px;
+      >>> .ant-form-item-required{
+        color: red;
       }
-      .ant-input{
-        height: 30px;
+      >>> .ant-divider-inner-text {
+        font-weight: 900;
+        position: absolute;
+        top: -12px;
+        left: -40px;
+        font-size: 15px;
       }
-    }
-  }
-  .smallScreen {
-    padding: 0 30px 0 35px;
-    >>> .ant-divider-inner-text {
-      font-weight: 900;
-      position: absolute;
-      top: -12px;
-      left: -40px;
-      font-size: 15px;
-    }
-    >>> .ant-col-23{
-      .ant-divider-inner-text {
+      >>> .ant-col-23{
+        .ant-divider-inner-text {
         font-weight: 600;
         position: absolute;
         top: -12px;
         left: -20px;
         font-size: 14px;
       }
-    }
-    >>> .ant-col-19{
-      .ant-form-item-no-colon{
-        position: relative;
-        top: 5px;
       }
-      .ant-input.ant-input-disabled{
-        height: 30px!important;
+      >>> .ant-col-19{
+        .ant-form-item-no-colon{
+          position: relative;
+          top: 5px;
+        }
+        .ant-input{
+          height: 30px;
+        }
+      }
+
+    }
+
+  }
+  .smallScreen {
+    >>> .ant-tabs-bar.ant-tabs-top-bar{
+      margin: 0 30px 0 10px;
+    }
+    .equipt-basis{
+      padding: 0 30px 0 35px;
+      >>> .ant-divider-inner-text {
+        font-weight: 900;
+        position: absolute;
+        top: -12px;
+        left: -40px;
+        font-size: 15px;
+      }
+      >>> .ant-col-23{
+        .ant-divider-inner-text {
+          font-weight: 600;
+          position: absolute;
+          top: -12px;
+          left: -20px;
+          font-size: 14px;
+        }
+      }
+      >>> .ant-col-19{
+        .ant-form-item-no-colon{
+          position: relative;
+          top: 5px;
+        }
+        .ant-input{
+          height: 30px;
+        }
+      }
+      >>> .ant-form-item-required{
+        color: red;
       }
     }
-    >>> .ant-form-item-required{
-      color: red;
-    }
+
   }
 </style>
