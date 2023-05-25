@@ -5,6 +5,7 @@ export const EQUIP = {
   WIDTH_NUMBER: 6,
   WIDTH_TEXT_AREA: 19,
   WIDTH_LABEL_WIDTH: 250,
+  WIDTH_NUMBER_JS: 5,
 };
 export const EQUIP_TYPE = {
   LARGE_STATION: ['01', '07'],

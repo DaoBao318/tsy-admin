@@ -597,7 +597,7 @@ export const formSchema: FormSchema[] = [
     helpMessage: '设计站点变频泵至最不利点的总水头损失，含沿程水头损失h₄(m)和局部水头损失h₅(m)。',
     component: 'InputNumberExpand3',
     required: true,
-    colProps: { span: 5 },
+    colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
@@ -756,7 +756,7 @@ export const formSchema: FormSchema[] = [
     helpMessage: '设计站点消防泵至最不利点的总水头损失，含沿程水头损失h₁₀(m)和局部水头损失h₁₁(m)。',
     component: 'InputNumberExpand3',
     required: true,
-    colProps: { span: 5 },
+    colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {

@@ -108,7 +108,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { saveEquipment } from './api/http';
+  import { getStationDeviceSelectionDrainageEdit, saveEquipment } from './api/http';
 
   import {
     calculateEquip,
@@ -120,7 +120,7 @@
   import { keepTwoDecimalFull } from '/@/utils/calculation/count';
   import { EQUIP_TYPE } from './equipUtil';
   import { formSchemaDrainage } from './drainage.data';
-  import { chonseTypeEquip } from './drainageUtil';
+  import { caculateDrainage, chonseTypeEquip, initDrainage } from './drainageUtil';
 
   export default defineComponent({
     name: 'EquipDrawer',
@@ -185,7 +185,7 @@
       const [
         registerFormDrainage,
         {
-          resetFields: resetFieldsDrainage,
+          clearValidate: clearValidateDrainage,
           setFieldsValue: setFieldsValueDrainage,
           validate: validateDrainage,
           validateFields: validateFieldsDrainage,
@@ -200,7 +200,7 @@
         compact: true,
         size: 'small',
       });
-      let basicData = {};
+      let basicData: any = {};
       let openModalCount;
       const [registerDrawer, { setDrawerProps }] = useDrawerInner(async (data) => {
         // 初始化赋值给水
@@ -223,6 +223,7 @@
         clearValidate();
         // 初始化赋值排水
         // resetFieldsDrainage();
+        // 请求数据的回调中
       });
       watch(
         () => activeKey.value,
@@ -231,6 +232,11 @@
             setTimeout(() => {
               let e = getFieldsValueDrainage().technologyType;
               chonseTypeEquip(e, updateSchemaDrainage);
+              const { projectID, stationID } = basicData;
+              getStationDeviceSelectionDrainageEdit({ projectID, stationID }).then((res) => {
+                initDrainage(setFieldsValueDrainage, { res });
+                clearValidateDrainage();
+              });
             }, 0);
           }
         },
@@ -259,6 +265,7 @@
         } else {
           //计算排水保存
           const values = await validateDrainage();
+          caculateDrainage(values, setFieldsValueDrainage);
         }
       }
       async function handleClose() {
@@ -390,10 +397,10 @@
           try {
             const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
             const { sewageTreatmentCapacity } = values;
-            const mbradjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-            setFieldsValueDrainage({ mbradjustWellPumpFlow });
+            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+            setFieldsValueDrainage({ mbrAdjustWellPumpFlow });
             openModalCount(true, {
-              rateOfFlow: mbradjustWellPumpFlow,
+              rateOfFlow: mbrAdjustWellPumpFlow,
               type: 'type4',
             });
           } catch (e) {
@@ -404,10 +411,10 @@
           try {
             const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
             const { sewageTreatmentCapacity } = values;
-            const mbradjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-            setFieldsValueDrainage({ mbradjustWellPumpFlow });
+            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+            setFieldsValueDrainage({ mbrAdjustWellPumpFlow });
             openModalCount(true, {
-              rateOfFlow: mbradjustWellPumpFlow,
+              rateOfFlow: mbrAdjustWellPumpFlow,
               type: 'type5',
             });
           } catch (e) {
@@ -418,10 +425,10 @@
           try {
             const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
             const { sewageTreatmentCapacity } = values;
-            const mbradjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-            setFieldsValueDrainage({ mbradjustWellPumpFlow });
+            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+            setFieldsValueDrainage({ mbrAdjustWellPumpFlow });
             openModalCount(true, {
-              rateOfFlow: mbradjustWellPumpFlow,
+              rateOfFlow: mbrAdjustWellPumpFlow,
               type: 'type6',
             });
           } catch (e) {
@@ -482,6 +489,18 @@
           height: 30px;
         }
       }
+      >>> .ant-col-22{
+        .ant-divider-horizontal.ant-divider-with-text::before, .ant-divider-horizontal.ant-divider-with-text::after{
+          border-top: 0 solid;
+        }
+        .ant-divider-inner-text{
+          padding: 4px 100px 4px 116px;
+          color: red;
+        }
+        .ant-col-24{
+          height:30px;
+        }
+      }
 
     }
 
@@ -523,6 +542,18 @@
       }
       >>> .ant-form-item-required{
         color: red;
+      }
+      >>> .ant-col-22{
+        .ant-divider-horizontal.ant-divider-with-text::before, .ant-divider-horizontal.ant-divider-with-text::after{
+          border-top: 0 solid;
+        }
+        .ant-divider-inner-text{
+          padding: 4px 100px 4px 116px;
+          color: red;
+        }
+        .ant-col-24{
+          height:30px;
+        }
       }
     }
 

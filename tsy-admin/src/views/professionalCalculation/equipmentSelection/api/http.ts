@@ -11,6 +11,7 @@ enum Api {
   getEquitment = '/api/ZYJSWaterCompute/GetStationDeviceSelectionList', //设备列表
   getStationDeviceSelectionEdit = '/api/ZYJSWaterCompute/GetStationDeviceSelectionEdit', //编辑页面初始化
   saveStationDeviceSelectionEdit = '/api/ZYJSWaterCompute/SaveStationDeviceSelectionEdit', //设备选型保存接口
+  getStationDeviceSelectionDrainageEdit = '/api/ZYJSWaterCompute/GetStationDeviceSelectionDrainageEdit', //获取排水详情
 }
 
 // other api url
@@ -73,6 +74,15 @@ export const getStationDeviceSelectionEdit = (params) => {
 export const saveEquipment = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.saveStationDeviceSelectionEdit, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+
+//编辑详情页面
+export const getStationDeviceSelectionDrainageEdit = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.getStationDeviceSelectionDrainageEdit, params }).then((res) => {
       resolve(res);
     });
   });
