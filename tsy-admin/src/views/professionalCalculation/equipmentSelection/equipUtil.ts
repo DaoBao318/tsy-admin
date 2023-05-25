@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 export const EQUIP = {
   WIDTH_NUMBER: 6,
   WIDTH_TEXT_AREA: 19,
+  WIDTH_LABEL_WIDTH: 250,
 };
 export const EQUIP_TYPE = {
   LARGE_STATION: ['01', '07'],

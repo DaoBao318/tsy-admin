@@ -84,7 +84,7 @@
           console.log('计算完成');
         }
       }
-      let fromDrawetobj = {};
+      let fromDrawetobj = { type: 'voltageStabilization' };
       function onDataReceive(data) {
         console.log('Data Received', data);
         fromDrawetobj = data;
@@ -104,8 +104,20 @@
         const { hydraulicLossResult } = getFieldsValue();
         if (fromDrawetobj.type === 'voltageStabilization') {
           emit('countValue', { type: 'voltageStabilization', hydraulicLossResult });
-        } else {
+        } else if (fromDrawetobj.type === 'fireFighting') {
           emit('countValue', { type: 'fireFighting', hydraulicLossResult });
+        } else if (fromDrawetobj.type === 'type1') {
+          emit('countValue', { type: 'type1', hydraulicLossResult });
+        } else if (fromDrawetobj.type === 'type2') {
+          emit('countValue', { type: 'type2', hydraulicLossResult });
+        } else if (fromDrawetobj.type === 'type3') {
+          emit('countValue', { type: 'type3', hydraulicLossResult });
+        } else if (fromDrawetobj.type === 'type4') {
+          emit('countValue', { type: 'type4', hydraulicLossResult });
+        } else if (fromDrawetobj.type === 'type5') {
+          emit('countValue', { type: 'type5', hydraulicLossResult });
+        } else if (fromDrawetobj.type === 'type6') {
+          emit('countValue', { type: 'type6', hydraulicLossResult });
         }
         closeModal();
       }

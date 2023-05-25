@@ -135,12 +135,14 @@
         });
       }
       let setFieldsValueFlag = function ({}) {};
+      let setFieldsValueDrainageFlag = function ({}) {};
       //点击计算按钮的时候，传递过来
       function handleSuccess() {
         reload();
       }
-      function handleTotalLoss(setFieldsValue) {
-        setFieldsValueFlag = setFieldsValue;
+      function handleTotalLoss(funOBJ) {
+        setFieldsValueFlag = funOBJ.setFieldsValue;
+        setFieldsValueDrainageFlag = funOBJ.setFieldsValueDrainage;
       }
       function creatAction(record): ActionItem[] {
         const { projectID, projectName, stationID } = record;
@@ -166,11 +168,23 @@
       }
       const transformValue = ref('');
       function countValue(value) {
-        if (value.type === 'voltageStabilization') {
-          setFieldsValueFlag({ vfpBadWayHeadLoss: value.hydraulicLossResult });
-        } else {
-          setFieldsValueFlag({ firePumpBadWayHeadLoss: value.hydraulicLossResult });
-        }
+        // if (value.type === 'voltageStabilization') {
+        //   setFieldsValueFlag({ vfpBadWayHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'fireFighting') {
+        //   setFieldsValueFlag({ firePumpBadWayHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'type1') {
+        //   setFieldsValueDrainageFlag({ adjustWellTotalHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'type2') {
+        //   setFieldsValueDrainageFlag({ pumpingWellTotalHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'type3') {
+        //   setFieldsValueDrainageFlag({ makeGreenTotalHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'type4') {
+        //   setFieldsValueDrainageFlag({ mbrTotalHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'type5') {
+        //   setFieldsValueDrainageFlag({ pumpWellTotalHeadLoss: value.hydraulicLossResult });
+        // } else if (value.type === 'type6') {
+        //   setFieldsValueDrainageFlag({ iaffTotalHeadLoss: value.hydraulicLossResult });
+        // }
       }
       const go = useGo();
       const backProject = () => {
