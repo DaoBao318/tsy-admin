@@ -1,3 +1,677 @@
+import { message } from 'ant-design-vue';
+import { pumpWellShapeOptionsData, technologyTypeOptionsData } from './api/const';
+import { EQUIP } from './equipUtil';
+import { keepTwoDecimalFull } from '/@/utils/calculation/count';
+
+export const saveDisplayDrainage = (setFieldsValue, res) => {
+  setFieldsValue({ ...res });
+};
+
+export const dealSaveDataDrainage = (values) => {
+  const { sewageTreatmentCapacity, sbrDeviceWork, sbrCycleWorkTime, sbrDeviceSpecs, sbrModel } =
+    values;
+  const sbrModel1 = {
+    sewageTreatmentCapacity,
+    sbrDeviceWork,
+    sbrCycleWorkTime,
+    sbrDeviceSpecs,
+    sbrModel,
+  };
+  const {
+    sbrAdjustTime,
+    sewageRegulatingWellVolume,
+    adjustWellDiameter,
+    adjustWellWaterDepth,
+    adjustWellWaterPipeElevation,
+    adjustWellStopPumpWaterLevel,
+    sbrDesignGroundElevationPumpWell,
+    sbrStopPumpWaterLevelInnerHeight,
+    sbrConcreteThickness,
+    adjustWellDepth,
+    adjustWellPumpFlow,
+    sbrDeviceInletPipeElevation,
+    adjustWellTotalHeadLoss,
+    sewageTreatmentOutflowHead,
+    adjustWellPumpLift,
+    adjustPumpModel,
+  } = values;
+  const adjustPumpModel2 = {
+    sbrAdjustTime,
+    sewageRegulatingWellVolume,
+    adjustWellDiameter,
+    adjustWellWaterDepth,
+    adjustWellWaterPipeElevation,
+    adjustWellStopPumpWaterLevel,
+    sbrDesignGroundElevationPumpWell,
+    sbrStopPumpWaterLevelInnerHeight,
+    sbrConcreteThickness,
+    adjustWellDepth,
+    adjustWellPumpFlow,
+    sbrDeviceInletPipeElevation,
+    adjustWellTotalHeadLoss,
+    sewageTreatmentOutflowHead,
+    adjustWellPumpLift,
+    adjustPumpModel,
+  };
+  const { filterSpecs } = values;
+  const filterSpecsModel3 = {
+    filterSpecs,
+  };
+  const {
+    pumpingWellDiameter,
+    sewageStopTime,
+    pumpingWellVolume,
+    pumpingWellWaterDepth,
+    pumpingWellWaterPipeElevation,
+    pumpingWellStopPumpWaterLevel,
+    pwDesignGroundElevationPumpWell,
+    pwStopPumpWaterLevelInnerHeight,
+    pwConcreteThickness,
+    pwLiftWellHeight,
+    pumpingWellPumpFlow,
+    filterWaterInletPressure,
+    filterWaterInletElevation,
+    pumpingWellTotalHeadLoss,
+    sewageExcessHead,
+    pumpingWellPumpLift,
+    pumpingWellModel,
+  } = values;
+  const pumpingWellModel4 = {
+    pumpingWellDiameter,
+    sewageStopTime,
+    pumpingWellVolume,
+    pumpingWellWaterDepth,
+    pumpingWellWaterPipeElevation,
+    pumpingWellStopPumpWaterLevel,
+    pwDesignGroundElevationPumpWell,
+    pwStopPumpWaterLevelInnerHeight,
+    pwConcreteThickness,
+    pwLiftWellHeight,
+    pumpingWellPumpFlow,
+    filterWaterInletPressure,
+    filterWaterInletElevation,
+    pumpingWellTotalHeadLoss,
+    sewageExcessHead,
+    pumpingWellPumpLift,
+    pumpingWellModel,
+  };
+  const {
+    makeGreenSprinklingWater,
+    reuseWaterTankVolume,
+    sprinklerFlowRate,
+    reusePumpFlow,
+    sprinklerWorkPressure,
+    makeGreenTotalHeadLoss,
+    dullSprinklerGroundLevel,
+    reuseWaterTankStopPumpWaterLevel,
+    reusePumpOutflowHead,
+    reusePumpLift,
+    ultravioletDisinfection,
+    reuseWaterTankModel,
+  } = values;
+  const reuseWaterTankModel5 = {
+    makeGreenSprinklingWater,
+    reuseWaterTankVolume,
+    sprinklerFlowRate,
+    reusePumpFlow,
+    sprinklerWorkPressure,
+    makeGreenTotalHeadLoss,
+    dullSprinklerGroundLevel,
+    reuseWaterTankStopPumpWaterLevel,
+    reusePumpOutflowHead,
+    reusePumpLift,
+    ultravioletDisinfection,
+    reuseWaterTankModel,
+  };
+  const { mbrSewageTreatmentCapacity, mbrDeviceSpecs, mbrModel } = values;
+  const mbrModel6 = {
+    mbrSewageTreatmentCapacity,
+    mbrDeviceSpecs,
+    mbrModel,
+  };
+  const {
+    adjustTime,
+    mbrSewageRegulatingWellVolume,
+    mbrAdjustWellDiameter,
+    mbrAdjustWellWaterDepth,
+    mbrAdjustWellWaterPipeElevation,
+    mbrAdjustWellStopPumpWaterLevel,
+    mbrDesignGroundElevationPumpWell,
+    mbrStopPumpWaterLevelInnerHeight,
+    mbrConcreteThickness,
+    mbrLiftWellHeight,
+    mbrAdjustWellPumpFlow,
+    mbrDeviceInletPipeElevation,
+    mbrTotalHeadLoss,
+    mbrDeviceOutflowHead,
+    mbrPumpLift,
+    adjustWellModel,
+  } = values;
+  const adjustWellModel7 = {
+    adjustTime,
+    mbrSewageRegulatingWellVolume,
+    mbrAdjustWellDiameter,
+    mbrAdjustWellWaterDepth,
+    mbrAdjustWellWaterPipeElevation,
+    mbrAdjustWellStopPumpWaterLevel,
+    mbrDesignGroundElevationPumpWell,
+    mbrStopPumpWaterLevelInnerHeight,
+    mbrConcreteThickness,
+    mbrLiftWellHeight,
+    mbrAdjustWellPumpFlow,
+    mbrDeviceInletPipeElevation,
+    mbrTotalHeadLoss,
+    mbrDeviceOutflowHead,
+    mbrPumpLift,
+    adjustWellModel,
+  };
+  const {
+    pumpWellShape,
+    pumpWellSize,
+    pumpingWellSewageVolume,
+    pumpWellWaterDepth,
+    pumpWellWaterPipeElevation,
+    pumpWellStopPumpWaterLevel,
+    swpDesignGroundElevationPumpWell,
+    swpStopPumpWaterLevelInnerHeight,
+    swpConcreteThickness,
+    swpLiftWellHeight,
+    pumpingWellSewageMeasure,
+    submersibleSewagePumpFlow,
+    pumpWellTotalHeadLoss,
+    pumpWellDesignGround,
+    liftingPipeHighestPoint,
+    spwOutflowHead,
+    spwPumpLift,
+    spwPumpModel,
+  } = values;
+  const sewagePumpWell8 = {
+    pumpWellShape,
+    pumpWellSize,
+    pumpingWellSewageVolume,
+    pumpWellWaterDepth,
+    pumpWellWaterPipeElevation,
+    pumpWellStopPumpWaterLevel,
+    swpDesignGroundElevationPumpWell,
+    swpStopPumpWaterLevelInnerHeight,
+    swpConcreteThickness,
+    swpLiftWellHeight,
+    pumpingWellSewageMeasure,
+    submersibleSewagePumpFlow,
+    pumpWellTotalHeadLoss,
+    pumpWellDesignGround,
+    liftingPipeHighestPoint,
+    spwOutflowHead,
+    spwPumpLift,
+    spwPumpModel,
+  };
+  const {
+    amountOilyWastewater,
+    workTime,
+    settlingTankStopTime,
+    settlingTankVolume,
+    iaffDeviceSpecs,
+    inletSubmersibleSewagePumpFlow,
+    iaffWaterPipeElevation,
+    iaffWaterInletPressure,
+    iaffStopPumpWaterLevel,
+    iaffTotalHeadLoss,
+    iaffExcessHead,
+    spwInletPumpLift,
+    sedimentationIAFFModel,
+  } = values;
+  const sedimentationIAFF9 = {
+    amountOilyWastewater,
+    workTime,
+    settlingTankStopTime,
+    settlingTankVolume,
+    iaffDeviceSpecs,
+    inletSubmersibleSewagePumpFlow,
+    iaffWaterPipeElevation,
+    iaffWaterInletPressure,
+    iaffStopPumpWaterLevel,
+    iaffTotalHeadLoss,
+    iaffExcessHead,
+    spwInletPumpLift,
+    sedimentationIAFFModel,
+  };
+  const { liftSewageTreatmentCapacity, anaerobicFilter, constructedWetland, liftWaterPointModel } =
+    values;
+  const liftWaterPoint10 = {
+    liftSewageTreatmentCapacity,
+    anaerobicFilter,
+    constructedWetland,
+    liftWaterPointModel,
+  };
+  const { projectID, stationID, outType, technologyType } = values;
+  const params = {
+    projectID,
+    stationID,
+    outType,
+    technologyType,
+    sbrModel: sbrModel1,
+    adjustPumpModel: adjustPumpModel2,
+    filterSpecsModel: filterSpecsModel3,
+    pumpingWellModel: pumpingWellModel4,
+    reuseWaterTankModel: reuseWaterTankModel5,
+    mbrModel: mbrModel6,
+    adjustWellModel: adjustWellModel7,
+    sewagePumpWell: sewagePumpWell8,
+    sedimentationIAFF: sedimentationIAFF9,
+    liftWaterPoint: liftWaterPoint10,
+  };
+  return params;
+};
+
+export const caculateDrainage = (values, setFieldsValueDrainage) => {
+  const {
+    sewageTreatmentCapacity,
+    sbrAdjustTime,
+    adjustWellDiameter,
+    adjustWellWaterPipeElevation,
+    sbrDesignGroundElevationPumpWell,
+    sbrStopPumpWaterLevelInnerHeight,
+    sbrDeviceInletPipeElevation,
+    adjustWellTotalHeadLoss,
+    sewageTreatmentOutflowHead,
+    sewageStopTime,
+    pumpingWellDiameter,
+    pumpingWellWaterPipeElevation,
+    pwDesignGroundElevationPumpWell,
+    pwStopPumpWaterLevelInnerHeight,
+    filterWaterInletElevation,
+    filterWaterInletPressure,
+    pumpingWellTotalHeadLoss,
+    sewageExcessHead,
+    makeGreenSprinklingWater,
+    sprinklerFlowRate,
+    dullSprinklerGroundLevel,
+    sprinklerWorkPressure,
+    reuseWaterTankStopPumpWaterLevel,
+    makeGreenTotalHeadLoss,
+    reusePumpOutflowHead,
+    mbrSewageTreatmentCapacity,
+    adjustTime,
+    mbrAdjustWellDiameter,
+    mbrAdjustWellWaterPipeElevation,
+    mbrDesignGroundElevationPumpWell,
+    mbrStopPumpWaterLevelInnerHeight,
+    mbrDeviceInletPipeElevation,
+    mbrTotalHeadLoss,
+    mbrDeviceOutflowHead,
+    pumpingWellSewageMeasure,
+    pumpWellShape,
+    pumpWellSize,
+    pumpWellWaterPipeElevation,
+    swpDesignGroundElevationPumpWell,
+    swpStopPumpWaterLevelInnerHeight,
+    liftingPipeHighestPoint,
+    pumpWellTotalHeadLoss,
+    spwOutflowHead,
+    amountOilyWastewater,
+    settlingTankStopTime,
+    workTime,
+    iaffWaterPipeElevation,
+    iaffWaterInletPressure,
+    iaffStopPumpWaterLevel,
+    iaffTotalHeadLoss,
+    iaffExcessHead,
+    liftSewageTreatmentCapacity,
+  } = values;
+  const sbrDeviceSpecs = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+  const sewageRegulatingWellVolume = keepTwoDecimalFull((sbrDeviceSpecs * sbrAdjustTime) / 24, 3);
+  let adjustWellWaterDepth =
+    sewageRegulatingWellVolume / (3.14 * Math.pow(Number(adjustWellDiameter) / 2, 2));
+  adjustWellWaterDepth = keepTwoDecimalFull(adjustWellWaterDepth, 3);
+  //泵井水深不超过2m adjustWellWaterDepth
+  if (adjustWellWaterDepth > 2) {
+    message.warn('污水调节泵井《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    setFieldsValueDrainage({ adjustWellDiameter: undefined, adjustWellWaterDepth: undefined });
+    return;
+  }
+  const adjustWellStopPumpWaterLevel = keepTwoDecimalFull(
+    adjustWellWaterPipeElevation - 0.2 - adjustWellWaterDepth,
+    1,
+  );
+
+  let adjustWellDepth =
+    sbrDesignGroundElevationPumpWell +
+    0.3 -
+    adjustWellStopPumpWaterLevel +
+    sbrStopPumpWaterLevelInnerHeight +
+    h19(adjustWellDiameter);
+  adjustWellDepth = keepTwoDecimalFull(adjustWellDepth, 1);
+  const obj17 = {
+    sbrDesignGroundElevationPumpWell: undefined,
+    sbrStopPumpWaterLevelInnerHeight: undefined,
+    adjustWellDepth: undefined,
+  };
+  judgmentC(adjustWellDiameter, adjustWellDepth, setFieldsValueDrainage, obj17);
+  adjustWellDepth = getDealData(adjustWellDiameter, adjustWellDepth);
+  const adjustWellPumpFlow = keepTwoDecimalFull(sbrDeviceSpecs * 4, 3);
+
+  const adjustWellPumpLift = keepTwoDecimalFull(
+    sbrDeviceInletPipeElevation +
+      adjustWellTotalHeadLoss +
+      sewageTreatmentOutflowHead -
+      adjustWellStopPumpWaterLevel,
+    1,
+  );
+
+  const pumpingWellVolume = keepTwoDecimalFull(sbrDeviceSpecs * sewageStopTime, 3);
+
+  let pumpingWellWaterDepth =
+    pumpingWellVolume / (3.14 * Math.pow(Number(pumpingWellDiameter) / 2, 2));
+  pumpingWellWaterDepth = keepTwoDecimalFull(pumpingWellWaterDepth, 1);
+  if (pumpingWellWaterDepth > 2) {
+    message.warn('污水抽升泵井《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    setFieldsValueDrainage({ pumpingWellDiameter: undefined, pumpingWellWaterDepth: undefined });
+    return;
+  }
+  const pumpingWellStopPumpWaterLevel = keepTwoDecimalFull(
+    pumpingWellWaterPipeElevation - 0.2 - pumpingWellWaterDepth,
+    1,
+  );
+  let pwLiftWellHeight =
+    pwDesignGroundElevationPumpWell +
+    0.3 -
+    pumpingWellStopPumpWaterLevel +
+    pwStopPumpWaterLevelInnerHeight +
+    h19(pumpingWellDiameter);
+  pwLiftWellHeight = keepTwoDecimalFull(pwLiftWellHeight, 1);
+  const obj20 = {
+    pwDesignGroundElevationPumpWell: undefined,
+    pwStopPumpWaterLevelInnerHeight: undefined,
+    adjustWellDepth: undefined,
+  };
+  judgmentC(pumpingWellDiameter, pwLiftWellHeight, setFieldsValueDrainage, obj20);
+  pwLiftWellHeight = getDealData(pumpingWellDiameter, pwLiftWellHeight);
+  const pumpingWellPumpLift = keepTwoDecimalFull(
+    filterWaterInletElevation +
+      filterWaterInletPressure -
+      pumpingWellStopPumpWaterLevel +
+      pumpingWellTotalHeadLoss +
+      sewageExcessHead,
+    1,
+  );
+  const reuseWaterTankVolume = keepTwoDecimalFull(makeGreenSprinklingWater / 2, 3);
+  const reusePumpFlow = keepTwoDecimalFull(sprinklerFlowRate * 4 * 3.6);
+
+  const reusePumpLift = keepTwoDecimalFull(
+    dullSprinklerGroundLevel +
+      sprinklerWorkPressure -
+      reuseWaterTankStopPumpWaterLevel +
+      makeGreenTotalHeadLoss +
+      reusePumpOutflowHead,
+    1,
+  );
+
+  const mbrDeviceSpecs = keepTwoDecimalFull(mbrSewageTreatmentCapacity / 24, 3);
+  const mbrSewageRegulatingWellVolume = keepTwoDecimalFull(
+    (mbrSewageTreatmentCapacity * adjustTime) / 24,
+    3,
+  );
+  let mbrAdjustWellWaterDepth =
+    mbrSewageRegulatingWellVolume / (3.14 * Math.pow(Number(mbrAdjustWellDiameter) / 2, 2));
+  mbrAdjustWellWaterDepth = keepTwoDecimalFull(mbrAdjustWellWaterDepth, 1);
+  if (mbrAdjustWellWaterDepth > 2) {
+    message.warn('污水调节泵井《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    setFieldsValueDrainage({
+      mbrAdjustWellDiameter: undefined,
+      mbrAdjustWellWaterDepth: undefined,
+    });
+    return;
+  }
+  const mbrAdjustWellStopPumpWaterLevel = keepTwoDecimalFull(
+    mbrAdjustWellWaterPipeElevation - 0.2 - mbrAdjustWellWaterDepth,
+    1,
+  );
+  const mbrLiftWellHeight = keepTwoDecimalFull(
+    mbrDesignGroundElevationPumpWell +
+      0.3 -
+      mbrAdjustWellStopPumpWaterLevel +
+      mbrStopPumpWaterLevelInnerHeight +
+      h19(mbrAdjustWellDiameter),
+    1,
+  );
+  const mbrPumpLift = keepTwoDecimalFull(
+    mbrDeviceInletPipeElevation +
+      mbrAdjustWellStopPumpWaterLevel +
+      mbrTotalHeadLoss +
+      mbrDeviceOutflowHead,
+    1,
+  );
+
+  const coefficientOfVariation = nc(keepTwoDecimalFull(pumpingWellSewageMeasure / 24 / 3.6, 1)); // 变化系数
+  const submersibleSewagePumpFlow = keepTwoDecimalFull(
+    (pumpingWellSewageMeasure * coefficientOfVariation) / 24,
+    3,
+  ); // Q
+  const pumpingWellSewageVolume = keepTwoDecimalFull((1 / 3) * submersibleSewagePumpFlow, 3);
+  let pumpWellWaterDepth = 0;
+  if (pumpWellShape === 'circle') {
+    pumpWellWaterDepth = keepTwoDecimalFull(
+      pumpingWellSewageVolume / (3.14 * Math.pow(Number(pumpWellSize) / 2, 2)),
+      1,
+    );
+  } else {
+    pumpWellWaterDepth = keepTwoDecimalFull(pumpingWellSewageVolume / Number(pumpWellSize), 1);
+  }
+  if (pumpWellWaterDepth > 2) {
+    message.warn('污水抽升泵《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    setFieldsValueDrainage({
+      pumpWellSize: undefined,
+      pumpWellWaterDepth: undefined,
+    });
+    return;
+  }
+  const pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
+    pumpWellWaterPipeElevation - 0.2 - pumpWellWaterDepth,
+    1,
+  );
+  let swpLiftWellHeight = 0;
+  if (pumpWellShape === 'circle') {
+    swpLiftWellHeight = keepTwoDecimalFull(
+      swpDesignGroundElevationPumpWell +
+        0.3 -
+        pumpWellStopPumpWaterLevel +
+        swpStopPumpWaterLevelInnerHeight +
+        h19(pumpWellSize),
+      1,
+    );
+  } else {
+    swpLiftWellHeight = keepTwoDecimalFull(
+      swpDesignGroundElevationPumpWell -
+        pumpWellStopPumpWaterLevel +
+        swpStopPumpWaterLevelInnerHeight,
+      1,
+    );
+  }
+  const obj2 = {
+    swpDesignGroundElevationPumpWell: undefined,
+    swpStopPumpWaterLevelInnerHeight: undefined,
+  };
+  if (pumpWellShape === 'circle') {
+    judgmentC(pumpWellSize, swpLiftWellHeight, setFieldsValueDrainage, obj2);
+    swpLiftWellHeight = getDealData(pumpWellSize, swpLiftWellHeight);
+  } else {
+    judgmentR(swpLiftWellHeight, setFieldsValueDrainage, obj2);
+    swpLiftWellHeight = getDealDataR(swpLiftWellHeight);
+  }
+
+  const spwPumpLift = keepTwoDecimalFull(
+    liftingPipeHighestPoint - pumpWellStopPumpWaterLevel + pumpWellTotalHeadLoss + spwOutflowHead,
+    1,
+  );
+
+  const settlingTankVolume = keepTwoDecimalFull(
+    (amountOilyWastewater * settlingTankStopTime) / workTime,
+    3,
+  );
+  const iaffDeviceSpecs = keepTwoDecimalFull(amountOilyWastewater / workTime, 3);
+  const spwInletPumpLift = keepTwoDecimalFull(
+    iaffWaterPipeElevation +
+      iaffWaterInletPressure -
+      iaffStopPumpWaterLevel +
+      iaffTotalHeadLoss +
+      iaffExcessHead,
+    1,
+  );
+
+  setFieldsValueDrainage({
+    sbrDeviceSpecs,
+    sewageRegulatingWellVolume,
+    adjustWellWaterDepth,
+    adjustWellStopPumpWaterLevel,
+    adjustWellDepth,
+    adjustWellPumpFlow,
+    adjustWellPumpLift,
+    filterSpecs: sbrDeviceSpecs,
+    pumpingWellVolume,
+    pumpingWellWaterDepth,
+    pumpingWellStopPumpWaterLevel,
+    pwLiftWellHeight,
+    pumpingWellPumpFlow: sbrDeviceSpecs,
+    pumpingWellPumpLift,
+    reuseWaterTankVolume,
+    reusePumpFlow,
+    reusePumpLift,
+    ultravioletDisinfection: reusePumpFlow,
+    mbrDeviceSpecs,
+    mbrSewageRegulatingWellVolume,
+    mbrAdjustWellStopPumpWaterLevel,
+    mbrLiftWellHeight,
+    mbrAdjustWellPumpFlow: mbrDeviceSpecs,
+    mbrPumpLift,
+    submersibleSewagePumpFlow,
+    pumpingWellSewageVolume,
+    pumpWellWaterDepth,
+    swpLiftWellHeight,
+    spwPumpLift,
+    settlingTankVolume,
+    iaffDeviceSpecs,
+    spwInletPumpLift,
+    anaerobicFilter: liftSewageTreatmentCapacity,
+    constructedWetland: liftSewageTreatmentCapacity,
+  });
+};
+export const nc = (x) => {
+  let num = 0;
+  if (x <= 5) {
+    num = 2.7;
+  } else if (x <= 15) {
+    num = 2.7 + ((2.4 - 2.7) / (15 - 5)) * (x - 5);
+  } else if (x <= 40) {
+    num = 2.4 + ((2.1 - 2.4) / (40 - 15)) * (x - 15);
+  } else if (x <= 70) {
+    num = 2.1 + ((2.0 - 2.1) / (70 - 40)) * (x - 40);
+  } else if (x <= 100) {
+    num = 2.0 + ((1.9 - 2.0) / (100 - 70)) * (x - 70);
+  } else if (x <= 200) {
+    num = 1.9 + ((1.8 - 1.9) / (200 - 100)) * (x - 100);
+  } else if (x <= 500) {
+    num = 1.8 + ((1.6 - 1.8) / (500 - 200)) * (x - 200);
+  } else if (x <= 1000) {
+    num = 1.6 + ((1.5 - 1.6) / (1000 - 500)) * (x - 500);
+  } else {
+    num = 1.5;
+  }
+  return keepTwoDecimalFull(num, 3);
+};
+const h19 = (adjustWellDiameter) => {
+  const obj = { 2: 0.65, 3: 0.8, 4: 1.05, 5: 1.05 };
+  return obj[adjustWellDiameter];
+};
+const judgmentC = (d, h, setFieldsValueDrainage, obj) => {
+  if (d == 2 && h > 6.5) {
+    message.warn('《泵井直径》为2m时，《泵井高度》不能超过6.5m', EQUIP.DURATION);
+    setFieldsValueDrainage(obj);
+    return;
+  } else if (d == 3 && h > 7) {
+    message.warn('《泵井直径》为3m时，《泵井高度》不能超过7m', EQUIP.DURATION);
+    setFieldsValueDrainage(obj);
+    return;
+  } else if (d == 4 && h > 7.5) {
+    message.warn('《泵井直径》为4m时，《泵井高度》不能超过7.5m', EQUIP.DURATION);
+    setFieldsValueDrainage(obj);
+    return;
+  } else if (d == 5 && h > 8) {
+    message.warn('《泵井直径》为5m时，《泵井高度》不能超过8m', EQUIP.DURATION);
+    setFieldsValueDrainage(obj);
+    return;
+  }
+};
+const judgmentR = (h, setFieldsValueDrainage, obj) => {
+  if (h > 6) {
+    message.warn('《泵井高度》不能超过6m', EQUIP.DURATION);
+    setFieldsValueDrainage(obj);
+    return;
+  }
+};
+const getDealDataR = (h) => {
+  let dealData = 0;
+  if (h < 3.5) {
+    dealData = 3.5;
+  } else if (h < 4) {
+    dealData = 4;
+  } else if (h < 4.5) {
+    dealData = 4.5;
+  } else if (h < 5) {
+    dealData = 5;
+  } else if (h < 5.5) {
+    dealData = 5.5;
+  } else {
+    dealData = 6;
+  }
+  return dealData;
+};
+
+const getDealData = (d, h) => {
+  let dealData = 0;
+  if (d == 2) {
+    if (h < 5.5) {
+      dealData = 5.5;
+    } else if (h < 6) {
+      dealData = 5.5;
+    } else if (h < 6.5) {
+      dealData = 6.5;
+    } else {
+      dealData = h;
+    }
+  } else if (d == 3) {
+    if (h < 6) {
+      dealData = 6;
+    } else if (h < 6.5) {
+      dealData = 6.5;
+    } else if (h < 6.5) {
+      dealData = 7;
+    } else {
+      dealData = h;
+    }
+  } else if (d == 4) {
+    if (h < 6.5) {
+      dealData = 6.5;
+    } else if (h < 7) {
+      dealData = 7;
+    } else if (h < 7.5) {
+      dealData = 7.5;
+    } else {
+      dealData = h;
+    }
+  } else if (d == 5) {
+    if (h < 7) {
+      dealData = 7;
+    } else if (h < 7.5) {
+      dealData = 7.5;
+    } else if (h < 8) {
+      dealData = 8;
+    } else {
+      dealData = h;
+    }
+  }
+  return dealData;
+};
+
 export const displayProcess = (e, updateSchema) => {
   let label = '';
   let show = true;
@@ -6,7 +680,8 @@ export const displayProcess = (e, updateSchema) => {
       '处理流程: 进水 → 调节泵井及泵组 → SBR设备 → 抽升泵井及泵组 → 过滤器 → 回用水池、泵组及消毒 → 回用';
     show = true;
   } else if (e === 'GreenReuseMBR') {
-    label = '处理流程: 进水 → 调节井及泵组 → MBR设备 → 抽升泵井及泵组 → 回用水池、泵组及消毒 → 回用';
+    label =
+      '处理流程: 进水 → 调节井及泵组 → MBR设备 → 抽升泵井及泵组 → 回用水池、泵组及消毒 → 回用';
     show = true;
   } else if (e === 'NearbyDischargeSBR') {
     label = '处理流程: 进水 → 调节泵井及泵组 → SBR设备 → 抽升泵井及泵组 → 过滤器 → 排放';
@@ -17,7 +692,7 @@ export const displayProcess = (e, updateSchema) => {
   } else if (e === 'ConstructedWetlands') {
     label = '处理流程: 进水 → 厌氧滤池+人工湿地 → 排放';
     show = true;
-  } else if (e === 'AFE') {
+  } else if (e === 'AFF') {
     label = '处理流程: 进水 → 调沉+气浮过滤 → 管网';
     show = true;
   } else if (e === 'ExtractionDirectDischarge') {
@@ -33,14 +708,11 @@ export const displayProcess = (e, updateSchema) => {
   });
 };
 
-export const caculateDrainage = (values, setFieldsValueDrainage) => {};
-
-export const initDrainage = (setFieldsValueDrainage, record) => {
+export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, record) => {
   const {
     projectID,
     stationID,
-    outType,
-    technologyType,
+
     sbrModel,
     adjustPumpModel,
     filterSpecsMode,
@@ -52,11 +724,21 @@ export const initDrainage = (setFieldsValueDrainage, record) => {
     sedimentationIAFF,
     liftWaterPoint,
   } = record.res;
+  const pumpWellShape = record.res.sewagePumpWell
+    ? record.res.sewagePumpWell.pumpWellShape
+    : undefined;
+  let { outType, technologyType } = record.res;
+  if (!outType) {
+    outType = 'GreenReuse';
+  }
+  if (!technologyType) {
+    technologyType = 'GreenReuseSBR';
+  }
   const values = Object.assign(
-    projectID,
-    stationID,
-    outType,
-    technologyType,
+    { projectID },
+    { stationID },
+    { outType },
+    { technologyType },
     sbrModel,
     adjustPumpModel,
     filterSpecsMode,
@@ -68,7 +750,62 @@ export const initDrainage = (setFieldsValueDrainage, record) => {
     sedimentationIAFF,
     liftWaterPoint,
   );
-  debugger;
+
+  if (outType === 'GreenReuse') {
+    updateSchemaDrainage({
+      field: 'technologyType',
+      componentProps: () => {
+        return {
+          options: technologyTypeOptionsData[outType],
+          onChange: (e: any) => {
+            displayProcess(e, updateSchemaDrainage);
+            chonseTypeEquip(e, updateSchemaDrainage);
+          },
+        };
+      },
+    });
+  } else if (outType === 'NearbyDischarge') {
+    updateSchemaDrainage({
+      field: 'technologyType',
+      componentProps: () => {
+        return {
+          options: technologyTypeOptionsData[outType],
+          onChange: (e: any) => {
+            displayProcess(e, updateSchemaDrainage);
+            chonseTypeEquip(e, updateSchemaDrainage);
+          },
+        };
+      },
+    });
+  } else {
+    updateSchemaDrainage({
+      field: 'technologyType',
+      componentProps: () => {
+        return {
+          options: technologyTypeOptionsData[outType],
+          onChange: (e: any) => {
+            displayProcess(e, updateSchemaDrainage);
+            chonseTypeEquip(e, updateSchemaDrainage);
+          },
+        };
+      },
+    });
+  }
+  if (!!pumpWellShape) {
+    updateSchemaDrainage({
+      field: 'pumpWellSize',
+      componentProps: () => {
+        return {
+          options: pumpWellShapeOptionsData[pumpWellShape],
+        };
+      },
+    });
+  }
+  //将数字类型转化为字符串
+  values.pumpWellSize = values.pumpWellSize ? values.pumpWellSize + '' : values.pumpWellSize;
+  values.sewageTreatmentCapacity = values.sewageTreatmentCapacity
+    ? values.sewageTreatmentCapacity
+    : undefined;
   setFieldsValueDrainage({ ...values });
 };
 
@@ -84,6 +821,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
     divider20: false,
     divider21: false,
     sewageRegulatingWellVolume: false,
+    sbrAdjustTime: false,
     adjustWellDiameter: false,
     adjustWellWaterDepth: false,
     adjustWellWaterPipeElevation: false,
@@ -169,6 +907,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
     divider80: false,
     divider81: false,
     pumpWellSize: false,
+    pumpWellShape: false,
     pumpingWellSewageVolume: false,
     pumpWellWaterDepth: false,
     pumpWellWaterPipeElevation: false,
@@ -224,6 +963,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: true,
       divider21: true,
       sewageRegulatingWellVolume: true,
+      sbrAdjustTime: true,
       adjustWellDiameter: true,
       adjustWellWaterDepth: true,
       adjustWellWaterPipeElevation: true,
@@ -308,6 +1048,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: false,
       divider81: false,
       pumpWellSize: false,
+      pumpWellShape: false,
       pumpingWellSewageVolume: false,
       pumpWellWaterDepth: false,
       pumpWellWaterPipeElevation: false,
@@ -362,6 +1103,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: false,
       divider21: false,
       sewageRegulatingWellVolume: false,
+      sbrAdjustTime: false,
       adjustWellDiameter: false,
       adjustWellWaterDepth: false,
       adjustWellWaterPipeElevation: false,
@@ -447,6 +1189,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: false,
       divider81: false,
       pumpWellSize: false,
+      pumpWellShape: false,
       pumpingWellSewageVolume: false,
       pumpWellWaterDepth: false,
       pumpWellWaterPipeElevation: false,
@@ -501,6 +1244,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: true,
       divider21: true,
       sewageRegulatingWellVolume: true,
+      sbrAdjustTime: true,
       adjustWellDiameter: true,
       adjustWellWaterDepth: true,
       adjustWellWaterPipeElevation: true,
@@ -586,6 +1330,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: false,
       divider81: false,
       pumpWellSize: false,
+      pumpWellShape: false,
       pumpingWellSewageVolume: false,
       pumpWellWaterDepth: false,
       pumpWellWaterPipeElevation: false,
@@ -640,6 +1385,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: false,
       divider21: false,
       sewageRegulatingWellVolume: false,
+      sbrAdjustTime: false,
       adjustWellDiameter: false,
       adjustWellWaterDepth: false,
       adjustWellWaterPipeElevation: false,
@@ -725,6 +1471,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: false,
       divider81: false,
       pumpWellSize: false,
+      pumpWellShape: false,
       pumpingWellSewageVolume: false,
       pumpWellWaterDepth: false,
       pumpWellWaterPipeElevation: false,
@@ -780,6 +1527,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: false,
       divider21: false,
       sewageRegulatingWellVolume: false,
+      sbrAdjustTime: false,
       adjustWellDiameter: false,
       adjustWellWaterDepth: false,
       adjustWellWaterPipeElevation: false,
@@ -865,6 +1613,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: false,
       divider81: false,
       pumpWellSize: false,
+      pumpWellShape: false,
       pumpingWellSewageVolume: false,
       pumpWellWaterDepth: false,
       pumpWellWaterPipeElevation: false,
@@ -907,7 +1656,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       constructedWetland: true,
       liftWaterPointModel: true,
     };
-  } else if (e === 'AFE') {
+  } else if (e === 'AFF') {
     // 9
     ifShowObj = {
       divider10: false,
@@ -920,6 +1669,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: false,
       divider21: false,
       sewageRegulatingWellVolume: false,
+      sbrAdjustTime: false,
       adjustWellDiameter: false,
       adjustWellWaterDepth: false,
       adjustWellWaterPipeElevation: false,
@@ -1005,6 +1755,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: false,
       divider81: false,
       pumpWellSize: false,
+      pumpWellShape: false,
       pumpingWellSewageVolume: false,
       pumpWellWaterDepth: false,
       pumpWellWaterPipeElevation: false,
@@ -1060,6 +1811,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider20: false,
       divider21: false,
       sewageRegulatingWellVolume: false,
+      sbrAdjustTime: false,
       adjustWellDiameter: false,
       adjustWellWaterDepth: false,
       adjustWellWaterPipeElevation: false,
@@ -1145,6 +1897,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider80: true,
       divider81: true,
       pumpWellSize: true,
+      pumpWellShape: true,
       pumpingWellSewageVolume: true,
       pumpWellWaterDepth: true,
       pumpWellWaterPipeElevation: true,
@@ -1227,6 +1980,11 @@ export const chonseTypeEquip = (e, updateSchema) => {
     {
       field: 'sewageRegulatingWellVolume',
       show: ifShowObj.sewageRegulatingWellVolume,
+    },
+    {
+      field: 'sbrAdjustTime',
+      show: ifShowObj.sbrAdjustTime,
+      required: ifShowObj.sbrAdjustTime,
     },
     {
       field: 'adjustWellDiameter',
@@ -1583,6 +2341,11 @@ export const chonseTypeEquip = (e, updateSchema) => {
       required: ifShowObj.pumpWellSize,
     },
     {
+      field: 'pumpWellShape',
+      show: ifShowObj.pumpWellShape,
+      required: ifShowObj.pumpWellShape,
+    },
+    {
       field: 'pumpingWellSewageVolume',
       show: ifShowObj.pumpingWellSewageVolume,
     },
@@ -1751,7 +2514,6 @@ export const chonseTypeEquip = (e, updateSchema) => {
     {
       field: 'anaerobicFilter',
       show: ifShowObj.anaerobicFilter,
-      required: ifShowObj.anaerobicFilter,
     },
     {
       field: 'constructedWetland',

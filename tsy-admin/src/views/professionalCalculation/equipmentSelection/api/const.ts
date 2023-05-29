@@ -1,5 +1,5 @@
 export const technologyTypeOptionsData = {
-  reuse: [
+  GreenReuse: [
     {
       label: 'SBR处理',
       value: 'GreenReuseSBR',
@@ -11,7 +11,7 @@ export const technologyTypeOptionsData = {
       key: '2',
     },
   ],
-  nearbyDischarge: [
+  NearbyDischarge: [
     {
       label: 'SBR处理',
       value: 'NearbyDischargeSBR',
@@ -28,10 +28,10 @@ export const technologyTypeOptionsData = {
       key: '3',
     },
   ],
-  municipalPipeNetwork: [
+  MunicipalPipeNetwork: [
     {
       label: '气浮过滤',
-      value: 'AFE',
+      value: 'AFF',
       key: '1',
     },
     {
@@ -43,21 +43,106 @@ export const technologyTypeOptionsData = {
 };
 export const provincesOptions = [
   {
-    id: 'reuse',
+    id: 'GreenReuse',
     label: '绿化回用',
-    value: 'reuse',
+    value: 'GreenReuse',
     key: '1',
   },
   {
-    id: 'nearbyDischarge',
+    id: 'NearbyDischarge',
     label: '就近排放',
-    value: 'nearbyDischarge',
+    value: 'NearbyDischarge',
     key: '2',
   },
   {
-    id: 'municipalPipeNetwork',
+    id: 'MunicipalPipeNetwork',
     label: '排市政管网',
-    value: 'municipalPipeNetwork',
+    value: 'MunicipalPipeNetwork',
     key: '3',
   },
 ];
+export const diameterOption = [
+  {
+    id: '1',
+    label: '2m',
+    value: '2',
+    key: '1',
+  },
+  {
+    id: '2',
+    label: '3m',
+    value: '3',
+    key: '2',
+  },
+  {
+    id: '3',
+    label: '4m',
+    value: '4',
+    key: '2',
+  },
+  {
+    id: '4',
+    label: '5m',
+    value: '5',
+    key: '2',
+  },
+];
+export const pumpWellShapeOption = [
+  {
+    id: '1',
+    label: '圆形',
+    value: 'circle',
+    key: '1',
+  },
+  {
+    id: '2',
+    label: '矩形',
+    value: 'rectangle',
+    key: '2',
+  },
+];
+export const pumpWellShapeOptionsData = {
+  circle: [
+    {
+      id: '1',
+      label: '2m',
+      value: '2',
+      key: '1',
+    },
+    {
+      id: '2',
+      label: '3m',
+      value: '3',
+      key: '2',
+    },
+    {
+      id: '3',
+      label: '4m',
+      value: '4',
+      key: '2',
+    },
+    {
+      id: '4',
+      label: '5m',
+      value: '5',
+      key: '2',
+    },
+  ],
+  rectangle: [
+    {
+      label: '1.5*2m',
+      value: '3',
+      key: '1',
+    },
+    {
+      label: '2*2.75m',
+      value: '5.5',
+      key: '2',
+    },
+    {
+      label: '2.5*3.5m',
+      value: '8.75',
+      key: '3',
+    },
+  ],
+};

@@ -1,6 +1,12 @@
-import { technologyTypeOptionsData, provincesOptions } from './api/const';
+import {
+  technologyTypeOptionsData,
+  provincesOptions,
+  diameterOption,
+  pumpWellShapeOption,
+  pumpWellShapeOptionsData,
+} from './api/const';
 import { chonseTypeEquip, displayProcess } from './drainageUtil';
-import { EQUIP } from './equipUtil';
+import { EQUIP, transformData1, transformData3 } from './equipUtil';
 import { FormSchema } from '/@/components/Table';
 
 export const formSchemaDrainage: FormSchema[] = [
@@ -107,10 +113,26 @@ export const formSchemaDrainage: FormSchema[] = [
     colProps: { span: 23 },
   },
   {
+    field: 'sbrAdjustTime',
+    label: '调蓄时间',
+    helpMessage: '调节泵井调蓄时间t（h），SBR（间歇式）设备按6h计。',
+    component: 'InputNumberExpand1',
+    defaultValue: 6,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sbrAdjustTime = transformData1(target);
+        },
+      };
+    },
+  },
+  {
     field: 'sewageRegulatingWellVolume',
     label: '泵井有效容积',
-    helpMessage: '污水调节泵井有效容积V1（m3），按停留时间6h计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井有效容积V1（m³），按停留时间6h计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -118,8 +140,13 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'adjustWellDiameter',
     label: '泵井直径',
-    helpMessage: '污水调节泵井直径D1（m），院通用图“肆水（2017）7411”。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井直径D₁（m），院通用图“肆水（2017）7411”。',
+    component: 'Select',
+    componentProps: () => {
+      return {
+        options: diameterOption,
+      };
+    },
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
   },
@@ -127,7 +154,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'adjustWellWaterDepth',
     label: '泵井有效水深',
     helpMessage: '污水调节泵井有效水深（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -135,39 +162,63 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'adjustWellWaterPipeElevation',
     label: '进水管底标高',
     helpMessage: '污水调节泵井进水管底绝对标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.adjustWellWaterPipeElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'adjustWellStopPumpWaterLevel',
     label: '停泵水位',
     helpMessage: '开泵水位在进水管底以下0.2m',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'sbrDesignGroundElevationPumpWell',
     label: '泵井设计地面标高',
-    helpMessage: '调节井设计地面标高h17（m）。',
-    component: 'InputNumberExpand1',
+    helpMessage: '调节井设计地面标高h₁₇（m）。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sbrDesignGroundElevationPumpWell = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'sbrStopPumpWaterLevelInnerHeight',
     label: '停泵水位距内底高',
-    helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m,h18',
-    component: 'InputNumberExpand1',
+    helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m,h₁₈',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sbrStopPumpWaterLevelInnerHeight = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'sbrconcreteThickness',
-    label: '调节井封底混凝土厚度h19（m）',
+    label: '调节井封底混凝土厚度h₁₉（m）',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     show: false,
     dynamicDisabled: false,
@@ -175,8 +226,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'adjustWellDepth',
     label: '泵井高度',
-    helpMessage: '污水调节泵井深度H（m），院通用图“肆水（2017）7411”。按H≥h17+0.3-h3+h18+h19计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井深度H（m），院通用图“肆水（2017）7411”。按H≥h₁₇+0.3-h3+h₁₈+h₁₉计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -189,8 +240,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'adjustWellPumpFlow',
     label: '潜污泵流量',
-    helpMessage: '调节泵井内潜污泵流量(m3/h），按处理设备一周期6h，进水时间为1.5h计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '调节泵井内潜污泵流量(m³/h），按处理设备一周期6h，进水时间为1.5h计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -198,17 +249,33 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'sbrDeviceInletPipeElevation',
     label: '设备进管标高',
     helpMessage: '处理设备进水管绝对标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sbrDeviceInletPipeElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'adjustWellTotalHeadLoss',
     label: '总水头损失',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.adjustWellTotalHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js1',
@@ -220,17 +287,25 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'sewageTreatmentOutflowHead',
     label: '流出水头',
-    helpMessage: '处理设备进水管流出水头h6（m），推荐取2~3。',
-    component: 'InputNumberExpand1',
+    helpMessage: '处理设备进水管流出水头h₆（m），推荐取2~3。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     defaultValue: 2,
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sewageTreatmentOutflowHead = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'adjustWellPumpLift',
     label: '潜污泵扬程',
-    helpMessage: '调节泵井内潜污泵扬程H1（m）。',
-    component: 'InputNumberExpand1',
+    helpMessage: '调节泵井内潜污泵扬程H₁（m）。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -250,20 +325,26 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'sewageTreatmentCapacity',
     label: '处理污水量',
-    helpMessage: '需处理的污水量(m3/d）',
-    component: 'InputNumberExpand1',
+    helpMessage: '需处理的污水量(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sewageTreatmentCapacity = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'sbrDeviceWork',
     label: '设备工作班数',
     helpMessage: 'SBR（间歇式）设备工作班数，默认为3班制。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    // defaultValue: 3,
-
+    defaultValue: 3,
     dynamicDisabled: false,
   },
   {
@@ -272,17 +353,23 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: 'SBR（间歇式）设备每周期工作时间（h），默认为6h。',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    // defaultValue: 6,
-
+    defaultValue: 6,
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sbrCycleWorkTime = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'sbrDeviceSpecs',
     label: '设备处理能力',
-    helpMessage: 'SBR（间歇式）设备需达到的处理规模Q1(m3/h）',
+    helpMessage: 'SBR（间歇式）设备需达到的处理规模Q₁(m³/h）',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-
     dynamicDisabled: true,
   },
   {
@@ -312,12 +399,20 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.adjustTime = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrSewageRegulatingWellVolume',
     label: '泵井有效容积',
-    helpMessage: '污水调节泵井有效容积V（m3），按停留时间4~6h计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井有效容积V（m³），按停留时间4~6h计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -325,15 +420,20 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'mbrAdjustWellDiameter',
     label: '泵井直径',
     helpMessage: '污水调节泵井直径D，院通用图“肆水（2017）7411”。',
-    component: 'InputNumberExpand1',
+    component: 'Select',
+    componentProps: () => {
+      return {
+        options: diameterOption,
+      };
+    },
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
   },
   {
     field: 'mbrAdjustWellWaterDepth',
     label: '泵井有效水深',
-    helpMessage: '污水调节泵井有效水深（m），按V/（3.14*(D1/2)^2）≤h1≤2.0m计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井有效水深（m），按V/（3.14*(D₁/2)^2）≤h1≤2.0m计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -341,22 +441,30 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'mbrAdjustWellWaterPipeElevation',
     label: '进水管底标高',
     helpMessage: '污水调节泵井进水管底绝对标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.adjustTime = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrAdjustWellStopPumpWaterLevel',
     label: '停泵水位',
     helpMessage: '开泵水位在进水管底以下0.2m',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'mbrDesignGroundElevationPumpWell',
     label: '泵井设计地面标高',
-    helpMessage: '抽升泵井设计地面标高h7（m）。',
+    helpMessage: '抽升泵井设计地面标高h₇（m）。',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
@@ -364,14 +472,22 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'mbrStopPumpWaterLevelInnerHeight',
     label: '停泵水位距内底高',
-    helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m，h8',
+    helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m，h₈',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.mbrStopPumpWaterLevelInnerHeight = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrconcreteThickness',
-    label: '调节井封底混凝土厚度h9（m）',
+    label: '调节井封底混凝土厚度h₉（m）',
     helpMessage: '',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -381,8 +497,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'mbrLiftWellHeight',
     label: '泵井高度',
-    helpMessage: '污水调节泵井深度H（m），院通用图“肆水（2017）7411”。按H1≥h7+0.3-h3+h8+h9计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井深度H（m），院通用图“肆水（2017）7411”。按H₁≥h₇+0.3-h3+h₈+h₉计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -397,26 +513,42 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'mbrAdjustWellPumpFlow',
     label: '潜污泵流量',
-    helpMessage: '调节泵井内潜污泵流量(m3/h），按处理设备进水流量计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '调节泵井内潜污泵流量(m³/h），按处理设备进水流量计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'mbrDeviceInletPipeElevation',
     label: '设备进管标高',
-    helpMessage: '处理设备进水管绝对标高（m），h4。',
-    component: 'InputNumberExpand1',
+    helpMessage: '处理设备进水管绝对标高（m），h₄。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.mbrDeviceInletPipeElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrTotalHeadLoss',
     label: '总水头损失',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.mbrTotalHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js4',
@@ -428,16 +560,24 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'mbrDeviceOutflowHead',
     label: '流出水头',
-    helpMessage: '处理设备进水管流出水头h6（m），推荐取2~3。',
-    component: 'InputNumberExpand1',
+    helpMessage: '处理设备进水管流出水头h₆（m），推荐取2~3。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.mbrDeviceOutflowHead = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrPumpLift',
     label: '潜污泵扬程',
     helpMessage: '调节泵井内潜污泵扬程（m）。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -459,16 +599,24 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'mbrSewageTreatmentCapacity',
     label: '处理污水量',
-    helpMessage: '需处理的污水量(m3/d）',
-    component: 'InputNumberExpand1',
+    helpMessage: '需处理的污水量(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.mbrSewageTreatmentCapacity = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrDeviceSpecs',
     label: '设备处理能力',
-    helpMessage: 'MBR设备需达到的处理规模Q1(m3/h），按Q1≥W/24计。',
-    component: 'InputNumberExpand1',
+    helpMessage: 'MBR设备需达到的处理规模Q₁(m³/h），按Q₁≥W/24计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -497,7 +645,12 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'pumpingWellDiameter',
     label: '泵井直径',
     helpMessage: '污水抽升泵井直径D2（m），院通用图“肆水（2017）7411”。',
-    component: 'InputNumberExpand1',
+    component: 'Select',
+    componentProps: () => {
+      return {
+        options: diameterOption,
+      };
+    },
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
   },
@@ -508,11 +661,19 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sewageStopTime = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'pumpingWellVolume',
     label: '泵井有效容积',
-    helpMessage: '污水抽升泵井有效容积V2（m3），按停留时间0.5~1h计。',
+    helpMessage: '污水抽升泵井有效容积V₂（m³），按停留时间0.5~1h计。',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -520,8 +681,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'pumpingWellWaterDepth',
     label: '泵井有效水深',
-    helpMessage: '污水抽升泵井有效水深（m），按V2/（3.14*(D2/2)^2）≤h7计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水抽升泵井有效水深（m），按V₂/（3.14*(D2/2)^2）≤h₇计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -530,37 +691,61 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'pumpingWellWaterPipeElevation',
     label: '进水管底标高',
     helpMessage: '污水抽升泵井进水管底绝对标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pumpingWellWaterPipeElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pumpingWellStopPumpWaterLevel',
     label: '停泵水位',
     helpMessage: '开泵水位在进水管底以下0.2m',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'pwDesignGroundElevationPumpWell',
     label: '泵井设计地面标高',
-    helpMessage: '抽升井设计地面标高h20（m）。',
-    component: 'InputNumberExpand1',
+    helpMessage: '抽升井设计地面标高h₂₀（m）。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pwDesignGroundElevationPumpWell = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pwStopPumpWaterLevelInnerHeight',
     label: '停泵水位距内底高',
-    helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m，h21',
-    component: 'InputNumberExpand1',
+    helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m，h₂₁',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pwStopPumpWaterLevelInnerHeight = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pwconcreteThickness',
-    label: '调节井封底混凝土厚度h19（m）',
+    label: '调节井封底混凝土厚度h₁₉（m）',
     helpMessage: '',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -570,8 +755,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'pwLiftWellHeight',
     label: '泵井高度',
-    helpMessage: '污水调节泵井深度H（m），院通用图“肆水（2017）7411”。按H≥h20+0.3-h9+h21+h22计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '污水调节泵井深度H（m），院通用图“肆水（2017）7411”。按H≥h₂₀+0.3-h₉+h₂₁+h₂₂计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -585,26 +770,43 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'pumpingWellPumpFlow',
     label: '潜污泵流量',
-    helpMessage: '抽升泵井内潜污泵流量(m3/h），按处理设备出水流量计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '抽升泵井内潜污泵流量(m³/h），按处理设备出水流量计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'filterWaterInletPressure',
     label: '过滤器进水压力',
+    defaultValue: 5,
     helpMessage: '过滤器进水压力（m水头），默认为5m。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.filterWaterInletPressure = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pumpingWellTotalHeadLoss',
     label: '总水头损失',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pumpingWellTotalHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js2',
@@ -615,25 +817,41 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'filterWaterInletElevation',
-    label: '过滤器进管管标高',
+    label: '进水管标高',
     helpMessage: '过滤器进水管标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.filterWaterInletElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'sewageExcessHead',
     label: '富裕水头',
-    helpMessage: '抽升泵井出水管流出水头h12（m），推荐取2~3。',
-    component: 'InputNumberExpand1',
+    helpMessage: '抽升泵井出水管流出水头h₁₂（m），推荐取2~3。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sewageExcessHead = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pumpingWellPumpLift',
     label: '潜污泵扬程',
-    helpMessage: '抽升泵井潜污泵扬程H2（m）。',
-    component: 'InputNumberExpand1',
+    helpMessage: '抽升泵井潜污泵扬程H₂（m）。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -654,8 +872,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'filterSpecs',
     label: '过滤器规格',
-    helpMessage: '过滤器规格Q4(m3/h），按污水抽升井潜污泵流量Q3计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '过滤器规格Q₄(m³/h），按污水抽升井潜污泵流量Q3计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -674,16 +892,24 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'makeGreenSprinklingWater',
     label: '绿化浇洒用水量',
-    helpMessage: '每日绿化及浇洒用水量(m3/d），根据道路及绿化面积确定，详用水量计算',
-    component: 'InputNumberExpand1',
+    helpMessage: '每日绿化及浇洒用水量(m³/d），根据道路及绿化面积确定，详用水量计算',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.makeGreenSprinklingWater = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'reuseWaterTankVolume',
     label: '水池有效容积',
-    helpMessage: '回用水池（箱）或回用井有效容积（m3），按每日浇洒2次储存',
-    component: 'InputNumberExpand1',
+    helpMessage: '回用水池（箱）或回用井有效容积（m³），按每日浇洒2次储存',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -701,22 +927,46 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sprinklerFlowRate = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'reusePumpFlow',
     label: '回用泵流量',
-    helpMessage: '回用泵流量Q5(m3/h），按同时开启4个栓计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '回用泵流量Q5(m³/h），按同时开启4个栓计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicDisabled: false,
+    dynamicDisabled: true,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.reusePumpFlow = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'makeGreenTotalHeadLoss',
     label: '总水头损失',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.makeGreenTotalHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js3',
@@ -728,40 +978,73 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'sprinklerWorkPressure',
     label: '洒水栓工作压力',
+    defaultValue: 10,
     helpMessage: '洒水栓工作压力（m水头)，默认为10m。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.sprinklerWorkPressure = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'dullSprinklerGroundLevel',
     label: '洒水栓地面标高',
-    helpMessage: '最不利点洒水栓地面标高（m），h14。',
-    component: 'InputNumberExpand1',
+    helpMessage: '最不利点洒水栓地面标高（m），h₁₄。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.dullSprinklerGroundLevel = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'reuseWaterTankStopPumpWaterLevel',
     label: '停泵水位',
     helpMessage: '回用水池（箱）或回用井停泵水位，h15。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.reuseWaterTankStopPumpWaterLevel = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'reusePumpOutflowHead',
     label: '流出水头',
     helpMessage: '最不利点洒水栓流出水头h16（m），推荐取2~3。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.reusePumpOutflowHead = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'reusePumpLift',
     label: '回用泵扬程',
-    helpMessage: '回用泵扬程H3（m）。',
-    component: 'InputNumberExpand1',
+    helpMessage: '回用泵扬程H₃（m）。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -774,10 +1057,18 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'ultravioletDisinfection',
     label: '消毒设备规模',
-    helpMessage: '紫外线消毒设备流量Q6（m3/h）',
-    component: 'InputNumberExpand1',
+    helpMessage: '紫外线消毒设备流量Q₆（m³/h）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.ultravioletDisinfection = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'reuseWaterTankModel',
@@ -799,6 +1090,39 @@ export const formSchemaDrainage: FormSchema[] = [
     colProps: { span: 23 },
   },
   {
+    field: 'pumpWellShape',
+    label: '泵井形状',
+    helpMessage: '圆形、矩形',
+    component: 'Select',
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        options: pumpWellShapeOption,
+        placeholder: '请选择',
+        onChange: (e: any) => {
+          let pumpWellSizeOptions = pumpWellShapeOptionsData[e];
+          const { updateSchema } = formActionType;
+          let mes = '请选择';
+          if (e === undefined) {
+            pumpWellSizeOptions = [];
+            mes = '请先选《泵井形状》';
+          }
+          formModel.pumpWellSize = undefined;
+          updateSchema({
+            field: 'pumpWellSize',
+            componentProps: () => {
+              return {
+                options: pumpWellSizeOptions,
+                placeholder: mes,
+              };
+            },
+          });
+        },
+      };
+    },
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    dynamicDisabled: false,
+  },
+  {
     field: 'pumpWellSize',
     label: '泵井直径',
     helpMessage: [
@@ -806,7 +1130,13 @@ export const formSchemaDrainage: FormSchema[] = [
       '圆形井采用院通用图“肆水（2017）7411”；',
       '矩形井采用国标图集08S305',
     ],
-    component: 'InputNumberExpand1',
+    component: 'Select',
+    componentProps: () => {
+      return {
+        options: [],
+        placeholder: '请先选《泵井形状》',
+      };
+    },
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
   },
@@ -814,7 +1144,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'pumpingWellSewageVolume',
     label: '泵井有效容积',
     helpMessage: '按地铁设计规范，单泵15~20min储水量',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -822,7 +1152,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'pumpWellWaterDepth',
     label: '泵井有效水深',
     helpMessage: '污水抽升泵井有效水深（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -830,37 +1160,61 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'pumpWellWaterPipeElevation',
     label: '进水管底标高',
     helpMessage: '污水抽升泵井进水管底绝对标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pumpWellWaterPipeElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pumpWellStopPumpWaterLevel',
     label: '停泵水位',
     helpMessage: '开泵水位在进水管底以下0.2m',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'swpDesignGroundElevationPumpWell',
     label: '泵井设计地面标高',
-    helpMessage: '抽升泵井设计地面标高h2（m）。',
+    helpMessage: '抽升泵井设计地面标高h₂（m）。',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.swpDesignGroundElevationPumpWell = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'swpStopPumpWaterLevelInnerHeight',
     label: '停泵水位距内底高',
-    helpMessage: '按水泵参数选取，需加上水泵基础高度,基础高度圆形井为0.3m，矩形井为0.1m ，h8',
-    component: 'InputNumberExpand1',
+    helpMessage: '按水泵参数选取，需加上水泵基础高度,基础高度圆形井为0.3m，矩形井为0.1m ，h₈',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.swpStopPumpWaterLevelInnerHeight = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'swpconcreteThickness',
-    label: '调节井封底混凝土厚度h9（m）',
+    label: '调节井封底混凝土厚度h₉（m）',
     helpMessage: '',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -871,10 +1225,10 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'swpLiftWellHeight',
     label: '泵井高度',
     helpMessage:
-      '圆形井：污水调节泵井深度H1（m），院通用图“肆水（2017）7411”。按H1≥h2+0.3-h5+h8+h9计。矩形井：污水调节泵井深度H1（m），国标图“08S305”。按H1≥h2-h5+h8计。',
-    component: 'InputNumberExpand1',
+      '圆形井：污水调节泵井深度H₁（m），院通用图“肆水（2017）7411”。按H₁≥h₂+0.3-h5+h₈+h₉计。矩形井：污水调节泵井深度H₁（m），国标图“08S305”。按H₁≥h₂-h5+h₈计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicDisabled: false,
+    dynamicDisabled: true,
   },
   {
     label: '◆ 潜污泵组计算',
@@ -884,27 +1238,51 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'pumpingWellSewageMeasure',
-    label: '抽升井污水量(m3/d）',
-    helpMessage: '',
-    component: 'InputNumberExpand1',
+    label: '抽升井污水量',
+    helpMessage: '抽升井污水量(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pumpingWellSewageMeasure = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'submersibleSewagePumpFlow',
     label: '潜污泵流量',
     helpMessage: '变化系数参《室外排水设计标准》表4.1.15',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.submersibleSewagePumpFlow = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'pumpWellTotalHeadLoss',
     label: '总水头损失',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pumpWellTotalHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js5',
@@ -916,33 +1294,57 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'pumpWellDesignGround',
     label: '设计地面标高',
-    helpMessage: '',
+    helpMessage: '设计地面标高',
     show: false,
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.pumpWellDesignGround = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'liftingPipeHighestPoint',
     label: '最不利点标高',
     helpMessage: '压力管终点地面标高或扬水管最高点处绝对标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.liftingPipeHighestPoint = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'spwOutflowHead',
     label: '流出水头（m）',
-    helpMessage: '',
-    component: 'InputNumberExpand1',
+    helpMessage: '处理设备进水管流出水头h₇（m），推荐取2~3。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.spwOutflowHead = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'spwPumpLift',
-    label: '潜污泵扬程（m）',
-    helpMessage: '',
-    component: 'InputNumberExpand1',
+    label: '潜污泵扬程',
+    helpMessage: '污水抽升泵井内潜污泵扬程（m）。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -969,10 +1371,18 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'amountOilyWastewater',
     label: '处理污水量',
-    helpMessage: '需处理的含油污水量(m3/d）',
-    component: 'InputNumberExpand1',
+    helpMessage: '需处理的含油污水量(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.amountOilyWastewater = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'workTime',
@@ -981,6 +1391,14 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.workTime = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'settlingTankStopTime',
@@ -989,12 +1407,20 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.settlingTankStopTime = transformData1(target);
+        },
+      };
+    },
   },
   {
     field: 'settlingTankVolume',
     label: '调沉池容积',
-    helpMessage: '调沉池计算容积（m3），按V≥W*t/T计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '调沉池计算容积（m³），按V≥W*t/T计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -1007,8 +1433,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'iaffDeviceSpecs',
     label: '设备处理能力',
-    helpMessage: '所需一体化气浮过滤设备处理能力Q1（m3/h），按Q1≥W/T计。',
-    component: 'InputNumberExpand1',
+    helpMessage: '所需一体化气浮过滤设备处理能力Q₁（m³/h），按Q₁≥W/T计。',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -1016,8 +1442,8 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'inletSubmersibleSewagePumpFlow',
     label: '潜污泵流量',
-    helpMessage: '进水潜污泵（调沉池内）流量Q2（m3/h）',
-    component: 'InputNumberExpand1',
+    helpMessage: '进水潜污泵（调沉池内）流量Q2（m³/h）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
@@ -1025,9 +1451,17 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'iaffTotalHeadLoss',
     label: '总水头损失',
     helpMessage: '',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER_JS },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.iaffTotalHeadLoss = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'js6',
@@ -1040,43 +1474,83 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'iaffWaterPipeElevation',
     label: '设备进水管标高',
     helpMessage: '气浮过滤设备进水管标高（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.iaffWaterPipeElevation = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'iaffWaterInletPressure',
     label: '设备进水压力',
     helpMessage: '气浮过滤设备进水压力（m水头），默认为5m。',
     defaultValue: 5,
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.iaffWaterInletPressure = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'iaffStopPumpWaterLevel',
     label: '停泵水位',
     helpMessage: '潜污泵可设在调沉池内',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.iaffStopPumpWaterLevel = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'iaffExcessHead',
     label: '富裕水头',
-    helpMessage: '处理设备进水管流出水头h6（m），推荐取2~3。',
+    helpMessage: '处理设备进水管流出水头h₆（m），推荐取2~3。',
     defaultValue: 2,
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.iaffExcessHead = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'spwInletPumpLift',
     label: '潜污泵扬程',
     helpMessage: '进水潜污泵扬程（m）',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.spwInletPumpLift = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'sedimentationIAFFModel',
@@ -1094,24 +1568,32 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'liftSewageTreatmentCapacity',
     label: '处理污水量',
-    helpMessage: '需处理的污水量(m3/d）',
-    component: 'InputNumberExpand1',
+    helpMessage: '需处理的污水量(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.liftSewageTreatmentCapacity = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'anaerobicFilter',
     label: '厌氧滤池处理能力',
-    helpMessage: '需厌氧滤池达到的处理能力Q1(m3/d）',
-    component: 'InputNumberExpand1',
+    helpMessage: '需厌氧滤池达到的处理能力Q₁(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicDisabled: false,
+    dynamicDisabled: true,
   },
   {
     field: 'constructedWetland',
     label: '人工湿地处理能力',
-    helpMessage: '需人工湿地达到的处理能力Q2(m3/d）',
-    component: 'InputNumberExpand1',
+    helpMessage: '需人工湿地达到的处理能力Q2(m³/d）',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },

@@ -6,6 +6,7 @@ export const EQUIP = {
   WIDTH_TEXT_AREA: 19,
   WIDTH_LABEL_WIDTH: 250,
   WIDTH_NUMBER_JS: 5,
+  DURATION: 3,
 };
 export const EQUIP_TYPE = {
   LARGE_STATION: ['01', '07'],
@@ -419,7 +420,7 @@ export const saveEquip = (value) => {
   return value;
 };
 
-export const saveDisplay = (updateSchema, setFieldsValue, res) => {
+export const saveDisplay = (setFieldsValue, res) => {
   setFieldsValue({ ...res });
 };
 

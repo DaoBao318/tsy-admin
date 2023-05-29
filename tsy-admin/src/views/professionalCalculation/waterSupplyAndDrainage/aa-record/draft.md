@@ -241,7 +241,6 @@ lifedrainMaxWaterDtoList 删除掉
   window.screen.width
 
         window.οnresize = function () {
-        debugger;
         console.log(window.screen.width + '-------------------------');
       };
       stylePadding

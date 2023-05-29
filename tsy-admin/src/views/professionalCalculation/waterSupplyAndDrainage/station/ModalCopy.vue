@@ -42,7 +42,6 @@
       });
       async function okHandle() {
         const values = await validate();
-        debugger;
         const { stationID, projectID, stationName } = values;
         copyStation({ stationID, projectID, stationName }).then((res) => {
           if (res.success) {

@@ -125,7 +125,6 @@ div.geipaishui
       let store = waterSourceStore();
       window.queryParams = getRouterQuery();
       let projectFlag = ref(true);
-      debugger;
       if (window.queryParams.isSynchro === '1') {
         projectFlag.value = false;
       }

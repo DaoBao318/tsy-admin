@@ -239,10 +239,25 @@ SWPConcreteThickness				调节井封底混凝土厚度h9（m）
 SWPLiftWellHeight					抽升井高度H1（m）
 
 
+    field: 'sbrDeviceSpecs',
+    label: '设备处理能力',
+
+        field: 'adjustWellDiameter',
+    label: '泵井直径',
+
+        field: 'adjustWellWaterDepth',
+    label: '泵井有效水深',
+
+        field: 'adjustWellStopPumpWaterLevel',
+    label: '停泵水位',
+
+        field: 'adjustWellDepth',
+    label: '泵井高度',
+        field: 'adjustWellPumpFlow',
+    label: '潜污泵流量',
+
+        field: 'adjustWellPumpLift',
+    label: '潜污泵扬程',
 
 
-iaffWaterInletPressure  9
-
-iaffWaterPipeElevation  9 
-
-makeGreenSprinklingWater 5
+    mbrAdjustWellPumpFlow

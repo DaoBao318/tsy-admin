@@ -4,7 +4,7 @@ import { waterSourceStore } from '/@/store/modules/waterInfo';
 import { transBlobExcel } from '../../pipelineCalculation/utils';
 const store = waterSourceStore();
 enum Api {
-  exportEquipWord = '/api/ZYJSWaterCompute/DeviceCreateExcelFrom', //导出车站信息
+  exportEquipWord = '/api/ZYJSWaterCompute/WaterSupplyDrainageExcelFrom', //导出车站信息
 
   getProjectInformation = '/api/Project/GetProjectList', //获取项目信息
   getModelSelectTypeList = '/api/ZYJSWaterCompute/GetModelSelectTypeList', //获取项目信息
@@ -12,6 +12,7 @@ enum Api {
   getStationDeviceSelectionEdit = '/api/ZYJSWaterCompute/GetStationDeviceSelectionEdit', //编辑页面初始化
   saveStationDeviceSelectionEdit = '/api/ZYJSWaterCompute/SaveStationDeviceSelectionEdit', //设备选型保存接口
   getStationDeviceSelectionDrainageEdit = '/api/ZYJSWaterCompute/GetStationDeviceSelectionDrainageEdit', //获取排水详情
+  saveStationDeviceSelectionDrainageEdit = '/api/ZYJSWaterCompute/SaveStationDeviceSelectionDrainageEdit', //设备选型排水保存接口
 }
 
 // other api url
@@ -70,7 +71,7 @@ export const getStationDeviceSelectionEdit = (params) => {
   });
 };
 
-//保存设备页面
+//保存给水设备设施选型
 export const saveEquipment = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.saveStationDeviceSelectionEdit, params }).then((res) => {
@@ -83,6 +84,15 @@ export const saveEquipment = (params) => {
 export const getStationDeviceSelectionDrainageEdit = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.getStationDeviceSelectionDrainageEdit, params }).then((res) => {
+      resolve(res);
+    });
+  });
+};
+
+//保存排水设备设施选型
+export const saveEquipmentDrainage = (params) => {
+  return new Promise((resolve) => {
+    defHttp.post({ url: Api.saveStationDeviceSelectionDrainageEdit, params }).then((res) => {
       resolve(res);
     });
   });

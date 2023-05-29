@@ -108,7 +108,11 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { getStationDeviceSelectionDrainageEdit, saveEquipment } from './api/http';
+  import {
+    getStationDeviceSelectionDrainageEdit,
+    saveEquipment,
+    saveEquipmentDrainage,
+  } from './api/http';
 
   import {
     calculateEquip,
@@ -120,7 +124,15 @@
   import { keepTwoDecimalFull } from '/@/utils/calculation/count';
   import { EQUIP_TYPE } from './equipUtil';
   import { formSchemaDrainage } from './drainage.data';
-  import { caculateDrainage, chonseTypeEquip, initDrainage } from './drainageUtil';
+  import {
+    caculateDrainage,
+    chonseTypeEquip,
+    dealSaveDataDrainage,
+    displayProcess,
+    initDrainage,
+    nc,
+    saveDisplayDrainage,
+  } from './drainageUtil';
 
   export default defineComponent({
     name: 'EquipDrawer',
@@ -190,7 +202,6 @@
           validate: validateDrainage,
           validateFields: validateFieldsDrainage,
           updateSchema: updateSchemaDrainage,
-          getFieldsValue: getFieldsValueDrainage,
         },
       ] = useForm({
         labelWidth: 150,
@@ -221,20 +232,25 @@
         setDrawerProps({ confirmLoading: false });
         initializeAssignmentStructure(setFieldsValue, updateSchema, data.record);
         clearValidate();
-        // 初始化赋值排水
-        // resetFieldsDrainage();
-        // 请求数据的回调中
       });
       watch(
         () => activeKey.value,
         (newValue) => {
           if (newValue === '2') {
             setTimeout(() => {
-              let e = getFieldsValueDrainage().technologyType;
-              chonseTypeEquip(e, updateSchemaDrainage);
               const { projectID, stationID } = basicData;
+              // 初始化赋值排水
+              // resetFieldsDrainage();
+              // 请求数据的回调中
               getStationDeviceSelectionDrainageEdit({ projectID, stationID }).then((res) => {
-                initDrainage(setFieldsValueDrainage, { res });
+                initDrainage(updateSchemaDrainage, setFieldsValueDrainage, { res });
+                let technologyType = 'GreenReuseSBR';
+                if (!!res.technologyType) {
+                  technologyType = res.technologyType;
+                }
+                chonseTypeEquip(technologyType, updateSchemaDrainage);
+                displayProcess(technologyType, updateSchemaDrainage);
+
                 clearValidateDrainage();
               });
             }, 0);
@@ -255,8 +271,8 @@
             delete data.modelSelectType1;
             delete data.modelSelectType2;
             saveEquipment(data).then((res) => {
-              saveDisplay(updateSchema, setFieldsValue, res);
-              message.success('设备选型数据保存成功');
+              saveDisplay(setFieldsValue, res);
+              message.success('给水设备选型数据保存成功');
               // closeDrawer();
             });
           } finally {
@@ -266,9 +282,17 @@
           //计算排水保存
           const values = await validateDrainage();
           caculateDrainage(values, setFieldsValueDrainage);
+          const newValues = await validateDrainage();
+          const data = dealSaveDataDrainage(newValues);
+          saveEquipmentDrainage(data).then((res) => {
+            saveDisplayDrainage(setFieldsValueDrainage, res);
+            message.success('排水设备选型数据保存成功');
+            // closeDrawer();
+          });
         }
       }
       async function handleClose() {
+        activeKey.value = '1';
         emit('success');
         return;
       }
@@ -390,15 +414,14 @@
               type: 'type3',
             });
           } catch (e) {
-            message.warn('请填写《处理污水量》');
+            message.warn('请填写《洒水栓流量》');
           }
         } else if (type === 'type4') {
           //处理污水量
           try {
-            const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
-            const { sewageTreatmentCapacity } = values;
-            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-            setFieldsValueDrainage({ mbrAdjustWellPumpFlow });
+            const values = await validateFieldsDrainage(['mbrSewageTreatmentCapacity']);
+            const { mbrSewageTreatmentCapacity } = values;
+            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(mbrSewageTreatmentCapacity / 24, 3);
             openModalCount(true, {
               rateOfFlow: mbrAdjustWellPumpFlow,
               type: 'type4',
@@ -409,30 +432,40 @@
         } else if (type === 'type5') {
           //处理污水量
           try {
-            const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
-            const { sewageTreatmentCapacity } = values;
-            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-            setFieldsValueDrainage({ mbrAdjustWellPumpFlow });
+            const values = await validateFieldsDrainage(['pumpingWellSewageMeasure']);
+            const { pumpingWellSewageMeasure } = values;
+            const coefficientOfVariation = nc(
+              keepTwoDecimalFull(pumpingWellSewageMeasure / 24 / 3.6, 1),
+            ); // 变化系数
+            const submersibleSewagePumpFlow = keepTwoDecimalFull(
+              (pumpingWellSewageMeasure * coefficientOfVariation) / 24,
+              3,
+            );
+
+            setFieldsValueDrainage({ submersibleSewagePumpFlow });
             openModalCount(true, {
-              rateOfFlow: mbrAdjustWellPumpFlow,
+              rateOfFlow: submersibleSewagePumpFlow,
               type: 'type5',
             });
           } catch (e) {
-            message.warn('请填写《处理污水量》');
+            message.warn('请填写《抽升井污水量》');
           }
         } else if (type === 'type6') {
           //处理污水量
           try {
-            const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
-            const { sewageTreatmentCapacity } = values;
-            const mbrAdjustWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-            setFieldsValueDrainage({ mbrAdjustWellPumpFlow });
+            const values = await validateFieldsDrainage(['amountOilyWastewater', 'workTime']);
+            const { amountOilyWastewater, workTime } = values;
+            const inletSubmersibleSewagePumpFlow = keepTwoDecimalFull(
+              amountOilyWastewater / workTime,
+              3,
+            );
+            setFieldsValueDrainage({ inletSubmersibleSewagePumpFlow });
             openModalCount(true, {
-              rateOfFlow: mbrAdjustWellPumpFlow,
+              rateOfFlow: inletSubmersibleSewagePumpFlow,
               type: 'type6',
             });
           } catch (e) {
-            message.warn('请填写《处理污水量》');
+            message.warn('请填写《处理污水量》或者《设备工作小时》');
           }
         }
       }

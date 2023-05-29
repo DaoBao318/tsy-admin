@@ -51,7 +51,6 @@
       const getTitle = computed(() => (!unref(isUpdate) ? '新增管道压力计算' : '编辑管道压力计算'));
       let dataPressure = {};
       async function handleSubmit() {
-        debugger;
         try {
           const values = await validate();
           setDrawerProps({ confirmLoading: true });

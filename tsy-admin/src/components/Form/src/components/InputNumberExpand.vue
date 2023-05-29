@@ -1,5 +1,5 @@
 <template>
-  <a-input-number v-model:value="value" style="width: 100%" :step="0.1" string-mode />
+  <a-input-number v-model:value="value" style="width: 100%" :step="1" string-mode />
 </template>
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
