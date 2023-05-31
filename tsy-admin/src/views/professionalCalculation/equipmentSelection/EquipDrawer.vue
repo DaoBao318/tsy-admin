@@ -101,13 +101,15 @@
         </div></a-tab-pane
       >
     </a-tabs>
+    <Loading :loading="loading" :absolute="true" tip="正在计算" />
   </BasicDrawer>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onBeforeUnmount, nextTick, onMounted, watch } from 'vue';
+  import { defineComponent, ref, onBeforeUnmount, nextTick, onMounted, watch, computed } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './equip.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { Loading } from '/@/components/Loading';
   import {
     getStationDeviceSelectionDrainageEdit,
     saveEquipment,
@@ -133,12 +135,17 @@
     nc,
     saveDisplayDrainage,
   } from './drainageUtil';
+  import { waterSourceStore } from '/@/store/modules/waterInfo';
 
   export default defineComponent({
     name: 'EquipDrawer',
-    components: { BasicDrawer, BasicForm },
+    components: { BasicDrawer, BasicForm, Loading },
     emits: ['success', 'register', 'totalHead'],
     setup(_, { emit }) {
+      const store = waterSourceStore();
+      const loading = computed(() => {
+        return store.waterSupplyAndDrainageDetailsLoadingGetter;
+      });
       const activeKey = ref('1');
       const stylePaddingDrawer = ref();
       // const drawerSetInterval = setInterval(() => {
@@ -258,21 +265,25 @@
         },
         { immediate: true },
       );
-
       async function handleSubmit() {
         if (activeKey.value === '1') {
           try {
             const values = await validate();
             values.stationType = basicData.stationType;
-            calculateEquip(values, setFieldsValue);
+            const flag = calculateEquip(values, setFieldsValue);
+            if (flag) {
+              return;
+            }
             const newValues = await validate();
             const data = Object.assign(newValues, basicData);
             delete data.activeChlorineMes;
             delete data.modelSelectType1;
             delete data.modelSelectType2;
+            store.waterSupplyAndDrainageDetailsLoadingAction(true);
             saveEquipment(data).then((res) => {
               saveDisplay(setFieldsValue, res);
               message.success('给水设备选型数据保存成功');
+              store.waterSupplyAndDrainageDetailsLoadingAction(false);
               // closeDrawer();
             });
           } finally {
@@ -280,15 +291,21 @@
           }
         } else {
           //计算排水保存
-          const values = await validateDrainage();
-          caculateDrainage(values, setFieldsValueDrainage);
-          const newValues = await validateDrainage();
-          const data = dealSaveDataDrainage(newValues);
-          saveEquipmentDrainage(data).then((res) => {
-            saveDisplayDrainage(setFieldsValueDrainage, res);
-            message.success('排水设备选型数据保存成功');
-            // closeDrawer();
-          });
+          try {
+            const values = await validateDrainage();
+            caculateDrainage(values, setFieldsValueDrainage);
+            const newValues = await validateDrainage();
+            const data = dealSaveDataDrainage(newValues);
+            store.waterSupplyAndDrainageDetailsLoadingAction(true);
+            saveEquipmentDrainage(data).then((res) => {
+              saveDisplayDrainage(setFieldsValueDrainage, res);
+              store.waterSupplyAndDrainageDetailsLoadingAction(false);
+              message.success('排水设备选型数据保存成功');
+              // closeDrawer();
+            });
+          } finally {
+            setDrawerProps({ confirmLoading: false });
+          }
         }
       }
       async function handleClose() {
@@ -479,6 +496,7 @@
         stylePaddingDrawer,
         activeKey,
         registerFormDrainage,
+        loading,
       };
     },
   });

@@ -28,7 +28,6 @@
 
   import { columnsStation, searchFormSchemaStation } from '../equip.data';
   import { exportEquipWord, getEquitment, getStationDeviceSelectionEdit } from '../api/http';
-  import { waterSourceStore } from '/@/store/modules/waterInfo';
   import { message } from 'ant-design-vue';
   import ModalCount from '../totalHeadLoss/ModalCount.vue';
   import { useModal } from '/@/components/Modal';
@@ -39,7 +38,6 @@
     name: 'EquipmentSelectionStation',
     components: { BasicTable, EquipDrawer, TableAction, ModalCount },
     setup() {
-      let store = waterSourceStore();
       const [registerCount, { openModal: openModalCount }] = useModal();
 
       const [registerDrawer, { openDrawer }] = useDrawer();
@@ -155,7 +153,6 @@
             icon: 'mdi:export',
             tooltip: '导出',
             onClick: () => {
-              let params = {};
               exportEquipWord({
                 projectID,
                 stationidList: stationID + '',
@@ -168,21 +165,37 @@
       const transformValue = ref('');
       function countValue(value) {
         if (value.type === 'voltageStabilization') {
-          setFieldsValueFlag({ vfpBadWayHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueFlag({ vfpBadWayHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'fireFighting') {
-          setFieldsValueFlag({ firePumpBadWayHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueFlag({ firePumpBadWayHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'type1') {
-          setFieldsValueDrainageFlag({ adjustWellTotalHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueDrainageFlag({ adjustWellTotalHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'type2') {
-          setFieldsValueDrainageFlag({ pumpingWellTotalHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueDrainageFlag({ pumpingWellTotalHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'type3') {
-          setFieldsValueDrainageFlag({ makeGreenTotalHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueDrainageFlag({ makeGreenTotalHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'type4') {
-          setFieldsValueDrainageFlag({ mbrTotalHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueDrainageFlag({ mbrTotalHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'type5') {
-          setFieldsValueDrainageFlag({ pumpWellTotalHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueDrainageFlag({ pumpWellTotalHeadLoss: value.hydraulicLossResult });
+          }
         } else if (value.type === 'type6') {
-          setFieldsValueDrainageFlag({ iaffTotalHeadLoss: value.hydraulicLossResult });
+          if (!!value.hydraulicLossResult) {
+            setFieldsValueDrainageFlag({ iaffTotalHeadLoss: value.hydraulicLossResult });
+          }
         }
       }
       const go = useGo();

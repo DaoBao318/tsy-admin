@@ -10,7 +10,9 @@
     @close="handleCancel"
     @ok="handleSubmit"
   >
-    <BasicForm @register="registerForm" />
+    <dir :class="stylePaddingDrawer">
+      <BasicForm @register="registerForm" />
+    </dir>
   </BasicDrawer>
 </template>
 <script lang="ts">
@@ -27,11 +29,11 @@
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const [registerForm, { resetFields, setFieldsValue, validate, clearValidate }] = useForm({
-        labelWidth: 185,
+        labelWidth: 140,
         baseColProps: { span: 24 },
         schemas: drawerFormPressure,
         showActionButtonGroup: false,
-        compact: true,
+        // compact: true,
       });
 
       const [registerDrawer, { setDrawerProps }] = useDrawerInner(async (data) => {
@@ -68,13 +70,25 @@
         emit('success');
         // message.success('保存成功！');
       }
+
+      const stylePaddingDrawer = ref();
+      const resizeFun = () => {
+        if (window.screen.width > 1800) {
+          stylePaddingDrawer.value = 'largePipeScreen';
+        } else {
+          stylePaddingDrawer.value = 'smallPipeScreen';
+        }
+      };
       onMounted(() => {
         nextTick(() => {
+          resizeFun();
+          window.addEventListener('resize', resizeFun);
           document.addEventListener('keydown', onkeydownFn);
         });
       });
       onBeforeUnmount(() => {
         document.removeEventListener('keydown', onkeydownFn);
+        window.removeEventListener('resize', resizeFun);
       });
       const onkeydownFn = (e) => {
         if (e && e.keyCode === 13) {
@@ -88,7 +102,16 @@
         getTitle,
         handleSubmit,
         handleCancel,
+        stylePaddingDrawer,
       };
     },
   });
 </script>
+<style scoped lang="less">
+  .largePipeScreen {
+    padding: 10px 180px 0 200px;
+  }
+  .smallPipeScreen {
+    padding: 30px 10px 0 10px;
+  }
+</style>

@@ -329,7 +329,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     setFieldsValueDrainage({ adjustWellDiameter: undefined, adjustWellWaterDepth: undefined });
     return;
   }
-  const adjustWellStopPumpWaterLevel = keepTwoDecimalFull(
+  let adjustWellStopPumpWaterLevel = keepTwoDecimalFull(
     adjustWellWaterPipeElevation - 0.2 - adjustWellWaterDepth,
     1,
   );
@@ -342,12 +342,16 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     h19(adjustWellDiameter);
   adjustWellDepth = keepTwoDecimalFull(adjustWellDepth, 1);
   const obj17 = {
-    sbrDesignGroundElevationPumpWell: undefined,
-    sbrStopPumpWaterLevelInnerHeight: undefined,
-    adjustWellDepth: undefined,
+    adjustWellDiameter: undefined,
   };
   judgmentC(adjustWellDiameter, adjustWellDepth, setFieldsValueDrainage, obj17);
   adjustWellDepth = getDealData(adjustWellDiameter, adjustWellDepth);
+  adjustWellStopPumpWaterLevel =
+    sbrDesignGroundElevationPumpWell +
+    0.3 -
+    adjustWellDepth +
+    sbrStopPumpWaterLevelInnerHeight +
+    h19(adjustWellDiameter);
   const adjustWellPumpFlow = keepTwoDecimalFull(sbrDeviceSpecs * 4, 3);
 
   const adjustWellPumpLift = keepTwoDecimalFull(
@@ -368,7 +372,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     setFieldsValueDrainage({ pumpingWellDiameter: undefined, pumpingWellWaterDepth: undefined });
     return;
   }
-  const pumpingWellStopPumpWaterLevel = keepTwoDecimalFull(
+  let pumpingWellStopPumpWaterLevel = keepTwoDecimalFull(
     pumpingWellWaterPipeElevation - 0.2 - pumpingWellWaterDepth,
     1,
   );
@@ -380,12 +384,16 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     h19(pumpingWellDiameter);
   pwLiftWellHeight = keepTwoDecimalFull(pwLiftWellHeight, 1);
   const obj20 = {
-    pwDesignGroundElevationPumpWell: undefined,
-    pwStopPumpWaterLevelInnerHeight: undefined,
-    adjustWellDepth: undefined,
+    pumpingWellDiameter: undefined,
   };
   judgmentC(pumpingWellDiameter, pwLiftWellHeight, setFieldsValueDrainage, obj20);
   pwLiftWellHeight = getDealData(pumpingWellDiameter, pwLiftWellHeight);
+  pumpingWellStopPumpWaterLevel =
+    pwDesignGroundElevationPumpWell +
+    0.3 -
+    pwLiftWellHeight +
+    pwStopPumpWaterLevelInnerHeight +
+    h19(pumpingWellDiameter);
   const pumpingWellPumpLift = keepTwoDecimalFull(
     filterWaterInletElevation +
       filterWaterInletPressure -
@@ -422,11 +430,11 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     });
     return;
   }
-  const mbrAdjustWellStopPumpWaterLevel = keepTwoDecimalFull(
+  let mbrAdjustWellStopPumpWaterLevel = keepTwoDecimalFull(
     mbrAdjustWellWaterPipeElevation - 0.2 - mbrAdjustWellWaterDepth,
     1,
   );
-  const mbrLiftWellHeight = keepTwoDecimalFull(
+  let mbrLiftWellHeight = keepTwoDecimalFull(
     mbrDesignGroundElevationPumpWell +
       0.3 -
       mbrAdjustWellStopPumpWaterLevel +
@@ -434,6 +442,20 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       h19(mbrAdjustWellDiameter),
     1,
   );
+  const obj7 = {
+    mbrAdjustWellDiameter: undefined,
+  };
+  judgmentC(mbrAdjustWellDiameter, mbrLiftWellHeight, setFieldsValueDrainage, obj7);
+  mbrLiftWellHeight = getDealData(pumpingWellDiameter, mbrLiftWellHeight);
+  mbrAdjustWellStopPumpWaterLevel = keepTwoDecimalFull(
+    mbrDesignGroundElevationPumpWell +
+      0.3 -
+      mbrLiftWellHeight +
+      mbrStopPumpWaterLevelInnerHeight +
+      h19(mbrAdjustWellDiameter),
+    1,
+  );
+
   const mbrPumpLift = keepTwoDecimalFull(
     mbrDeviceInletPipeElevation +
       mbrAdjustWellStopPumpWaterLevel +
@@ -465,7 +487,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     });
     return;
   }
-  const pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
+  let pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
     pumpWellWaterPipeElevation - 0.2 - pumpWellWaterDepth,
     1,
   );
@@ -488,8 +510,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     );
   }
   const obj2 = {
-    swpDesignGroundElevationPumpWell: undefined,
-    swpStopPumpWaterLevelInnerHeight: undefined,
+    pumpWellSize: undefined,
   };
   if (pumpWellShape === 'circle') {
     judgmentC(pumpWellSize, swpLiftWellHeight, setFieldsValueDrainage, obj2);
@@ -497,6 +518,21 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   } else {
     judgmentR(swpLiftWellHeight, setFieldsValueDrainage, obj2);
     swpLiftWellHeight = getDealDataR(swpLiftWellHeight);
+  }
+  if (pumpWellShape === 'circle') {
+    pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
+      swpDesignGroundElevationPumpWell +
+        0.3 -
+        swpLiftWellHeight +
+        swpStopPumpWaterLevelInnerHeight +
+        h19(pumpWellSize),
+      1,
+    );
+  } else {
+    pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
+      swpDesignGroundElevationPumpWell - swpLiftWellHeight + swpStopPumpWaterLevelInnerHeight,
+      1,
+    );
   }
 
   const spwPumpLift = keepTwoDecimalFull(
@@ -2321,7 +2357,6 @@ export const chonseTypeEquip = (e, updateSchema) => {
     {
       field: 'ultravioletDisinfection',
       show: ifShowObj.ultravioletDisinfection,
-      required: ifShowObj.ultravioletDisinfection,
     },
     {
       field: 'reuseWaterTankModel',

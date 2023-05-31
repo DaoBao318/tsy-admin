@@ -14,7 +14,6 @@
   import { columns, searchFormSchema } from './equip.data';
   import { getProjectInformation } from './api/http';
   import { useGo } from '/@/hooks/web/usePage';
-
   function beforeFetch(params) {
     params.pageIndex = params['split.page'];
     params.pageSize = params['split.size'];
@@ -59,7 +58,7 @@
       const go = useGo();
       function handleEdit(record: Recordable) {
         //查询之后再去打开弹窗
-        const { projectID,projectName } = record;
+        const { projectID, projectName } = record;
         go({
           name: 'EquipmentSelectionStation',
           query: {

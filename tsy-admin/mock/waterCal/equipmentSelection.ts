@@ -196,7 +196,7 @@ export const detailEquip = {
   excessHeadHTwelve: 3,
   firePumpDesignLift: 79,
   firePumpModel: '',
-  stabilivoltPumpDesignFlow: 1,
+  stabilivoltPumpDesignFlow: '2',
   sffPoolLowestWaterLevel: -5,
   sffBadDesignGroundElevation: 20,
   workConditionBadPressure: 0.22,

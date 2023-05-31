@@ -812,16 +812,27 @@ export const formSchema: FormSchema[] = [
     field: 'stabilivoltPumpDesignFlow',
     label: '辅泵设计流量',
     helpMessage: '消防稳压泵设计秒流量(L/s)',
-    component: 'InputNumberExpand1',
+    component: 'Select',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    componentProps: ({ formModel }) => {
-      return {
-        onBlur: (value) => {
-          const target = value.target.value;
-          formModel.stabilivoltPumpDesignFlow = transformData1(target);
+    componentProps: {
+      options: [
+        {
+          label: '2',
+          value: '2',
+          key: '1',
         },
-      };
+        {
+          label: '2.5',
+          value: '2.5',
+          key: '2',
+        },
+        {
+          label: '3',
+          value: '3',
+          key: '3',
+        },
+      ],
     },
   },
   {
@@ -862,7 +873,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'workConditionBadPressure',
     label: '消防设施压力',
-    helpMessage: '准工作状态最不利点消防设施压力P₀(MPa)，临高压时应以水带充实水柱来推算。',
+    helpMessage: '准工作状态最不利点消防设施压力Pₓ(MPa)，临高压时应以水带充实水柱来推算。',
     required: true,
     component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -877,24 +888,17 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'stabilivoltPumpMinWorkingPressure',
-    label: '最低工作压力',
-    helpMessage: '稳压泵最低工作压力P₁(MPa)',
+    label: '气压罐充气压力',
+    helpMessage: '气压罐充气压力P₀(MPa);P₀=Pₓ+0.01*(h₈ -h₇) + 0.07',
     dynamicDisabled: true,
     component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
-  {
-    field: 'firePumpStartPressure',
-    label: '主泵启动压力',
-    helpMessage: '消防主泵启动压力P₂(MPa)',
-    dynamicDisabled: true,
-    component: 'InputNumberExpand2',
-    colProps: { span: EQUIP.WIDTH_NUMBER },
-  },
+
   {
     field: 'firePumpStartPumpPressure',
     label: '稳压泵启泵压力',
-    helpMessage: '稳压泵启泵压力：PS₁(MPa)',
+    helpMessage: '稳压泵启泵压力：Ps₁(MPa); Ps₁ = P0 + (0.02~0.03)',
     dynamicDisabled: true,
     component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -902,7 +906,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'firePumpStopPumpPressure',
     label: '稳压泵停泵压力',
-    helpMessage: '稳压泵停泵压力PS₂(MPa)',
+    helpMessage: '稳压泵停泵压力Ps₂(MPa);Ps₂= (Ps₁ + Hg)/α - Hg,其中Hg一般取0.1，α取0.8',
     dynamicDisabled: true,
     component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -910,7 +914,15 @@ export const formSchema: FormSchema[] = [
   {
     field: 'stabilivoltPumpDesignLift',
     label: '稳压泵扬程',
-    helpMessage: '稳压泵扬程P(MPa)',
+    helpMessage: '稳压泵扬程P(MPa)；P = (Ps₁ + Ps₂)/2',
+    dynamicDisabled: true,
+    component: 'InputNumberExpand2',
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+  },
+  {
+    field: 'firePumpStartPressure',
+    label: '主泵启动压力',
+    helpMessage: '消防主泵启动压力P₂(MPa)； P₂ = Ps₁ - 0.07',
     dynamicDisabled: true,
     component: 'InputNumberExpand2',
     colProps: { span: EQUIP.WIDTH_NUMBER },

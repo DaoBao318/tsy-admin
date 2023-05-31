@@ -1,5 +1,6 @@
 import { keepTwoDecimalFull } from '/@/utils/calculation/count';
 import { useRouter } from 'vue-router';
+import { message } from 'ant-design-vue';
 
 export const EQUIP = {
   WIDTH_NUMBER: 6,
@@ -25,7 +26,7 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     : undefined; //没有值默认给0
   if (EQUIP_TYPE.LARGE_STATION.includes(record.stationType)) {
     record.busWaterSingle = 2.5;
-    record.stabilivoltPumpDesignFlow = 1;
+    record.stabilivoltPumpDesignFlow = '2';
     updateSchema([
       {
         field: 'modelSelectType',
@@ -76,7 +77,7 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     record.busWaterRows = 0; //没有
     record.groupsNumber = 1; //没有
     record.busWaterSingle = 0; //没有
-    record.stabilivoltPumpDesignFlow = 1;
+    record.stabilivoltPumpDesignFlow = '2';
     record.modelSelectType = 'Division';
     updateSchema([
       {
@@ -131,7 +132,7 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     ]);
   } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(record.stationType)) {
     record.busWaterSingle = 1.5;
-    record.stabilivoltPumpDesignFlow = 1;
+    record.stabilivoltPumpDesignFlow = '2';
     record.modelSelectType = 'JointDesign';
     updateSchema([
       {
@@ -365,18 +366,30 @@ export const calculateEquip = (value, setFieldsValue) => {
     excessHeadHTwelve;
   const firePumpDesignLift = keepTwoDecimalFull(firePumpDesignLiftTemp, 3);
 
-  //稳压泵最低工作压力P1(MPa)
-  const stabilivoltPumpMinWorkingPressureTemp =
-    workConditionBadPressure + 0.01 * (sffBadDesignGroundElevation - sffPoolLowestWaterLevel);
-  const stabilivoltPumpMinWorkingPressure = keepTwoDecimalFull(
-    stabilivoltPumpMinWorkingPressureTemp,
+  //稳压泵最低工作压力P0(MPa)
+  let stabilivoltPumpMinWorkingPressure =
+    workConditionBadPressure +
+    0.01 * (sffBadDesignGroundElevation - sffPoolLowestWaterLevel) +
+    0.07;
+  stabilivoltPumpMinWorkingPressure = keepTwoDecimalFull(stabilivoltPumpMinWorkingPressure, 2);
+  stabilivoltPumpMinWorkingPressure = takeTheClosestValue(stabilivoltPumpMinWorkingPressure);
+  if (stabilivoltPumpMinWorkingPressure > 0.66) {
+    message.warning('《气压罐充气压力》的最大值不能超过0.66，请调整之后重新计算。');
+    setFieldsValue({ stabilivoltPumpMinWorkingPressure });
+    return true;
+  }
+  //稳压泵启泵压力：PS1(MPa)
+  const firePumpStartPumpPressure = keepTwoDecimalFull(
+    stabilivoltPumpMinWorkingPressure + 0.025,
     2,
   );
-  //稳压泵启泵压力：PS1(MPa)
-  const firePumpStartPumpPressure = keepTwoDecimalFull(stabilivoltPumpMinWorkingPressure + 0.07, 2);
 
-  //稳压泵启泵压力：PS1(MPa)
-  const firePumpStopPumpPressure = keepTwoDecimalFull(firePumpStartPumpPressure + 0.05, 2);
+  //稳压泵启泵压力：PS2(MPa)
+  const firePumpStopPumpPressure = keepTwoDecimalFull(
+    (firePumpStartPumpPressure + 0.1) / 0.8 - 0.1,
+    2,
+  );
+  const firePumpStartPressure = firePumpStartPumpPressure - 0.07;
 
   //稳压泵扬程P(MPa)
   const stabilivoltPumpDesignLift = keepTwoDecimalFull(
@@ -400,7 +413,7 @@ export const calculateEquip = (value, setFieldsValue) => {
     waterSupplyDesignLift,
     firePumpDesignLift,
     stabilivoltPumpMinWorkingPressure,
-    firePumpStartPressure: stabilivoltPumpMinWorkingPressure,
+    firePumpStartPressure,
     firePumpStartPumpPressure,
     firePumpStopPumpPressure,
     stabilivoltPumpDesignLift,
@@ -409,6 +422,28 @@ export const calculateEquip = (value, setFieldsValue) => {
     activeChlorine,
     activeChlorineMax,
   });
+  return false;
+};
+const takeTheClosestValue = (num) => {
+  let value = 0.16;
+  if (num <= 0.16) {
+    value = 0.16;
+  } else if (num <= 0.24) {
+    value = 0.24;
+  } else if (num <= 0.32) {
+    value = 0.32;
+  } else if (num <= 0.38) {
+    value = 0.38;
+  } else if (num <= 0.45) {
+    value = 0.45;
+  } else if (num <= 0.55) {
+    value = 0.55;
+  } else if (num <= 0.66) {
+    value = 0.66;
+  } else {
+    value = num;
+  }
+  return value;
 };
 
 export const saveEquip = (value) => {

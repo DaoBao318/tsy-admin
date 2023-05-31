@@ -130,8 +130,8 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'sewageRegulatingWellVolume',
-    label: '泵井有效容积',
-    helpMessage: '污水调节泵井有效容积V1（m³），按停留时间6h计。',
+    label: '最小有效容积',
+    helpMessage: '满足调蓄时间的污水调节泵井最小有效容积V₁（m3），按停留时间6h计。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -152,8 +152,8 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'adjustWellWaterDepth',
-    label: '泵井有效水深',
-    helpMessage: '污水调节泵井有效水深（m）',
+    label: '最小有效水深',
+    helpMessage: '最小有效容积下的污水调节泵井有效水深（m），按V₁/（3.14*(D₁/2)^2）≤h₁≤2.0m计。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -290,7 +290,7 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: '处理设备进水管流出水头h₆（m），推荐取2~3。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    defaultValue: 2,
+    defaultValue: 3,
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
       return {
@@ -410,8 +410,8 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'mbrSewageRegulatingWellVolume',
-    label: '泵井有效容积',
-    helpMessage: '污水调节泵井有效容积V（m³），按停留时间4~6h计。',
+    label: '最小有效容积',
+    helpMessage: '满足调节时间的污水调节泵井最小有效容积V（m³），按停留时间4~6h计。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -431,8 +431,8 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'mbrAdjustWellWaterDepth',
-    label: '泵井有效水深',
-    helpMessage: '污水调节泵井有效水深（m），按V/（3.14*(D₁/2)^2）≤h1≤2.0m计。',
+    label: '最小有效水深',
+    helpMessage: '最小有效容积下的污水调节泵井有效水深（m），按V/（3.14*(D₁/2)^2）≤h1≤2.0m计。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -563,6 +563,7 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: '处理设备进水管流出水头h₆（m），推荐取2~3。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    defaultValue: 3,
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
       return {
@@ -658,6 +659,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'sewageStopTime',
     label: '停留时间',
     helpMessage: '污水停留时间t（h），推荐取0.5~1h',
+    defaultValue: 1,
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
@@ -672,16 +674,16 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'pumpingWellVolume',
-    label: '泵井有效容积',
-    helpMessage: '污水抽升泵井有效容积V₂（m³），按停留时间0.5~1h计。',
+    label: '最小有效容积',
+    helpMessage: '满足停留时间的污水调节泵井最小有效容积V₂（m³），按停留时间0.5~1h计。',
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
   },
   {
     field: 'pumpingWellWaterDepth',
-    label: '泵井有效水深',
-    helpMessage: '污水抽升泵井有效水深（m），按V₂/（3.14*(D2/2)^2）≤h₇计。',
+    label: '最小有效水深',
+    helpMessage: '最小有效容积下的污水抽升泵井有效水深（m），按V₂/（3.14*(D2/2)^2）≤h₇计。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -837,6 +839,7 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: '抽升泵井出水管流出水头h₁₂（m），推荐取2~3。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    defaultValue: 3,
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
       return {
@@ -924,6 +927,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'sprinklerFlowRate',
     label: '洒水栓流量',
     helpMessage: '单个洒水栓流量(L/s）：DN20水栓为0.4L/s，DN25为0.7L/s',
+    defaultValue: 0.7,
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
@@ -1031,6 +1035,7 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    defaultValue: 3,
     componentProps: ({ formModel }) => {
       return {
         onBlur: (value) => {
@@ -1060,15 +1065,7 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: '紫外线消毒设备流量Q₆（m³/h）',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicDisabled: false,
-    componentProps: ({ formModel }) => {
-      return {
-        onBlur: (value) => {
-          const target = value.target.value;
-          formModel.ultravioletDisinfection = transformData3(target);
-        },
-      };
-    },
+    dynamicDisabled: true,
   },
   {
     field: 'reuseWaterTankModel',
@@ -1142,7 +1139,7 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'pumpingWellSewageVolume',
-    label: '泵井有效容积',
+    label: '最小有效容积',
     helpMessage: '按地铁设计规范，单泵15~20min储水量',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
@@ -1150,8 +1147,8 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'pumpWellWaterDepth',
-    label: '泵井有效水深',
-    helpMessage: '污水抽升泵井有效水深（m）',
+    label: '最小有效水深',
+    helpMessage: '污水抽升最小有效水深（m）',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -1523,7 +1520,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'iaffExcessHead',
     label: '富裕水头',
     helpMessage: '处理设备进水管流出水头h₆（m），推荐取2~3。',
-    defaultValue: 2,
+    defaultValue: 3,
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
