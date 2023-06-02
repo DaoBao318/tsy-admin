@@ -352,6 +352,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     adjustWellDepth +
     sbrStopPumpWaterLevelInnerHeight +
     h19(adjustWellDiameter);
+  adjustWellStopPumpWaterLevel = keepTwoDecimalFull(adjustWellStopPumpWaterLevel, 1);
   const adjustWellPumpFlow = keepTwoDecimalFull(sbrDeviceSpecs * 4, 3);
 
   const adjustWellPumpLift = keepTwoDecimalFull(

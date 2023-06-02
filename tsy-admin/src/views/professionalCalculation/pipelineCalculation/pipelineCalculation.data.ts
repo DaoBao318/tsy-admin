@@ -78,7 +78,7 @@ export const columnsPressure: BasicColumn[] = [
     },
   },
   {
-    title: '水力坡度',
+    title: '水力坡降',
     dataIndex: 'hydraulicGradient',
     width: 80,
   },
@@ -176,11 +176,8 @@ export const drawerFormPressure: FormSchema[] = [
     label: '海曾-威廉系数',
     component: 'InputNumberExpand',
     show: true,
-    defaultValue: 90,
     helpMessage: ({ values }) => {
-      const mes = values.coughnessCoefficientRecommend
-        ? values.coughnessCoefficientRecommend
-        : '90 ~ 100';
+      const mes = values.coughnessCoefficientRecommend ? values.coughnessCoefficientRecommend : '';
       const message = '海曾-威廉系数推荐值：' + mes;
       return message;
     },
@@ -208,7 +205,6 @@ export const drawerFormPressure: FormSchema[] = [
     label: '海曾-威廉推荐值',
     required: false,
     component: 'Input',
-    defaultValue: '90 ~ 100',
     colProps: { span: PIPE.CONTENT_WIDTH },
     dynamicDisabled: true,
     show: false,
@@ -219,7 +215,6 @@ export const drawerFormPressure: FormSchema[] = [
     required: true,
     component: 'Select',
     colProps: { span: PIPE.CONTENT_WIDTH },
-    defaultValue: 'nr1',
     componentProps: ({ formModel, formActionType }) => {
       return {
         placeholder: '请选择内容',
@@ -302,7 +297,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'hydraulicGradient',
-    label: '水力坡度',
+    label: '水力坡降',
     dynamicDisabled: true,
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
@@ -348,7 +343,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'hydraulicGradientResult',
-    label: '水力坡度',
+    label: '水力坡降',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     componentProps: {

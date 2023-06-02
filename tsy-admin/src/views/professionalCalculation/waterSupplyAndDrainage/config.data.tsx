@@ -147,7 +147,7 @@ function createActionsColumns(record, context) {
   if (!record.computeID) {
     return [
       {
-        icon: 'material-symbols:add-box-outline',
+        // icon: 'ant-design:plus-square-outlined',
         label: '新增',
         tooltip: '首次计算昼夜最大用水量和排水量',
         onClick: handlerEdit,

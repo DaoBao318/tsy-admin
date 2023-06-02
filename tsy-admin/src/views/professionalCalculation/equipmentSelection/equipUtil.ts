@@ -389,7 +389,7 @@ export const calculateEquip = (value, setFieldsValue) => {
     (firePumpStartPumpPressure + 0.1) / 0.8 - 0.1,
     2,
   );
-  const firePumpStartPressure = firePumpStartPumpPressure - 0.07;
+  const firePumpStartPressure = keepTwoDecimalFull(firePumpStartPumpPressure - 0.07, 2);
 
   //稳压泵扬程P(MPa)
   const stabilivoltPumpDesignLift = keepTwoDecimalFull(

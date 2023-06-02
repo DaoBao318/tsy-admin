@@ -71,7 +71,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'hydraulicGradient',
-        label: '水力坡度',
+        label: '水力坡降',
         required: false,
         dynamicDisabled: true,
       },
@@ -106,7 +106,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'hydraulicGradient',
-        label: '水力坡度',
+        label: '水力坡降',
         required: false,
         dynamicDisabled: true,
       },
@@ -142,7 +142,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'hydraulicGradient',
-        label: '水力坡度',
+        label: '水力坡降',
         required: false,
         dynamicDisabled: true,
       },
@@ -178,7 +178,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'hydraulicGradient',
-        label: '水力坡度',
+        label: '水力坡降',
         required: true,
         dynamicDisabled: false,
       },
@@ -213,7 +213,168 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       },
       {
         field: 'hydraulicGradient',
-        label: '水力坡度',
+        label: '水力坡降',
+        required: true,
+        dynamicDisabled: false,
+      },
+    ]);
+  }
+};
+export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
+  const labelNominalDiameter = getnominalDiameterName(pipeMaterial, target);
+  if (target === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
+    updateSchema([
+      {
+        field: 'rateOfFlow',
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'calculateInnerDiameter',
+        label: '计算内径(mm)',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'nominalDiameter',
+        label: labelNominalDiameter,
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'velocityOfFlow',
+        label: '流速（m/s）',
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'hydraulicGradient',
+        label: '水力坡降',
+        required: false,
+        dynamicDisabled: true,
+      },
+    ]);
+  } else if (target === PipelineCalculationEnum.FLOW_SPEED_GRADIENT) {
+    updateSchema([
+      {
+        field: 'rateOfFlow',
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'calculateInnerDiameter',
+        label: '计算内径(mm)',
+        dynamicDisabled: true,
+      },
+      {
+        field: 'nominalDiameter',
+        label: labelNominalDiameter,
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'velocityOfFlow',
+        label: '流速（m/s）',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'hydraulicGradient',
+        label: '水力坡降',
+        required: false,
+        dynamicDisabled: true,
+      },
+    ]);
+  } else if (target === PipelineCalculationEnum.FLOW_GRADIENT) {
+    updateSchema([
+      {
+        field: 'rateOfFlow',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'calculateInnerDiameter',
+        label: '计算内径(mm)',
+        dynamicDisabled: true,
+      },
+      {
+        field: 'nominalDiameter',
+        label: labelNominalDiameter,
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'velocityOfFlow',
+        label: '流速（m/s）',
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'hydraulicGradient',
+        label: '水力坡降',
+        required: false,
+        dynamicDisabled: true,
+      },
+    ]);
+  } else if (target === PipelineCalculationEnum.PIPE_DIAMETER_FLOW_RATE) {
+    updateSchema([
+      {
+        field: 'rateOfFlow',
+        required: true,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'calculateInnerDiameter',
+        label: '计算内径(mm)',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'nominalDiameter',
+        label: labelNominalDiameter,
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'velocityOfFlow',
+        label: '流速（m/s）',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'hydraulicGradient',
+        label: '水力坡降',
+        required: true,
+        dynamicDisabled: false,
+      },
+    ]);
+  } else if (target === PipelineCalculationEnum.FLOW_RATE) {
+    updateSchema([
+      {
+        field: 'rateOfFlow',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'calculateInnerDiameter',
+        label: '计算内径(mm)',
+        dynamicDisabled: true,
+      },
+      {
+        field: 'nominalDiameter',
+        required: true,
+        label: labelNominalDiameter,
+        dynamicDisabled: false,
+      },
+      {
+        field: 'velocityOfFlow',
+        label: '流速（m/s）',
+        required: false,
+        dynamicDisabled: true,
+      },
+      {
+        field: 'hydraulicGradient',
+        label: '水力坡降',
         required: true,
         dynamicDisabled: false,
       },
@@ -339,7 +500,12 @@ export const countNominalDiameter = (e, updateSchema, formModel) => {
       onChange(e, v) {
         if (v) {
           const { shineUponNominalDiameter } = v;
-          formModel.calculateInnerDiameter = shineUponNominalDiameter;
+          //无缝钢管公称外径壁厚不同，计算内径相同。shineUponNominalDiameter为计算内径。
+          let duplicateValueProcessing = Number(shineUponNominalDiameter);
+          if (duplicateValueProcessing > 1000) {
+            duplicateValueProcessing = duplicateValueProcessing - 1000;
+          }
+          formModel.calculateInnerDiameter = duplicateValueProcessing;
           console.log('--------e--', e, formModel);
         }
       },
@@ -424,6 +590,7 @@ export const pressureCalculation = (values, setFieldsValue) => {
   const c = values.coughnessCoefficient;
   const l = values.pipeLength;
   const percentage = values.percentageLocalResistanceLoss || 0.3;
+  debugger;
   if (values.calculationContent === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
     const q = values.rateOfFlow;
     const v = values.velocityOfFlow;

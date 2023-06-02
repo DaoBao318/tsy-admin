@@ -20,7 +20,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { drawerFormPressure } from '../pipelineCalculation.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { dealPressureData, pressureCalculation } from '../utils';
+  import { dealPressureData, pressureCalculation, stateControlPressure } from '../utils';
 
   export default defineComponent({
     name: 'PressureDrawer',
@@ -28,13 +28,14 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const [registerForm, { resetFields, setFieldsValue, validate, clearValidate }] = useForm({
-        labelWidth: 140,
-        baseColProps: { span: 24 },
-        schemas: drawerFormPressure,
-        showActionButtonGroup: false,
-        // compact: true,
-      });
+      const [registerForm, { resetFields, setFieldsValue, validate, clearValidate, updateSchema }] =
+        useForm({
+          labelWidth: 140,
+          baseColProps: { span: 24 },
+          schemas: drawerFormPressure,
+          showActionButtonGroup: false,
+          // compact: true,
+        });
 
       const [registerDrawer, { setDrawerProps }] = useDrawerInner(async (data) => {
         resetFields();
@@ -46,7 +47,19 @@
           setFieldsValue({
             ...data.record,
           });
+          const { calculationFormula, calculationContent, pipeMaterial } = data.record;
+          const show = calculationFormula === 'gs1';
+          updateSchema({
+            field: 'coughnessCoefficient',
+            show,
+          });
+          stateControlPressure(updateSchema, calculationContent, pipeMaterial);
           clearValidate();
+        } else {
+          updateSchema({
+            field: 'coughnessCoefficient',
+            show: true,
+          });
         }
       });
 

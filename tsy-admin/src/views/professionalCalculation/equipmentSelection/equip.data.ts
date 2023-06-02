@@ -736,7 +736,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'ffBadHydrantPressure',
-    label: '消防栓压力',
+    label: '消防栓水头',
     helpMessage: '设计站点消防最不利点处消火栓所需设计压力h₉(m)。',
     component: 'InputNumberExpand3',
     required: true,

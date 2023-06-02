@@ -61,7 +61,7 @@ const professionalCalculation: AppRouteModule = {
       component: () => import('/@/views/professionalCalculation/pipelineCalculation/index.vue'),
       meta: {
         // affix: true,
-        icon: 'fluent:pipeline-20-filled',
+        icon: 'ant-design:hourglass-filled',
         title: '压力管道水力计算',
       },
     },
