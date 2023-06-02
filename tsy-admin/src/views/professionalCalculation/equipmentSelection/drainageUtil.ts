@@ -395,6 +395,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     pwLiftWellHeight +
     pwStopPumpWaterLevelInnerHeight +
     h19(pumpingWellDiameter);
+  pumpingWellStopPumpWaterLevel = keepTwoDecimalFull(pumpingWellStopPumpWaterLevel, 3);
   const pumpingWellPumpLift = keepTwoDecimalFull(
     filterWaterInletElevation +
       filterWaterInletPressure -
@@ -2410,7 +2411,6 @@ export const chonseTypeEquip = (e, updateSchema) => {
     {
       field: 'submersibleSewagePumpFlow',
       show: ifShowObj.submersibleSewagePumpFlow,
-      required: ifShowObj.submersibleSewagePumpFlow,
     },
     {
       field: 'pumpWellTotalHeadLoss',

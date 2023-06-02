@@ -72,7 +72,7 @@ const professionalCalculation: AppRouteModule = {
       meta: {
         // affix: true,
         icon: 'ant-design:carry-out-outlined',
-        title: '设备设施选型',
+        title: '设施设备选型计算',
       },
     },
     {
@@ -83,7 +83,7 @@ const professionalCalculation: AppRouteModule = {
       meta: {
         // affix: true,
         icon: 'ant-design:carry-out-outlined',
-        title: '设备设施选型车站',
+        title: '设施设备选型车站',
         hideTab: true,
         hideMenu: true,
       },

@@ -20,7 +20,12 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { drawerFormPressure } from '../pipelineCalculation.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { dealPressureData, pressureCalculation, stateControlPressure } from '../utils';
+  import {
+    initountNominalDiameter,
+    dealPressureData,
+    pressureCalculation,
+    stateControlPressure,
+  } from '../utils';
 
   export default defineComponent({
     name: 'PressureDrawer',
@@ -54,6 +59,8 @@
             show,
           });
           stateControlPressure(updateSchema, calculationContent, pipeMaterial);
+          const obj = { calculationFormula };
+          initountNominalDiameter(pipeMaterial, updateSchema, obj);
           clearValidate();
         } else {
           updateSchema({

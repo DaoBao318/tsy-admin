@@ -71,7 +71,7 @@ export const getStationDeviceSelectionEdit = (params) => {
   });
 };
 
-//保存给水设备设施选型
+//保存给水设施设备选型
 export const saveEquipment = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.saveStationDeviceSelectionEdit, params }).then((res) => {
@@ -89,7 +89,7 @@ export const getStationDeviceSelectionDrainageEdit = (params) => {
   });
 };
 
-//保存排水设备设施选型
+//保存排水设施设备选型
 export const saveEquipmentDrainage = (params) => {
   return new Promise((resolve) => {
     defHttp.post({ url: Api.saveStationDeviceSelectionDrainageEdit, params }).then((res) => {

@@ -30,7 +30,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'divider-linked',
     component: 'Divider',
-    label: '请选择最终出路',
+    label: '计算基础参数配置',
     colProps: {
       span: 24,
     },
@@ -448,7 +448,7 @@ export const formSchemaDrainage: FormSchema[] = [
       return {
         onBlur: (value) => {
           const target = value.target.value;
-          formModel.adjustTime = transformData3(target);
+          formModel.mbrAdjustWellWaterPipeElevation = transformData3(target);
         },
       };
     },
@@ -473,7 +473,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'mbrStopPumpWaterLevelInnerHeight',
     label: '停泵水位距内底高',
     helpMessage: '按水泵参数选取，需考虑水泵基础高度0.3m，h₈',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
@@ -1255,15 +1255,7 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: '变化系数参《室外排水设计标准》表4.1.15',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicDisabled: false,
-    componentProps: ({ formModel }) => {
-      return {
-        onBlur: (value) => {
-          const target = value.target.value;
-          formModel.submersibleSewagePumpFlow = transformData3(target);
-        },
-      };
-    },
+    dynamicDisabled: true,
   },
   {
     field: 'pumpWellTotalHeadLoss',
@@ -1323,10 +1315,11 @@ export const formSchemaDrainage: FormSchema[] = [
   },
   {
     field: 'spwOutflowHead',
-    label: '流出水头（m）',
+    label: '流出水头',
     helpMessage: '处理设备进水管流出水头h₇（m），推荐取2~3。',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
+    defaultValue: 3,
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
       return {
@@ -1386,6 +1379,7 @@ export const formSchemaDrainage: FormSchema[] = [
     label: '设备工作小时',
     helpMessage: '设备工作时数（h），推荐按两班14h计。',
     component: 'InputNumberExpand1',
+    defaultValue: 14,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
@@ -1401,6 +1395,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'settlingTankStopTime',
     label: '调沉停留时间',
     helpMessage: 't建议取2~4h',
+    defaultValue: 4,
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,

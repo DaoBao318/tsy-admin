@@ -532,6 +532,59 @@ export const countNominalDiameter = (e, updateSchema, formModel) => {
     },
   });
 };
+//工程直径初始化
+export const initountNominalDiameter = (e, updateSchema, obj) => {
+  let nominalDiameterOptions = nominalDiameterObj[e] || [];
+  if (e === undefined) {
+    nominalDiameterOptions = [];
+  }
+  // formModel.calculateInnerDiameter = undefined;
+  // formModel.nominalDiameter = undefined;
+  // const label = getnominalDiameterName(e, formModel.calculationContent);
+  updateSchema({
+    field: 'nominalDiameter',
+    // label,
+    componentProps: ({ formModel }) => {
+      return {
+        options: nominalDiameterOptions,
+        showSearch: true,
+        optionFilterProp: 'label',
+        onChange(e, v) {
+          if (v) {
+            const { shineUponNominalDiameter } = v;
+            //无缝钢管公称外径壁厚不同，计算内径相同。shineUponNominalDiameter为计算内径。
+            let duplicateValueProcessing = Number(shineUponNominalDiameter);
+            if (duplicateValueProcessing > 1000) {
+              duplicateValueProcessing = duplicateValueProcessing - 1000;
+            }
+            formModel.calculateInnerDiameter = duplicateValueProcessing;
+            console.log('--------e--', e, formModel);
+          }
+        },
+      };
+    },
+  });
+  let options = calculationContentOption;
+  if (['m1', 'm4', 'm8', 'm3', 'm21'].includes(e) && obj.calculationFormula === 'gs11') {
+    options = calculationContentOption2;
+  }
+  updateSchema({
+    field: 'calculationContent',
+    label: '计算内容',
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        placeholder: '请选择内容',
+        options,
+        disabled: false,
+        onChange: async (e: any) => {
+          const target = e;
+          const { updateSchema } = formActionType;
+          pipeMaterialSwitchingPressure(updateSchema, target, formModel);
+        },
+      };
+    },
+  });
+};
 //海曾威廉系数计算
 export const calculateWilliamCoefficient = (e, formModel) => {
   formModel.coughnessCoefficientRecommend =

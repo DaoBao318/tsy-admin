@@ -71,7 +71,7 @@
         return [
           {
             icon: 'ant-design:carry-out-outlined',
-            tooltip: '进入设备设施选型',
+            tooltip: '进入设施设备选型',
             onClick: handleEdit.bind(null, record),
           },
         ];

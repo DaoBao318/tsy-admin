@@ -64,25 +64,25 @@ export const provincesOptions = [
 export const diameterOption = [
   {
     id: '1',
-    label: '2m',
+    label: '2',
     value: '2',
     key: '1',
   },
   {
     id: '2',
-    label: '3m',
+    label: '3',
     value: '3',
     key: '2',
   },
   {
     id: '3',
-    label: '4m',
+    label: '4',
     value: '4',
     key: '2',
   },
   {
     id: '4',
-    label: '5m',
+    label: '5',
     value: '5',
     key: '2',
   },

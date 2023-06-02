@@ -127,7 +127,7 @@ export const searchFormSchemaStation: FormSchema[] = [
 ];
 
 export const formSchema: FormSchema[] = [
-  { label: '设计基础参数配置', field: 'divider1', component: 'Divider' },
+  { label: '计算基础参数配置', field: 'divider1', component: 'Divider' },
   {
     field: 'projectName',
     label: '项目信息',
@@ -737,7 +737,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'ffBadHydrantPressure',
     label: '消防栓水头',
-    helpMessage: '设计站点消防最不利点处消火栓所需设计压力h₉(m)。',
+    helpMessage: '设计站点消防最不利点处消火栓所需设计水头h₉(m)。',
     component: 'InputNumberExpand3',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },

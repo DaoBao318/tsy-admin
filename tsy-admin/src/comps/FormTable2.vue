@@ -38,6 +38,7 @@
               component(
                 :is='componentMap.get(item.component)',
                 v-model:value='model[item.field]',
+                :title = 'model[item.field]'
                 v-bind='typeof item.componentProps === "function" ? item.componentProps({ formModel: model, form: formRef, index }) : item.componentProps || {}'
               )
                 template(#suffix)

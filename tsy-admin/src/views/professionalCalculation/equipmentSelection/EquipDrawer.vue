@@ -11,12 +11,12 @@
     @ok="handleSubmit"
   >
     <!-- <CollapseContainer
-      title="设备设施选型计算（长泰项目--常州南站--高铁-大型车站 ）"
+      title="设施设备选型计算（长泰项目--常州南站--高铁-大型车站 ）"
       helpMessage="长泰项目--常州南站--高铁-大型车站 "
     >
   </CollapseContainer> -->
     <a-tabs v-model:activeKey="activeKey" :class="stylePaddingDrawer">
-      <a-tab-pane key="1" tab="给水设备设施选型">
+      <a-tab-pane key="1" tab="给水设施设备选型">
         <div class="equipt-basis water-supply">
           <BasicForm @register="registerForm">
             <template #add1>
@@ -40,7 +40,7 @@
           </BasicForm>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="排水设备设施选型">
+      <a-tab-pane key="2" tab="排水设施设备选型">
         <div class="equipt-basis water-drainage">
           <BasicForm @register="registerFormDrainage">
             <template #add1>
