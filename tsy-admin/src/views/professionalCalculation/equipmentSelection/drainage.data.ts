@@ -5,9 +5,12 @@ import {
   pumpWellShapeOption,
   pumpWellShapeOptionsData,
 } from './api/const';
-import { chonseTypeEquip, displayProcess } from './drainageUtil';
+import { getStationDeviceSelectionDrainageEdit } from './api/http';
+import { chonseTypeEquip, displayProcess, initDrainageChangeValue } from './drainageUtil';
 import { EQUIP, transformData1, transformData3 } from './equipUtil';
 import { FormSchema } from '/@/components/Table';
+import { waterSourceStore } from '/@/store/modules/waterInfo';
+const store = waterSourceStore();
 
 export const formSchemaDrainage: FormSchema[] = [
   {
@@ -60,13 +63,26 @@ export const formSchemaDrainage: FormSchema[] = [
           displayProcess('', updateSchema);
           updateSchema({
             field: 'technologyType',
-            componentProps: () => {
+            componentProps: ({ formModel, formActionType }) => {
               return {
                 options: technologyTypeOptions,
                 placeholder: mes,
                 onChange: (e: any) => {
                   displayProcess(e, updateSchema);
                   chonseTypeEquip(e, updateSchema);
+                  const { projectID, stationID } = formModel;
+                  const { setFieldsValue: setFieldsValueDrainage, clearValidate } = formActionType;
+                  let dealValue = e;
+                  if (e === store.technologyTypeFromSaveGetter) {
+                    dealValue = null;
+                  }
+                  getStationDeviceSelectionDrainageEdit({
+                    projectID,
+                    stationID,
+                    technologyType: dealValue,
+                  }).then((res) => {
+                    initDrainageChangeValue(setFieldsValueDrainage, { res }, clearValidate);
+                  });
                 },
               };
             },
@@ -396,6 +412,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'adjustTime',
     label: '调蓄时间',
     helpMessage: '调节泵井调蓄时间t（h），MBR设备推荐采用4~6h；污水量大时取小值。',
+    defaultValue: 6,
     component: 'InputNumberExpand1',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
@@ -465,9 +482,17 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'mbrDesignGroundElevationPumpWell',
     label: '泵井设计地面标高',
     helpMessage: '抽升泵井设计地面标高h₇（m）。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
+    componentProps: ({ formModel }) => {
+      return {
+        onBlur: (value) => {
+          const target = value.target.value;
+          formModel.mbrDesignGroundElevationPumpWell = transformData3(target);
+        },
+      };
+    },
   },
   {
     field: 'mbrStopPumpWaterLevelInnerHeight',
@@ -1054,7 +1079,7 @@ export const formSchemaDrainage: FormSchema[] = [
     dynamicDisabled: true,
   },
   {
-    label: '◆ 回用泵组计算',
+    label: '◆ 消毒设备计算',
     field: 'divider53',
     component: 'Divider',
     colProps: { span: 23 },
@@ -1181,7 +1206,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'swpDesignGroundElevationPumpWell',
     label: '泵井设计地面标高',
     helpMessage: '抽升泵井设计地面标高h₂（m）。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: false,
     componentProps: ({ formModel }) => {
@@ -1534,15 +1559,7 @@ export const formSchemaDrainage: FormSchema[] = [
     helpMessage: '进水潜污泵扬程（m）',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
-    dynamicDisabled: false,
-    componentProps: ({ formModel }) => {
-      return {
-        onBlur: (value) => {
-          const target = value.target.value;
-          formModel.spwInletPumpLift = transformData3(target);
-        },
-      };
-    },
+    dynamicDisabled: true,
   },
   {
     field: 'sedimentationIAFFModel',

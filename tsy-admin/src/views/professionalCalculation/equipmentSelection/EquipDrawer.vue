@@ -136,7 +136,6 @@
     saveDisplayDrainage,
   } from './drainageUtil';
   import { waterSourceStore } from '/@/store/modules/waterInfo';
-
   export default defineComponent({
     name: 'EquipDrawer',
     components: { BasicDrawer, BasicForm, Loading },
@@ -223,8 +222,15 @@
       const [registerDrawer, { setDrawerProps }] = useDrawerInner(async (data) => {
         // 初始化赋值给水
         resetFields();
-        const { projectID, projectName, stationID, stationName, stationType, stationTypeName } =
-          data.record;
+        const {
+          projectID,
+          projectName,
+          stationID,
+          stationName,
+          stationType,
+          stationTypeName,
+          technologyType,
+        } = data.record;
         basicData = {
           projectID,
           projectName,
@@ -232,6 +238,7 @@
           stationName,
           stationType,
           stationTypeName,
+          technologyType,
         };
         titleEquipment.value =
           '设施设备选型' + '(' + projectName + '-' + stationName + stationTypeName + ')';
@@ -245,11 +252,23 @@
         (newValue) => {
           if (newValue === '2') {
             setTimeout(() => {
-              const { projectID, stationID } = basicData;
+              const { projectID, stationID, technologyType } = basicData;
               // 初始化赋值排水
               // resetFieldsDrainage();
               // 请求数据的回调中
-              getStationDeviceSelectionDrainageEdit({ projectID, stationID }).then((res) => {
+              debugger;
+              //传 给默认；不传的话，给编辑值
+              let dealValue = technologyType;
+              store.technologyTypeFromSaveAction(technologyType);
+              if (technologyType) {
+                dealValue = null; //后端要求
+              }
+
+              getStationDeviceSelectionDrainageEdit({
+                projectID,
+                stationID,
+                technologyType: dealValue,
+              }).then((res) => {
                 initDrainage(updateSchemaDrainage, setFieldsValueDrainage, { res });
                 let technologyType = 'GreenReuseSBR';
                 if (!!res.technologyType) {
@@ -300,6 +319,8 @@
             saveEquipmentDrainage(data).then((res) => {
               saveDisplayDrainage(setFieldsValueDrainage, res);
               store.waterSupplyAndDrainageDetailsLoadingAction(false);
+              //保存之后更新状态
+              store.technologyTypeFromSaveAction(data.technologyType);
               message.success('排水设备选型数据保存成功');
               // closeDrawer();
             });

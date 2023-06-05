@@ -186,7 +186,7 @@ export const formSchemaCount: FormSchema[] = [
   {
     field: 'unit',
     label: '单位',
-    required: true,
+    show: false,
     component: 'Select',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     defaultValue: 'cubicMeter',
@@ -196,7 +196,7 @@ export const formSchemaCount: FormSchema[] = [
         onChange(e) {
           let label = '流量(m³/h)';
           if (e === 'rise') {
-            label = '流量(l/s)';
+            label = '流量(L/s)';
           }
           const { updateSchema } = formActionType;
           updateSchema([
@@ -215,14 +215,14 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'hydraulicGradient',
-    label: '水力坡度',
+    label: '水力坡降',
     dynamicDisabled: true,
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
   },
   {
     field: 'pipeLength',
-    label: '管道长度(m)',
+    label: '计算管长(m)',
     required: true,
     component: 'InputNumberExpand',
     defaultValue: 1000,
@@ -230,7 +230,7 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'percentageLocalResistanceLoss',
-    label: '水头损失率',
+    label: '局部水损率',
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     helpMessage: '局部水头损失范围在0.2-0.3之间',
@@ -252,7 +252,7 @@ export const formSchemaCount: FormSchema[] = [
   { label: '计算结果', field: 'field3', component: 'Divider', helpMessage: '计算结果' },
   {
     field: 'pipeLengthResult',
-    label: '管道长度(m)',
+    label: '计算管长(m)',
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     show: false,
@@ -262,7 +262,7 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'hydraulicGradientResult',
-    label: '水力坡度',
+    label: '水力坡降',
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     componentProps: {
@@ -271,7 +271,7 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'caliberResult',
-    label: '管径',
+    label: '管径(mm)',
     show: false,
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
@@ -300,7 +300,7 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'lossAlongTheWayResult',
-    label: '沿程损失',
+    label: '沿程水损(m)',
     // show: false,
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
@@ -310,7 +310,7 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'LocalResistanceLossResult',
-    label: '局部阻力损失',
+    label: '局部水损(m)',
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     // show: false,
@@ -320,7 +320,7 @@ export const formSchemaCount: FormSchema[] = [
   },
   {
     field: 'hydraulicLossResult',
-    label: '水力损失',
+    label: '总水头损失(m)',
     component: 'InputNumberExpand',
     colProps: { span: COUNT_WIDTH.MIDDLE_WIDTH },
     componentProps: {

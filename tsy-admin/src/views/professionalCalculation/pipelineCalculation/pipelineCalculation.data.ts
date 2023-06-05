@@ -270,7 +270,7 @@ export const drawerFormPressure: FormSchema[] = [
         onChange(e) {
           let label = '流量(m³/h)';
           if (e === 'rise') {
-            label = '流量(l/s)';
+            label = '流量(L/s)';
           }
           const { updateSchema } = formActionType;
           updateSchema([
@@ -304,7 +304,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'pipeLength',
-    label: '管道长度(m)',
+    label: '计算管长(m)',
     required: true,
     component: 'InputNumberExpand',
     defaultValue: 1000,
@@ -312,7 +312,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'percentageLocalResistanceLoss',
-    label: '水头损失率',
+    label: '局部水损率',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     helpMessage: '局部水头损失范围在0.2-0.3之间',
@@ -334,7 +334,7 @@ export const drawerFormPressure: FormSchema[] = [
   { label: '计算结果', field: 'field3', component: 'Divider', helpMessage: '计算结果' },
   {
     field: 'pipeLengthResult',
-    label: '管道长度(m)',
+    label: '计算管长(m)',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     componentProps: {
@@ -352,7 +352,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'caliberResult',
-    label: '管径',
+    label: '管径(mm)',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     componentProps: {
@@ -379,7 +379,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'lossAlongTheWayResult',
-    label: '沿程损失',
+    label: '沿程水损(m)',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     componentProps: {
@@ -388,7 +388,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'LocalResistanceLossResult',
-    label: '局部阻力损失',
+    label: '局部水损(m)',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     componentProps: {
@@ -397,7 +397,7 @@ export const drawerFormPressure: FormSchema[] = [
   },
   {
     field: 'hydraulicLossResult',
-    label: '水力损失',
+    label: '总水头损失(m)',
     component: 'InputNumberExpand',
     colProps: { span: PIPE.INPUT_WIDTH },
     componentProps: {

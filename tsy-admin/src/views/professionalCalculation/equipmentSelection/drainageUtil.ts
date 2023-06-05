@@ -2,6 +2,9 @@ import { message } from 'ant-design-vue';
 import { pumpWellShapeOptionsData, technologyTypeOptionsData } from './api/const';
 import { EQUIP } from './equipUtil';
 import { keepTwoDecimalFull } from '/@/utils/calculation/count';
+import { waterSourceStore } from '/@/store/modules/waterInfo';
+import { getStationDeviceSelectionDrainageEdit } from './api/http';
+const store = waterSourceStore();
 
 export const saveDisplayDrainage = (setFieldsValue, res) => {
   setFieldsValue({ ...res });
@@ -589,6 +592,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     settlingTankVolume,
     iaffDeviceSpecs,
     spwInletPumpLift,
+    inletSubmersibleSewagePumpFlow: iaffDeviceSpecs,
     anaerobicFilter: liftSewageTreatmentCapacity,
     constructedWetland: liftSewageTreatmentCapacity,
   });
@@ -746,6 +750,28 @@ export const displayProcess = (e, updateSchema) => {
   });
 };
 
+const initChange = (e, formModel, formActionType) => {
+  const { projectID, stationID } = formModel;
+  const { setFieldsValue: setFieldsValueDrainage, clearValidate } = formActionType;
+  let dealValue = e;
+  if (e === store.technologyTypeFromSaveGetter) {
+    dealValue = null;
+  }
+  getStationDeviceSelectionDrainageEdit({
+    projectID,
+    stationID,
+    technologyType: dealValue,
+  }).then((res) => {
+    initDrainageChangeValue(setFieldsValueDrainage, { res }, clearValidate);
+  });
+};
+const dealAssign = (...record) => {
+  const newArr = record.filter((item) => !!item);
+  const obj = newArr.reduce((pre, item) => {
+    return Object.assign(pre, item);
+  }, {});
+  return obj;
+};
 export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, record) => {
   const {
     projectID,
@@ -772,7 +798,7 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
   if (!technologyType) {
     technologyType = 'GreenReuseSBR';
   }
-  const values = Object.assign(
+  const values = dealAssign(
     { projectID },
     { stationID },
     { outType },
@@ -792,12 +818,13 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
   if (outType === 'GreenReuse') {
     updateSchemaDrainage({
       field: 'technologyType',
-      componentProps: () => {
+      componentProps: ({ formModel, formActionType }) => {
         return {
           options: technologyTypeOptionsData[outType],
           onChange: (e: any) => {
             displayProcess(e, updateSchemaDrainage);
             chonseTypeEquip(e, updateSchemaDrainage);
+            initChange(e, formModel, formActionType);
           },
         };
       },
@@ -805,12 +832,13 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
   } else if (outType === 'NearbyDischarge') {
     updateSchemaDrainage({
       field: 'technologyType',
-      componentProps: () => {
+      componentProps: ({ formModel, formActionType }) => {
         return {
           options: technologyTypeOptionsData[outType],
           onChange: (e: any) => {
             displayProcess(e, updateSchemaDrainage);
             chonseTypeEquip(e, updateSchemaDrainage);
+            initChange(e, formModel, formActionType);
           },
         };
       },
@@ -818,12 +846,13 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
   } else {
     updateSchemaDrainage({
       field: 'technologyType',
-      componentProps: () => {
+      componentProps: ({ formModel, formActionType }) => {
         return {
           options: technologyTypeOptionsData[outType],
           onChange: (e: any) => {
             displayProcess(e, updateSchemaDrainage);
             chonseTypeEquip(e, updateSchemaDrainage);
+            initChange(e, formModel, formActionType);
           },
         };
       },
@@ -844,7 +873,80 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
   values.sewageTreatmentCapacity = values.sewageTreatmentCapacity
     ? values.sewageTreatmentCapacity
     : undefined;
+  //默认值初始化
+  values.sbrAdjustTime = 6;
+  values.sewageTreatmentOutflowHead = 3;
+  values.sbrDeviceWork = 3;
+  values.defaultValue = 6;
+  values.adjustTime = 6;
+  values.mbrDeviceOutflowHead = 3;
+  values.sewageStopTime = 1;
+  values.filterWaterInletPressure = 5;
+  values.sewageExcessHead = 3;
+  values.sprinklerFlowRate = 0.7;
+  values.sprinklerWorkPressure = 10;
+  values.reusePumpOutflowHead = 3;
+  values.spwOutflowHead = 3;
+  values.workTime = 14;
+  values.settlingTankStopTime = 4;
+  values.iaffWaterInletPressure = 5;
+  values.iaffExcessHead = 3;
+
   setFieldsValueDrainage({ ...values });
+};
+//切换初始化
+export const initDrainageChangeValue = (setFieldsValueDrainage, record, clearValidate) => {
+  const {
+    sbrModel,
+    adjustPumpModel,
+    filterSpecsMode,
+    pumpingWellModel,
+    reuseWaterTankModel,
+    mbrModel,
+    adjustWellModel,
+    sewagePumpWell,
+    sedimentationIAFF,
+    liftWaterPoint,
+  } = record.res;
+  const values = dealAssign(
+    sbrModel,
+    adjustPumpModel,
+    filterSpecsMode,
+    pumpingWellModel,
+    reuseWaterTankModel,
+    mbrModel,
+    adjustWellModel,
+    sewagePumpWell,
+    sedimentationIAFF,
+    liftWaterPoint,
+  );
+
+  //将数字类型转化为字符串
+  values.pumpWellSize = values.pumpWellSize ? values.pumpWellSize + '' : values.pumpWellSize;
+  values.sewageTreatmentCapacity = values.sewageTreatmentCapacity
+    ? values.sewageTreatmentCapacity
+    : undefined;
+  //默认值初始化
+  values.sbrAdjustTime = 6;
+  values.sewageTreatmentOutflowHead = 3;
+  values.sbrDeviceWork = 3;
+  values.defaultValue = 6;
+  values.adjustTime = 6;
+  values.mbrDeviceOutflowHead = 3;
+  values.sewageStopTime = 1;
+  values.filterWaterInletPressure = 5;
+  values.sewageExcessHead = 3;
+  values.sprinklerFlowRate = 0.7;
+  values.sprinklerWorkPressure = 10;
+  values.reusePumpOutflowHead = 3;
+  values.spwOutflowHead = 3;
+  values.workTime = 14;
+  values.settlingTankStopTime = 4;
+  values.iaffWaterInletPressure = 5;
+  values.iaffExcessHead = 3;
+
+  setFieldsValueDrainage({ ...values });
+  clearValidate();
 };
 
 export const chonseTypeEquip = (e, updateSchema) => {

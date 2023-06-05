@@ -64,6 +64,7 @@
         rowSelection: {
           type: 'checkbox',
         },
+        clickToRowSelect: false,
         actionColumn: {
           width: 120,
           title: '操作',

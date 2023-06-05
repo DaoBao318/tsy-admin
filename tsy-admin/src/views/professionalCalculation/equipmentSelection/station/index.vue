@@ -54,7 +54,7 @@
         delete params['time'];
         return params;
       }
-      const [registerTable, { reload, getSelectRows, getForm }] = useTable({
+      const [registerTable, { reload, getSelectRows, clearSelectedRowKeys, getForm }] = useTable({
         title: '设施设备选型列表',
         api: getEquitment,
         columns: columnsStation,
@@ -64,6 +64,7 @@
           showResetButton: false,
         },
         beforeFetch,
+        clickToRowSelect: false,
         useSearchForm: true,
         showTableSetting: true,
         bordered: true,
@@ -93,9 +94,9 @@
             return item.isCompute === '是';
           });
           const IsComputeFalse = rows.filter((item) => {
-            return item.isCompute === '否';
+            return item.isCompute === '否' || !item.technologyType;
           });
-          const stationidList = IsComputeTrue.map((item) => {
+          const stationidList = rows.map((item) => {
             return item.stationID;
           });
           const stationNameListExport = IsComputeTrue.map((item) => {
@@ -104,27 +105,28 @@
           const stationNameList = IsComputeFalse.map((item) => {
             return '《' + item.stationName + '》';
           });
-          if (stationNameList.length > 0) {
-            const mes = stationNameList.join(',');
-            message.warning('请将如下车站进行设备选型计算之后再导出：' + mes);
-          }
-          if (stationidList.length > 0) {
-            // 修改批量逻辑
-            let str = stationidList.join(',');
-            let params = { stationidList: str, projectID };
-            params.exportNameObj = { projectName };
-            exportEquipWord(params).then(() => {
-              const mes = stationNameListExport.join(',');
-              message.success(mes + '导出成功');
-            });
-          }
+
+          // 修改批量逻辑
+          let str = stationidList.join(',');
+          let params = { stationidList: str, projectID };
+          params.exportNameObj = { projectName };
+          exportEquipWord(params).then(() => {
+            const mes = stationNameListExport.join(',');
+            message.success(mes + '导出成功');
+            if (stationNameList.length > 0) {
+              const mesInfo = stationNameList.join(',');
+              message.warning('如下车站的给水、排水设施设备选型：' + mesInfo + '未进行计算');
+            }
+          });
         }
       }
 
       function handleEdit(record: Recordable) {
         //查询之后再去打开弹窗
-        const { projectID, stationID } = record;
+        const { projectID, stationID, technologyType } = record;
         getStationDeviceSelectionEdit({ projectID, stationID }).then((res) => {
+          clearSelectedRowKeys();
+          res.technologyType = technologyType;
           openDrawer(true, {
             record: res,
             openModalCount: openModalCount,

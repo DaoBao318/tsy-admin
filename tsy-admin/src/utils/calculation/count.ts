@@ -438,7 +438,7 @@ export const calculationContentOption2 = [
  * 单位
  */
 export const unitOption = [
-  { label: 'l/s', value: 'rise' },
+  { label: 'L/s', value: 'rise' },
   { label: 'm³/h', value: 'cubicMeter' },
 ];
 /**
