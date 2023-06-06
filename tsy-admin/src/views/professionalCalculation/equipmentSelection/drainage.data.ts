@@ -4,6 +4,7 @@ import {
   diameterOption,
   pumpWellShapeOption,
   pumpWellShapeOptionsData,
+  sbrDeviceTypeOption,
 } from './api/const';
 import { getStationDeviceSelectionDrainageEdit } from './api/http';
 import { chonseTypeEquip, displayProcess, initDrainageChangeValue } from './drainageUtil';
@@ -353,6 +354,18 @@ export const formSchemaDrainage: FormSchema[] = [
         },
       };
     },
+  },
+  {
+    field: 'sbrDeviceType',
+    label: 'SBR类型',
+    component: 'Select',
+    componentProps: () => {
+      return {
+        options: sbrDeviceTypeOption,
+      };
+    },
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    dynamicDisabled: false,
   },
   {
     field: 'sbrDeviceWork',
@@ -904,6 +917,14 @@ export const formSchemaDrainage: FormSchema[] = [
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
+  },
+  {
+    field: 'filterSelection',
+    label: '过滤器选型',
+    dynamicDisabled: true,
+    colProps: { span: EQUIP.WIDTH_TEXT_AREA },
+    component: 'InputTextArea',
+    labelWidth: EQUIP.WIDTH_LABEL_WIDTH,
   },
   {
     label: '回用水池、泵组及消毒设备选型',

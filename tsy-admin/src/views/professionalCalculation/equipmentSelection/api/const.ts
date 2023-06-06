@@ -146,3 +146,17 @@ export const pumpWellShapeOptionsData = {
     },
   ],
 };
+export const sbrDeviceTypeOption = [
+  {
+    id: '1',
+    label: '间歇式SBR',
+    value: 'BatchSBR',
+    key: '1',
+  },
+  {
+    id: '2',
+    label: '改进型SBR',
+    value: 'ImprovedDSBR',
+    key: '2',
+  },
+];

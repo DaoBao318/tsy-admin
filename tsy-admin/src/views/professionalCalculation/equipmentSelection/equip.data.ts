@@ -964,6 +964,27 @@ export const formSchema: FormSchema[] = [
     colProps: { span: EQUIP.WIDTH_NUMBER },
   },
   {
+    field: 'dosingMethod',
+    component: 'Select',
+    label: '投加方式',
+    required: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: {
+      options: [
+        {
+          label: '水射器投加',
+          value: 'WaterInjectorDosing',
+          key: '1',
+        },
+        {
+          label: '计量泵投加',
+          value: 'DosingOfMeteringPump',
+          key: '2',
+        },
+      ],
+    },
+  },
+  {
     field: 'activeChlorine',
     label: '有效氯(g/h)最小值',
     helpMessage: '消毒剂投加量按0.5~1.0(g/m³)计。',

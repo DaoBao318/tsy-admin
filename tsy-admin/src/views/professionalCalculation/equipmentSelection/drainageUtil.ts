@@ -954,6 +954,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
     divider10: false,
     sewageTreatmentCapacity: false,
     sbrDeviceWork: false,
+    sbrDeviceType: false,
     sbrCycleWorkTime: false,
     sbrDeviceSpecs: false,
     sbrModel: false,
@@ -980,6 +981,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
 
     divider30: false,
     filterSpecs: false,
+    filterSelection: false,
 
     divider60: false,
     mbrSewageTreatmentCapacity: false,
@@ -1096,6 +1098,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: true,
       sewageTreatmentCapacity: true,
       sbrDeviceWork: true,
+      sbrDeviceType: true,
       sbrCycleWorkTime: true,
       sbrDeviceSpecs: true,
       sbrModel: true,
@@ -1121,6 +1124,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       adjustWellDepth: true,
       divider30: true,
       filterSpecs: true,
+      filterSelection: true,
 
       divider60: false,
       mbrSewageTreatmentCapacity: false,
@@ -1237,6 +1241,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: false,
       sewageTreatmentCapacity: false,
       sbrDeviceWork: false,
+      sbrDeviceType: false,
       sbrCycleWorkTime: false,
       sbrDeviceSpecs: false,
       sbrModel: false,
@@ -1261,6 +1266,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       adjustWellDepth: false,
       divider30: false,
       filterSpecs: false,
+      filterSelection: false,
 
       divider60: true,
       mbrSewageTreatmentCapacity: true,
@@ -1378,6 +1384,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: true,
       sewageTreatmentCapacity: true,
       sbrDeviceWork: true,
+      sbrDeviceType: true,
       sbrCycleWorkTime: true,
       sbrDeviceSpecs: true,
       sbrModel: true,
@@ -1402,6 +1409,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       adjustWellDepth: true,
       divider30: true,
       filterSpecs: true,
+      filterSelection: true,
 
       divider60: false,
       mbrSewageTreatmentCapacity: false,
@@ -1519,6 +1527,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: false,
       sewageTreatmentCapacity: false,
       sbrDeviceWork: false,
+      sbrDeviceType: false,
       sbrCycleWorkTime: false,
       sbrDeviceSpecs: false,
       sbrModel: false,
@@ -1543,6 +1552,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       adjustWellDepth: false,
       divider30: false,
       filterSpecs: false,
+      filterSelection: false,
 
       divider60: true,
       mbrSewageTreatmentCapacity: true,
@@ -1660,6 +1670,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: false,
       sewageTreatmentCapacity: false,
       sbrDeviceWork: false,
+      sbrDeviceType: false,
       sbrCycleWorkTime: false,
       sbrDeviceSpecs: false,
       sbrModel: false,
@@ -1686,6 +1697,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
 
       divider30: false,
       filterSpecs: false,
+      filterSelection: false,
 
       divider60: false,
       mbrSewageTreatmentCapacity: false,
@@ -1802,6 +1814,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: false,
       sewageTreatmentCapacity: false,
       sbrDeviceWork: false,
+      sbrDeviceType: false,
       sbrCycleWorkTime: false,
       sbrDeviceSpecs: false,
       sbrModel: false,
@@ -1828,6 +1841,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
 
       divider30: false,
       filterSpecs: false,
+      filterSelection: false,
 
       divider60: false,
       mbrSewageTreatmentCapacity: false,
@@ -1944,6 +1958,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
       divider10: false,
       sewageTreatmentCapacity: false,
       sbrDeviceWork: false,
+      sbrDeviceType: false,
       sbrCycleWorkTime: false,
       sbrDeviceSpecs: false,
       sbrModel: false,
@@ -1970,6 +1985,7 @@ export const chonseTypeEquip = (e, updateSchema) => {
 
       divider30: false,
       filterSpecs: false,
+      filterSelection: false,
 
       divider60: false,
       mbrSewageTreatmentCapacity: false,
@@ -2097,6 +2113,11 @@ export const chonseTypeEquip = (e, updateSchema) => {
       required: ifShowObj.sbrDeviceWork,
     },
     {
+      field: 'sbrDeviceType',
+      show: ifShowObj.sbrDeviceType,
+      required: ifShowObj.sbrDeviceType,
+    },
+    {
       field: 'sbrCycleWorkTime',
       show: ifShowObj.sbrCycleWorkTime,
       required: ifShowObj.sbrCycleWorkTime,
@@ -2200,6 +2221,10 @@ export const chonseTypeEquip = (e, updateSchema) => {
     {
       field: 'filterSpecs',
       show: ifShowObj.filterSpecs,
+    },
+    {
+      field: 'filterSelection',
+      show: ifShowObj.filterSelection,
     },
     {
       field: 'divider60',

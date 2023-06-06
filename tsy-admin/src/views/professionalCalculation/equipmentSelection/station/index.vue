@@ -90,18 +90,18 @@
           message.warn('请先选择一条数据，再进行批量导出');
         } else {
           const { projectName, projectID } = rows[0];
-          const IsComputeTrue = rows.filter((item) => {
-            return item.isCompute === '是';
-          });
+          // const IsComputeTrue = rows.filter((item) => {
+          //   return item.isCompute === '是';
+          // });
           const IsComputeFalse = rows.filter((item) => {
             return item.isCompute === '否' || !item.technologyType;
           });
           const stationidList = rows.map((item) => {
             return item.stationID;
           });
-          const stationNameListExport = IsComputeTrue.map((item) => {
-            return '《' + item.stationName + '》';
-          });
+          // const stationNameListExport = IsComputeTrue.map((item) => {
+          //   return '《' + item.stationName + '》';
+          // });
           const stationNameList = IsComputeFalse.map((item) => {
             return '《' + item.stationName + '》';
           });
@@ -111,12 +111,15 @@
           let params = { stationidList: str, projectID };
           params.exportNameObj = { projectName };
           exportEquipWord(params).then(() => {
-            const mes = stationNameListExport.join(',');
-            message.success(mes + '导出成功');
+            // const mes = stationNameListExport.join(',');
+            let mesInfo = '';
             if (stationNameList.length > 0) {
-              const mesInfo = stationNameList.join(',');
-              message.warning('如下车站的给水、排水设施设备选型：' + mesInfo + '未进行计算');
+              const mesStr = stationNameList.join(',');
+              mesInfo = '  如下车站' + mesStr + '的给水、排水设施设备选型：未进行计算';
+            } else {
+              mesInfo = '';
             }
+            message.success('导出成功 !' + mesInfo);
           });
         }
       }

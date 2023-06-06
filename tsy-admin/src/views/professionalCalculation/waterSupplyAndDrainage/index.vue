@@ -181,16 +181,7 @@ div.geipaishui
       }
       function batchExport() {
         let selectRows = context.value.table.getSelectRows();
-
-        let selectedRows = selectRows.filter((item) => {
-          return item.computeID;
-        });
-        let selectedRowsTips = selectRows
-          .filter((item) => {
-            return !item.computeID;
-          })
-          .map((item) => item.stationName);
-        let waterProjectWDtolist = selectedRows.map((item) => {
+        let waterProjectWDtolist = selectRows.map((item) => {
           return {
             computeID: item.computeID,
             projectID: item.projectID,
@@ -198,21 +189,24 @@ div.geipaishui
             stationType: item.stationType,
           };
         });
-        if (selectedRows.length === 0) {
-          if (selectRows.length === 0) {
-            message.warn('请先选择一条数据', 3);
-          } else {
-            message.warn('所选的数据中，未包含计算过的数据，请先计算后再导出', 3);
-          }
+        let selectedRowsTips = selectRows
+          .filter((item) => {
+            return !item.computeID;
+          })
+          .map((item) => '《' + item.stationName + '》');
+
+        if (selectRows.length === 0) {
+          message.warn('请先选择一条数据', 3);
         } else {
-          if (selectedRowsTips.length > 0) {
-            message.warn(selectedRowsTips.join('、') + '；请新增之后再导出', 3);
-          }
-          if (selectedRows.length > 0) {
-            const { projectName, stationName, stationTypeValue } = selectedRows[0];
-            const exportNameObj = { projectName, stationName, stationTypeValue };
-            exportExcel({ waterProjectWDtolist, exportNameObj });
-          }
+          const { projectName, stationName, stationTypeValue } = selectRows[0];
+          const exportNameObj = { projectName, stationName, stationTypeValue };
+          exportExcel({ waterProjectWDtolist, exportNameObj }).then(() => {
+            let mesInfo = '';
+            if (selectedRowsTips.length > 0) {
+              mesInfo = '  如下车站:' + selectedRowsTips.join('、') + '未进行计算。';
+            }
+            message.success('导出成功！' + mesInfo, 3);
+          });
         }
       }
       function backPage() {
