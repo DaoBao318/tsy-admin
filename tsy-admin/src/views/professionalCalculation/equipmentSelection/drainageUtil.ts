@@ -11,14 +11,21 @@ export const saveDisplayDrainage = (setFieldsValue, res) => {
 };
 
 export const dealSaveDataDrainage = (values) => {
-  const { sewageTreatmentCapacity, sbrDeviceWork, sbrCycleWorkTime, sbrDeviceSpecs, sbrModel } =
-    values;
+  const {
+    sewageTreatmentCapacity,
+    sbrDeviceWork,
+    sbrCycleWorkTime,
+    sbrDeviceSpecs,
+    sbrModel,
+    sbrDeviceType,
+  } = values;
   const sbrModel1 = {
     sewageTreatmentCapacity,
     sbrDeviceWork,
     sbrCycleWorkTime,
     sbrDeviceSpecs,
     sbrModel,
+    sbrDeviceType,
   };
   const {
     sbrAdjustTime,
