@@ -301,7 +301,14 @@
             store.waterSupplyAndDrainageDetailsLoadingAction(true);
             saveEquipment(data).then((res) => {
               saveDisplay(setFieldsValue, res);
-              message.success('给水设备选型数据保存成功');
+              const { promptMsg } = res;
+              let mes = '给水设备选型数据保存成功! ';
+              if (!!promptMsg) {
+                mes = mes + promptMsg;
+                message.warning(mes);
+              } else {
+                message.success(mes);
+              }
               store.waterSupplyAndDrainageDetailsLoadingAction(false);
               // closeDrawer();
             });
@@ -321,7 +328,14 @@
               store.waterSupplyAndDrainageDetailsLoadingAction(false);
               //保存之后更新状态
               store.technologyTypeFromSaveAction(data.technologyType);
-              message.success('排水设备选型数据保存成功');
+              const { promptMsg } = res;
+              let mes = '排水设备选型数据保存成功! ';
+              if (!!promptMsg) {
+                mes = mes + promptMsg;
+                message.warning(mes);
+              } else {
+                message.success(mes);
+              }
               // closeDrawer();
             });
           } finally {

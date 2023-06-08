@@ -39,7 +39,7 @@
   }
 
   export default defineComponent({
-    name: 'ProjectManagement',
+    name: 'WaterSupplyAndDrainage',
     components: { BasicTable, RoleDrawer, TableAction },
     setup() {
       let store = waterSourceStore();

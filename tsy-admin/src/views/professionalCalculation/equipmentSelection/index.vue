@@ -8,7 +8,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, onActivated } from 'vue';
 
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { columns, searchFormSchema } from './equip.data';
@@ -55,6 +55,9 @@
         },
       });
       window.equipLoad = reload;
+      onActivated(() => {
+        reload();
+      });
       const go = useGo();
       function handleEdit(record: Recordable) {
         //查询之后再去打开弹窗

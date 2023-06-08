@@ -40,7 +40,7 @@
   import { deletePressure } from './utils';
 
   export default defineComponent({
-    name: 'RoleManagement',
+    name: 'WaterConsumption',
     components: { BasicTable, TableAction, PressureDrawer },
     setup() {
       //管道压力计算 Pressure

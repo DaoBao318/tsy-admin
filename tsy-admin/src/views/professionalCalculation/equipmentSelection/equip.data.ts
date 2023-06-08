@@ -1,3 +1,4 @@
+import { pollShapeOption, poolTopCoveringSoilOption, stabilivoltPumpDesignFlowOption } from './api/const';
 import { getModelSelectTypeList } from './api/http';
 import { EQUIP, nc, transformData1, transformData2, transformData3 } from './equipUtil';
 import { BasicColumn } from '/@/components/Table';
@@ -440,18 +441,7 @@ export const formSchema: FormSchema[] = [
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: {
-      options: [
-        {
-          label: '矩形',
-          value: '矩形',
-          key: '1',
-        },
-        {
-          label: '方形',
-          value: '方形',
-          key: '2',
-        },
-      ],
+      options: pollShapeOption,
     },
   },
   {
@@ -462,23 +452,7 @@ export const formSchema: FormSchema[] = [
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: {
-      options: [
-        {
-          label: '500mm',
-          value: 500,
-          key: '1',
-        },
-        {
-          label: '1000mm',
-          value: 1000,
-          key: '2',
-        },
-        {
-          label: '1500mm',
-          value: 1500,
-          key: '3',
-        },
-      ],
+      options: poolTopCoveringSoilOption,
     },
   },
 
@@ -816,23 +790,7 @@ export const formSchema: FormSchema[] = [
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: {
-      options: [
-        {
-          label: '2',
-          value: '2',
-          key: '1',
-        },
-        {
-          label: '2.5',
-          value: '2.5',
-          key: '2',
-        },
-        {
-          label: '3',
-          value: '3',
-          key: '3',
-        },
-      ],
+      options: stabilivoltPumpDesignFlowOption,
     },
   },
   {

@@ -5,6 +5,8 @@ import {
   pumpWellShapeOption,
   pumpWellShapeOptionsData,
   sbrDeviceTypeOption,
+  poolTopCoveringSoilOption,
+  pollShapeOption,
 } from './api/const';
 import { getStationDeviceSelectionDrainageEdit } from './api/http';
 import { chonseTypeEquip, displayProcess, initDrainageChangeValue } from './drainageUtil';
@@ -955,6 +957,29 @@ export const formSchemaDrainage: FormSchema[] = [
     },
   },
   {
+    field: 'pollShape',
+    component: 'Select',
+    label: '蓄水池形状',
+    helpMessage: '蓄水池形状',
+    required: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: {
+      options: pollShapeOption,
+    },
+  },
+  {
+    field: 'poolTopCoveringSoil',
+    component: 'Select',
+    label: '池顶覆土厚度',
+    helpMessage: '蓄水池池顶覆土厚度分为500mm、1000mm、1500mm(部分蓄水池)三种。',
+    required: true,
+    colProps: { span: EQUIP.WIDTH_NUMBER },
+    componentProps: {
+      options: poolTopCoveringSoilOption,
+    },
+  },
+
+  {
     field: 'reuseWaterTankVolume',
     label: '水池有效容积',
     helpMessage: '回用水池（箱）或回用井有效容积（m³），按每日浇洒2次储存',
@@ -1169,7 +1194,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'pumpWellSize',
     label: '泵井直径',
     helpMessage: [
-      '分圆形、矩形。',
+      '分圆形、矩形，单位m。',
       '圆形井采用院通用图“肆水（2017）7411”；',
       '矩形井采用国标图集08S305',
     ],
@@ -1298,7 +1323,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'submersibleSewagePumpFlow',
     label: '潜污泵流量',
-    helpMessage: '变化系数参《室外排水设计标准》表4.1.15',
+    helpMessage: '潜污泵流量(m3/h）',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,
@@ -1585,6 +1610,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'sedimentationIAFFModel',
     label: '调沉池及气浮过滤设备选型',
+    helpMessage: ['调沉池设备处理水量为50m³和100m³', '气浮过滤设备处理水量的范围5~35 m³'],
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',

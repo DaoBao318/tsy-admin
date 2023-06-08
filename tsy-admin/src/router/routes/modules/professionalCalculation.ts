@@ -20,6 +20,7 @@ const professionalCalculation: AppRouteModule = {
         title: '站点昼夜最大用水量排水量计算',
         icon: 'ion:water-outline',
         // ignoreKeepAlive: true,
+        // ignoreKeepAlive: true,
         // hideTab: true,
         // permCode: 'professionalCalculation:waterSupplyAndDrainage',
       },
@@ -73,6 +74,7 @@ const professionalCalculation: AppRouteModule = {
         // affix: true,
         icon: 'ant-design:carry-out-outlined',
         title: '设施设备选型计算',
+        // ignoreKeepAlive: true,
       },
     },
     {
