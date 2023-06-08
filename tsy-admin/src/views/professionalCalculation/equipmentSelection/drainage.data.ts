@@ -79,6 +79,7 @@ export const formSchemaDrainage: FormSchema[] = [
                   if (e === store.technologyTypeFromSaveGetter) {
                     dealValue = null;
                   }
+                  debugger;
                   getStationDeviceSelectionDrainageEdit({
                     projectID,
                     stationID,
@@ -407,6 +408,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'sbrModel',
     label: 'SBR设备选型',
     dynamicDisabled: true,
+    helpMessage: '处理水量的范围间歇式SBR为 0~25 m³/h，改进型SBR为 0~40m³/h。',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
     labelWidth: EQUIP.WIDTH_LABEL_WIDTH,
@@ -665,6 +667,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'mbrModel',
     label: 'MBR设备选型',
     dynamicDisabled: true,
+    helpMessage: '设备处理能力的范围为 0~42 m³/h。',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
     labelWidth: EQUIP.WIDTH_LABEL_WIDTH,
@@ -924,6 +927,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'filterSelection',
     label: '过滤器选型',
     dynamicDisabled: true,
+    helpMessage: '处理水量的范围为 0~50 m³/h。',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
     labelWidth: EQUIP.WIDTH_LABEL_WIDTH,
@@ -1142,6 +1146,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'reuseWaterTankModel',
     label: '回用水池、回用泵组及消毒设备选型',
     dynamicDisabled: true,
+    helpMessage: '设备处理能力的范围为 0~50 m³/h。',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
     labelWidth: EQUIP.WIDTH_LABEL_WIDTH,
@@ -1610,7 +1615,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'sedimentationIAFFModel',
     label: '调沉池及气浮过滤设备选型',
-    helpMessage: ['调沉池设备处理水量为50m³和100m³', '气浮过滤设备处理水量的范围5~35 m³'],
+    helpMessage: ['调沉池设备处理水量为50m³和100m³', '气浮过滤设备处理水量的范围0~35 m³'],
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
@@ -1656,6 +1661,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'liftWaterPointModel',
     label: '厌氧滤池及人工湿地选型',
+    helpMessage: '处理水量的范围在0~30 m³/d',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',

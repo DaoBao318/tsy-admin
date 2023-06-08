@@ -4,7 +4,7 @@ import { PipelineCalculationEnum } from '/@/enums/pipelineCalculation';
 export function keepTwoDecimalFull(num, digit = 5): number {
   let result = parseFloat(num);
   if (isNaN(result)) {
-    console.error('参数传递错误');
+    console.log('计算结果为NaN');
     return 0;
   }
   result = Math.round(num * Math.pow(10, digit)) / Math.pow(10, digit);

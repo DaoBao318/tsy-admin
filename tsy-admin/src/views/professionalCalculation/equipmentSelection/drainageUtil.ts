@@ -766,6 +766,7 @@ const initChange = (e, formModel, formActionType) => {
   const { projectID, stationID } = formModel;
   const { setFieldsValue: setFieldsValueDrainage, clearValidate } = formActionType;
   let dealValue = e;
+  debugger;
   if (e === store.technologyTypeFromSaveGetter) {
     dealValue = null;
   }
@@ -791,7 +792,7 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
 
     sbrModel,
     adjustPumpModel,
-    filterSpecsMode,
+    filterSpecsModel,
     pumpingWellModel,
     reuseWaterTankModel,
     mbrModel,
@@ -817,7 +818,7 @@ export const initDrainage = (updateSchemaDrainage, setFieldsValueDrainage, recor
     { technologyType },
     sbrModel,
     adjustPumpModel,
-    filterSpecsMode,
+    filterSpecsModel,
     pumpingWellModel,
     reuseWaterTankModel,
     mbrModel,
@@ -911,7 +912,7 @@ export const initDrainageChangeValue = (setFieldsValueDrainage, record, clearVal
   const {
     sbrModel,
     adjustPumpModel,
-    filterSpecsMode,
+    filterSpecsModel,
     pumpingWellModel,
     reuseWaterTankModel,
     mbrModel,
@@ -923,7 +924,7 @@ export const initDrainageChangeValue = (setFieldsValueDrainage, record, clearVal
   const values = dealAssign(
     sbrModel,
     adjustPumpModel,
-    filterSpecsMode,
+    filterSpecsModel,
     pumpingWellModel,
     reuseWaterTankModel,
     mbrModel,

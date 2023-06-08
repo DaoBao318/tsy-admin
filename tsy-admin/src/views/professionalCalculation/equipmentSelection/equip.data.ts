@@ -888,6 +888,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'firePumpModel',
     label: '消防供水设备选型',
+    helpMessage: '可处理的稳压泵扬程范围为0-0.54MPa',
     dynamicDisabled: true,
     component: 'InputTextArea',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
@@ -964,6 +965,7 @@ export const formSchema: FormSchema[] = [
     field: 'disinfectDeviceModel',
     label: '消毒设备选型',
     dynamicDisabled: true,
+    helpMessage: '设计有效氯的范围在10~200g/h',
     component: 'InputTextArea',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
   },
