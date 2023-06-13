@@ -331,15 +331,20 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     iaffTotalHeadLoss,
     iaffExcessHead,
     liftSewageTreatmentCapacity,
+    technologyType,
   } = values;
   const sbrDeviceSpecs = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
-  const sewageRegulatingWellVolume = keepTwoDecimalFull((sbrDeviceSpecs * sbrAdjustTime) / 24, 3);
+  const sewageRegulatingWellVolume = keepTwoDecimalFull(
+    (sewageTreatmentCapacity * sbrAdjustTime) / 24,
+    3,
+  );
+  debugger;
   let adjustWellWaterDepth =
     sewageRegulatingWellVolume / (3.14 * Math.pow(Number(adjustWellDiameter) / 2, 2));
   adjustWellWaterDepth = keepTwoDecimalFull(adjustWellWaterDepth, 3);
   //泵井水深不超过2m adjustWellWaterDepth
   if (adjustWellWaterDepth > 2) {
-    message.warn('污水调节泵井《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    message.warn('污水调节泵井《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
     setFieldsValueDrainage({ adjustWellDiameter: undefined, adjustWellWaterDepth: undefined });
     return;
   }
@@ -377,13 +382,17 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     1,
   );
 
-  const pumpingWellVolume = keepTwoDecimalFull(sbrDeviceSpecs * sewageStopTime, 3);
+  let pumpingWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+  if (technologyType === 'GreenReuseMBR' || technologyType === 'NearbyDischargeMBR') {
+    pumpingWellPumpFlow = keepTwoDecimalFull(mbrSewageTreatmentCapacity / 24, 3);
+  }
+  const pumpingWellVolume = keepTwoDecimalFull(pumpingWellPumpFlow * sewageStopTime, 3);
 
   let pumpingWellWaterDepth =
     pumpingWellVolume / (3.14 * Math.pow(Number(pumpingWellDiameter) / 2, 2));
   pumpingWellWaterDepth = keepTwoDecimalFull(pumpingWellWaterDepth, 1);
   if (pumpingWellWaterDepth > 2) {
-    message.warn('污水抽升泵井《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    message.warn('污水抽升泵井《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
     setFieldsValueDrainage({ pumpingWellDiameter: undefined, pumpingWellWaterDepth: undefined });
     return;
   }
@@ -439,7 +448,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     mbrSewageRegulatingWellVolume / (3.14 * Math.pow(Number(mbrAdjustWellDiameter) / 2, 2));
   mbrAdjustWellWaterDepth = keepTwoDecimalFull(mbrAdjustWellWaterDepth, 1);
   if (mbrAdjustWellWaterDepth > 2) {
-    message.warn('污水调节泵井《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    message.warn('污水调节泵井《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
     setFieldsValueDrainage({
       mbrAdjustWellDiameter: undefined,
       mbrAdjustWellWaterDepth: undefined,
@@ -496,7 +505,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     pumpWellWaterDepth = keepTwoDecimalFull(pumpingWellSewageVolume / Number(pumpWellSize), 1);
   }
   if (pumpWellWaterDepth > 2) {
-    message.warn('污水抽升泵《泵井有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
+    message.warn('污水抽升泵《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
     setFieldsValueDrainage({
       pumpWellSize: undefined,
       pumpWellWaterDepth: undefined,
@@ -584,7 +593,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     pumpWellStopPumpWaterLevel,
     pumpingWellStopPumpWaterLevel,
     pwLiftWellHeight,
-    pumpingWellPumpFlow: sbrDeviceSpecs,
+    pumpingWellPumpFlow, //todo
     pumpingWellPumpLift,
     reuseWaterTankVolume,
     reusePumpFlow,

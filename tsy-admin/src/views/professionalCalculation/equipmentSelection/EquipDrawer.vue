@@ -443,9 +443,21 @@
         } else if (type === 'type2') {
           //处理污水量
           try {
-            const values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
-            const { sewageTreatmentCapacity } = values;
-            const pumpingWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+            const type = await validateFieldsDrainage(['technologyType']);
+            const { technologyType } = type;
+            let pumpingWellPumpFlow = 0;
+            let values = { mbrSewageTreatmentCapacity: 0, sewageTreatmentCapacity: 0 };
+
+            if (technologyType === 'GreenReuseMBR' || technologyType === 'NearbyDischargeMBR') {
+              values = await validateFieldsDrainage(['mbrSewageTreatmentCapacity']);
+              const { mbrSewageTreatmentCapacity } = values;
+              pumpingWellPumpFlow = keepTwoDecimalFull(mbrSewageTreatmentCapacity / 24, 3);
+            } else {
+              values = await validateFieldsDrainage(['sewageTreatmentCapacity']);
+              const { sewageTreatmentCapacity } = values;
+              keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
+            }
+
             setFieldsValueDrainage({ pumpingWellPumpFlow });
             openModalCount(true, {
               rateOfFlow: pumpingWellPumpFlow,

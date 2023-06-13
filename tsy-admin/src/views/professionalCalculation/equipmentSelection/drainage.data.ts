@@ -332,6 +332,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'adjustPumpModel',
     label: '污水调节泵井及泵组选型',
+    helpMessage: '支持处理污水量范围为0~157 m³/d',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',

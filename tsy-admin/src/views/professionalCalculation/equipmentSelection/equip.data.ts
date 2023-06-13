@@ -642,6 +642,7 @@ export const formSchema: FormSchema[] = [
     field: 'waterSupplyModel',
     label: '变频供水设备选型',
     dynamicDisabled: true,
+    helpMessage: '成套设备额定流量范围为0~270m³/h',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
   },

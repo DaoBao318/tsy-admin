@@ -1,0 +1,13 @@
+{
+  "code": 0,
+  "result": {
+    "roles": [{ "roleName": "Super Admin", "value": "super" }],
+    "userId": "1",
+    "username": "tsy",
+    "token": "fakeToken1",
+    "realName": "tsy用户",
+    "desc": "manager"
+  },
+  "message": "ok",
+  "type": "success"
+}
