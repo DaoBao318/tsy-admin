@@ -1,10 +1,14 @@
 import { defHttp } from '/@/utils/http/axios';
 
-class ItemCache {
-  constructor(data, timeout) {
+class ItemCache<T> {
+  data: T;
+  timeout: number;
+  cacheTime: number;
+
+  constructor(data: T, timeout: number) {
     this.data = data;
     this.timeout = timeout;
-    this.cacheTime = new Date().getTime;
+    this.cacheTime = new Date().getTime();
   }
 }
 export class ExpriesCache {
@@ -26,7 +30,7 @@ export class ExpriesCache {
 
     // 如果过去的秒数大于当前的超时时间，也返回null让其去服务端取数据
     if (Math.abs(overTime) > data.timeout) {
-      // 此代码可以没有，不会出现问题，但是如果有此代码，再次进入该方法就可以减少判断。
+      // 如果过期，就删除当前缓存。
       ExpriesCache.cacheMap.delete(name);
       return true;
     }
@@ -47,18 +51,17 @@ export class ExpriesCache {
 
   // 获取
   static get(name) {
-    debugger;
     const isDataOverTiem = ExpriesCache.isOverTime(name);
     //如果 数据超时，返回null，但是没有超时，返回数据，而不是 ItemCache 对象
-    return isDataOverTiem ? null : ExpriesCache.cacheMap.get(name);
+    return isDataOverTiem ? null : ExpriesCache.cacheMap.get(name).data;
   }
 
-  // 默认存储20分钟
-  static set(name, data, timeout = 1200) {
+  // 默认存储10秒
+  static set(name, data, timeout = 10) {
     // 设置 itemCache
-    // const itemCache = new ItemCache(data, timeout);
+    const itemCache = new ItemCache(data, timeout);
     //缓存
-    ExpriesCache.cacheMap.set(name, data);
+    ExpriesCache.cacheMap.set(name, itemCache);
   }
 }
 
@@ -72,7 +75,7 @@ function generateKey(name, argument) {
 
   try {
     // 返回 字符串，函数名 + 函数参数
-    return `${name}${params}`;
+    return `${name}-${params}`;
   } catch (_) {
     // 返回生成key错误
     return generateKeyError;
@@ -84,14 +87,14 @@ enum Api {
 }
 export const getProjectInformationCatch = async (params) => {
   // 生成key
-  const key = generateKey('getWare', [params.likeQuery, params.pageIndex]);
+  const key = generateKey('GetProjectList', [params.likeQuery, params.pageIndex]);
   // 获得数据
-  const data = ExpriesCache.get(key);
+  let data = ExpriesCache.get(key);
   if (!data) {
     const res = await defHttp.post({ url: Api.getProjectInformation, params });
     // 使用 10s 缓存，10s之后再次get就会 获取null 而从服务端继续请求
     ExpriesCache.set(key, res, 10);
-    return res;
+    data = ExpriesCache.get(key);
   }
   return data;
 };

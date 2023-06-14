@@ -593,7 +593,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     pumpWellStopPumpWaterLevel,
     pumpingWellStopPumpWaterLevel,
     pwLiftWellHeight,
-    pumpingWellPumpFlow, //todo
+    pumpingWellPumpFlow,
     pumpingWellPumpLift,
     reuseWaterTankVolume,
     reusePumpFlow,
