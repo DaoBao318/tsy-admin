@@ -92,7 +92,7 @@ function createActionsColumns(record, context) {
     // const data = await getRecordInfo(record.id);
     const layerName = getStationType();
     store.waterSupplyAndDrainageDetailsLoadingAction(true);
-
+    store.computeIDFromFrontAction(0);
     const data = await getRecordInfo({
       computeID: record.computeID,
       projectID: record.projectID,

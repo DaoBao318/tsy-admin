@@ -629,6 +629,7 @@ export const formSchemaDrainage: FormSchema[] = [
     field: 'adjustWellModel',
     label: '污水调节泵井及泵组选型',
     dynamicDisabled: true,
+    helpMessage: '支持处理污水量范围为0~157 m³/d',
     colProps: { span: EQUIP.WIDTH_TEXT_AREA },
     component: 'InputTextArea',
     labelWidth: EQUIP.WIDTH_LABEL_WIDTH,
@@ -1329,7 +1330,7 @@ export const formSchemaDrainage: FormSchema[] = [
   {
     field: 'submersibleSewagePumpFlow',
     label: '潜污泵流量',
-    helpMessage: '潜污泵流量(m3/h）',
+    helpMessage: '潜污泵流量(m³/h）',
     component: 'InputNumberExpand3',
     colProps: { span: EQUIP.WIDTH_NUMBER },
     dynamicDisabled: true,

@@ -149,7 +149,6 @@ div.geipaishui
       onMounted(() => {
         context.value.table.getForm().setFieldsValue({ projectID: window.queryParams.projectName });
       });
-
       async function onConfirm({ exec, record, layerName, type }) {
         if (layerName === LAYERS.CHANGE_STATION_TYPE) {
           await exec(updateStationType, record);
@@ -167,7 +166,13 @@ div.geipaishui
           } else {
             console.log(record);
             let params = dealSaveData(record);
-            await exec(saveComputeData, params);
+            if (!params.computeID) {
+              params.computeID = store.computeIDFromFrontGetter || 0;
+            }
+            saveComputeData(params).then((res) => {
+              store.computeIDFromFrontAction(res.data);
+              message.success('《' + record.stationName + '》' + '计算完成！');
+            });
             setTimeout(() => {
               context.value.table.reload();
             }, 1000);

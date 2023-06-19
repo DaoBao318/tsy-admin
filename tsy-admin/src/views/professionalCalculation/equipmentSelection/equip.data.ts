@@ -1,6 +1,10 @@
-import { pollShapeOption, poolTopCoveringSoilOption, stabilivoltPumpDesignFlowOption } from './api/const';
+import {
+  pollShapeOption,
+  poolTopCoveringSoilOption,
+  stabilivoltPumpDesignFlowOption,
+} from './api/const';
 import { getModelSelectTypeList } from './api/http';
-import { EQUIP, nc, transformData1, transformData2, transformData3 } from './equipUtil';
+import { EQUIP, transformData1, transformData2, transformData3 } from './equipUtil';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 
@@ -242,7 +246,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'dnMwoMax',
     label: `最大用水量`,
-    helpMessage: '设计站点（含站房，不含客车上水）昼夜最大用水量Qd（m3/d）。',
+    helpMessage: '设计站点（含站房，不含客车上水）昼夜最大用水量Qd（m³/d）。',
     component: 'InputNumberExpand1',
     required: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },

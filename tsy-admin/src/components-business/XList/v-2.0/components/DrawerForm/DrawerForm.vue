@@ -3,6 +3,7 @@ BasicDrawer(
   v-bind="drawerProps"
   @register='registerDrawer'
   @ok="toSubmit('confirm')"
+  ok-text="计算"
   @close="closeDialog"
   @export = "toSubmit('export')"
 )

@@ -15,6 +15,7 @@ export const waterSourceStore = defineStore({
     originalStationTemplate: {},
     dispalyProject: false,
     technologyTypeFromSave: '',
+    computeIDFromFront: 0,
   }),
   getters: {
     allRewardSelectOptions: (state) => {
@@ -38,6 +39,9 @@ export const waterSourceStore = defineStore({
     },
     technologyTypeFromSaveGetter: (state) => {
       return state.technologyTypeFromSave;
+    },
+    computeIDFromFrontGetter: (state) => {
+      return state.computeIDFromFront;
     },
   },
   actions: {
@@ -63,6 +67,9 @@ export const waterSourceStore = defineStore({
     },
     technologyTypeFromSaveAction(value) {
       this.technologyTypeFromSave = value;
+    },
+    computeIDFromFrontAction(value) {
+      this.computeIDFromFront = value;
     },
   },
 });
