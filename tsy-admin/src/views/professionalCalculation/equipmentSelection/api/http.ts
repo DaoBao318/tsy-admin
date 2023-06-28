@@ -4,7 +4,7 @@ import { waterSourceStore } from '/@/store/modules/waterInfo';
 import { transBlobExcel } from '../../pipelineCalculation/utils';
 const store = waterSourceStore();
 enum Api {
-  exportEquipWord = '/api/ZYJSWaterCompute/WaterSupplyDrainageExcelFrom', //导出车站信息
+  exportEquipWord = '/api/ZYJSWaterCompute/WaterSupplyDrainageExcelFrom', //导出车站的设施设备选型信息
 
   getProjectInformation = '/api/Project/GetProjectList', //获取项目信息
   getModelSelectTypeList = '/api/ZYJSWaterCompute/GetModelSelectTypeList', //获取项目信息
