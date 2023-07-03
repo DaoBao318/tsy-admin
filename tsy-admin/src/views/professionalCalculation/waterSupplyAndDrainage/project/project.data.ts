@@ -49,8 +49,20 @@ export const formSchema: FormSchema[] = [
   {
     field: 'projectName',
     label: '项目名称',
-    required: true,
     component: 'Input',
+    dynamicRules: () => {
+      return [
+        {
+          required: true,
+          validator: (_, value) => {
+            if (value.length > 50) {
+              return Promise.reject('项目名称长度不能超过50个字符');
+            }
+            return Promise.resolve();
+          },
+        },
+      ];
+    },
   },
   {
     field: 'projectType',

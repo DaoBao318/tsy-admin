@@ -19,12 +19,15 @@
       <template #action="{ record }">
         <TableAction :actions="creatAction(record)" />
       </template>
+      <template #recentQuantity="{ record }">
+        <a-input-number v-model:value="record.recentQuantity" min="0" />
+      </template>
     </BasicTable>
     <ModalWaterItem @register="registerWaterItem" @selectData="renderTable" />
   </BasicDrawer>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, computed, unref } from 'vue';
+  import { defineComponent, ref, computed, unref, onMounted, nextTick, onBeforeUnmount } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema, waterItemColumns } from './station.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
@@ -46,6 +49,19 @@
     components: { BasicDrawer, BasicForm, BasicTable, ModalWaterItem, TableAction },
     emits: ['success', 'register'],
     setup(_, { emit }) {
+      onMounted(() => {
+        nextTick(() => {
+          document.addEventListener('keydown', onkeydownFn);
+        });
+      });
+      onBeforeUnmount(() => {
+        document.removeEventListener('keydown', onkeydownFn);
+      });
+      const onkeydownFn = (e) => {
+        if (e && e.keyCode === 13) {
+          e.target.blur();
+        }
+      };
       //用水项弹窗
       const [registerWaterItem, { openModal: openModalWaterItem }] = useModal();
       const [
@@ -120,7 +136,7 @@
         setTableData(list);
       }
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增车站' : '编辑车站'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '操作用水项目' : '操作用水项目'));
 
       async function handleSubmit() {
         try {
@@ -152,7 +168,7 @@
             icon: 'ant-design:delete-outlined',
             tooltip: '删除用水项',
             popConfirm: {
-              title: '是否确认删除',
+              title: '是否确认删除！',
               confirm: handleDelete.bind(null, record),
             },
           },

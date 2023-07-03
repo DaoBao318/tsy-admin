@@ -52,6 +52,7 @@
       });
       async function okHandle() {
         const values = await validate();
+        debugger;
         const { projectID, stationName, stationType } = values;
         let arr = dealParams(values);
         arr = arr.concat([{ stationName, stationType }]);

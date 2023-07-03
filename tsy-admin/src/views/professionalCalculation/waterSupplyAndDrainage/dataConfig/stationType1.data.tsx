@@ -275,7 +275,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
     },
   },
   {
-    label: '单位用水量推荐值',
+    label: '单位用水百分比推荐值',
     field: 'recommendedUnitWater',
     component: 'Input',
     colProps: { span: STATION_WIDTH.NUMBER_RECOMMEND },
@@ -559,7 +559,7 @@ const pipeNetworkDtoListType = (helpMessage): FormSchema[] => {
       labelWidth: STATION_WIDTH.COUNT_LABEL,
       field: 'pipeNetworkDtoList_forward',
       component: 'InputNumberExpand40',
-      helpMessage: '近期的' + helpMessage,
+      helpMessage: '远期的' + helpMessage,
       colProps: { span: STATION_WIDTH.COUNT_WIDTH },
       componentProps: () => {
         return {
@@ -615,7 +615,7 @@ const makeMaxWaterDtoList = (helpMessage): FormSchema[] => [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxWaterDtoList_recent',
     component: 'InputNumberExpand40',
-    helpMessage: '远期的' + helpMessage,
+    helpMessage: '近期的' + helpMessage,
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -714,7 +714,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
 // 昼夜最大排水量
 const makeMaxDrainageDtoList = (helpMessage): FormSchema[] => [
   {
-    label: ' 昼夜最大排水量',
+    label: ' 近期昼夜最大排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxDrainageDtoList_recent',
     component: 'InputNumberExpand40',
@@ -727,7 +727,7 @@ const makeMaxDrainageDtoList = (helpMessage): FormSchema[] => [
     },
   },
   {
-    label: '昼夜最大排水量',
+    label: '远期昼夜最大排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxDrainageDtoList_forward',
     component: 'InputNumberExpand40',
@@ -1088,7 +1088,7 @@ export const HIGH_SPEED_TRAIN_DEPOT = [
   },
   {
     title: '九、生产生活排水量',
-    schemas: designSewageVolumeNewDtoList('生产用水 + 生活用水）*单位用水量'),
+    schemas: designSewageVolumeNewDtoList('（生产用水 + 生活用水）*单位用水量'),
   },
   {
     title: '十、昼夜最大排水量',

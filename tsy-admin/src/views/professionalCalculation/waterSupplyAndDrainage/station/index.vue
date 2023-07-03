@@ -4,7 +4,7 @@
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 新增车站 </a-button>
         <a-button preIcon="ant-design:rollback-outlined" @click="handleCalculate">
-          返回车站列表
+          返回计算结果
         </a-button>
         <a-button preIcon="ant-design:rollback-outlined" @click="handleBack"> 返回项目 </a-button>
       </template>
@@ -172,7 +172,7 @@
             icon: 'ant-design:delete-outlined',
             tooltip: '删除车站',
             popConfirm: {
-              title: '是否确认删除',
+              title: '是否确认删除！',
               confirm: handleDelete.bind(null, record),
             },
           },

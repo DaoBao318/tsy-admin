@@ -169,7 +169,11 @@ function createActionsColumns(record, context) {
       {
         icon: 'ant-design:retweet-outlined',
         tooltip: '删除昼夜用水量和排水量的计算结果',
-        onClick: resetStationData,
+        popConfirm: {
+          title: '是否确认删除！',
+          confirm: resetStationData.bind(null, record),
+        },
+        // onClick: resetStationData,
       },
       {
         icon: 'mdi:export',
@@ -300,7 +304,7 @@ export const useXListOptions = {
       component: 'DrawerForm',
       componentProps: {
         width: STATION_WIDTH.DRAWER_WIDTH,
-        title: '普铁-区段站',
+        title: '普铁-客机折返段及客整所',
       },
       useFormOptions: {
         labelWidth: STATION_WIDTH.COUNT_UNIFY_WIDTH,

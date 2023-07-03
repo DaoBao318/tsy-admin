@@ -279,10 +279,13 @@ export function sortKeys(keys, arrList) {
 
 export function dealParams(values) {
   const i = Object.keys(values).length;
-  const n = (i - 2) / 3;
-  const arr = [];
-  for (let i = 1; i < n; i++) {
+  const n = i;
+  let arr = [];
+  for (let i = 1; i <= n; i++) {
     arr.push({ stationName: values['stationName' + i], stationType: values['stationType' + i] });
   }
+  arr = arr.filter((item) => {
+    return !!item.stationName && item.stationType;
+  });
   return arr;
 }

@@ -3,8 +3,8 @@
     v-bind="$attrs"
     @register="registerDrawer"
     showFooter
-    cancelText="保存"
-    okText="计算"
+    cancelText="退出"
+    okText="计算并保存"
     :title="getTitle"
     width="80%"
     @close="handleCancel"

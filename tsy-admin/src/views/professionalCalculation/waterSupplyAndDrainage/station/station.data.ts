@@ -1,6 +1,7 @@
 import { getStationTypeList } from '../api/http';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { h } from 'vue';
 
 export const columns: BasicColumn[] = [
   {
@@ -38,9 +39,7 @@ export const waterItemColumns: BasicColumn[] = [
   {
     title: '数量(近期)',
     dataIndex: 'recentQuantity',
-    helpMessage: '编辑后请点击√或者按enter键',
-    edit: true,
-    // editable: true,
+    slots: { customRender: 'recentQuantity' },
   },
   // {
   //   title: '数量(远期)',

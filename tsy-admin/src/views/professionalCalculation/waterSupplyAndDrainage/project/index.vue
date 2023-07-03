@@ -175,7 +175,7 @@
               icon: 'ant-design:delete-outlined',
               tooltip: '删除项目',
               popConfirm: {
-                title: '是否确认删除',
+                title: '是否确认删除！',
                 confirm: handleDelete.bind(null, record),
               },
             },
