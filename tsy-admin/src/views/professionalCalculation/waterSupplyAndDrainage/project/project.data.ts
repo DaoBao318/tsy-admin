@@ -55,6 +55,9 @@ export const formSchema: FormSchema[] = [
         {
           required: true,
           validator: (_, value) => {
+            if (value.trim() === '') {
+              return Promise.reject('项目名称不能为空字符');
+            }
             if (value.length > 50) {
               return Promise.reject('项目名称长度不能超过50个字符');
             }

@@ -25,9 +25,10 @@ export function getnominalDiameterName(pipeMaterial, calculationContent) {
   let label = '';
   if (['m1', 'm8', 'm3'].includes(pipeMaterial)) {
     if (['nr1', 'nr4'].includes(calculationContent)) {
-      label = '推荐公称直径/外径/壁厚(mm)';
+      // label = '推荐公称直径/外径/壁厚(mm)';
+      label = '推荐管径规格';
     } else {
-      label = '公称直径/外径/壁厚(mm)';
+      label = '管径规格';
     }
   } else {
     if (['nr1', 'nr4'].includes(calculationContent)) {
@@ -38,8 +39,19 @@ export function getnominalDiameterName(pipeMaterial, calculationContent) {
   }
   return label;
 }
+export function getMessage(pipeMaterial, calculationContent) {
+  let label = '';
+  if (['m1', 'm8', 'm3'].includes(pipeMaterial)) {
+    calculationContent;
+    label = '公称直径/外径/壁厚(mm)';
+  } else {
+    label = '';
+  }
+  return label;
+}
 export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) => {
   const labelNominalDiameter = getnominalDiameterName(formModel.pipeMaterial, target);
+  const mesInfo = getMessage(formModel.pipeMaterial, target);
   if (target === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
     formModel.hydraulicGradient = undefined;
     formModel.nominalDiameter = undefined;
@@ -60,6 +72,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: false,
         dynamicDisabled: true,
       },
@@ -95,6 +108,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: true,
         dynamicDisabled: false,
       },
@@ -131,6 +145,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: true,
         dynamicDisabled: false,
       },
@@ -167,6 +182,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: false,
         dynamicDisabled: true,
       },
@@ -203,6 +219,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
         field: 'nominalDiameter',
         required: true,
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         dynamicDisabled: false,
       },
       {
@@ -222,6 +239,7 @@ export const pipeMaterialSwitchingPressure = (updateSchema, target, formModel) =
 };
 export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
   const labelNominalDiameter = getnominalDiameterName(pipeMaterial, target);
+  const mesInfo = getMessage(pipeMaterial, target);
   if (target === PipelineCalculationEnum.PIPE_DIAMETER_GRADIENT) {
     updateSchema([
       {
@@ -238,6 +256,7 @@ export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: false,
         dynamicDisabled: true,
       },
@@ -269,6 +288,7 @@ export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: true,
         dynamicDisabled: false,
       },
@@ -300,6 +320,7 @@ export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: true,
         dynamicDisabled: false,
       },
@@ -332,6 +353,7 @@ export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
       {
         field: 'nominalDiameter',
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         required: false,
         dynamicDisabled: true,
       },
@@ -364,6 +386,7 @@ export const stateControlPressure = (updateSchema, target, pipeMaterial) => {
         field: 'nominalDiameter',
         required: true,
         label: labelNominalDiameter,
+        helpMessage: mesInfo,
         dynamicDisabled: false,
       },
       {
@@ -490,8 +513,10 @@ export const countNominalDiameter = (e, updateSchema, formModel) => {
   formModel.calculateInnerDiameter = undefined;
   formModel.nominalDiameter = undefined;
   const label = getnominalDiameterName(e, formModel.calculationContent);
+  const mesInfo = getMessage(e, formModel.calculationContent);
   updateSchema({
     field: 'nominalDiameter',
+    helpMessage: mesInfo,
     label,
     componentProps: {
       options: nominalDiameterOptions,
@@ -593,10 +618,10 @@ export const calculateWilliamCoefficient = (e, formModel) => {
 };
 export function frictionalHeadLoss(i, l): number {
   const frictionalHeadLoss = i * l;
-  return keepTwoDecimalFull(frictionalHeadLoss, 1);
+  return keepTwoDecimalFull(frictionalHeadLoss, 2);
 }
 export function lossAlongTheWayResultCal(lossAlongTheWayResult, percentage): number {
-  return keepTwoDecimalFull(lossAlongTheWayResult * percentage, 3);
+  return keepTwoDecimalFull(lossAlongTheWayResult * percentage, 2);
 }
 //获取对象中的数组
 const getArr = function (arr) {

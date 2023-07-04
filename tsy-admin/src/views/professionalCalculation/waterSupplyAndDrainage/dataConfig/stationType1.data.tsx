@@ -227,7 +227,7 @@ export const servicesUseTableSchemas: FormSchema[] = [
 
     componentProps: ({ formModel }) => {
       return {
-        placeholder: '请选择单位用水量',
+        placeholder: '请选择单位用水百分比',
         disabled: false,
         size: 'small',
         onChange: function () {
@@ -242,11 +242,11 @@ export const servicesUseTableSchemas: FormSchema[] = [
             formModel.unitWaterMan === formModel.unitWaterMin &&
             value !== formModel.unitWaterMin
           ) {
-            message.warn('单位用水量建议与推荐值保持一致', 3);
+            message.warn('单位用水百分比建议与推荐值保持一致', 3);
             target.style.color = '#ff4d4f';
           } else {
             if (value < formModel.unitWaterMin || value > formModel.unitWaterMan) {
-              message.warn('单位用水量不建议超出用水量的范围', 3);
+              message.warn('单位用水百分比不建议超出用水量的范围', 3);
               target.style.color = '#ff4d4f';
             }
           }
@@ -468,7 +468,7 @@ const serviceDtoListType = (helpMessage): FormSchema[] => {
       slot: 'serviceDtoList',
     },
     {
-      label: '服务用水小计',
+      label: '服务近期用水小计',
       labelWidth: STATION_WIDTH.COUNT_LABEL,
       field: 'serviceDtoList_recent',
       component: 'InputNumberExpand40',
@@ -497,10 +497,10 @@ const serviceDtoListType = (helpMessage): FormSchema[] => {
     },
   ];
 };
-// 管网漏失及基建、未预见水量 又分开处理
+// 管网漏失及基建、未预见水量 又分开处理 作废
 export const pipeAndCapitalConstructionDtoList: FormSchema[] = [
   {
-    label: '管网漏失及基建、未预见水量',
+    label: '管网漏失及基建、未预见近期水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'pipeAndCapitalConstructionDtoList_recent',
     component: 'InputNumberExpand40',
@@ -514,7 +514,7 @@ export const pipeAndCapitalConstructionDtoList: FormSchema[] = [
     },
   },
   {
-    label: '管网漏失及基建、未预见水量',
+    label: '管网漏失及基建、未预见远期水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'pipeAndCapitalConstructionDtoList_forward',
     component: 'InputNumberExpand40',
@@ -541,7 +541,7 @@ const pipeNetworkDtoListType = (helpMessage): FormSchema[] => {
       slot: 'pipeNetworkDtoList',
     },
     {
-      label: '管网漏失用水小计',
+      label: '管网漏失近期的用水小计',
       labelWidth: STATION_WIDTH.COUNT_LABEL,
       field: 'pipeNetworkDtoList_recent',
       component: 'InputNumberExpand40',
@@ -555,7 +555,7 @@ const pipeNetworkDtoListType = (helpMessage): FormSchema[] => {
       },
     },
     {
-      label: '管网漏失远期用水小计',
+      label: '管网漏失远期的用水小计',
       labelWidth: STATION_WIDTH.COUNT_LABEL,
       field: 'pipeNetworkDtoList_forward',
       component: 'InputNumberExpand40',
@@ -581,7 +581,7 @@ const capitalConstructionDtoList = (helpMessage): FormSchema[] => [
     slot: 'capitalConstructionDtoList',
   },
   {
-    label: '基建未预见用水小计',
+    label: '基建未预见近期用水小计',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'capitalConstructionDtoList_recent',
     component: 'InputNumberExpand40',
@@ -648,7 +648,7 @@ const designSewageVolumeNewDtoList = (helpMessage): FormSchema[] => [
     slot: 'designSewageVolumeNewDtoList',
   },
   {
-    label: ' 生产生活排水量',
+    label: '近期生产生活排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'designSewageVolumeNewDtoList_recent',
     component: 'InputNumberExpand40',
@@ -751,7 +751,7 @@ const makeMaxDrainageDtoListCoefficient = (helpMessage): FormSchema[] => [
     slot: 'makeMaxDrainageDtoList',
   },
   {
-    label: ' 昼夜最大排水量',
+    label: ' 近期昼夜最大排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxDrainageDtoList_recent',
     component: 'InputNumberExpand40',
@@ -764,7 +764,7 @@ const makeMaxDrainageDtoListCoefficient = (helpMessage): FormSchema[] => [
     },
   },
   {
-    label: '昼夜最大排水量',
+    label: '远期昼夜最大排水量',
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'makeMaxDrainageDtoList_forward',
     component: 'InputNumberExpand40',
@@ -803,16 +803,16 @@ export const ORDINARY_RAILWAY_SECTION_STATION = [
   },
   {
     title: '五、服务行业用水',
-    schemas: serviceDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: serviceDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '六、管网漏失',
-    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '七、基建未预见',
     schemas: capitalConstructionDtoList(
-      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
+      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比',
     ),
   },
   {
@@ -827,7 +827,7 @@ export const ORDINARY_RAILWAY_SECTION_STATION = [
   },
   {
     title: '十、生产生活排水量',
-    schemas: designSewageVolumeNewDtoList('生产用水 + 生活用水 + 服务行业用水）*单位用水量'),
+    schemas: designSewageVolumeNewDtoList('（生产用水 + 生活用水 + 服务行业用水）*单位用水百分比'),
   },
 
   {
@@ -859,12 +859,12 @@ export const PASSENGER_AIRCRAFT_TURNAROUND_SECTION = [
   },
   {
     title: '五、管网漏失',
-    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '六、基建未预见',
     schemas: capitalConstructionDtoList(
-      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
+      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比',
     ),
   },
   {
@@ -879,7 +879,7 @@ export const PASSENGER_AIRCRAFT_TURNAROUND_SECTION = [
   },
   {
     title: '九、生产生活排水量',
-    schemas: designSewageVolumeNewDtoList('生产用水 + 生活用水）*单位用水量'),
+    schemas: designSewageVolumeNewDtoList('（生产用水 + 生活用水）*单位用水百分比'),
   },
 
   {
@@ -907,15 +907,15 @@ export const ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF = [
   },
   {
     title: '四、服务行业用水',
-    schemas: serviceDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: serviceDtoListType('（生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '五、管网漏失',
-    schemas: pipeNetworkDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '六、基建未预见',
-    schemas: capitalConstructionDtoList('（生产用水+生活用水+绿化用水+管网漏失）*单位用水量'),
+    schemas: capitalConstructionDtoList('（生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比'),
   },
   {
     title: '七、昼夜最大用水量',
@@ -925,7 +925,7 @@ export const ORDINARY_RAILWAY_INTERMEDIATE_STATION_OF = [
   },
   {
     title: '八、昼夜最大排水量',
-    schemas: makeMaxDrainageDtoListCoefficient('（生产用水+生活用水+服务行业用水）小计之和'),
+    schemas: makeMaxDrainageDtoListCoefficient('（生产用水+生活用水+服务行业用水）*单位用水百分比'),
   },
 ];
 //03
@@ -948,11 +948,11 @@ export const ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION = [
   },
   {
     title: '四、管网漏失',
-    schemas: pipeNetworkDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '五、基建未预见',
-    schemas: capitalConstructionDtoList('（生产用水+生活用水+绿化用水+管网漏失）*单位用水量'),
+    schemas: capitalConstructionDtoList('（生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比'),
   },
   {
     title: '六、昼夜最大用水量',
@@ -960,7 +960,7 @@ export const ORDINARY_RAILWAY_WILL_PASS_OVER_THE_STATION = [
   },
   {
     title: '七、昼夜最大排水量',
-    schemas: makeMaxDrainageDtoListCoefficient('（生产用水+生活用水）小计之和'),
+    schemas: makeMaxDrainageDtoListCoefficient('（生产用水+生活用水）*单位用水百分比'),
   },
 ];
 //04取消
@@ -979,12 +979,12 @@ export const ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG = [
   },
   {
     title: '四、管网漏失',
-    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '五、基建未预见',
     schemas: capitalConstructionDtoList(
-      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
+      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比',
     ),
   },
   {
@@ -995,7 +995,7 @@ export const ORDINARY_RAILWAY_LINE_POLICE_AREA_ALONG = [
   },
   {
     title: '七、生产生活排水量',
-    schemas: designSewageVolumeNewDtoList('生产用水 + 生活用水 + 服务行业用水）*单位用水量'),
+    schemas: designSewageVolumeNewDtoList('生产用水 + 生活用水 + 服务行业用水）*单位用水百分比'),
   },
 
   {
@@ -1023,15 +1023,15 @@ export const HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION = [
   },
   {
     title: '四、服务行业用水',
-    schemas: serviceDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: serviceDtoListType('（生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '五、管网漏失',
-    schemas: pipeNetworkDtoListType('（生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '六、基建未预见',
-    schemas: capitalConstructionDtoList('（生产用水+生活用水+绿化用水+管网漏失）*单位用水量'),
+    schemas: capitalConstructionDtoList('（生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比'),
   },
   {
     title: '七、昼夜最大用水量',
@@ -1068,12 +1068,12 @@ export const HIGH_SPEED_TRAIN_DEPOT = [
   },
   {
     title: '五、管网漏失',
-    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '六、基建未预见',
     schemas: capitalConstructionDtoList(
-      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
+      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比',
     ),
   },
   {
@@ -1088,7 +1088,7 @@ export const HIGH_SPEED_TRAIN_DEPOT = [
   },
   {
     title: '九、生产生活排水量',
-    schemas: designSewageVolumeNewDtoList('（生产用水 + 生活用水）*单位用水量'),
+    schemas: designSewageVolumeNewDtoList('（生产用水 + 生活用水）*单位用水百分比'),
   },
   {
     title: '十、昼夜最大排水量',
@@ -1119,16 +1119,16 @@ export const HIGH_SPEED_LARGE_STATIONS = [
   },
   {
     title: '五、服务行业用水',
-    schemas: serviceDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: serviceDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '六、管网漏失',
-    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水量'),
+    schemas: pipeNetworkDtoListType('（运输用水+生产用水+生活用水+绿化用水）*单位用水百分比'),
   },
   {
     title: '七、基建未预见',
     schemas: capitalConstructionDtoList(
-      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水量',
+      '（运输用水+生产用水+生活用水+绿化用水+管网漏失）*单位用水百分比',
     ),
   },
   {
@@ -1143,7 +1143,7 @@ export const HIGH_SPEED_LARGE_STATIONS = [
   },
   {
     title: '十、生产生活排水量',
-    schemas: designSewageVolumeNewDtoList('生产用水 + 生活用水 + 服务行业用水）*单位用水量'),
+    schemas: designSewageVolumeNewDtoList('（生产用水 + 生活用水 + 服务行业用水）*单位用水百分比'),
   },
   {
     title: '十一、昼夜最大排水量',

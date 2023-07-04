@@ -69,6 +69,11 @@
         showTableSetting: true,
         bordered: true,
         showIndexColumn: true,
+        pagination: {
+          pageSize: 20,
+          defaultPageSize: 20,
+          pageSizeOptions: ['20', '50', '80', '100'],
+        },
         rowSelection: {
           type: 'checkbox',
         },

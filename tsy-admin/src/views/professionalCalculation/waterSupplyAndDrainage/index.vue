@@ -94,7 +94,7 @@ div.geipaishui
     //-       showIndex
     //-       )       
     template(#EditTip) 
-      .warn-font 提示：车站类型一旦变更，模版将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
+      .warn-font 提示：车站类型一旦变更，模板将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
 </template>
 
 <script lang="ts">

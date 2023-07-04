@@ -27,7 +27,7 @@ function displayEmptyCalculate(unitWater, num) {
   } else {
     return keepTwoDecimalFull(
       processingNumberUndefined(unitWater) * processingNumberUndefined(num),
-      1,
+      2,
     );
   }
 }
@@ -72,8 +72,8 @@ export const basicWaterUse = (res, key) => {
   const forwardSum = res[key]?.reduce((pre, item) => {
     return (pre = pre + processingNumberUndefined(item.forwardConsumption));
   }, 0);
-  res[key + '_recent'] = displayEmptyDigit(recentSum, 2);
-  res[key + '_forward'] = displayEmptyDigit(forwardSum, 2);
+  res[key + '_recent'] = displayEmptyDigit(recentSum, 1);
+  res[key + '_forward'] = displayEmptyDigit(forwardSum, 1);
 };
 //service pipe network
 function sumArr(arr) {
@@ -194,10 +194,12 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
     const recent = [
       processingNumberUndefined(res['produceDtoList' + '_recent']),
       processingNumberUndefined(res['lifeDtoList' + '_recent']),
+      processingNumberUndefined(res['serviceDtoList' + '_recent']),
     ];
     const forward = [
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
+      processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
     res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
     res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
@@ -207,6 +209,7 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
 };
 //昼夜最大排水量
 export const makeMaxDrainageDtoListFun = (res, key) => {
+  debugger;
   const { stationType } = res;
   if (['07', '06', '01', '09'].includes(stationType)) {
     const recent = [

@@ -315,7 +315,7 @@ export const calculateEquip = (value, setFieldsValue) => {
   if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(value.stationType)) {
     divisionCoefficient = 12;
   }
-  produceLifeTotalFlow = (dnMwoMax * waterSameRatio) / divisionCoefficient;
+  produceLifeTotalFlow = keepTwoDecimalFull((dnMwoMax * waterSameRatio) / divisionCoefficient, 3);
 
   if (value.modelSelectType === 'JointDesign') {
     cleanPoolEffectiveVolume = keepTwoDecimalFull(

@@ -211,7 +211,12 @@ export const useXListOptions = {
     inset: false,
     // resizeHeightOffset: -10,
     // scroll: { x: 6000, y: 200 },
-    pagination: { pageSize: 10 },
+    // pagination: { pageSize: 10 },
+    pagination: {
+      pageSize: 20,
+      defaultPageSize: 20,
+      pageSizeOptions: ['20', '50', '80', '100'],
+    },
     showIndexColumn: true,
     clickToRowSelect: false,
     // schemas: searchFormSchema,

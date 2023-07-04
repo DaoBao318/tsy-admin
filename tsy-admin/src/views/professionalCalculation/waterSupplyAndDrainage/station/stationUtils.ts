@@ -246,7 +246,7 @@ export function toTree2(arr) {
  * @param arrList 原始的数组
  * @returns 排序后的keys
  */
-export function sortKeys(keys, arrList) {
+export function sortKeys(keys, arrList, flag) {
   const obj = {};
   arrList.forEach((item) => {
     obj[item.id + ''] = item.waterSupplyTypeID;
@@ -271,7 +271,8 @@ export function sortKeys(keys, arrList) {
   for (const key in objLast) {
     arr = arr.concat(objLast[key]);
   }
-  if (arr.length === 0) {
+  //设置默认值
+  if (arr.length === 0 && flag === 'first') {
     arr = ['1', '2'];
   }
   return arr;

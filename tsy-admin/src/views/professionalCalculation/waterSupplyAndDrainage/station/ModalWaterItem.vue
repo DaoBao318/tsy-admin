@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="register"
     @ok="okHandle"
-    title="选择用水项目（多个搜索条件用空格隔开）"
+    title="选择用水项目（搜索时，《用水类别》和《用水项目》用空格隔开）"
     width="1000px"
     :defaultFullscreen="true"
     :min-height="360"
@@ -55,6 +55,7 @@
   import { difference, cloneDeep } from 'lodash-es';
   import { TransformData, transformTableColumns } from './station.data';
   import { sortKeys, transformToTableRaw, dealSearch } from './stationUtils';
+  import { message } from 'ant-design-vue';
 
   type tableColumn = Record<string, string>;
 
@@ -75,7 +76,7 @@
       const rightColumns = ref<tableColumn[]>(transformTableColumns);
 
       const onChange = (nextTargetKeys: string[]) => {
-        targetKeys.value = sortKeys(nextTargetKeys, dataRaw);
+        targetKeys.value = sortKeys(nextTargetKeys, dataRaw, 'seconde');
       };
 
       const getRowSelection = ({
@@ -111,7 +112,7 @@
           item.key = item.id.toString();
           transformData.value.push(item);
         });
-        const keysSort = sortKeys(data.waterSelected, data.list);
+        const keysSort = sortKeys(data.waterSelected, data.list, 'first');
         targetKeys.value = keysSort;
 
         //获取传递的值，进行set值
@@ -127,6 +128,10 @@
       function okHandle() {
         //获取选中值的key；
         const seletcedData = transformToTableRaw(targetKeys.value, dataRaw);
+        if (seletcedData.length === 0) {
+          message.warning('请至少选择一条用水项目！');
+          return;
+        }
         emit('selectData', seletcedData);
         contentDialog.closeModal();
       }

@@ -419,7 +419,7 @@ export const formSchema: FormSchema[] = [
     field: 'produceLifeTotalFlow',
     label: '房屋设计流量',
     helpMessage: '设计站点生产生活房屋（含站房）设计流量Q₂（m³/d）。',
-    component: 'InputNumberExpand1',
+    component: 'InputNumberExpand3',
     dynamicDisabled: true,
     colProps: { span: EQUIP.WIDTH_NUMBER },
     componentProps: ({ formModel }) => {
