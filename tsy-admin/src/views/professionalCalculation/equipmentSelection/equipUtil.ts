@@ -325,27 +325,27 @@ export const calculateEquip = (value, setFieldsValue) => {
     cleanPoolEffectiveVolume = roundUp(cleanPoolEffectiveVolume);
   } else {
     if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(value.stationType)) {
-      producePoolEffectiveVolume = keepTwoDecimalFull(dnMwoMax * waterStorageCoefficient, 1);
+      producePoolEffectiveVolume = keepTwoDecimalFull(dnMwoMax * waterStorageCoefficient, 3);
     } else {
       producePoolEffectiveVolume = keepTwoDecimalFull(
         (dnMwoMax + busWaterSupply) * waterStorageCoefficient,
-        1,
+        3,
       );
     }
     producePoolEffectiveVolume = roundUp(producePoolEffectiveVolume);
-    ffPoolEffectiveVolume = keepTwoDecimalFull(outdoorFireMaxMwoMax, 1);
+    ffPoolEffectiveVolume = keepTwoDecimalFull(outdoorFireMaxMwoMax, 3);
     ffPoolEffectiveVolume = roundUp(ffPoolEffectiveVolume);
   }
 
   if (EQUIP_TYPE.LARGE_STATION.includes(value.stationType)) {
     const temp = busWaterTotalFlow + produceLifeTotalFlow;
-    waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
+    waterSupplyDesignFlow = keepTwoDecimalFull(temp, 3);
   } else if (EQUIP_TYPE.INTERMEDIATE_STATION.includes(value.stationType)) {
     const temp = produceLifeTotalFlow;
-    waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
+    waterSupplyDesignFlow = keepTwoDecimalFull(temp, 3);
   } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(value.stationType)) {
     const temp = 0.5 * busWaterTotalFlow + produceLifeTotalFlow;
-    waterSupplyDesignFlow = keepTwoDecimalFull(temp, 1);
+    waterSupplyDesignFlow = keepTwoDecimalFull(temp, 3);
   }
 
   //变频供水设备设计扬程H1(m)

@@ -498,36 +498,36 @@ const serviceDtoListType = (helpMessage): FormSchema[] => {
   ];
 };
 // 管网漏失及基建、未预见水量 又分开处理 作废
-export const pipeAndCapitalConstructionDtoList: FormSchema[] = [
-  {
-    label: '管网漏失及基建、未预见近期水量',
-    labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'pipeAndCapitalConstructionDtoList_recent',
-    component: 'InputNumberExpand40',
-    helpMessage: '近期的生产用水、生活用水、浇洒道路及绿化用水之和乘以15%',
-    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
-    componentProps: () => {
-      return {
-        disabled: true,
-        immediate: true,
-      };
-    },
-  },
-  {
-    label: '管网漏失及基建、未预见远期水量',
-    labelWidth: STATION_WIDTH.COUNT_LABEL,
-    field: 'pipeAndCapitalConstructionDtoList_forward',
-    component: 'InputNumberExpand40',
-    helpMessage: '远期的生产用水、生活用水、浇洒道路及绿化用水之和乘以15%',
-    colProps: { span: STATION_WIDTH.COUNT_WIDTH },
-    componentProps: () => {
-      return {
-        disabled: true,
-        immediate: true,
-      };
-    },
-  },
-];
+// export const pipeAndCapitalConstructionDtoList: FormSchema[] = [
+//   {
+//     label: '管网漏失及基建、未预见近期水量',
+//     labelWidth: STATION_WIDTH.COUNT_LABEL,
+//     field: 'pipeAndCapitalConstructionDtoList_recent',
+//     component: 'InputNumberExpand40',
+//     helpMessage: '近期的生产用水、生活用水、浇洒道路及绿化用水之和乘以15%',
+//     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+//     componentProps: () => {
+//       return {
+//         disabled: true,
+//         immediate: true,
+//       };
+//     },
+//   },
+//   {
+//     label: '管网漏失及基建、未预见远期水量',
+//     labelWidth: STATION_WIDTH.COUNT_LABEL,
+//     field: 'pipeAndCapitalConstructionDtoList_forward',
+//     component: 'InputNumberExpand40',
+//     helpMessage: '远期的生产用水、生活用水、浇洒道路及绿化用水之和乘以15%',
+//     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
+//     componentProps: () => {
+//       return {
+//         disabled: true,
+//         immediate: true,
+//       };
+//     },
+//   },
+// ];
 
 // 管网漏失
 const pipeNetworkDtoListType = (helpMessage): FormSchema[] => {
@@ -689,7 +689,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTrainsFecalSewageDtoList_recent',
     component: 'InputNumberExpand40',
-    helpMessage: '近期运输污水小计*单位用水量',
+    helpMessage: '近期运输污水小计*单位用水百分比',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {
@@ -702,7 +702,7 @@ const passengerTrainsFecalSewageDtoList: FormSchema[] = [
     labelWidth: STATION_WIDTH.COUNT_LABEL,
     field: 'passengerTrainsFecalSewageDtoList_forward',
     component: 'InputNumberExpand40',
-    helpMessage: '远期运输污水小计*单位用水量',
+    helpMessage: '远期运输污水小计*单位用水百分比',
     colProps: { span: STATION_WIDTH.COUNT_WIDTH },
     componentProps: () => {
       return {

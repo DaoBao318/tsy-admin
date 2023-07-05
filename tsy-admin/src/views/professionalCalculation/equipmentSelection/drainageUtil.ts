@@ -338,7 +338,6 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     (sewageTreatmentCapacity * sbrAdjustTime) / 24,
     3,
   );
-  debugger;
   let adjustWellWaterDepth =
     sewageRegulatingWellVolume / (3.14 * Math.pow(Number(adjustWellDiameter) / 2, 2));
   adjustWellWaterDepth = keepTwoDecimalFull(adjustWellWaterDepth, 3);
@@ -350,7 +349,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   }
   let adjustWellStopPumpWaterLevel = keepTwoDecimalFull(
     adjustWellWaterPipeElevation - 0.2 - adjustWellWaterDepth,
-    1,
+    3,
   );
 
   let adjustWellDepth =
@@ -359,7 +358,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     adjustWellStopPumpWaterLevel +
     sbrStopPumpWaterLevelInnerHeight +
     h19(adjustWellDiameter);
-  adjustWellDepth = keepTwoDecimalFull(adjustWellDepth, 1);
+  adjustWellDepth = keepTwoDecimalFull(adjustWellDepth, 3);
   const obj17 = {
     adjustWellDiameter: undefined,
   };
@@ -371,7 +370,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     adjustWellDepth +
     sbrStopPumpWaterLevelInnerHeight +
     h19(adjustWellDiameter);
-  adjustWellStopPumpWaterLevel = keepTwoDecimalFull(adjustWellStopPumpWaterLevel, 1);
+  adjustWellStopPumpWaterLevel = keepTwoDecimalFull(adjustWellStopPumpWaterLevel, 3);
   const adjustWellPumpFlow = keepTwoDecimalFull(sbrDeviceSpecs * 4, 3);
 
   const adjustWellPumpLift = keepTwoDecimalFull(
@@ -379,7 +378,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       adjustWellTotalHeadLoss +
       sewageTreatmentOutflowHead -
       adjustWellStopPumpWaterLevel,
-    1,
+    3,
   );
 
   let pumpingWellPumpFlow = keepTwoDecimalFull(sewageTreatmentCapacity / 18, 3);
@@ -390,7 +389,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
 
   let pumpingWellWaterDepth =
     pumpingWellVolume / (3.14 * Math.pow(Number(pumpingWellDiameter) / 2, 2));
-  pumpingWellWaterDepth = keepTwoDecimalFull(pumpingWellWaterDepth, 1);
+  pumpingWellWaterDepth = keepTwoDecimalFull(pumpingWellWaterDepth, 3);
   if (pumpingWellWaterDepth > 2) {
     message.warn('污水抽升泵井《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
     setFieldsValueDrainage({ pumpingWellDiameter: undefined, pumpingWellWaterDepth: undefined });
@@ -398,7 +397,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   }
   let pumpingWellStopPumpWaterLevel = keepTwoDecimalFull(
     pumpingWellWaterPipeElevation - 0.2 - pumpingWellWaterDepth,
-    1,
+    3,
   );
   let pwLiftWellHeight =
     pwDesignGroundElevationPumpWell +
@@ -406,7 +405,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     pumpingWellStopPumpWaterLevel +
     pwStopPumpWaterLevelInnerHeight +
     h19(pumpingWellDiameter);
-  pwLiftWellHeight = keepTwoDecimalFull(pwLiftWellHeight, 1);
+  pwLiftWellHeight = keepTwoDecimalFull(pwLiftWellHeight, 3);
   const obj20 = {
     pumpingWellDiameter: undefined,
   };
@@ -425,7 +424,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       pumpingWellStopPumpWaterLevel +
       pumpingWellTotalHeadLoss +
       sewageExcessHead,
-    1,
+    3,
   );
   const reuseWaterTankVolume = keepTwoDecimalFull(makeGreenSprinklingWater / 2, 3);
   const reusePumpFlow = keepTwoDecimalFull(sprinklerFlowRate * 4 * 3.6);
@@ -436,7 +435,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       reuseWaterTankStopPumpWaterLevel +
       makeGreenTotalHeadLoss +
       reusePumpOutflowHead,
-    1,
+    3,
   );
 
   const mbrDeviceSpecs = keepTwoDecimalFull(mbrSewageTreatmentCapacity / 24, 3);
@@ -446,7 +445,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   );
   let mbrAdjustWellWaterDepth =
     mbrSewageRegulatingWellVolume / (3.14 * Math.pow(Number(mbrAdjustWellDiameter) / 2, 2));
-  mbrAdjustWellWaterDepth = keepTwoDecimalFull(mbrAdjustWellWaterDepth, 1);
+  mbrAdjustWellWaterDepth = keepTwoDecimalFull(mbrAdjustWellWaterDepth, 3);
   if (mbrAdjustWellWaterDepth > 2) {
     message.warn('污水调节泵井《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
     setFieldsValueDrainage({
@@ -457,7 +456,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   }
   let mbrAdjustWellStopPumpWaterLevel = keepTwoDecimalFull(
     mbrAdjustWellWaterPipeElevation - 0.2 - mbrAdjustWellWaterDepth,
-    1,
+    3,
   );
   let mbrLiftWellHeight = keepTwoDecimalFull(
     mbrDesignGroundElevationPumpWell +
@@ -465,7 +464,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       mbrAdjustWellStopPumpWaterLevel +
       mbrStopPumpWaterLevelInnerHeight +
       h19(mbrAdjustWellDiameter),
-    1,
+    3,
   );
   const obj7 = {
     mbrAdjustWellDiameter: undefined,
@@ -478,7 +477,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       mbrLiftWellHeight +
       mbrStopPumpWaterLevelInnerHeight +
       h19(mbrAdjustWellDiameter),
-    1,
+    3,
   );
 
   const mbrPumpLift = keepTwoDecimalFull(
@@ -486,7 +485,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       mbrAdjustWellStopPumpWaterLevel +
       mbrTotalHeadLoss +
       mbrDeviceOutflowHead,
-    1,
+    3,
   );
 
   const coefficientOfVariation = nc(keepTwoDecimalFull(pumpingWellSewageMeasure / 24 / 3.6, 1)); // 变化系数
@@ -498,11 +497,11 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   let pumpWellWaterDepth = 0;
   if (pumpWellShape === 'circle') {
     pumpWellWaterDepth = keepTwoDecimalFull(
-      pumpingWellSewageVolume / (3.14 * Math.pow(Number(pumpWellSize) / 2, 2)),
-      1,
+      pumpingWellSewageVolume / (3.14 * Math.pow(Number(pumpWellSize) / 2, 3)),
+      3,
     );
   } else {
-    pumpWellWaterDepth = keepTwoDecimalFull(pumpingWellSewageVolume / Number(pumpWellSize), 1);
+    pumpWellWaterDepth = keepTwoDecimalFull(pumpingWellSewageVolume / Number(pumpWellSize), 3);
   }
   if (pumpWellWaterDepth > 2) {
     message.warn('污水抽升泵《最小有效水深》不能超过2m，请重新选择《泵井直径》', EQUIP.DURATION);
@@ -514,7 +513,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   }
   let pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
     pumpWellWaterPipeElevation - 0.2 - pumpWellWaterDepth,
-    1,
+    3,
   );
   let swpLiftWellHeight = 0;
   if (pumpWellShape === 'circle') {
@@ -524,14 +523,14 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
         pumpWellStopPumpWaterLevel +
         swpStopPumpWaterLevelInnerHeight +
         h19(pumpWellSize),
-      1,
+      3,
     );
   } else {
     swpLiftWellHeight = keepTwoDecimalFull(
       swpDesignGroundElevationPumpWell -
         pumpWellStopPumpWaterLevel +
         swpStopPumpWaterLevelInnerHeight,
-      1,
+      3,
     );
   }
   const obj2 = {
@@ -551,18 +550,18 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
         swpLiftWellHeight +
         swpStopPumpWaterLevelInnerHeight +
         h19(pumpWellSize),
-      1,
+      3,
     );
   } else {
     pumpWellStopPumpWaterLevel = keepTwoDecimalFull(
       swpDesignGroundElevationPumpWell - swpLiftWellHeight + swpStopPumpWaterLevelInnerHeight,
-      1,
+      3,
     );
   }
 
   const spwPumpLift = keepTwoDecimalFull(
     liftingPipeHighestPoint - pumpWellStopPumpWaterLevel + pumpWellTotalHeadLoss + spwOutflowHead,
-    1,
+    3,
   );
 
   const settlingTankVolume = keepTwoDecimalFull(
@@ -576,7 +575,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
       iaffStopPumpWaterLevel +
       iaffTotalHeadLoss +
       iaffExcessHead,
-    1,
+    3,
   );
 
   setFieldsValueDrainage({

@@ -101,6 +101,22 @@ export const formSchemaStation = function (copy = false): FormSchema[] {
       component: 'Input',
       required: true,
       colProps: { span: copy ? 24 : 10 },
+      dynamicRules: () => {
+        return [
+          {
+            required: true,
+            validator: (_, value) => {
+              if (value.trim() === '') {
+                return Promise.reject('车站名称不能为空字符');
+              }
+              if (value.length > 50) {
+                return Promise.reject('车站名称长度不能超过50个字符');
+              }
+              return Promise.resolve();
+            },
+          },
+        ];
+      },
     },
     {
       field: 'stationType',
