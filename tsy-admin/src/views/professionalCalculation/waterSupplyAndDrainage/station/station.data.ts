@@ -246,6 +246,22 @@ export const addFormList = function (appendSchemaByField, n) {
       label: '车站名称',
       required: true,
       colProps: { span: 10 },
+      dynamicRules: () => {
+        return [
+          {
+            required: true,
+            validator: (_, value) => {
+              if (value.trim() === '') {
+                return Promise.reject('车站名称不能为空字符');
+              }
+              if (value.length > 50) {
+                return Promise.reject('车站名称长度不能超过50个字符');
+              }
+              return Promise.resolve();
+            },
+          },
+        ];
+      },
     },
     '',
   );

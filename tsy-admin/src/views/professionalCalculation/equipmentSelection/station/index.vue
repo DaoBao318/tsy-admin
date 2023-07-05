@@ -74,6 +74,8 @@
           defaultPageSize: 20,
           pageSizeOptions: ['20', '50', '80', '100'],
         },
+        // autoCreateKey: true,
+        // clearSelectOnPageChange: true,
         rowSelection: {
           type: 'checkbox',
         },
@@ -91,6 +93,7 @@
       window.equipStationLoad = reload;
       function exportBatch() {
         const rows = getSelectRows();
+        // console.log('---打印勾选的值', rows);
         if (rows.length === 0) {
           message.warn('请先选择一条数据，再进行批量导出');
         } else {
@@ -101,7 +104,7 @@
           const IsComputeFalse = rows.filter((item) => {
             return item.isCompute === '否' || !item.technologyType;
           });
-          const stationidList = rows.map((item) => {
+          let stationidList = rows.map((item) => {
             return item.stationID;
           });
           // const stationNameListExport = IsComputeTrue.map((item) => {
@@ -112,9 +115,14 @@
           });
 
           // 修改批量逻辑
+          stationidList = Array.from(new Set(stationidList));
           let str = stationidList.join(',');
           let params = { stationidList: str, projectID };
           params.exportNameObj = { projectName };
+          //test
+          // console.log('---打印入参', params);
+          // message.success('导出完成！！！！');
+          // test
           exportEquipWord(params).then(() => {
             // const mes = stationNameListExport.join(',');
             let mesInfo = '';

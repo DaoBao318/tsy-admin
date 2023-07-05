@@ -217,6 +217,8 @@ export const useXListOptions = {
       defaultPageSize: 20,
       pageSizeOptions: ['20', '50', '80', '100'],
     },
+    autoCreateKey: true,
+    clearSelectOnPageChange: true,
     showIndexColumn: true,
     clickToRowSelect: false,
     // schemas: searchFormSchema,

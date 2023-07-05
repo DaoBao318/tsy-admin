@@ -97,8 +97,8 @@ export const serviceDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -117,8 +117,8 @@ export const pipeNetworkDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -140,8 +140,8 @@ export const unforeseenInfrastructure = (res, key) => {
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
       processingNumberUndefined(res['pipeNetworkDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -171,22 +171,22 @@ export const makeMaxWaterDtoListFun = (res, key) => {
   res[key + '_forward'] = displayEmptyDigit(sumArr(forward), 1);
 };
 //管网漏失及基建、未预见水量
-export const pipeAndCapitalConstructionDtoListFun = (res, key) => {
-  const recent = [
-    processingNumberUndefined(res['produceDtoList' + '_recent']),
-    processingNumberUndefined(res['lifeDtoList' + '_recent']),
-    processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_recent']),
-  ];
-  const forward = [
-    processingNumberUndefined(res['produceDtoList' + '_forward']),
-    processingNumberUndefined(res['lifeDtoList' + '_forward']),
-    processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
-  ];
-  res[key + '_recent'] = displayEmptyDigit(sumArr(recent) * 0.15, 1);
-  res[key + '_forward'] = displayEmptyDigit(sumArr(forward) * 0.15, 1);
-  // res[key][0]['recentConsumption'] = res[key + '_recent'];
-  // res[key][0]['forwardConsumption'] = res[key + '_forward'];
-};
+// export const pipeAndCapitalConstructionDtoListFun = (res, key) => {
+//   const recent = [
+//     processingNumberUndefined(res['produceDtoList' + '_recent']),
+//     processingNumberUndefined(res['lifeDtoList' + '_recent']),
+//     processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_recent']),
+//   ];
+//   const forward = [
+//     processingNumberUndefined(res['produceDtoList' + '_forward']),
+//     processingNumberUndefined(res['lifeDtoList' + '_forward']),
+//     processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
+//   ];
+//   res[key + '_recent'] = displayEmptyDigit(sumArr(recent) * 0.15, 1);
+//   res[key + '_forward'] = displayEmptyDigit(sumArr(forward) * 0.15, 1);
+//   // res[key][0]['recentConsumption'] = res[key + '_recent'];
+//   // res[key][0]['forwardConsumption'] = res[key + '_forward'];
+// };
 
 //生产生活排水量
 export const designSewageVolumeNewDtoListFun = (res, key) => {
@@ -201,8 +201,8 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
       processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
@@ -234,8 +234,8 @@ export const makeMaxDrainageDtoListFun = (res, key) => {
       processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
 
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
     res[key][0]['recentConsumption'] = res[key + '_recent'];
     res[key][0]['forwardConsumption'] = res[key + '_forward'];
   }
