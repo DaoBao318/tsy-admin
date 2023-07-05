@@ -94,7 +94,7 @@ div.geipaishui
     //-       showIndex
     //-       )       
     template(#EditTip) 
-      .warn-font 提示：车站类型一旦变更，模板将发生变化，旧模版所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
+      .warn-font 提示：车站类型一旦变更，模板将发生变化，旧模板所有数据将会被清空，数据需要重新编辑；请谨慎操作！！！
 </template>
 
 <script lang="ts">
@@ -184,8 +184,19 @@ div.geipaishui
         //   message.error(JSON.stringify(err));
         // }
       }
+      const getChagedValue = (chonse, allData) => {
+        let stationIDs = [];
+        chonse.forEach((item) => {
+          stationIDs.push(item.stationID);
+        });
+        return allData.filter((item) => {
+          return stationIDs.includes(item.stationID);
+        });
+      };
       function batchExport() {
         let selectRows = context.value.table.getSelectRows();
+        // let getDataSource = context.value.table.getDataSource();
+        // selectRows = getChagedValue(selectRows, getDataSource);
         let waterProjectWDtolist = selectRows.map((item) => {
           return {
             computeID: item.computeID,
