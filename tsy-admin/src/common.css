@@ -3,11 +3,11 @@
   color: rgba(0, 0, 0, 0.9) !important;
   /* background-color: #f9f9f9!important; */
 }
-.ant-input-number-input[disabled]{
+.ant-input-number-input[disabled] {
   color: rgba(0, 0, 0, 0.9) !important;
   /* background-color: #f9f9f9!important; */
 }
-.ant-select-selector{
+.ant-select-selector {
   color: rgba(0, 0, 0, 0.9) !important;
 }
 /* .ant-input { box-shadow: 0 0 0px 1px white inset !important;} */

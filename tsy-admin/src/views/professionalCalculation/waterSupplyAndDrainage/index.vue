@@ -172,10 +172,10 @@ div.geipaishui
             saveComputeData(params).then((res) => {
               store.computeIDFromFrontAction(res.data);
               message.success('《' + record.stationName + '》' + '计算完成！');
+              setTimeout(() => {
+                context.value.table.reload();
+              }, 1000);
             });
-            setTimeout(() => {
-              context.value.table.reload();
-            }, 1000);
           }
         }
         // try {

@@ -139,7 +139,7 @@ export function calculationFormulaPrompt(stationType, item) {
     } else if (waterProject.indexOf('始发终到旅客列车上水') > -1) {
       mes = '1.2*qᵢ*n';
     } else if (waterProject.indexOf('旅客列车卸污量') > -1) {
-      mes = 'β**qᵢ’*n*2';
+      mes = 'β*qᵢ’*n';
     } else if (waterProject.indexOf('污物箱冲洗卸污量') > -1) {
       mes = 'β*qᵢ’*n';
     } else if (waterProject.indexOf('站房') === 0) {

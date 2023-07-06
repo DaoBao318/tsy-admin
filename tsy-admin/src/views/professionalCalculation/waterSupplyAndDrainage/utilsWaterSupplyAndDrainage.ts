@@ -97,10 +97,16 @@ export const serviceDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
-    res[key][0]['recentConsumption'] = res[key + '_recent'];
-    res[key][0]['forwardConsumption'] = res[key + '_forward'];
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key][0]['recentConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(recent),
+      2,
+    );
+    res[key][0]['forwardConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(forward),
+      2,
+    );
   }
 };
 export const pipeNetworkDtoList = (res, key) => {
@@ -117,10 +123,16 @@ export const pipeNetworkDtoList = (res, key) => {
       processingNumberUndefined(res['lifeDtoList' + '_forward']),
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
-    res[key][0]['recentConsumption'] = res[key + '_recent'];
-    res[key][0]['forwardConsumption'] = res[key + '_forward'];
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key][0]['recentConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(recent),
+      2,
+    );
+    res[key][0]['forwardConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(forward),
+      2,
+    );
   }
 };
 //基建未预见
@@ -140,10 +152,16 @@ export const unforeseenInfrastructure = (res, key) => {
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
       processingNumberUndefined(res['pipeNetworkDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
-    res[key][0]['recentConsumption'] = res[key + '_recent'];
-    res[key][0]['forwardConsumption'] = res[key + '_forward'];
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key][0]['recentConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(recent),
+      2,
+    );
+    res[key][0]['forwardConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(forward),
+      2,
+    );
   }
 };
 //昼夜最大用水量
@@ -184,8 +202,8 @@ export const makeMaxWaterDtoListFun = (res, key) => {
 //   ];
 //   res[key + '_recent'] = displayEmptyDigit(sumArr(recent) * 0.15, 1);
 //   res[key + '_forward'] = displayEmptyDigit(sumArr(forward) * 0.15, 1);
-//   // res[key][0]['recentConsumption'] = res[key + '_recent'];
-//   // res[key][0]['forwardConsumption'] = res[key + '_forward'];
+//   // res[key][0]['recentConsumption'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+//   // res[key][0]['forwardConsumption'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
 // };
 
 //生产生活排水量
@@ -201,10 +219,16 @@ export const designSewageVolumeNewDtoListFun = (res, key) => {
       processingNumberUndefined(res['makeGreenSprinklingDtoList' + '_forward']),
       processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
-    res[key][0]['recentConsumption'] = res[key + '_recent'];
-    res[key][0]['forwardConsumption'] = res[key + '_forward'];
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key][0]['recentConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(recent),
+      2,
+    );
+    res[key][0]['forwardConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(forward),
+      2,
+    );
   }
 };
 //昼夜最大排水量
@@ -234,10 +258,16 @@ export const makeMaxDrainageDtoListFun = (res, key) => {
       processingNumberUndefined(res['serviceDtoList' + '_forward']),
     ];
 
-    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 2);
-    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 2);
-    res[key][0]['recentConsumption'] = res[key + '_recent'];
-    res[key][0]['forwardConsumption'] = res[key + '_forward'];
+    res[key + '_recent'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(recent), 1);
+    res[key + '_forward'] = displayEmptyDigit(res[key][0]['unitWater'] * sumArr(forward), 1);
+    res[key][0]['recentConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(recent),
+      2,
+    );
+    res[key][0]['forwardConsumption'] = displayEmptyDigit(
+      res[key][0]['unitWater'] * sumArr(forward),
+      2,
+    );
   }
 };
 
