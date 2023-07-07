@@ -74,8 +74,8 @@
           defaultPageSize: 20,
           pageSizeOptions: ['20', '50', '80', '100'],
         },
-        // autoCreateKey: true,
-        // clearSelectOnPageChange: true,
+        autoCreateKey: true,
+        clearSelectOnPageChange: true,
         rowSelection: {
           type: 'checkbox',
         },

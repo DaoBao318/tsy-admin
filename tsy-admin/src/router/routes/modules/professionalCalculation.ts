@@ -14,6 +14,20 @@ const professionalCalculation: AppRouteModule = {
   },
   children: [
     {
+      path: 'professionalHome',
+      name: 'ProfessionalHome',
+      meta: {
+        title: '专业计算子系统首页',
+        icon: 'ant-design:home-outlined',
+        // hideTab: true,
+        // hideMenu: true,
+        // ignoreKeepAlive: true,
+        // hideTab: true,
+        // permCode: 'professionalCalculation:waterSupplyAndDrainage',
+      },
+      component: () => import('/@/views/professionalCalculation/professionalHome/index.vue'),
+    },
+    {
       path: 'waterSupplyAndDrainage',
       name: 'WaterSupplyAndDrainage',
       meta: {

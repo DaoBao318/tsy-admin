@@ -25,8 +25,11 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     ? record.firePumpBadWayHeadLoss
     : undefined; //没有值默认给0
   if (EQUIP_TYPE.LARGE_STATION.includes(record.stationType)) {
-    record.busWaterSingle = 2.5;
-    record.stabilivoltPumpDesignFlow = '2';
+    if (!record.busWaterSingle) {
+      record.busWaterSingle = 2.5;
+    }
+    // record.busWaterSingle = 2.5;
+    // record.stabilivoltPumpDesignFlow = '2';
     updateSchema([
       {
         field: 'modelSelectType',
@@ -77,7 +80,7 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
     record.busWaterRows = 0; //没有
     record.groupsNumber = 1; //没有
     record.busWaterSingle = 0; //没有
-    record.stabilivoltPumpDesignFlow = '2';
+    // record.stabilivoltPumpDesignFlow = '2';
     record.modelSelectType = 'Division';
     updateSchema([
       {
@@ -131,8 +134,10 @@ export const initializeAssignmentStructure = (setFieldsValue, updateSchema, reco
       },
     ]);
   } else if (EQUIP_TYPE.HIGH_SPEED_TRAIN_STATION.includes(record.stationType)) {
-    record.busWaterSingle = 1.5;
-    record.stabilivoltPumpDesignFlow = '2';
+    if (!record.busWaterSingle) {
+      record.busWaterSingle = 1.5;
+    }
+    // record.stabilivoltPumpDesignFlow = '2';
     record.modelSelectType = 'JointDesign';
     updateSchema([
       {

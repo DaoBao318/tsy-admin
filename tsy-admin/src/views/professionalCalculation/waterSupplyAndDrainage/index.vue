@@ -195,8 +195,8 @@ div.geipaishui
       };
       function batchExport() {
         let selectRows = context.value.table.getSelectRows();
-        // let getDataSource = context.value.table.getDataSource();
-        // selectRows = getChagedValue(selectRows, getDataSource);
+        let getDataSource = context.value.table.getDataSource();
+        selectRows = getChagedValue(selectRows, getDataSource);
         let waterProjectWDtolist = selectRows.map((item) => {
           return {
             computeID: item.computeID,

@@ -12,7 +12,7 @@ export function createFakeUserList() {
       desc: 'manager',
       password: '123456',
       token: 'fakeToken1',
-      homePath: '/professionalCalculation/waterSupplyAndDrainage',
+      homePath: '/professionalCalculation/professionalHome',
       roles: [
         {
           roleName: 'Super Admin',

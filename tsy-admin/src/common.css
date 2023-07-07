@@ -10,4 +10,8 @@
 .ant-select-selector {
   color: rgba(0, 0, 0, 0.9) !important;
 }
+.vben-basic-column-setting__cloumn-list .table-coulmn-drag-icon svg {
+  width: 1em !important;
+  height: 0em !important;
+}
 /* .ant-input { box-shadow: 0 0 0px 1px white inset !important;} */

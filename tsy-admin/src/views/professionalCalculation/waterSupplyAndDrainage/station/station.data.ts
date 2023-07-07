@@ -106,7 +106,7 @@ export const formSchemaStation = function (copy = false): FormSchema[] {
           {
             required: true,
             validator: (_, value) => {
-              if (value.trim() === '') {
+              if (typeof value === 'string' && value.trim() === '') {
                 return Promise.reject('车站名称不能为空字符');
               }
               if (value.length > 50) {
@@ -178,6 +178,22 @@ export const formSchemaStationEditor = function (): FormSchema[] {
       component: 'Input',
       required: true,
       colProps: { span: 24 },
+      dynamicRules: () => {
+        return [
+          {
+            required: true,
+            validator: (_, value) => {
+              if (typeof value === 'string' &&  value.trim() === '') {
+                return Promise.reject('车站名称不能为空字符');
+              }
+              if (value.length > 50) {
+                return Promise.reject('车站名称长度不能超过50个字符');
+              }
+              return Promise.resolve();
+            },
+          },
+        ];
+      },
     },
     {
       field: 'stationType',
@@ -241,29 +257,13 @@ export interface TransformData {
 export const addFormList = function (appendSchemaByField, n) {
   appendSchemaByField(
     {
-      field: `stationName${n.value}`,
+      field: `${n.value}`,
       component: 'Input',
-      label: '车站名称',
-      required: true,
-      colProps: { span: 10 },
-      dynamicRules: () => {
-        return [
-          {
-            required: true,
-            validator: (_, value) => {
-              if (value.trim() === '') {
-                return Promise.reject('车站名称不能为空字符');
-              }
-              if (value.length > 50) {
-                return Promise.reject('车站名称长度不能超过50个字符');
-              }
-              return Promise.resolve();
-            },
-          },
-        ];
-      },
+      label: ' ',
+      slot: 'add',
+      colProps: { span: 4 },
     },
-    '',
+    'symbol0',
   );
   appendSchemaByField(
     {
@@ -276,18 +276,34 @@ export const addFormList = function (appendSchemaByField, n) {
         options: optionStation,
       },
     },
-    '',
+    'symbol0',
   );
-
   appendSchemaByField(
     {
-      field: `${n.value}`,
+      field: `stationName${n.value}`,
       component: 'Input',
-      label: ' ',
-      slot: 'add',
-      colProps: { span: 4 },
+      label: '车站名称',
+      required: true,
+      colProps: { span: 10 },
+      dynamicRules: () => {
+        return [
+          {
+            required: true,
+            validator: (_, value) => {
+              if (typeof value === 'string' && value.trim() === '') {
+                return Promise.reject('车站名称不能为空字符');
+              }
+              if (value.length > 50) {
+                return Promise.reject('车站名称长度不能超过50个字符');
+              }
+              return Promise.resolve();
+            },
+          },
+        ];
+      },
     },
-    '',
+    'symbol0',
   );
+
   n.value++;
 };

@@ -1041,7 +1041,7 @@ export const HIGH_SPEED_RAILWAY_INTERMEDIATE_STATION = [
   },
   {
     title: '八、昼夜最大排水量',
-    schemas: makeMaxDrainageDtoListCoefficient('（生产用水+生活用水+服务行业用水）小计之和'),
+    schemas: makeMaxDrainageDtoListCoefficient('（生产用水+生活用水+服务行业用水）*单位用水百分比'),
   },
 ];
 //06
