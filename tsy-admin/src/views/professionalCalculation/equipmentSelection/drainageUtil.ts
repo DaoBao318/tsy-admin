@@ -481,7 +481,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
   );
 
   const mbrPumpLift = keepTwoDecimalFull(
-    mbrDeviceInletPipeElevation +
+    mbrDeviceInletPipeElevation -
       mbrAdjustWellStopPumpWaterLevel +
       mbrTotalHeadLoss +
       mbrDeviceOutflowHead,
@@ -615,6 +615,7 @@ export const caculateDrainage = (values, setFieldsValueDrainage) => {
     inletSubmersibleSewagePumpFlow: iaffDeviceSpecs,
     anaerobicFilter: liftSewageTreatmentCapacity,
     constructedWetland: liftSewageTreatmentCapacity,
+    mbrAdjustWellWaterDepth,
   });
 };
 export const nc = (x) => {
